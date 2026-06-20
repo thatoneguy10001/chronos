@@ -1,0 +1,15 @@
+{
+  "id": "bam_what_she_dreamed",
+  "name": "What She Dreamed About",
+  "description": "Stone is ready to talk — about what the compound was designed to do, what it's doing instead, and why she needs a tissue sample from Sevyas. She won't ask him herself. She thinks you should.",
+  "objective": {
+    "type": "talk_to",
+    "npc_id": "helen_stone"
+  },
+  "gold_reward": 50,
+  "xp_reward": 120,
+  "giver_npc_id": "helen_stone",
+  "requires_quest_complete": "bam_gray_market_price",
+  "accept_text": "She opens the containers and lines up the samples methodically before she speaks. 'The compound was designed to preserve neural pathways during the crystal integration process. Slow it down enough that the subject retains function. Retain enough to fight.' She doesn't look up. 'What I'm seeing in the samples is a second function I didn't build in. The compound is acting like a carrier — something is using it to pass signal between subjects.' She's quiet. 'I designed a preservation medium. Someone turned it into a nervous system.' She finally looks at you. 'Some of the subjects retain enough to suffer. I dream about that.' She closes the case. 'I need a tissue sample from Sevyas. Fresh, consented. I won't take it from him without his knowledge. Ask him.'",
+  "complete_text": "You return with what she asked for. She takes it carefully, labels it in her own handwriting, and sets it aside before she speaks again. 'Retained neural architecture at a higher fidelity than I've ever recorded.' She exhales. 'His memories are intact. His sense of self is intact. He just — can't access most of it. Like a library where the index is missing.' She looks at the sample. 'That's not damage. That's compression. Something compressed him.' She sits. 'The compound didn't do this. The compound is the medium. Something else is the message.'"
+}

@@ -1,0 +1,31 @@
+{
+  "id": "lazarus_armored",
+  "name": "Lazarus Armored",
+  "description": "A heavily armored Lazarus Subject — reanimated in the full plate of a Terran Iron Legion soldier. The armor has partially fused with the body through crystal growth, reinforcing it beyond its original protection. Slow, relentless, and nearly impervious to small-arms fire. The crystals at the joints are the weak points; everything else is a wall.",
+  "base_stats": {
+    "hp": 90,
+    "attack": 11,
+    "defense": 14,
+    "intelligence": 0
+  },
+  "abilities": [],
+  "passives": ["undead_endurance", "heavy_plate"],
+  "starting_equipment": [],
+  "xp_reward": 65,
+  "gold_reward": 15,
+  "tactics": [
+    {
+      "condition": { "type": "hp_below", "threshold": 0.4 },
+      "action": {
+        "type": "apply_effect",
+        "kind": "bleed",
+        "damage": 5,
+        "duration": 3
+      }
+    },
+    {
+      "condition": { "type": "always" },
+      "action": { "type": "heavy_attack", "multiplier": 1.4 }
+    }
+  ]
+}

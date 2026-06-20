@@ -1,0 +1,15 @@
+{
+  "id": "bam_whatever_thorn_decides",
+  "name": "Whatever Thorn Decides",
+  "description": "You've been to the threshold. Thorn has been waiting for you to come back. Tell him what you found.",
+  "objective": {
+    "type": "talk_to",
+    "npc_id": "commander_thorn"
+  },
+  "gold_reward": 80,
+  "xp_reward": 200,
+  "giver_npc_id": "commander_thorn",
+  "requires_quest_complete": "bam_networks_edge",
+  "accept_text": "He's in the command post when you return, standing at the window with his hand pressed flat against the glass. The crystal on his wrist is visible from across the room. He doesn't turn when you enter. 'You're back,' he says. 'You went all the way down.' He turns. His face is very still. 'Tell me what it feels like.'",
+  "complete_text": "He listens without speaking. When you finish he looks out the window for a long time. The crystals in his wrist catch the light. 'It knows I'm here,' he says quietly. 'I've known that for months. I told myself I was imagining it.' He looks at his hand. 'It's patient. Whatever it is. Whatever they are. They have been patient for four hundred years and they are still patient.' He looks at you. 'That should frighten me more than it does.' He's quiet. 'I need you to make me a promise. When the time comes — when I can't hold this post anymore, when whatever is happening to me reaches the point where I become something other than myself — I need you to be the one who knows. Not Vane. Not the Ministry.' He meets your eyes. 'You.'"
+}

@@ -1,0 +1,11 @@
+{
+  "id": "skyborn_deck",
+  "name": "The Skyborn Deck",
+  "description": "The cloud line comes and goes below you. Below the cloud line: the war. Up here: the particular quality of silence that exists only where there is too much sky to hold sound. The Fleet ship is tidy in the way of small spaces lived in by practical people — everything secured, everything accessible, nothing wasted. The deck crew move with the ease of people born onto moving surfaces, which they were. Beyond the ship's rails, in the near distance, three other vessels of the Fleet: larger than this one, trailing lights in the dark, and beyond those more, a chain of lights at altitude that goes further than the eye can follow. Thirty thousand people up here. Living. Fishing from cloud altitude, cultivating the upper-air gardens the Skyborn developed for reasons both nations below find implausible. The war is very quiet from up here. You can see both sides of the Windward Pass simultaneously, the two sets of lights, the dark between them where the Armistice ground sits. From up here the scale of the no man's land is visible for the first time — it is very small, what separates the two lines.",
+  "exits": {
+    "down": { "target_room_id": "airship_landing", "label": "Descend to Mountain" },
+    "west": { "target_room_id": "floating_market", "label": "Merchant Platform" },
+    "up": { "target_room_id": "skyhaven", "label": "SkyHaven" }
+  },
+  "requirements": {}
+}

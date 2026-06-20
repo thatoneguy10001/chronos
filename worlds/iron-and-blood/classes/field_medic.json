@@ -1,0 +1,49 @@
+{
+  "id": "field_medic",
+  "name": "Field Medic",
+  "description": "The pragmatic healer of the trenches. Heavy leather apron, vials of chemical compounds, a syringe launcher that fires healing payloads or toxic rounds. They keep soldiers alive through grit and chemistry — not magic.",
+  "base_stats": {
+    "hp": 110,
+    "attack": 7,
+    "defense": 6,
+    "intelligence": 12
+  },
+  "abilities": [
+    {
+      "id": "hemostatic_jab",
+      "name": "Hemostatic Jab",
+      "description": "A precise injection that halts bleeding — or induces it in enemies. Deals damage with a chance to cause bleeding.",
+      "base_damage": 5,
+      "applies_effect": "bleed",
+      "effect_damage": 5,
+      "effect_duration": 2
+    },
+    {
+      "id": "field_sutures",
+      "name": "Field Sutures",
+      "description": "Rapid battlefield stitching. Crude, effective, and done while bullets fly. Restores 25 HP.",
+      "base_damage": 0,
+      "heal_amount": 25
+    },
+    {
+      "id": "adrenaline_injection",
+      "name": "Adrenaline Injection",
+      "description": "A combat stimulant that floods the system with fight-or-flight chemicals. Increases attack power for 3 turns.",
+      "base_damage": 0,
+      "applies_effect": "attack_up",
+      "effect_damage": 3,
+      "effect_duration": 3
+    },
+    {
+      "id": "surgical_strike",
+      "name": "Surgical Strike",
+      "description": "A precisely targeted injection to a vulnerable nerve cluster. The medic's most devastating attack.",
+      "base_damage": 16
+    }
+  ],
+  "passives": [],
+  "starting_equipment": [],
+  "xp_reward": 0,
+  "gold_reward": 0,
+  "tactics": []
+}

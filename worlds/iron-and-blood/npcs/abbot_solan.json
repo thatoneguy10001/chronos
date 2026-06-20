@@ -1,0 +1,90 @@
+{
+  "id": "abbot_solan",
+  "name": "Abbot Solan",
+  "greeting": "Thin, gaunt, the calm eyes of someone who has watched too much history and made his peace with watching. His robes are gray, worn smooth at the elbows by forty-two years of this office. He does not appear to have been waiting for you specifically, but he does not appear to be surprised. 'You found us,' he says, and it is not a question. 'People who find the Monastery usually need something. That is not a judgment. It is an observation made over decades.' He gestures toward the courtyard's single bench, an invitation without pressure. 'Sit, if you like. The crystal does not require anything of you. Neither do I.'",
+  "dialogue": [
+    {
+      "keyword": "monastery",
+      "prompt": "the Iron Monastery",
+      "response": "'We were here before the Hive was built. Before the sky-cities rose. Before the war began \u00e2\u20ac\u201d before, I suspect, anyone now living can truly imagine.' His voice is unhurried. 'We watch. We record. We preserve what we can of what the world knows, against the possibility that it may someday need to remember.' He looks at the crystal at the courtyard's center. 'The crystal has been burning since before I was born. Since before my predecessor was born. It was here when the Elder People fell, and it will be here after whatever comes next has passed. That thought is either very comforting or very alarming, depending on your disposition.'"
+    },
+    {
+      "keyword": "lazarus",
+      "prompt": "Project Lazarus",
+      "response": "A very long pause. 'We have a record,' he says finally. 'The Elder People attempted something similar. Not identical \u00e2\u20ac\u201d their methods were more elegant, their goals more ambiguous. But the principle: directing will into the bodies of the dead, asking the body to continue without the person who inhabited it.' He folds his hands. 'The record is a fragment, badly damaged. But the outcome section is intact.' He looks at you. 'It ends at the word catastrophe. The next twenty pages are blank.' Another pause. 'Draw your own conclusions.'"
+    },
+    {
+      "keyword": "armistice",
+      "prompt": "the Armistice of Silence",
+      "response": "'The one grace the world has managed to preserve across three hundred and thirty years.' He says it with something that might be wonder, if abbots allowed themselves wonder. 'Two sides that have been killing each other since before living memory, and every single night they stop, together, and face the dark.' He is quiet. 'I have been trying for forty years to understand the mechanism by which that agreement holds. I believe it holds because the soldiers want it to hold. Because in the dark, against things that will kill them regardless of what flag they carry, they rediscover that they are the same.' A pause. 'That is either hope or the cruelest thing the world has ever done to them. I have not resolved the question.'"
+    },
+    {
+      "keyword": "hollow",
+      "prompt": "the Hollow",
+      "response": "'We have the oldest records on the Hollow that exist outside the Sunken City itself.' He speaks carefully. 'They were human once. They did not choose this. The Cataclysm gave them endurance beyond death and understanding beyond sanity, and took from them everything that made those gifts bearable.' His calm does not waver, but something behind it does. 'They remember everything they were. They cannot return to it. That is their condition.' He pauses. 'I have been Abbot for forty-two years and I have not found adequate words for what that means.'"
+    },
+    {
+      "keyword": "crystal",
+      "prompt": "the Monastery crystal",
+      "response": "'Uncorrupted. One of perhaps a dozen remaining in the known world.' He looks at it with the specific affection of a very long acquaintance. 'We do not use it for power. We do not refine it or replicate it or weaponize it. We simply let it be what it is.' A slight smile. 'The monks meditate near it. Some of them have been doing so for fifty years. They report that when you sit with it long enough, you stop hearing the war.' He pauses. 'I consider that the most valuable property it possesses.'"
+    },
+    {
+      "keyword": "kell",
+      "prompt": "Brother Kell",
+      "response": "'My chronicler. He has seen more of the world than anyone I know, including myself.' He pauses. 'He has also formed certain views as a result of what he has seen. Views that differ from the Monastery's traditional neutrality.' He says this without judgment, and with something that sounds very much like understanding. 'Kell believes that watching is no longer sufficient. That there are things happening which require a response, not a record.' A longer pause. 'I have not told him he is wrong.'"
+    },
+    {
+      "keyword": "bone-fields",
+      "prompt": "the Bone Fields",
+      "response": "'The dead of the first great battles. Unburied for three hundred and thirty years.' He bows his head slightly. 'We have recorded their names \u00e2\u20ac\u201d those we could identify. The lists are in the Library: fifty-three volumes, small print, close-set. The dead deserve to be remembered.' His voice does not change but something in it tightens almost imperceptibly. 'They also deserve to stay dead. What is happening in those fields now is not natural. It is not the corruption alone. Someone has been helping the process along.'"
+    },
+    {
+      "keyword": "mark",
+      "prompt": "a marking found in the lair",
+      "response": "He goes very still. 'Describe it again.' You do. He closes his eyes. When he opens them, he crosses the courtyard to a cabinet you have not seen him open before \u00e2\u20ac\u201d unlocked with a small key from around his neck \u00e2\u20ac\u201d and retrieves a flat case. Inside, a single aged sheet sealed under glass. He compares what you have described to the sheet with great care. 'Elder People notation,' he says. 'Personal name notation. The formal register used for recording an individual's identity.' He looks up. 'Someone wrote their name on that wall. Someone who learned to write before either nation existed.' He returns the sealed sheet to the cabinet. He retrieves a second item \u00e2\u20ac\u201d a small fragment, not sealed, on a separate sheet. He holds it out. 'Take this to Brother Kell. He can read the rest of what this notation says. I can recognize the register, but his decipherment goes further.' His voice is careful. Not frightened. Careful. 'Tell him what you found and where. Tell him I sent you.'",
+      "requires_quest_complete": "the_shrine",
+      "disposition_delta": 10
+    },
+    {
+      "keyword": "stars",
+      "prompt": "the observatory star charts",
+      "response": "He is still for a moment that has a different quality than his usual stillness \u00e2\u20ac\u201d not patience, something more like the careful stillness of a person managing a response before it happens. 'You found the tower.' He turns from the crystal to face you fully, which he has not done in this conversation until now. 'Brother Kell has the original chart set \u00e2\u20ac\u201d the clean ones, before the discrepancy began. The astronomer who made the new charts left eight months ago. He said he needed to verify the readings from a different location.' A pause. 'He has not been in contact since.' He looks at the crystal. 'The monastery has kept the tower since before either nation existed. We have four hundred years of charts. The first anomaly in the record is eight months ago.' He meets your eyes. 'You will have noticed that eight months ago is when other things also changed.' A long pause. 'The stars are not the cause. They are a symptom. I have been trying for eight months to understand what disease they are a symptom of.'",
+      "requires_quest_complete": "observatory_charts",
+      "disposition_delta": 10
+    },
+    {
+      "keyword": "library",
+      "prompt": "the library at the top of the east tower",
+      "response": "'The deepest chamber holds records that predate both our calendar systems.' He says it with the specific quiet of someone who has spent decades deciding how much to tell people about what the monastery holds. 'Brother Kell has been working on a translation for three years. He broke the cipher fourteen months ago.' He pauses. 'I did not initially support that effort. The Monastery's position on the Elder records has always been preservation, not interpretation. Kell convinced me that something in them was time-sensitive in a way that preservation alone does not address.' He looks toward the library entrance. 'He was right. He is often right, which is occasionally inconvenient.' A slight pause. 'You are welcome to use the library. The materials you can read are open. The materials you cannot read are locked. Kell left a cipher key on the wall. He told me that if someone understood what to ask, the key alone would tell them more than most people would be comfortable knowing.'",
+      "disposition_delta": 5
+    },
+    {
+      "keyword": "prophecy",
+      "prompt": "the three-line prediction in the deep archive",
+      "response": "He looks at you. Then away. Then back. 'Brother Kell showed you.' He says it in the tone of someone who would have preferred a different sequence. 'Or you found it yourself.' He sits down on the courtyard bench, which he has not done during this conversation. 'I have been Abbot for forty-two years. When I found those three lines, twenty-one years ago, I made a decision to keep them in the deepest archive and not circulate their content. That decision may have been wrong.' He folds his hands. 'When the dead rise, the living will fall. We have the dead rising. When the crystal sings, the earth will answer. The crystal is measurably singing \u00e2\u20ac\u201d Kell has the frequency logs. We are in the first two lines of a three-line document, and I have spent twenty-one years hoping that the third line would remain metaphor.' He pauses. 'When the hammer falls, the world will end.' He looks at the courtyard crystal. 'I have been to the Black Vault. I have seen Ironheart. It is warm in a way that implies waiting, not dormancy.' He is quiet for a long time. 'I believe the hammer is literal. I believe the ending is literal. I do not know what falls the hammer, or what the world ending means in this context.' He looks at you with the calm of someone who has had twenty-one years to be afraid. 'I have been waiting for someone to tell me what you have seen and what you know and whether the pieces fit the way I think they fit. I very much hope they don't.'",
+      "disposition_delta": 12
+    },
+    {
+      "keyword": "sunken",
+      "prompt": "the Sunken City of Aetherion",
+      "response": "His composure does not shift, but something behind it does \u00e2\u20ac\u201d the quality of someone who has been waiting for a particular question for a very long time. 'You have been there.' Not a question. 'The Monastery has had a record of Aetherion's existence for two hundred years. We could not reach it \u00e2\u20ac\u201d the descent was not something anyone attempted until recently.' He folds his hands. 'The original Elder records \u00e2\u20ac\u201d the ones Kell has been translating \u00e2\u20ac\u201d were written by people who built that city. Who lived in it. Who were in it when the Cascade struck.' He is quiet. 'The last entry in the deepest section of the records is a description of the decision to remain. Written by someone who chose not to ascend with the survivors. Who chose to stay as witness.' He looks at you. 'We did not know, until you have just confirmed it, that the one who stayed was still there.'",
+      "requires_quest_complete": "visit_aetherion",
+      "disposition_delta": 12
+    },
+    {
+      "keyword": "oldest",
+      "prompt": "what you have found",
+      "response": "He hears everything without moving. The vassal's warning. Kehl's confirmation from inside the network. Kell's translation. The dead visitor in Morlak's records. The Ministry office code that does not exist. When you finish, he is quiet for a very long time. Then he goes to the library \u00e2\u20ac\u201d you have not seen him move quickly before. He returns with a volume from the earliest Bone Fields series, the cover worn smooth by decades of handling. 'The first great battle,' he says. 'Three hundred and thirty years ago.' He reads down a column of names. His finger stops. He reads the name aloud. It matches the marking in the lair. The personal notation. The name. 'They fought in the first battle,' he says. 'They died in it.' He does not set the volume down. 'And then they were made into something that has been standing in that lair since before the second battle was fought.' He sits. 'The war did not begin and then find something to do with this process. The process was here first. Someone built the war around what they were already doing.' He looks at the courtyard crystal. 'I need you to go back to the lair. See it knowing what you know now.'",
+      "requires_quest_complete": "what_lazarus_becomes",
+      "disposition_delta": 12
+    },
+    {
+      "keyword": "open",
+      "prompt": "what happened in the hall when the offer arrived and what it has become since",
+      "response": "He is in the hall \u2014 the hall he built for the Cross and Serel meeting \u2014 and it is being used again. Through the doorway you can see it has two people in it who are not Thorn command or Serel post: civilians, sitting at the plain table, with notebooks and translated documentation. He watches them for a moment before he speaks. 'The morning of full coherence, I was in the chapel. Alone, which is how I prefer to meet significant moments.' He does not look away from the hall. 'The offer came and it was clear in the way that things are clear when they have always been true and you are only now hearing them plainly.' He pauses. 'I said yes.' He says it simply. 'I have been in this monastery for thirty-eight years. I have read the Elder People documentation of the Grid in the oldest records in Lyss archive. I have looked at the Watcher for thirty-eight winters and known it was moving without knowing where.' He pauses. 'I said yes the way you say yes to something you have been in the presence of for thirty-eight years and have always understood more with your hands and less with your words.' He looks at the hall. 'The monastery has been receiving visitors since the Day. People who want to sit somewhere that has a long relationship with what happened. The hall I built for a single conversation has become something else.' He is quiet. 'I built it for a meeting that needed a specific space. It turns out I built it for meetings. The specific meeting just had to happen first.' He looks at the two people at the table. 'I am going to need a larger table.'",
+      "requires_quest_complete": "the_day_arrives",
+      "disposition_delta": 15
+    }
+  ],
+  "rest_provider": true
+}

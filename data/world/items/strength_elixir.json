@@ -1,0 +1,12 @@
+{
+  "id": "strength_elixir",
+  "name": "Strength Elixir",
+  "description": "A dark amber potion that smells faintly of iron. Drinking it floods your muscles with power.",
+  "starting_room_id": "smithy",
+  "takeable": true,
+  "attributes": {
+    "use_effect": "boost_atk",
+    "boost_amount": 5,
+    "consumable": true
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "id": "skeleton_purge",
+  "name": "Purge the Dungeon",
+  "description": "A Skeleton Warrior has taken hold of the Obsidian Dungeon south of the Dark Forest. Destroy it and clear the road.",
+  "objective": {
+    "type": "kill_count",
+    "class_id": "skeleton",
+    "count": 1
+  },
+  "gold_reward": 35,
+  "xp_reward": 100,
+  "giver_npc_id": "captain_bren",
+  "accept_text": "Captain Bren nods curtly. 'Good. The dungeon entrance is south through the dark forest. Get in, kill it, get out. I won't be sending a search party if you don't come back.'",
+  "complete_text": "Quest complete: Purge the Dungeon! The road through the Obsidian Dungeon is clear."
+}

@@ -1,0 +1,15 @@
+{
+  "id": "bam_networks_edge",
+  "name": "The Network's Edge",
+  "description": "Below the Maintenance Tunnels. The coordinates from the sergeant's orders. The place Solan called the Sunken City. Go.",
+  "objective": {
+    "type": "reach_room",
+    "room_id": "sunken_city_threshold"
+  },
+  "gold_reward": 100,
+  "xp_reward": 250,
+  "giver_npc_id": "commander_thorn",
+  "requires_quest_complete": "bam_last_visit",
+  "accept_text": "Thorn gives you the map without ceremony. The Sunken City coordinates penciled onto the Hive's existing survey in his own handwriting — he's had this drawn up, you realize. He prepared it before you came to him. 'I've been looking at my hand every morning for four months,' he says. 'The crystal knows something I don't. Every time I try to find the shape of what it knows, it's this.' He taps the coordinates. 'This specific place. This specific depth.' He meets your eyes. 'I'd go myself. You know why I can't.' He pauses. 'You'll feel something when you get down there. Don't let it make decisions for you. Just — witness it. Bring back what you learn.'",
+  "complete_text": "You go down. The passage narrows, then opens. The chamber at the threshold is exactly as Solan described it — stone older than either government, crystal that isn't corrupted but complete, light from within the walls. You stand in it. You feel it the way you feel a room that has been holding its breath for a very long time. Something in the crystal is aware that you are there. Not threatening. Not welcoming. Attentive, in the way of things that have been waiting without knowing what they were waiting for. You understand, standing in that chamber, that it isn't a place. It's a question. It has been asking the same question for four hundred years and it has just now found someone to ask it to. You carry the weight of that question out of the tunnels and back into the world."
+}

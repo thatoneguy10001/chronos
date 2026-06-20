@@ -1,0 +1,15 @@
+{
+  "id": "bam_gray_market_price",
+  "name": "The Gray Market Price",
+  "description": "Stone won't meet with someone she doesn't trust. Her test: pick up a shipment from Gideon Moss in the Smog Market — compounds she ordered through gray channels because official supply lines are monitored. If you can do that without the Ministry noticing, she'll talk.",
+  "objective": {
+    "type": "talk_to",
+    "npc_id": "gideon_moss"
+  },
+  "gold_reward": 45,
+  "xp_reward": 110,
+  "giver_npc_id": "helen_stone",
+  "requires_quest_complete": "walking_back",
+  "accept_text": "She doesn't extend her hand. 'Stone. You've been to the Field Hospital. You know what Sevyas is.' Not a question. 'Then you know the Lazarus compound is behaving differently than it was designed to. I need to understand what changed, which means I need samples I can't get through official channels.' She slides a sealed container across the table. 'Moss. Smog Market. He'll know what it's for — we have an arrangement. Tell him you're picking up for the Stone account and he'll have a second container ready. Don't open either one.' She pauses. 'If someone from the Ministry asks what you're doing in that district, you're here about the vulture problem. Nothing else.'",
+  "complete_text": "Moss looks at the container, looks at you, and reaches under his counter for a second one without asking anything. 'Stone's careful,' he says, by way of explanation. 'She'd send someone she trusted or she'd come herself. Since she sent you —' He doesn't finish that. He wraps both containers and hands them over. 'Tell her the analysis takes two days if she wants it read right. Tell her I kept a copy of the notation, same as always. She'll know what that means.'"
+}

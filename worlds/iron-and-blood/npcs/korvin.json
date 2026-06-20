@@ -1,0 +1,33 @@
+{
+  "id": "korvin",
+  "name": "Korvin",
+  "initial_disposition": 55,
+  "greeting": "He's at the entrance of the descent, which is where he always is — you learn this later from the others, who describe his position with the fond exasperation of people who have accepted a habit they cannot change. He's young by Deep Iron standards, which means he's in his forties and has only been alive for a fraction of the city's three-century underground existence. When you emerge from the fissure, he's there before you've finished climbing. 'Surface,' he says, assessing your equipment with rapid professional interest. 'What's it like up there now.' Not whether you made it down safely. What's the surface like. 'Korvin,' he adds, as an afterthought. 'I study the passages.'",
+  "dialogue": [
+    {
+      "keyword": "surface",
+      "prompt": "the surface",
+      "response": "He listens to whatever you tell him with total attention, the kind that absorbs everything without interrupting. When you've finished he's quiet for a moment. 'Three hundred years of war and it's still going.' He doesn't say it with disgust or resignation. With something more like the interest of a person solving a very long puzzle. 'The Abominations are changing?' He files this. 'The Aetherium damage is propagating.' He files this. 'The Lazarus process is being modified.' He files this last one differently — you notice the quality of attention shift slightly. 'I study the passages,' he says again, and this time you understand it means something different than cartography.",
+      "disposition_delta": 7
+    },
+    {
+      "keyword": "passages",
+      "prompt": "the passages you study",
+      "response": "'The surface people know the passages that go from the Hive to the Trenches. The passages that go from the tunnels to the Bone Fields.' He traces something on the wall that might be a map. 'The surface people do not know about the passage that runs from this level to a point three hundred meters below the Sunken City. Or the one that connects to the resonance foundations of the old Grid.' He pauses. 'Thrum knows I have these mapped. She has not told me not to map them. She has also not told me why she hasn't.' He looks at the fissure above. 'I think about going up. I have thought about it for twelve years.' A pause. 'I haven't. The forge needs surveyors and the surface needs —' He stops. 'The surface is complicated. Thrum says it will always be complicated and that this is not a reason to avoid it, it's just a fact to hold while you go.'",
+      "disposition_delta": 8
+    },
+    {
+      "keyword": "lazarus",
+      "prompt": "Project Lazarus",
+      "response": "He goes still for a moment that is slightly longer than his usual pauses. 'The tunnels near the Bone Fields show Lazarus subject movement patterns. We have been tracking them for two years.' He looks at you. 'The network — the coordination you mentioned. We can feel it from here. Not the subjects themselves, the network they're in. It runs through the crystal lattice like a current through water.' A pause. 'The modified compound is using our lattice to extend the network. The surface people did this without asking. The surface people did not know we were here. These things are related.' He is very calm about this in a way that tells you the Deep Iron have had this conversation internally at length and the calmness is the output of that process, not the absence of feeling.",
+      "requires_topic": "passages",
+      "disposition_delta": 9
+    },
+    {
+      "keyword": "forge",
+      "prompt": "the Forge of Stars",
+      "response": "'You should see it.' He says it with the directness of someone who has never had to manage expectations about whether you deserve to see something. 'Three hundred years of uninterrupted resonance work, in conditions that don't exist on the surface. What we have built down here —' He shakes his head. 'Thrum doesn't like me saying it this way, but: the surface is behind. Not by a little.' He pauses. 'We could end the war. If we wanted to. We have not wanted to, which is the part neither side would understand if they knew. The Collective decided three hundred years ago that ending the war from the outside would just mean we owned the outcome. Thrum says you own what you solve for others.' He looks at you. 'I think she is right. I also think there may come a point where the damage from the war reaches deep enough that we won't have a choice anymore.'",
+      "disposition_delta": 8
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "id": "fresh_hollow_vassal",
+  "name": "The Hollow Vassal",
+  "initial_disposition": 50,
+  "greeting": "You find it at the edge of the chamber — not where the ancient ones stand, but closer to the entrance, as if it chose to be findable. The ancient Hollow are arranged near the far wall: four of them, perfectly still, present the way a stone wall is present. Not threatening. Not waiting. Simply there. This one is different. When you enter, it turns to face you. Not aggression. Not fear. Something more deliberate than either. It watches you with eyes that are still human in shape, still responsive to light. Then it goes completely still — the deliberate stillness that means attention.",
+  "dialogue": [
+    {
+      "keyword": "mark",
+      "prompt": "the wall marking",
+      "response": "You approach the marking and use the acknowledgment gesture Kell taught you — slight forward tilt, hands open. The vassal follows your attention to the wall. Then back to you. It raises one hand and traces the marking without touching the stone, the motion slow and exact. The same sequence, in the same order. It holds the final position for several seconds before lowering its hand. The ancient ones do not move.",
+      "disposition_delta": 5
+    },
+    {
+      "keyword": "warning",
+      "prompt": "attempt to communicate",
+      "response": "You use the sequence Kell taught you: the approach pattern, the stillness, the specific angle that in Elder notation means listening. For a long moment nothing happens. Then the vassal moves — not the twitching of something animal, but something with grammar. It orients north, then south, then north again. It holds. Then it draws in the air with one finger: the Elder symbol for continuing or unfinished. It holds. Then the wall symbol — the method, the process. Then its palms turn upward in the gesture Kell named as plea or warning. It repeats the full sequence once, exactly. Then it goes still. The translation assembles the way Kell said it would: Not finished. Still building. Stop them.",
+      "disposition_delta": 15
+    },
+    {
+      "keyword": "ancient",
+      "prompt": "the ancient ones",
+      "response": "You use the attention gesture toward the ancient Hollow. The vassal looks at them for a long time without moving. Then it looks back at you. It performs the duration gesture Kell described — hand sweeping slowly from one side to the other — and holds it for almost a full minute. Then it stops. Nothing else follows. You understand what it is describing: how long they have been here. You understand that it knows the number. You understand that it does not have a way to give that number to you in any language that would survive the translation.",
+      "disposition_delta": 8
+    },
+    {
+      "keyword": "clear",
+      "prompt": "what changed for you when the Grid was whole and whether the offer reached you",
+      "response": "You use the attention gesture. The vassal is still — stiller than its usual stillness. You wait. After a moment that has a quality you have not experienced in this lair before, it turns to face you with full attention, both aspects of the compound gaze oriented directly at you. This is new. Then it does something you have not seen it do. It extends one hand, palm upward, fingers spread. This is not a gesture from the pattern-language Kell taught you. You don't recognize it from any human regimental tradition either. You look at the hand. The crystal that has grown through the tendons of the palm is doing something — the pattern you usually associate with partial resonance, irregular, attenuated, has changed. It's steady. Even. The vassal holds the hand there for several seconds. Then, slowly, it curls the fingers closed and withdraws the hand. It makes a gesture you know: one motion, the one that means: something is received. Then a gesture you know: two motions, the one that means: I understand this. Then a gesture you haven't seen before but that you understand anyway, the way you understand a word in a language you don't speak when the speaker's face and posture and the weight of the moment make the meaning clear: a slow, careful placement of the hand over the chest, where the crystal is densest. Three hundred years of listening. The offer reached the Hollow. You don't know what they decided. You don't think the decision is finished. But the vassal is looking at you with something that you will spend a long time after this trying to name correctly, and will eventually decide to call: recognition.",
+      "requires_quest_complete": "the_day_arrives",
+      "disposition_delta": 18
+    }
+  ]
+}

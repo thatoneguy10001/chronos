@@ -1,0 +1,15 @@
+{
+  "id": "bam_elder_fragment",
+  "name": "The Elder Fragment",
+  "description": "Abbot Solan will share the chronicle of the Elder People — but first you need to understand what you're walking into. Someone has been placing Ministry-stamped canisters in the Bone Fields. Solan wants the fields cleared before the next one appears.",
+  "objective": {
+    "type": "talk_to",
+    "npc_id": "abbot_solan"
+  },
+  "gold_reward": 55,
+  "xp_reward": 130,
+  "giver_npc_id": "abbot_solan",
+  "requires_quest_complete": "clear_the_bone_fields",
+  "accept_text": "He waits until you've returned from the Fields before he brings out the chronicle. It's kept in a sealed case — vellum pages, a writing style that predates both governments by three centuries. He sets it on the table with the same care as a medical instrument. 'The Elder People were not singular. They were distributed. Their consciousness existed across a crystalline network — individual nodes of awareness connected by resonance.' He traces a passage. 'They discovered that death could be a transition rather than an ending, if the network was seeded into a body before death occurred. The dead would wake within the crystal. Continuous.' He looks up. 'The text ends one sentence before describing the outcome. Forty-two years I've been trying to find the next page.'",
+  "complete_text": "He closes the chronicle carefully. 'You understand now what the Lazarus subjects are not. They are not soldiers preserved for combat. They are seeds. The compound bonds to the crystal lattice in the subject's tissues and makes them — receptive.' He's quiet for a long moment. 'The question I've been sitting with for forty-two years: what is the network waiting to receive?' He stands, moves to the window. 'I have a brother who went to the Maintenance Tunnels two weeks ago to find an answer. He hasn't come back. I think he found one.'"
+}

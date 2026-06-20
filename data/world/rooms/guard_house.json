@@ -1,0 +1,10 @@
+{
+  "id": "guard_house",
+  "name": "Guard House",
+  "description": "Racks of spears line the walls and a bounty ledger lies open on a table. Captain Bren paces by the window, eyes fixed on the tree line. 'The dungeon to the south is a problem,' he says without turning. 'We lost a man to whatever's nesting in there. It won't wait.' A door east leads onto the town walls; the guild hall is back to the south.",
+  "exits": {
+    "south": { "target_room_id": "guild_hall", "label": "Guild Hall" },
+    "east": { "target_room_id": "town_walls", "label": "Town Walls" }
+  },
+  "requirements": {}
+}

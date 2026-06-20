@@ -1,0 +1,10 @@
+{
+  "id": "grove",
+  "name": "The Grove",
+  "description": "Rows of herbs and quiet trees make a fragrant refuge at the village edge. Sara the herbalist kneels among the medicinal plants. \"Nature provides all the medicines we need. I just know where to look.\" The riverside is north; a game trail leads south into the forest.",
+  "exits": {
+    "north": { "target_room_id": "river", "label": "Riverside" },
+    "south": { "target_room_id": "forest", "label": "The Forest" }
+  },
+  "requirements": {}
+}

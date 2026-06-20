@@ -1,0 +1,16 @@
+{
+  "id": "morlak_intelligence",
+  "name": "Silence the Nest",
+  "description": "Morlak has located a concentration of Iron-Beak Vultures nesting in the ruins east of No Man's Land. The vultures are stripping his intelligence network — they've taken two runners in three days. Molar wants the nest cleared and is willing to share information on Project Lazarus in exchange.",
+  "objective": {
+    "type": "kill_count",
+    "class_id": "iron_beak_vulture",
+    "count": 4
+  },
+  "gold_reward": 30,
+  "xp_reward": 85,
+  "giver_npc_id": "morlak",
+  "requires_quest_complete": "what_the_vultures_watch",
+  "accept_text": "He doesn't frame it as a request, exactly. 'Nest in the eastern ruins. Four birds, maybe five. They've been hunting smart — targeting my people specifically, which means they've learned what my runners smell like, what routes we use.' He sounds more impressed than alarmed. 'They remember faces. I told you that.' He holds up one hand flat. 'Four birds. You clear them, I give you what I know about the patrol that went missing. All of it. Including the part I left out.' He meets your eyes. 'That part is worth more than the gold.'",
+  "complete_text": "He counts on his fingers. One, two, three, four. Then looks at you. 'Four birds.' He nods, once, and a small piece of the careful mask slips. 'Thank you. My people were scared.' He pulls out a worn notebook — not for sale, not negotiable, the kind of object a person in his line of work doesn't let go of. 'The patrol. Here.' He opens to a page covered in shorthand. 'Eight silhouettes went east. I saw more than that come back. Not all of them were walking like themselves.' He taps the page. 'One wasn't walking at all. It was drifting. And it had crystals growing through its shoulders.' He closes the notebook. 'That's worth more than the birds. Consider it interest.'"
+}

@@ -1,0 +1,9 @@
+{
+  "id": "research_division_9",
+  "name": "Research Division 9",
+  "description": "The difference between this level and the Lazarus Chamber below: the subjects here are moving. Not the shambling coordination of the compromised — moving with intention, purpose, awareness of space and person. Three of them are at a workbench doing something with crystal components. One of them looks up when you enter. The eyes are clear. That's the first thing. Clear and present and directed at you with genuine attention. 'Visitor,' he says. Not the way Sevyas says it — the way a person says it. 'Stone said someone might come down.' He sets down the crystal tool. His left hand has the telltale crystalline deposits at the knuckles. His right does not. This detail, you understand, is not an accident. It is a result. 'You want to know what the difference is,' he says. It's not a question. 'Good. So do I, actually. I've been trying to put it into language for three weeks.'",
+  "exits": {
+    "out": { "target_room_id": "under_district_entrance", "label": "Level Zero" }
+  },
+  "requirements": {}
+}

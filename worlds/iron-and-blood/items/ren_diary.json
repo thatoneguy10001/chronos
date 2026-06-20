@@ -1,0 +1,11 @@
+{
+  "id": "ren_diary",
+  "name": "A Soldier's Diary",
+  "description": "A field notebook, cloth-covered, pages swollen from damp. The cover reads 'Property of —' and the rest of the line is empty. Either it was never filled in or it has been worn away. Inside: dense handwriting, careful at first, then less so.",
+  "starting_room_id": "field_hospital",
+  "takeable": true,
+  "attributes": {
+    "diary": true
+  },
+  "tags": ["unique", "quest_item"]
+}

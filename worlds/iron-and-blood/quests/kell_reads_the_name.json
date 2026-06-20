@@ -1,0 +1,12 @@
+{
+  "id": "kell_reads_the_name",
+  "name": "Kell Reads the Name",
+  "description": "Abbot Solan has identified the marking as Elder People personal notation — someone's name. He's sent you to Brother Kell in the maintenance tunnels with a fragment that may provide more context. Kell spent three years breaking the Elder cipher.",
+  "objective": { "type": "talk_to", "npc_id": "brother_kell" },
+  "gold_reward": 30,
+  "xp_reward": 80,
+  "giver_npc_id": "abbot_solan",
+  "requires_quest_complete": "what_the_mark_means",
+  "accept_text": "'Kell has been living in the maintenance tunnels for four months,' Solan says, with the tone of someone who has made peace with a decision they don't entirely endorse. 'He is safe, and he is working, and occasionally he sends a monk back with something extraordinary.' He hands over the fragment — a small piece of material covered in dense notation, the writing even older than the monastery's oldest records. 'This is from the library's restricted archive. The pages Kell decoded. What he found there — he understood it before I did.' He pauses. 'He has been studying the Hollow for four years. If the marking in the lair is a name in the Elder register, Kell will be able to tell you whose name it is. Or was.' He looks at you. 'Be patient with him. He is not accustomed to visitors who bring him things he has been looking for.'",
+  "complete_text": "Kell takes the fragment and the sketch and sits down with them without looking up. You wait. After several minutes he looks up, and his expression is the specific stillness of someone whose hypothesis has just been confirmed in a way they weren't fully prepared for. 'This is a method,' he says. 'Not a name — that's what the first section is. A name. But the marking in the lair isn't the personal notation. It's the process notation.' He holds up the sketch. 'This part: this is a description of how they were made. How whatever was done to them was done.' He's quiet. 'Someone in that lair watched what was done to them for long enough to understand the mechanism, and then wrote down the mechanism in the only notation system they had left.' He looks at the tunnels around him. 'Someone has been studying that. They've been visiting the lair, reading those marks, and recently they applied what they learned.' His voice doesn't change. 'The Lazarus modification isn't an original program. It's a reconstruction. I need to know who has been visiting that lair.'"
+}

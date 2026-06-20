@@ -1,0 +1,10 @@
+{
+  "id": "airship_landing",
+  "name": "Airship Dock",
+  "description": "The platform is above the post — you climb through a hatch in the ceiling of the forward post and emerge onto a flat space barely large enough for two people side by side. Wind, immediate and impartial, the kind of wind that has been a problem for a lot of people on this mountain and doesn't know any of their names. And docked against the far edge: an airship that is nothing like the sky-cities — small, fast, three-person crew, the lines of something that was built to move rather than to be in one place. It is also very old in the way of things that have been maintained by people who understand them, which means it doesn't look old so much as it looks resolved. A rope ladder. Up, somewhere very far above the cloud line, the sound of engines. Below: the whole pass visible at once, the Terran and Aetherian lines, the Armistice ground, the monastery's crystal catching light from a different angle than you've ever seen. You take a moment. There is no shame in taking a moment.",
+  "exits": {
+    "down": { "target_room_id": "aetherian_forward_post", "label": "Forward Post" },
+    "up": { "target_room_id": "skyborn_deck", "label": "Board the Ship" }
+  },
+  "requirements": {}
+}

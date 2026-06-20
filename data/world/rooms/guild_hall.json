@@ -1,0 +1,11 @@
+{
+  "id": "guild_hall",
+  "name": "Guild Hall",
+  "description": "Banners of past expeditions hang from the rafters. Thorne the guild master studies a map of the region, then fixes you with a measuring stare. \"Prove your worth through deeds. The guild always needs capable hands.\" The guard house stands to the north and the mayor's office to the south. The town square is west.",
+  "exits": {
+    "west": { "target_room_id": "town_square", "label": "Town Square" },
+    "north": { "target_room_id": "guard_house", "label": "Guard House" },
+    "south": { "target_room_id": "mayors_office", "label": "Mayor's Office" }
+  },
+  "requirements": {}
+}

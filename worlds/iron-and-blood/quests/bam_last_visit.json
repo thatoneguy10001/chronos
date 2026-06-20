@@ -1,0 +1,15 @@
+{
+  "id": "bam_last_visit",
+  "name": "The Last Visit",
+  "description": "Before you go below, go back to the Field Hospital. Sevyas has been waiting.",
+  "objective": {
+    "type": "talk_to",
+    "npc_id": "corporal_sevyas"
+  },
+  "gold_reward": 40,
+  "xp_reward": 100,
+  "giver_npc_id": "sister_adra",
+  "requires_quest_complete": "bam_coordinates",
+  "accept_text": "Adra finds you before you leave. 'He's been asking for you.' She says it simply, without elaborating. 'He knows you've found something. I don't know how he knows — I haven't told him. He just — knows.' She looks toward the ward. 'He asked me this morning if I thought you would come back.' She meets your eyes. 'I told him yes.'",
+  "complete_text": "He's sitting up when you enter, hands folded, watching the door. He looks at you for a moment. 'You found the place.' Not a question. 'I dreamed it last night. Clean stone. People who have been somewhere very dark.' He's quiet. 'That's where I'm going, isn't it.' Also not a question. 'I don't mind. I want you to know I don't mind.' He shifts. 'Tell Thorn I said good. Not goodbye. Good.' He looks at you with eyes that are completely clear. 'I think I've been waiting to say that since the day I came back.'"
+}

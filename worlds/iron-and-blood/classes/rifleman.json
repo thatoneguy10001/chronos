@@ -1,0 +1,49 @@
+{
+  "id": "rifleman",
+  "name": "Rifleman",
+  "description": "Patience is a weapon. The Rifleman operates at maximum range, choosing their moment with methodical care and eliminating targets before the enemy knows anyone's aiming. Lower HP than the front-line classes, but if anything gets close enough to matter, the Rifleman has already made a mistake.",
+  "base_stats": {
+    "hp": 95,
+    "attack": 13,
+    "defense": 5,
+    "intelligence": 7
+  },
+  "abilities": [
+    {
+      "id": "aimed_shot",
+      "name": "Aimed Shot",
+      "description": "A single carefully placed round. Everything the Rifleman does is built around this: patience, stillness, one clean shot.",
+      "base_damage": 14
+    },
+    {
+      "id": "rapid_fire",
+      "name": "Rapid Fire",
+      "description": "Three rounds in fast succession — accuracy drops, but against anything within twenty meters, it doesn't matter.",
+      "base_damage": 5,
+      "hit_count": 3
+    },
+    {
+      "id": "incendiary_round",
+      "name": "Incendiary Round",
+      "description": "A thermite-tipped round. The initial impact is significant; what comes after is worse.",
+      "base_damage": 7,
+      "applies_effect": "burn",
+      "effect_damage": 4,
+      "effect_duration": 3
+    },
+    {
+      "id": "suppression_shot",
+      "name": "Suppression Shot",
+      "description": "A round placed specifically to restrict enemy movement — not necessarily to wound. The Rifleman's tactical round.",
+      "base_damage": 5,
+      "applies_effect": "poison",
+      "effect_damage": 3,
+      "effect_duration": 2
+    }
+  ],
+  "passives": ["long_range_mastery"],
+  "starting_equipment": ["scrap_revolver"],
+  "xp_reward": 0,
+  "gold_reward": 0,
+  "tactics": []
+}

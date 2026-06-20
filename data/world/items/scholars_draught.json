@@ -1,0 +1,12 @@
+{
+  "id": "scholars_draught",
+  "name": "Scholar's Draught",
+  "description": "A shimmering blue liquid that hums with arcane energy. Drinking it sharpens your mind.",
+  "starting_room_id": "guild_hall",
+  "takeable": true,
+  "attributes": {
+    "use_effect": "boost_int",
+    "boost_amount": 5,
+    "consumable": true
+  }
+}

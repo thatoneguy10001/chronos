@@ -1,0 +1,9 @@
+{
+  "id": "inn",
+  "name": "The Inn",
+  "description": "Innkeeper Morel wipes down a long oak counter beneath a row of room keys. \"Weary traveler? Rest your head here — warm food and a soft bed await.\" The hearth crackles, and the smell of stew fills the air. The market lies east.",
+  "exits": {
+    "east": { "target_room_id": "market", "label": "Market" }
+  },
+  "requirements": {}
+}

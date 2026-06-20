@@ -1,0 +1,10 @@
+{
+  "id": "abomination_lair",
+  "name": "The Hollow",
+  "description": "The vibration starts in your back teeth and works inward. Corrupted Aetherium in the rock — you've learned to read the frequencies like weather, and this one says: deep, old, and still growing. The hollow itself has been shaped by something over time that isn't architecture but isn't not-architecture either. The Rock-Shell Crab at the center has begun to fuse with the crystal walls at its flanks, the shell and the rock becoming the same material in a way that should not be possible and is. Its eyes are black and tracking you with a patience that feels less like animal instinct and more like it has decided to wait for you to make a decision. At the far edge, something stands very still. It appears to be waiting for the same thing.",
+  "exits": {
+    "north": { "target_room_id": "fallen_patrol", "label": "Fallen Patrol Site" },
+    "east": { "target_room_id": "windward_approach", "label": "Windward Approach" }
+  },
+  "requirements": {}
+}

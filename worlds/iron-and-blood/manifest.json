@@ -1,0 +1,624 @@
+{
+  "start_room_id": "fort_iron_gate",
+  "title": "Iron & Blood",
+  "encounters": [
+    {
+      "class_id": "rock_shell_crab",
+      "room_id": "trench_alpha"
+    },
+    {
+      "class_id": "rock_shell_crab",
+      "room_id": "trench_alpha"
+    },
+    {
+      "class_id": "iron_beak_veteran",
+      "room_id": "fallen_patrol"
+    },
+    {
+      "class_id": "iron_beak_vulture",
+      "room_id": "fallen_patrol"
+    },
+    {
+      "class_id": "rock_shell_crab",
+      "room_id": "abomination_lair"
+    },
+    {
+      "class_id": "lazarus_networked",
+      "room_id": "bone_fields"
+    },
+    {
+      "class_id": "lazarus_subject",
+      "room_id": "bone_fields"
+    },
+    {
+      "class_id": "lazarus_subject",
+      "room_id": "bone_fields"
+    },
+    {
+      "class_id": "lazarus_armored",
+      "room_id": "maintenance_tunnels"
+    },
+    {
+      "class_id": "lazarus_armored",
+      "room_id": "maintenance_tunnels"
+    },
+    {
+      "class_id": "lazarus_subject",
+      "room_id": "maintenance_tunnels"
+    },
+    {
+      "class_id": "lazarus_early",
+      "room_id": "windward_approach"
+    },
+    {
+      "class_id": "lazarus_subject",
+      "room_id": "windward_approach"
+    },
+    {
+      "class_id": "lazarus_commander",
+      "room_id": "windward_approach"
+    },
+    {
+      "class_id": "iron_beak_vulture",
+      "room_id": "iron_monastery"
+    },
+    {
+      "class_id": "iron_beak_vulture",
+      "room_id": "iron_monastery"
+    },
+    {
+      "class_id": "rock_shell_crab",
+      "room_id": "armistice_ground"
+    },
+    {
+      "class_id": "rock_shell_crab",
+      "room_id": "armistice_ground"
+    },
+    {
+      "class_id": "ministry_inquisitor",
+      "room_id": "the_spires"
+    },
+    {
+      "class_id": "ministry_enforcer",
+      "room_id": "the_spires"
+    },
+    {
+      "class_id": "lazarus_armored",
+      "room_id": "under_district_entrance"
+    },
+    {
+      "class_id": "lazarus_subject",
+      "room_id": "under_district_entrance"
+    },
+    {
+      "class_id": "lazarus_subject",
+      "room_id": "under_district_entrance"
+    },
+    {
+      "class_id": "rock_shell_crab",
+      "room_id": "aetherion_plaza"
+    },
+    {
+      "class_id": "lazarus_networked",
+      "room_id": "resonance_core"
+    },
+    {
+      "class_id": "lazarus_subject",
+      "room_id": "resonance_core"
+    },
+    {
+      "class_id": "lazarus_subject",
+      "room_id": "crater_of_bones"
+    },
+    {
+      "class_id": "lazarus_subject",
+      "room_id": "crater_of_bones"
+    },
+    {
+      "class_id": "iron_beak_veteran",
+      "room_id": "crater_of_bones"
+    },
+    {
+      "class_id": "spire_abomination",
+      "room_id": "spire_of_bones_approach"
+    },
+    {
+      "class_id": "spire_abomination",
+      "room_id": "spire_of_bones_approach"
+    },
+    {
+      "class_id": "iron_beak_vulture",
+      "room_id": "spire_of_bones_approach"
+    },
+    {
+      "class_id": "iron_beak_vulture",
+      "room_id": "spire_of_bones_approach"
+    },
+    {
+      "class_id": "lazarus_armored",
+      "room_id": "lazarus_chamber"
+    },
+    {
+      "class_id": "lazarus_subject",
+      "room_id": "lazarus_chamber"
+    },
+    {
+      "class_id": "lazarus_armored",
+      "room_id": "black_vault"
+    },
+    {
+      "class_id": "lazarus_subject",
+      "room_id": "silence_cells"
+    },
+    {
+      "class_id": "lazarus_subject",
+      "room_id": "silence_cells"
+    },
+    {
+      "class_id": "iron_beak_vulture",
+      "room_id": "crystal_labyrinth"
+    },
+    {
+      "class_id": "iron_beak_vulture",
+      "room_id": "crystal_labyrinth"
+    },
+    {
+      "class_id": "rock_shell_crab",
+      "room_id": "crystal_labyrinth"
+    },
+    {
+      "class_id": "void_crawler",
+      "room_id": "deep_iron_descent"
+    },
+    {
+      "class_id": "iron_beak_vulture",
+      "room_id": "kaelens_tomb"
+    },
+    {
+      "class_id": "rock_shell_crab",
+      "room_id": "forge_of_stars"
+    },
+    {
+      "class_id": "iron_beak_vulture",
+      "room_id": "airship_landing"
+    },
+    {
+      "class_id": "iron_beak_vulture",
+      "room_id": "skyborn_deck"
+    },
+    {
+      "class_id": "shell_crab_juvenile",
+      "room_id": "discarded_camp"
+    },
+    {
+      "class_id": "iron_beak_vulture",
+      "room_id": "discarded_camp"
+    },
+    {
+      "class_id": "aetherian_crystal_guard",
+      "room_id": "fort_sky_watch"
+    },
+    {
+      "class_id": "aetherian_rifleman",
+      "room_id": "fort_sky_watch"
+    },
+    {
+      "class_id": "rock_shell_crab",
+      "room_id": "great_foundry"
+    },
+    {
+      "class_id": "lazarus_subject",
+      "room_id": "research_division_9"
+    },
+    {
+      "class_id": "rock_shell_crab",
+      "room_id": "sunken_city_entrance"
+    },
+    {
+      "class_id": "lazarus_subject",
+      "room_id": "southern_shelf"
+    },
+    {
+      "class_id": "aetherian_rifleman",
+      "room_id": "skyhaven"
+    },
+    {
+      "class_id": "iron_beak_vulture",
+      "room_id": "skyhaven"
+    },
+    {
+      "class_id": "iron_beak_vulture",
+      "room_id": "seraphina_spire"
+    },
+    {
+      "class_id": "rock_shell_crab",
+      "room_id": "seraphina_spire"
+    },
+    {
+      "class_id": "spire_ancient",
+      "room_id": "spire_threshold"
+    },
+    {
+      "class_id": "iron_beak_vulture",
+      "room_id": "spire_threshold"
+    },
+    {
+      "class_id": "spire_abomination",
+      "room_id": "spire_threshold"
+    },
+    {
+      "class_id": "lazarus_subject",
+      "room_id": "sealed_mines"
+    },
+    {
+      "class_id": "lazarus_armored",
+      "room_id": "sealed_mines"
+    },
+    {
+      "class_id": "crystal_wraith",
+      "room_id": "grid_node"
+    },
+    {
+      "class_id": "crystal_wraith",
+      "room_id": "grid_node"
+    },
+    {
+      "class_id": "rock_shell_elder",
+      "room_id": "no_mans_land"
+    },
+    {
+      "class_id": "rock_shell_crab",
+      "room_id": "no_mans_land"
+    },
+    {
+      "class_id": "aetherian_rifleman",
+      "room_id": "aetherian_trench"
+    },
+    {
+      "class_id": "ministry_enforcer",
+      "room_id": "hive_gate_district"
+    },
+    {
+      "class_id": "ministry_enforcer",
+      "room_id": "hive_gate_district"
+    },
+    {
+      "class_id": "ministry_enforcer",
+      "room_id": "under_district_entrance"
+    },
+    {
+      "class_id": "void_crawler",
+      "room_id": "sealed_mines"
+    },
+    {
+      "class_id": "crystal_wraith",
+      "room_id": "resonance_core"
+    },
+    {
+      "class_id": "spire_ancient",
+      "room_id": "spire_of_bones_approach"
+    },
+    {
+      "class_id": "aetherian_veteran",
+      "room_id": "aetherian_trench"
+    },
+    {
+      "class_id": "aetherian_crystal_guard",
+      "room_id": "skyhaven"
+    },
+    {
+      "class_id": "aetherian_crystal_guard",
+      "room_id": "seraphina_spire"
+    },
+    {
+      "class_id": "ministry_inquisitor",
+      "room_id": "black_vault"
+    },
+    {
+      "class_id": "cascade_remnant",
+      "room_id": "resonance_core"
+    },
+    {
+      "class_id": "void_brood",
+      "room_id": "deep_iron_descent"
+    },
+    {
+      "class_id": "void_brood",
+      "room_id": "sealed_mines"
+    },
+    {
+      "class_id": "lazarus_early",
+      "room_id": "fallen_patrol"
+    }
+  ],
+  "npc_placements": [
+    {
+      "npc_id": "commander_thorn",
+      "room_id": "command_post"
+    },
+    {
+      "npc_id": "quartermaster_desh",
+      "room_id": "armory"
+    },
+    {
+      "npc_id": "sister_adra",
+      "room_id": "field_hospital"
+    },
+    {
+      "npc_id": "morlak",
+      "room_id": "no_mans_land"
+    },
+    {
+      "npc_id": "korr_vane",
+      "room_id": "hive_gate_district"
+    },
+    {
+      "npc_id": "gideon_moss",
+      "room_id": "smog_market"
+    },
+    {
+      "npc_id": "helen_stone",
+      "room_id": "hive_command_spire"
+    },
+    {
+      "npc_id": "abbot_solan",
+      "room_id": "iron_monastery"
+    },
+    {
+      "npc_id": "corporal_sevyas",
+      "room_id": "field_hospital"
+    },
+    {
+      "npc_id": "brother_kell",
+      "room_id": "maintenance_tunnels"
+    },
+    {
+      "npc_id": "drifting_sergeant",
+      "room_id": "maintenance_tunnels"
+    },
+    {
+      "npc_id": "sergeant_kehl",
+      "room_id": "windward_approach"
+    },
+    {
+      "npc_id": "fresh_hollow_vassal",
+      "room_id": "abomination_lair"
+    },
+    {
+      "npc_id": "lena_voss",
+      "room_id": "armistice_ground"
+    },
+    {
+      "npc_id": "the_watcher",
+      "room_id": "aetherion_plaza"
+    },
+    {
+      "npc_id": "vespa",
+      "room_id": "silent_market"
+    },
+    {
+      "npc_id": "captain_vale",
+      "room_id": "armistice_cave"
+    },
+    {
+      "npc_id": "elder_thrum",
+      "room_id": "stonehold"
+    },
+    {
+      "npc_id": "korvin",
+      "room_id": "deep_iron_descent"
+    },
+    {
+      "npc_id": "architect_zane",
+      "room_id": "communion_workshop"
+    },
+    {
+      "npc_id": "sister_chroma",
+      "room_id": "communion_sanctuary"
+    },
+    {
+      "npc_id": "pilot_kira",
+      "room_id": "skyborn_deck"
+    },
+    {
+      "npc_id": "grimka",
+      "room_id": "discarded_camp"
+    },
+    {
+      "npc_id": "mess_cook",
+      "room_id": "field_mess"
+    },
+    {
+      "npc_id": "commander_serel",
+      "room_id": "fort_sky_watch"
+    },
+    {
+      "npc_id": "foundry_master",
+      "room_id": "great_foundry"
+    },
+    {
+      "npc_id": "private_davan",
+      "room_id": "lower_rigs"
+    },
+    {
+      "npc_id": "archivist",
+      "room_id": "ministry_archive"
+    },
+    {
+      "npc_id": "merchant_prince",
+      "room_id": "the_spires"
+    },
+    {
+      "npc_id": "dock_master_greer",
+      "room_id": "greasewater_docks"
+    },
+    {
+      "npc_id": "engineer_four",
+      "room_id": "sunken_city_plaza"
+    },
+    {
+      "npc_id": "factor_loy",
+      "room_id": "floating_market"
+    },
+    {
+      "npc_id": "lamp_keeper",
+      "room_id": "cobbles_corner"
+    },
+    {
+      "npc_id": "general_cross",
+      "room_id": "skyhaven"
+    },
+    {
+      "npc_id": "starsmith",
+      "room_id": "forge_of_stars"
+    },
+    {
+      "npc_id": "old_miner",
+      "room_id": "ironhaven"
+    },
+    {
+      "npc_id": "the_voice",
+      "room_id": "seraphina_spire"
+    },
+    {
+      "npc_id": "rund",
+      "room_id": "sealed_mines"
+    },
+    {
+      "npc_id": "inex",
+      "room_id": "greasewater_market"
+    },
+    {
+      "npc_id": "rememberer_osse",
+      "room_id": "kaelens_tomb"
+    },
+    {
+      "npc_id": "the_ninth",
+      "room_id": "hall_of_rememberers"
+    },
+    {
+      "npc_id": "arlen",
+      "room_id": "grid_node"
+    },
+    {
+      "npc_id": "the_architect",
+      "room_id": "spire_interior"
+    },
+    {
+      "npc_id": "the_quieted",
+      "room_id": "silence_cells"
+    },
+    {
+      "npc_id": "foss",
+      "room_id": "crystal_labyrinth"
+    },
+    {
+      "npc_id": "bael",
+      "room_id": "sunken_city_threshold"
+    },
+    {
+      "npc_id": "soldier_karee",
+      "room_id": "aetherian_trench"
+    },
+    {
+      "npc_id": "carrow",
+      "room_id": "research_division_9"
+    },
+    {
+      "npc_id": "private_pol",
+      "room_id": "shell_crater"
+    },
+    {
+      "npc_id": "the_watcher_figure",
+      "room_id": "ceasefire_line"
+    },
+    {
+      "npc_id": "elder_senn",
+      "room_id": "memory_circle"
+    },
+    {
+      "npc_id": "scholar_maren",
+      "room_id": "star_view_observatory"
+    },
+    {
+      "npc_id": "engineer_solen",
+      "room_id": "sunken_city_plaza"
+    },
+    {
+      "npc_id": "private_marsh",
+      "room_id": "trench_alpha"
+    },
+    {
+      "npc_id": "gate_sergeant_orr",
+      "room_id": "fort_iron_gate"
+    },
+    {
+      "npc_id": "factory_worker_hen",
+      "room_id": "hive_mid_levels"
+    },
+    {
+      "npc_id": "lab_assistant_brec",
+      "room_id": "lazarus_chamber"
+    },
+    {
+      "npc_id": "draftee_esrin",
+      "room_id": "recruitment_pits"
+    },
+    {
+      "npc_id": "scholar_daxis",
+      "room_id": "resonance_core"
+    },
+    {
+      "npc_id": "archivist_lyss",
+      "room_id": "monastery_library"
+    },
+    {
+      "npc_id": "medic_tova",
+      "room_id": "aetherian_forward_post"
+    },
+    {
+      "npc_id": "chamber_keeper",
+      "room_id": "grid_control_chamber"
+    },
+    {
+      "npc_id": "vault_researcher",
+      "room_id": "black_vault"
+    },
+    {
+      "npc_id": "crater_scavenger",
+      "room_id": "crater_of_bones"
+    },
+    {
+      "npc_id": "archive_voice",
+      "room_id": "sunken_city_archive"
+    },
+    {
+      "npc_id": "lookout_falk",
+      "room_id": "airship_landing"
+    },
+    {
+      "npc_id": "checkpoint_dael",
+      "room_id": "under_district_entrance"
+    },
+    {
+      "npc_id": "bone_fields_keeper",
+      "room_id": "bone_fields"
+    },
+    {
+      "npc_id": "dive_tender",
+      "room_id": "southern_shelf"
+    },
+    {
+      "npc_id": "city_gate_watcher",
+      "room_id": "sunken_city_entrance"
+    },
+    {
+      "npc_id": "spire_researcher",
+      "room_id": "crystal_spire_base"
+    },
+    {
+      "npc_id": "patrol_investigator",
+      "room_id": "fallen_patrol"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "id": "fallen_patrol",
+  "name": "Site of the Fallen Patrol",
+  "description": "Three helmets in the mud, identification tags still attached, and placed — not dropped, placed — in a rough triangle. No blood. No bodies. The boot tracks lead east and then stop the way tracks stop when you've run out of ground, except there is ground. The Iron-Beak Vultures are doing slow circles above, which they do when something is dead or about to be, and they've learned over three hundred years to tell the difference early. One breaks from the pattern and dives. You watch it pull up empty-clawed. Whatever is here is not interesting to vultures, which is not the reassurance it might sound like.",
+  "exits": {
+    "west": { "target_room_id": "no_mans_land", "label": "No Man's Land" },
+    "south": { "target_room_id": "abomination_lair", "label": "The Hollow" }
+  },
+  "requirements": {}
+}

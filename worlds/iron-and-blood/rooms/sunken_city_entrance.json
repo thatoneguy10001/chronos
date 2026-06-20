@@ -1,0 +1,10 @@
+{
+  "id": "sunken_city_entrance",
+  "name": "The Sunken City — Entry Gate",
+  "description": "The gate is still standing. Under three hundred meters of dark water, preserved by a crystal matrix that repels water rather than absorbing it, the Sunken City is dry. The gate is open, which raises questions, and lit from inside by the slow blue-white of Elder crystal, which raises different questions. The Cascade sank this city in the initial shockwave — not gradually, not partially. One moment it was above water; the next it was here, intact, sealed inside a bubble of dry space by a preservation field the Elder People apparently built into the city's foundations as standard infrastructure. The implications of this are large and you are holding all of them at once in the specific way you hold large implications when you're standing in front of evidence that proves them. A city designed to function underwater in case of emergency. The Elder People planned for a disaster that sank cities. They had time to plan for it. This tells you something about the Cascade that the official record does not say.",
+  "exits": {
+    "up": { "target_room_id": "southern_shelf", "label": "Surface" },
+    "in": { "target_room_id": "sunken_city_plaza", "label": "Through the Gate" }
+  },
+  "requirements": {}
+}

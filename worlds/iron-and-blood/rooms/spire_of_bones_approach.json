@@ -1,0 +1,10 @@
+{
+  "id": "spire_of_bones_approach",
+  "name": "Eastern Wastes",
+  "description": "The dust is deep here, the ground flat, and nothing has grown in centuries which is its own kind of measurement. Three kilometers out, perhaps four, the Spire of Bones rises from the plain. You'd heard descriptions. You knew roughly how tall. You were not prepared — there's a difference between information and standing in front of something, and the information hadn't mentioned the pulse, deep green once every eight seconds, the rhythm of something working rather than breathing. Fused Abomination skeletons, hundreds of meters and still building, it has been growing for as long as anyone has been watching which is itself the unsettling part. The Abominations between you and the Spire are not hunting. They are moving in patterns — slow circuits, the same points at the same intervals, methodical in a way that Abominations are not supposed to be methodical. They haven't noticed you yet. The Discarded have a name for what lives at the top. When you asked Morlak about it he was quiet for long enough that you stopped waiting.",
+  "exits": {
+    "west": { "target_room_id": "crater_of_bones", "label": "Crater of Bones" },
+    "east": { "target_room_id": "spire_threshold", "label": "Toward the Spire" }
+  },
+  "requirements": {}
+}

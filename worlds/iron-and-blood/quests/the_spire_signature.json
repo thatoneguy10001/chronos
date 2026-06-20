@@ -1,0 +1,15 @@
+{
+  "id": "the_spire_signature",
+  "name": "The Spire Signature",
+  "description": "Stone went to the Spire of Bones without clearance and found a crystal resonance signature that exactly matches her compound's modification. Someone used the Spire's lattice pattern as a template. She needs to speak to whatever is inside.",
+  "objective": {
+    "type": "reach_room",
+    "room_id": "spire_interior"
+  },
+  "gold_reward": 70,
+  "xp_reward": 175,
+  "giver_npc_id": "helen_stone",
+  "requires_quest_complete": "the_sergeant_at_the_wall",
+  "accept_text": "'Three weeks ago I went to the Spire. Without authorization.' She says it as a fact she has decided to own. 'I brought a resonance calibrator. I took readings from the crystal structure in the outer shell.' She opens her research notebook. 'The signature matches the modification in the compound exactly. Not approximately — exactly. As if someone took the Spire's lattice geometry and translated it into biochemical delivery.' She closes the notebook. 'Someone went to the Spire and took readings and then used those readings to modify Project Lazarus. Which means whoever modified the compound didn't invent the Elder integration process — they found it, already built, three hundred years old, and reproduced it in chemical form.' She meets your eyes. 'Something is in that Spire. And it knows what was done with its pattern.' She picks up her coat. 'Take me in. I've been standing at the threshold for three days trying to go in alone and I can't make myself do it.'",
+  "complete_text": "Stone walks in slowly. The warmth focuses on her as it focused on you. She is very still for a long time — not fear exactly. The posture of someone who has been carrying a question for months and has just been given a room to put it in. She looks at the crystal threads, at the bone-and-lattice structure, at the warm center of it. 'You're real,' she says. Not to you. To the room. To the warmth. 'Three months of instrument readings and I still wasn't certain you were real.' The warmth answers in the way it answers — not sound, something between recognition and temperature. Stone closes her eyes. Opens them. 'Ask it everything,' she says quietly. 'Ask it what it did and why. I need to hear it with someone else present.' She turns to you. 'And then tell me what it says, in case I miss something because I'm too busy not crying.'"
+}

@@ -1,0 +1,15 @@
+{
+  "id": "bam_sergeants_gift",
+  "name": "The Sergeant's Gift",
+  "description": "The drifting figure is deeper in the tunnels. You know who it is now. Go find it — find him.",
+  "objective": {
+    "type": "talk_to",
+    "npc_id": "drifting_sergeant"
+  },
+  "gold_reward": 70,
+  "xp_reward": 160,
+  "giver_npc_id": "commander_thorn",
+  "requires_quest_complete": "bam_brother_kell",
+  "accept_text": "You return to Thorn with what Kell told you. He listens without moving. When you finish he is quiet for a long time. 'He was my sergeant for nine years,' he says finally. 'He went east with the patrol because I couldn't go myself. I sent him.' He doesn't look away. 'If the network has been directing him toward this — if he's been carrying something for months and waiting for the right person to give it to —' He stops. 'Go back. Find him. Whatever he has, he's had it for a long time. He's been waiting.'",
+  "complete_text": "He doesn't look like what you expected. The crystals grow through his shoulders in symmetrical branches, catching the candlelight from Kell's stub of a candle. His eyes are clear. He watches you cross the chamber with something that might be recognition. He reaches into his uniform — the motion precise, unhurried — and removes a folded paper. He holds it out. You take it. Three hundred years old, the paper preserved by the crystal lattice in his hands. A patrol order addressed to a unit designation that doesn't exist in any current record. At the bottom, coordinates. He looks at you when you look up. He says one thing: 'They said someone would come.' Then he is still again."
+}

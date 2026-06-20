@@ -1,0 +1,9 @@
+{
+  "id": "great_foundry",
+  "name": "The Great Foundry",
+  "description": "This is the first structure built. Not a structure that was later incorporated into the Hive — the Hive was built around it, the way a city grows around a river. One thousand years of continuous operation. The metal has flowed here without stopping through wars, famines, plagues, changes of ministry, changes of purpose — the Foundry's purpose has never changed because the Foundry's purpose is simply to continue. The floor vibrates. Not with the machinery — the machinery is the floor, at a certain level of scale: you are standing on a system that produces two thousand tons of refined iron per day and you are so far inside it that you cannot find the edge. The workers here have the specific bearing of people who have been in a loud place long enough to become loud, their communication in gestures and a lip-reading dialect that hasn't been written down because everyone who needs it already knows it. One of them sees you noticing the heat and makes a gesture that means: yes, and it is always like this, and it was like this when my father's father worked here, and it will be like this when your children's children work here too.",
+  "exits": {
+    "up": { "target_room_id": "hive_mid_levels", "label": "Mid-Levels" }
+  },
+  "requirements": {}
+}

@@ -1,0 +1,16 @@
+{
+  "id": "ah_the_oldest_soldier",
+  "name": "The Oldest Soldier",
+  "description": "The Watcher has been holding the ceasefire line since year eighty of the war. Before either side named the Armistice. Before either command structure acknowledged the ceasefire as anything other than operational convenience. Someone gave it an order two hundred and forty-three years ago and nobody ever gave it another one. It's been waiting.",
+  "objective": {
+    "type": "talk_to",
+    "npc_id": "the_watcher_figure"
+  },
+  "gold_reward": 55,
+  "xp_reward": 145,
+  "requires_night": true,
+  "giver_npc_id": "lena_voss",
+  "requires_quest_complete": "ah_approach_the_watcher",
+  "accept_text": "She reads what you've written down three times. The third time she reads it very slowly. 'Year eighty,' she says. She has the same notebook out. She turns to a page she has been keeping — not observations of the Watcher itself but the historical record she's been building around it, cross-referenced with the documents she has access to. 'Year eighty. The early consolidation period.' She finds the entry she was looking for. 'The Terran Ministry authorized what they called the Boundary Enforcement Initiative in year seventy-eight. A program to place sentinels at contested positions to prevent escalation between patrols.' She closes the notebook. 'The records after year ninety list that initiative as dissolved — cost-prohibitive, ineffective. The dissolution records do not include an accounting of the sentinels.' She meets your eyes. 'There is no record of a stand-down order because the dissolution records assumed the sentinels were no longer functional. Nobody went to check.' She is quiet. 'Go back to the midpoint. Talk to it. Find out what it was given and whether it's possible to close what never got closed.' A pause. 'If you can give it the order it was waiting for — two hundred and forty-three years of waiting — that is something we should do. That is something we owe it.'",
+  "complete_text": "You tell Lena afterward. She listens without the notebook — she doesn't write anything down. When you finish she is quiet for a long time. 'It held the line before we named the line,' she says finally. 'The Armistice was formalized in year a hundred and sixty. We named it, agreed to it, wrote it down, added it to the operational record of both commands — and it had already been held, at that specific midpoint, for eighty years before anyone arrived to formalize it.' She looks at the armistice ground. 'The ceasefire we perform every night because of an agreement between two sides who want to survive — it was already happening because one soldier was following orders at the midpoint. One soldier, for two hundred and forty-three years, holding a line.' She is quiet. 'Did it hurt? The standing down?' She asks this with genuine clinical precision — she is a medic and she wants to know. You describe the brightness. The posture shift. The way the blue became gold. She closes her eyes for a moment. 'Good,' she says. 'Then it wasn't nothing. Two hundred and forty-three years of holding and what it got at the end was: it wasn't nothing.' She opens her eyes. 'That should have to be enough. I wish it didn't have to be. But it should have to be, and I think it is.'"
+}

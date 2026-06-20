@@ -1,0 +1,15 @@
+{
+  "id": "the_integration_depth",
+  "name": "The Integration Depth",
+  "description": "Carrow felt something wrong about Thorn's third application — the compound didn't accelerate his integration, it changed the depth. Stone doesn't know this. Go to Research Division 9 and ask Carrow what she sensed.",
+  "objective": {
+    "type": "talk_to",
+    "npc_id": "carrow"
+  },
+  "gold_reward": 60,
+  "xp_reward": 150,
+  "giver_npc_id": "helen_stone",
+  "requires_quest_complete": "bam_what_thorn_knows",
+  "accept_text": "Stone is at the desk with Thorn's chart when you come in. She doesn't close it. 'I've been going over the third-application data for four months. The crystal growth rate doesn't match the model. It should be accelerating faster than this at the concentration he received.' She sets the chart down. 'Which means either my model is wrong, or the compound he received was different from what I authorized.' She looks at you. 'Division Nine. Carrow — the long-term subject, second year, conscious and communicative. She can feel the lattice at depth. If the compound's resonance signature was modified, Carrow would have noticed when the third application was performed.' She picks up a sealed note. 'Give her this. She'll know it's from me.' A pause. 'Ask her what she felt when the procedure happened. Not what she was told — what she felt.'",
+  "complete_text": "Stone reads Carrow's response twice. She sets it down with the careful slowness of someone not trusting their hands to move quickly. 'It didn't accelerate the growth. It changed the depth.' She says it quietly. 'Someone modified the concentration ratio to push the integration to a different layer. Not faster — different.' She is still for a long time. 'At that depth, the compound doesn't produce the Hollow condition. It produces — something else. Something closer to what I've been theorizing for two years as the end-state.' She meets your eyes. 'He's not dying the way I thought he was dying. He's changing in a direction I didn't know the compound could take.' She picks up the chart. 'I need to know if this can be reversed. I need to know if anyone has reversed this depth of integration and what it took.' She closes the chart. 'The Hall of Rememberers. The Ninth. If anyone has records of Elder integration reversal, it's in that archive.'"
+}

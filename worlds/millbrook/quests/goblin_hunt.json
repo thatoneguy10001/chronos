@@ -1,0 +1,15 @@
+{
+  "id": "goblin_hunt",
+  "name": "Goblin Hunt",
+  "description": "The goblin raids have grown too bold. Clear out three of the creatures from the dark forest road.",
+  "objective": {
+    "type": "kill_count",
+    "class_id": "goblin",
+    "count": 3
+  },
+  "gold_reward": 30,
+  "xp_reward": 75,
+  "giver_npc_id": "guild_master",
+  "accept_text": "Guild Master Hendricks nods curtly. 'Good. They've been terrorizing the forest road. Bring back proof of three kills — a tooth or a claw — and I'll see you paid.'",
+  "complete_text": "Quest complete: Goblin Hunt! The forest road is safer for your efforts."
+}

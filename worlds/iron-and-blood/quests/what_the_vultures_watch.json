@@ -1,0 +1,16 @@
+{
+  "id": "what_the_vultures_watch",
+  "name": "What the Vultures Watch",
+  "description": "Sister Adra has noticed the Iron-Beak Vultures circling the field hospital. They're not hunting — they're watching. Something drew them here, and she wants to know what. Thin the flock and see if the pattern changes.",
+  "objective": {
+    "type": "kill_count",
+    "class_id": "iron_beak_vulture",
+    "count": 3
+  },
+  "gold_reward": 35,
+  "xp_reward": 90,
+  "giver_npc_id": "sister_adra",
+  "requires_quest_complete": "find_the_patrol",
+  "accept_text": "Adra doesn't look up from the bandage she's wrapping. 'They started circling three days ago. One at first, then more. They don't swoop — they just watch.' She ties the knot and finally turns. 'I've been a field medic for eleven years. Vultures follow death. But they follow it after. These ones are ahead of it.' She hands you a flask of something medicinal. 'Three birds. If the others leave, we'll know they were following those three. If they don't —' She doesn't finish that sentence.",
+  "complete_text": "Adra is waiting when you return. She's been watching out the window. 'The rest of them scattered.' She exhales slowly. 'So it was those specific birds. Which means something specific sent them.' She turns away from the window. 'I had a soldier come back from the east last week. One of Thorn's people. He was alive. He was — functioning. But he was watching me the same way those birds were watching the hospital.' She's quiet for a moment. 'Three days he's been here. I haven't found anything wrong with him. That might be the most frightening thing I've ever not found.'"
+}

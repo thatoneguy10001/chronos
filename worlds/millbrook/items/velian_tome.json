@@ -1,0 +1,11 @@
+{
+  "id": "velian_tome",
+  "name": "Velian Tome",
+  "description": "An ancient spellbook in a script no living scholar can read — yet the knowledge flows into you as you hold it.",
+  "starting_room_id": "ancient_ruins",
+  "attributes": {
+    "use_effect": "boost_int",
+    "boost_amount": 8,
+    "consumable": true
+  }
+}

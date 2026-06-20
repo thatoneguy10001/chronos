@@ -1,0 +1,40 @@
+{
+  "id": "aetherian_rifleman",
+  "name": "Aetherian Rifleman",
+  "description": "Aetherian line soldiers carry crystal-discharge rifles — long-barreled weapons that fire concentrated Aetherium energy in short pulses. The armor is lighter than Terran plate, designed for mobility at altitude and in the high passes. They fight with the patience of people who have been defending a fixed line for three hundred years: measured, efficient, and very difficult to surprise. The crystals mounted at the collar are rank insignia that also function as close-range defensive emitters. Do not mistake the clean uniform for inexperience.",
+  "base_stats": {
+    "hp": 62,
+    "attack": 12,
+    "defense": 6,
+    "intelligence": 3
+  },
+  "abilities": [
+    {
+      "id": "crystal_bolt",
+      "name": "Crystal Bolt",
+      "description": "A charged pulse from the crystal-discharge rifle. Precise at range, slower to reload than a standard attack. When it hits, it hits hard.",
+      "base_damage": 16
+    },
+    {
+      "id": "suppressing_fire",
+      "name": "Suppressing Fire",
+      "description": "Three rapid low-charge pulses in sequence, forcing the target to cover. Less damage per shot, but the sustained pressure disrupts enemy timing.",
+      "base_damage": 5,
+      "hit_count": 3
+    }
+  ],
+  "passives": [],
+  "starting_equipment": [],
+  "xp_reward": 45,
+  "gold_reward": 14,
+  "tactics": [
+    {
+      "condition": { "type": "hp_below", "threshold": 0.4 },
+      "action": { "type": "heavy_attack", "multiplier": 1.3 }
+    },
+    {
+      "condition": { "type": "always" },
+      "action": { "type": "basic_attack" }
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "id": "communion_workshop",
+  "name": "The Communion Workshop",
+  "description": "You heard about this place in the Smog Market — not through an advertisement, because they don't advertise, but through the careful network of people who tell other people things they'd only tell someone they trusted, which is the only advertising that actually works in the Lower Rigs. The workshop is cleaner than you expected. Organized. The machines on the walls and tables are partly familiar — you recognize surgical tools, precision engineering instruments — and partly not, in ways that take a moment to identify: the modifications are the unfamiliar part. Everything here has been adapted for use on bodies, or adapted from bodies, and the line between the two is the point. People come here to replace what's failing with what won't fail. Organic parts with machined ones. The Ministry tolerates it because the converted are more efficient. The Machine Communion doesn't mention the Ministry's reasons. They have their own.",
+  "exits": {
+    "out": { "target_room_id": "smog_market", "label": "Smog Market" },
+    "left": { "target_room_id": "communion_sanctuary", "label": "Inner Room" }
+  },
+  "requirements": {}
+}

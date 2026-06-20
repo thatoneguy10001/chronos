@@ -1,0 +1,11 @@
+{
+  "id": "river",
+  "name": "Riverside",
+  "description": "The gentle river that gives Millbrook its life winds past mossy banks. James the fisherman tends his nets and lines. \"The river's been good to us. Fresh catch daily.\" The great dam looms east, the herbalist's grove lies south, and the town square is back to the north.",
+  "exits": {
+    "north": { "target_room_id": "town_square", "label": "Town Square" },
+    "east": { "target_room_id": "dam", "label": "The Dam" },
+    "south": { "target_room_id": "grove", "label": "The Grove" }
+  },
+  "requirements": {}
+}

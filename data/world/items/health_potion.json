@@ -1,0 +1,12 @@
+{
+  "id": "health_potion",
+  "name": "Health Potion",
+  "description": "A small vial of ruby-red liquid. Warmth spreads through you when you drink it.",
+  "starting_room_id": "tavern",
+  "takeable": true,
+  "attributes": {
+    "use_effect": "heal",
+    "heal_amount": 30,
+    "consumable": true
+  }
+}

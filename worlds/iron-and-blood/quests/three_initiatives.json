@@ -1,0 +1,15 @@
+{
+  "id": "three_initiatives",
+  "name": "Three Initiatives",
+  "description": "Vane's list shows three peace initiatives derailed with surgical precision by a group he calls The Silent. The preparations predated the initiatives being announced. Someone with access to both governments has been managing the war. Kira, watching from above, may have seen what the ground can't.",
+  "objective": {
+    "type": "talk_to",
+    "npc_id": "pilot_kira"
+  },
+  "gold_reward": 55,
+  "xp_reward": 140,
+  "giver_npc_id": "korr_vane",
+  "requires_quest_complete": "the_arris_thread",
+  "accept_text": "Vane produces the list without ceremony — three pages of close handwriting, dates and names and the specific type of wrong each incident represented. He sets it in front of you. 'Read it.' When you've read it: 'I have been working in the Ministry for twenty-two years. I am not naive about what governments do when they think no one is counting.' He traces one entry. 'The Armistice of Aeldren — the closest this war has come to a formal peace, two years ago. Collapsed because of a scandal involving forged correspondence attributed to the Terran delegation. The forgeries were analyzed afterward and the paper stock was traced to a Ministry sub-basement that was officially decommissioned fifteen years ago.' He looks up. 'The same sub-basement that issued the badge number we found in Morlak's records.' He folds the list and hands it to you. 'I need a wider perspective. Kira — the Skyborn pilot. What she's seen from altitude about patterns of movement in the Wastes. Whether the same preparation shows up in what she tracks.' He meets your eyes. 'And I need you to tell her that a Ministry official is asking for her help. Voluntarily. Without filing a report.'",
+  "complete_text": "Kira reads Vane's list from the navigation seat, not moving from it. She goes very still. She reads one section again. Then: 'The Aeldren initiative.' She says it in the flat voice of a pilot confirming a coordinate. 'I was tracking fleet movement that week. Three Aetherian courier ships repositioned forty-eight hours before the scandal broke. The repositioning order came from a Fleet administrative office that I later checked — the office code had been inactive for a decade.' She turns. 'Same format.' She stands. 'The reports I sent up my chain — the ones about the Grid pattern, the Wastes anomaly — classified in under twenty-four hours, twice. Serel's were classified on the same day.' She meets your eyes. 'We've been trying to understand whether they wanted to stop the Grid restart. They didn't. They classified the reports so we couldn't coordinate around them.' She picks up a navigation log. 'They're not preventing the Grid from restarting. They're preventing anyone from understanding that it's restarting until they've decided what to do about it.' A pause. 'Go back to Vane. Tell him Kira says: the Aeldren repositioning. He'll know what it means. And tell him I'm going to start encrypting my data and sending it through Vale, not the chain of command.'"
+}

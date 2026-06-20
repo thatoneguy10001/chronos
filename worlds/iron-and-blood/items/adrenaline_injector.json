@@ -1,0 +1,14 @@
+{
+  "id": "adrenaline_injector",
+  "name": "Adrenaline Injector",
+  "description": "A military-grade pneumatic auto-injector loaded with a concentrated adrenaline and stimulant compound. Slap it against your thigh, pull the trigger. You'll feel invincible for about three turns. The crash is your problem.",
+  "starting_room_id": "fort_iron_gate",
+  "takeable": true,
+  "attributes": {
+    "use_effect": "buff",
+    "effect_kind": "attack_up",
+    "effect_amount": 5,
+    "effect_duration": 3
+  },
+  "tags": ["consumable", "stimulant"]
+}

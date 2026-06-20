@@ -1,0 +1,6 @@
+[workspace]
+members = [
+    "chronos-core",
+    "chronos-wasm",
+]
+resolver = "2"

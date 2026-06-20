@@ -1,0 +1,10 @@
+{
+  "id": "southern_shelf",
+  "name": "The Southern Shelf",
+  "description": "The cliff drops cleanly into water that is the specific dark blue of very deep, which is a different blue than shallow water in the way that a person who has been awake for three days has a different quality of presence than someone who is merely tired. You have been told there is nothing here. The official charts leave this section blank except for depth markings in increasingly alarming numbers. You are standing at the edge of one of those blank sections and looking down into water that is several hundred meters deep in the near distance and gets deeper with a rapidity that suggests the bottom of the ocean was here first and the ocean filled in around it. Someone else stood here not long ago — there are boot marks in the clay at the cliff's edge, worn equipment straps discarded in a pile, a dive kit bag empty and turned inside out to drain. A dive kit bag that matches the manifest from the Greasewater port ledger exactly. He stood here. He looked down. He went.",
+  "exits": {
+    "north": { "target_room_id": "greasewater_docks", "label": "Greasewater (long journey)" },
+    "down": { "target_room_id": "sunken_city_entrance", "label": "Dive (requires equipment)" }
+  },
+  "requirements": {}
+}

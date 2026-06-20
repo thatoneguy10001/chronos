@@ -1,0 +1,15 @@
+{
+  "id": "brother_kells_warning",
+  "name": "Brother Kell's Warning",
+  "description": "Abbot Solan says Brother Kell left the monastery three days ago and hasn't returned. Kell has spent years studying the Lazarus situation through the Elder People texts, and Solan believes he's gone to the maintenance tunnels to do something about it. Find him before he does something irreversible.",
+  "objective": {
+    "type": "talk_to",
+    "npc_id": "brother_kell"
+  },
+  "gold_reward": 45,
+  "xp_reward": 110,
+  "giver_npc_id": "abbot_solan",
+  "requires_quest_complete": "the_third_application",
+  "accept_text": "Solan's hands are folded in his lap. His knuckles are white. 'Kell has been my most careful student for fifteen years. Patient, thorough — he reads a primary source the way a surgeon reads a wound. No assumptions, no shortcuts.' He pauses. 'Three days ago he came to me and said the Elder People records described only one way this ends, and he intended to be more than a witness to it. He went to the maintenance tunnels.' The old man's voice doesn't waver, but something behind it does. 'I have read those same records. I know what conclusion he reached.' He looks at you. 'He is a good man. Good men do irreversible things when they believe patience has run out. Find him. He will listen to someone who has been in the ruins, who has seen what came back. He will not listen to me — I am the one who taught him patience.'",
+  "complete_text": "Kell is in the tunnels — not hiding, not agitated. He's sitting on a crate in front of the Lazarus facility entrance, reading. He looks up when you arrive with the specific alertness of someone who has been tracking sounds for days. 'The Abbot sent you.' He closes the book. 'I'm not going to destroy it. I considered it.' He says this without drama. 'I came to understand it first. You can't properly stop something without understanding what you're stopping — the Elder People's mistake wasn't that they succeeded. It was that they succeeded and didn't record the mechanism.' He stands. 'There's an armored subject in these tunnels. It's been here for weeks and it's different from the wanderers — it has a pattern. It knows I'm here and hasn't attacked. It's guarding something, or waiting for something.' He looks at the corridor. 'I need to know which. Someone needs to clear it first.'"
+}

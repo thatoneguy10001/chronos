@@ -1,0 +1,16 @@
+{
+  "id": "ah_the_watcher",
+  "name": "The Watcher",
+  "description": "Three nights in a row, Lena has observed something at the edge of the Armistice ground that isn't fighting Abominations and isn't from either side's medic corps. She wants to compare what you've seen with what she's noted. Return to the Armistice ground after dusk.",
+  "objective": {
+    "type": "talk_to",
+    "npc_id": "lena_voss"
+  },
+  "gold_reward": 50,
+  "xp_reward": 125,
+  "requires_night": true,
+  "giver_npc_id": "lena_voss",
+  "requires_quest_complete": "ah_body_between",
+  "accept_text": "She shows you the notebook page without preamble. Three nights of entries — times, positions, movement descriptions. 'I noticed it first four nights ago. Present at the start of the Armistice, gone before dawn. Doesn't engage the Abominations. Doesn't acknowledge either side.' She traces the marked positions. 'The movement isn't random. It's following a route between two specific points, always the same two points, and then it disappears.' She closes the book. 'I've been watching it watch us. I'd like to know what you've noticed from the Terran side.'",
+  "complete_text": "You compare notes. What she's observed from the Aetherian approach and what you've noticed from yours describes the same figure moving between the same two points — which means it's moving through both sides' observation zones simultaneously, unhidden, unbothered by being seen. 'It doesn't know about the Armistice,' she says finally. 'Or it doesn't care about it. Both sides stop because of an agreement that's three hundred years old. This thing moves the same way regardless.' She pauses. 'Seven-night cycle. That means it was here before I started watching, and it's on a schedule that predates anything either of us established.' She looks at the dark. 'I think it's using the ceasefire the same way I use it. As a window.'"
+}

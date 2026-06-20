@@ -1,0 +1,12 @@
+{
+  "id": "iron_tonic",
+  "name": "Iron Tonic",
+  "description": "A thick grey brew sold by travelling merchants. Drinking it hardens your skin like armor.",
+  "starting_room_id": "market",
+  "takeable": true,
+  "attributes": {
+    "use_effect": "boost_def",
+    "boost_amount": 4,
+    "consumable": true
+  }
+}

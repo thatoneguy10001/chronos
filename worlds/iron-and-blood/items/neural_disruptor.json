@@ -1,0 +1,11 @@
+{
+  "id": "neural_disruptor",
+  "name": "Neural Disruptor Compound [T]",
+  "description": "A vial of concentrated chemical compound developed by Director Stone's research team under Project Lazarus — specifically, its containment division. When injected or administered to a Lazarus Subject, it disrupts the animating compound's interaction with the host's crystalline neural lattice. Against living tissue, it functions as a high-potency stimulant with a significant healing effect. Against the Lazarus-animated: considerably more devastating. Restores 45 HP.",
+  "takeable": true,
+  "attributes": {
+    "use_effect": "heal",
+    "heal_amount": 45
+  },
+  "tags": ["consumable", "medical", "anti-lazarus", "terra"]
+}

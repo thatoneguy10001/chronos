@@ -1,0 +1,13 @@
+{
+  "id": "hive_gate_district",
+  "name": "Hive Gate District",
+  "description": "Three hundred kilometers of wasteland road, and at the end of it: the city. The gate is thirty tons of reinforced steel on hydraulics, cycling open every forty minutes to admit the convoys, and you watch it open and close twice while you're standing here. It takes exactly the same amount of time each cycle. The soldiers check exactly the same things in exactly the same order. The air smells of coal smoke before the gate is even fully open. You can hear the city before you see it — a low industrial roar, constant, the sound of something so large it has stopped noticing it is making noise.",
+  "exits": {
+    "east": { "target_room_id": "fort_iron_gate", "label": "Road to Fort Iron" },
+    "north": { "target_room_id": "smog_market", "label": "Smog Market" },
+    "south": { "target_room_id": "lower_rigs", "label": "Lower Rigs" },
+    "west": { "target_room_id": "hive_mid_levels", "label": "Mid-Levels" },
+    "road": { "target_room_id": "ironhaven", "label": "Western Road (to Ironhaven and beyond)" }
+  },
+  "requirements": {}
+}

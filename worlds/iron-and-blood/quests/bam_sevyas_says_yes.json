@@ -1,0 +1,15 @@
+{
+  "id": "bam_sevyas_says_yes",
+  "name": "Sevyas Says Yes",
+  "description": "Stone needs a tissue sample from Sevyas. He has to consent. Go ask him.",
+  "objective": {
+    "type": "talk_to",
+    "npc_id": "corporal_sevyas"
+  },
+  "gold_reward": 30,
+  "xp_reward": 80,
+  "giver_npc_id": "helen_stone",
+  "requires_quest_complete": "bam_what_she_dreamed",
+  "accept_text": "She doesn't soften it. 'A small sample. Tissue, not blood — the compound behaves differently in different matrices. He'll feel it but it won't harm him. Or what's left of him.' She stops. 'I'm sorry. That came out wrong.' She looks at her hands. 'Ask him clearly. Explain what it's for. Don't tell him it might help him — I don't know yet if that's true. Tell him it might help us understand what happened to the patrol. That part I can promise.'",
+  "complete_text": "He listens without interrupting. When you finish he's quiet for a moment — not considering, you realize, but checking himself, the way he checks all his answers now, looking for the feeling that should accompany the decision. 'Yes,' he says. 'You need to know what I am now.' A pause. 'So do I.' He holds out his arm without being asked. He doesn't look away. He's the bravest person in the room and he probably doesn't know it."
+}

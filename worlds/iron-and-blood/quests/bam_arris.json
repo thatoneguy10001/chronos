@@ -1,0 +1,15 @@
+{
+  "id": "bam_arris",
+  "name": "Arris",
+  "description": "Sevyas keeps saying a name — Arris. Adra found a gap in the patrol roster three days before the mission: a name removed, not crossed out. Talk to Sevyas about who Arris was.",
+  "objective": {
+    "type": "talk_to",
+    "npc_id": "corporal_sevyas"
+  },
+  "gold_reward": 40,
+  "xp_reward": 100,
+  "giver_npc_id": "sister_adra",
+  "requires_quest_complete": "bam_high_ground",
+  "accept_text": "She spreads a roster on the table — a real paper one, ink and creases. 'Sevyas keeps saying that name. Arris. I looked through the intake records. Nobody named Arris came back with the patrol. Nobody named Arris is listed as killed in action.' She points to a gap, three names down from Sevyas. 'There's a space here. The name was removed. Not crossed out, not listed as transferred — removed. Three days before the patrol went out.' She slides the diary toward you. 'Ask him about Arris. Not about what happened. Just about who Arris was.'",
+  "complete_text": "She sits when you come back. Just sits. 'He knows and he doesn't know. Both at the same time.' She straightens a blanket on an empty cot. 'That's the worst kind of knowing.'"
+}

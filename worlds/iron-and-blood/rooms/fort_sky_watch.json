@@ -1,0 +1,9 @@
+{
+  "id": "fort_sky_watch",
+  "name": "Fort Sky-Watch",
+  "description": "The Aetherian equivalent of Fort Iron, which means it is nothing like Fort Iron. Where Fort Iron is buried in the mountain, Sky-Watch is mounted on it — a series of platforms and bridges spanning an outcropping that catches the wind in all four directions simultaneously, which the Aetherian engineers designed in because the wind-turbines in the struts charge the crystal batteries and the crystal batteries run everything. The result is a fortress that sounds like the inside of a very organized storm. The soldiers here don't notice it anymore. You do. You also notice that the defensive formations assume an enemy approaching from below — every weapon emplacement, every sight-line, aims down and out rather than across. Fort Sky-Watch was built to defend against people climbing toward it, which means the Aetherian strategic doctrine assumes that if someone gets to these heights, they're coming from below. The Terran equivalent, you think, assumes they're coming from across. Two sides that have been fighting each other for three hundred years and are still building fortresses that face the wrong direction.",
+  "exits": {
+    "south": { "target_room_id": "aetherian_trench", "label": "Trench Line" }
+  },
+  "requirements": {}
+}

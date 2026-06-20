@@ -1,0 +1,85 @@
+{
+  "id": "korr_vane",
+  "name": "High Minister Korr Vane",
+  "greeting": "Tall, gaunt, pale gray eyes that inventory you in the first second and dismiss nothing. He wears plain gray Ministry robes — no insignia except a single iron pin at the collar. He does not extend his hand. 'Korr Vane,' he says, as if that answers every question you might have. 'The Ministry does not make a habit of speaking to people directly. But the situation at Fort Iron has grown complicated, and the official channels move slowly. I understand you have been effective.' He lets the silence do the work that other people fill with smiling. 'I'd like to discuss several matters of mutual interest.'",
+  "dialogue": [
+    {
+      "keyword": "lazarus",
+      "prompt": "Project Lazarus",
+      "response": "Something passes behind his eyes — not discomfort, exactly. Calculation. 'Project Lazarus is a classified research initiative under direct Ministry authority. What I will tell you is this: there are elements within that program operating outside its sanctioned parameters. The dead that have been walking in the Gray Wastes — that is not the project's authorized outcome.' A pause. 'I would like that problem corrected before it becomes ungovernable.'"
+    },
+    {
+      "keyword": "ministry",
+      "prompt": "the Iron Ministry",
+      "response": "'The Ministry is necessary. That is the beginning and end of my position on the subject. I grew up in the Lower Rigs. I saw what happens when the system fails — starvation, riots, bodies in the corridors. The Ministry prevents that. What it costs to prevent that is a calculation I make every day.' He looks at you evenly. 'You may disagree. Many people do. They have that luxury because the Ministry has kept them alive to have opinions.'"
+    },
+    {
+      "keyword": "war",
+      "prompt": "the war",
+      "response": "'330 years. I was assigned to the Under-District in my thirties and studied the records from the beginning. Neither side has come closer to winning than they were in the first year. We have been very efficient at killing each other and very inefficient at everything else.' He pauses. 'Project Lazarus was designed to change that arithmetic. It may have created a different problem.'"
+    },
+    {
+      "keyword": "hive",
+      "prompt": "the Hive",
+      "response": "'Three layers, three populations, three entirely different cities operating in close proximity with no real understanding of each other. The Spires believe the Mid-Levels are content because they produce. The Mid-Levels believe the Lower Rigs are manageable because they are quiet. The Lower Rigs know exactly what both groups think and have decided views on the subject.' He looks out the window toward the smog layer below. 'I grew up down there. I remember what they know.'"
+    },
+    {
+      "keyword": "thorn",
+      "prompt": "Commander Thorn",
+      "response": "'A capable officer. Keeps Fort Iron functioning despite conditions that have broken better-resourced posts. He also has views about the Armistice that are... not Ministry-approved.' His expression does not change. 'I find his views inconvenient. I also find them understandable. This is not information I share widely.'"
+    },
+    {
+      "keyword": "kehl",
+      "prompt": "Sergeant Kehl's intake file",
+      "response": "He looks at the file for a long time without touching it. Then he sits down. 'Yes,' he says. 'I authorized the third application.' He doesn't qualify it. 'Kehl came to me fourteen months ago. Second application, accelerating crystal growth — he had two years at most before it reached his heart. He'd read Stone's original research notes. He believed a higher-concentration third dose might push the compound past integration threshold and trigger cellular regression.' A pause. 'Stone said no. She said it would accelerate instead of reverse. She was almost certainly right.' He looks at the window. 'Kehl said he understood the risk. He said he'd rather try and fail than not try. He asked me to authorize it informally because official channels would never allow a voluntary third-stage trial.' He's quiet. 'I said yes. I needed data on tertiary applications. Kehl needed a chance that probably didn't exist.' He turns back. 'I do not regret the decision. I regret the outcome. Those are not the same thing.' He pauses. 'Where is he now?'",
+      "requires_quest_complete": "kehl_intake_file",
+      "disposition_delta": 8
+    },
+    {
+      "keyword": "deceased",
+      "prompt": "an official listed as deceased",
+      "response": "He takes the badge number and opens the Ministry personnel ledger — the physical one, not the filed copies. He finds the entry. Reads the name. Reads the death certificate date. He is quiet for a moment with the particular quality of a man whose model of a situation has just broken. He checks a secondary record. 'The signing authority on this death certificate,' he says. 'This office code.' He turns the ledger so you can see it. 'Ministry format. Ministry stamps. The designation is correct syntactically.' He sets the ledger down. 'But that office does not exist. Not in the current organizational chart, not in any chart I've reviewed in eleven years of Ministry service.' He looks at you. 'Where did you come across this badge number?' The question is genuine. He doesn't know yet what he's holding. 'I'm going to make inquiries about this. Quietly. That is not a figure of speech — I mean I will not file anything, I will not involve anyone above my current rank, and I will tell you what I find before I tell anyone else.' A pause. 'How long has this person been making visits?'",
+      "requires_quest_complete": "thirty_years_of_watching",
+      "disposition_delta": 5
+    },
+    {
+      "keyword": "stone",
+      "prompt": "Director Stone",
+      "response": "'Stone is the most intelligent person I have worked with in thirty years of Ministry service.' He says this without warmth but also without resentment. 'She is also the most principled, which in my experience is frequently inconvenient and occasionally essential.' He is quiet for a moment. 'She told me, when I authorized the compound's deployment, that I did not understand what I was authorizing. I told her the decision was above her clearance to advise on.' He looks at something outside your field of view. 'She was right and I was technically correct. Those things are not the same thing. I have had eight months to understand the difference.'",
+      "disposition_delta": 5
+    },
+    {
+      "keyword": "above",
+      "prompt": "who sits above your clearance",
+      "response": "He is still for a moment that carries a very specific quality — the stillness of a man deciding how much he trusts you with something he has not said to anyone else. 'The Lazarus program has, for most of its existence, operated within a structure I understood. Stone reports to me. I report to the High Council. Standard governance.' A pause. 'Fourteen months ago, I began to find authorization signatures on Lazarus documents that did not correspond to any active Ministry office. The syntax is correct. The stamps are real. The office they reference does not exist in any chart I can access.' He meets your eyes. 'I am a man who has built his career on the principle that the Ministry's arithmetic is sound. I have been looking at numbers that don't add up for over a year.' His voice does not change. 'I would like to know what you know about where those authorizations originate.'",
+      "requires_topic": "lazarus",
+      "disposition_delta": 7
+    },
+    {
+      "keyword": "silent",
+      "prompt": "the organization behind the authorization codes",
+      "response": "'I have a name.' He says it carefully. 'Not for them — they have not named themselves to me. A name for what I believe them to be.' He opens a ledger, not the personnel one — a different ledger, smaller, with no Ministry crest. 'An organization that predates my Ministry service, possibly predates the Ministry itself, that has maintained the war's continuity at critical junctures.' He turns to a page with three columns: date, event, method. Three rows. 'The peace initiative of year forty-three, stopped by an incident. The Ceasefire Accord of year eighty-one, stopped by an incident. The joint-command proposal of year two-twelve, stopped by an incident.' He closes the ledger. 'In each case, the incident was authorized by the same syntactically-correct-but-nonexistent office. I have the authorization signatures for all three.' He meets your eyes. 'This organization has been operating inside the Ministry for longer than I have existed. Possibly longer than anyone I know has existed.' A pause. 'I have been a loyal Ministry man for thirty years. I have believed in the Ministry's arithmetic. I am now looking at the possibility that the Ministry's arithmetic has been audited from outside for the entire period I have considered it mine to run.' He is very still. 'I do not have a next step. I am telling you this because you are asking the right questions and I have been waiting to tell someone who was.'",
+      "requires_topic": "above",
+      "disposition_delta": 10
+    },
+    {
+      "keyword": "transmitted",
+      "prompt": "what happened at two minutes past midnight",
+      "response": "He looks different. Not dramatically — Vane's face doesn't do dramatic. But he's standing near the window instead of at the desk, and the small ledger with no Ministry crest is in his breast pocket instead of in the drawer, and the ashtray is empty for the first time you've seen it. 'Both channels received simultaneously,' he says. 'Kira's relay hit the Aetherian intelligence network at the same moment my filing reached the Ministry archive.' He pauses. 'The classification response came down seventeen minutes later. The fastest classification I've ever seen. Which tells you the category was already prepared, which tells you someone was monitoring for this type of document and had the suppression mechanism ready.' He is quiet. 'It was seventeen minutes too slow.' He turns from the window. 'The Ministry archivists who received the filing — three of them, standard distribution — they are competent people who understand what they read. One of them sent a personal copy to a journalist she trusts before the classification arrived. I did not suggest this. I did not authorize it. I was not surprised.' He goes back to the desk but doesn't sit. 'I will probably lose this position within the week. The authorization investigation will trace back to this desk. I've accepted that.' He picks up a pen, sets it down. 'I am sixty-one years old. I have been a Ministry man since I was twenty. I have believed in the Ministry's purpose — genuinely believed, not performed the belief — for my entire career.' He picks up the ledger from his pocket, opens it, looks at the four lines. 'What I did last night is not a repudiation of that. It is — a correction. From inside.' He closes the ledger. 'The Ministry's arithmetic was being audited from outside. I re-audited it from inside and found the same errors.' He puts the ledger away. 'I would like you to know that distinction. If you ever tell anyone what happened here, I want the distinction in the telling.' He nods toward the door. 'You should probably go. The next few days are going to be complicated and the door should not be frequently opened from the outside.'",
+      "requires_quest_complete": "both_governments_at_once",
+      "disposition_delta": 12
+    },
+    {
+      "keyword": "patrol",
+      "prompt": "the Lazarus patrol threat",
+      "response": "'There are active Lazarus Subjects operating in the Gray Wastes. They originated from the research program but they are no longer under control. They are killing Terran soldiers. This is a problem I need solved.' He places a folded document on the table — patrol coordinates, marked in red. 'Five confirmed subjects in your operational area. I need them neutralized. The work will be compensated appropriately. Type: accept lazarus_patrol'"
+    },
+    {
+      "keyword": "coherence",
+      "prompt": "what full Grid coherence means for your operations and what you do next",
+      "response": "He looks at you with the assessment that he always looks at you with, and then something shifts in it -- not warmth, nothing so uncalculated as that, but a recalibration. He sets down the file he was carrying and does not pick it up again. 'What it means for my operations.' He says it slowly. 'For twenty years I have known things that other people did not know, and that knowledge differential was the operational resource. The Grid's true purpose. The Hollow's actual nature. The three-attempt framework. Project 1241 and its origin in pre-Grid storage technology.' He looks at the file on the desk. 'Approximately fourteen hundred people accepted the Foundation offer in the first forty-eight hours, based on my current count. The number is growing.' He is quiet. 'Every one of them now has access to the distributed resonance network. The offer was designed with a consent framework specifically to prevent coercive information access. It is not surveillance.' He pauses. 'But the era of singular information advantage is ending. The network is not a tool of control. It was specifically designed not to be.' He is very still. 'I accepted the offer on the morning of the Day.' He says it without drama. 'Before the first wave had propagated past the Core. Before I knew how many others would accept.' He meets your eyes. 'I have spent twenty years knowing things other people did not know and using that knowledge to position myself advantageously. I wanted to know what it would be like to know something that was also available to everyone else.' He pauses. 'It is different. I am still determining whether the difference is a loss or something else.' He picks up the file. 'What I do next: the same work, with different tools. The institutional knowledge of twenty years does not evaporate. What I knew about the Grid, the Hollow, the three attempts -- that is now publicly knowable. What I know about people, institutions, and how decisions get made is not.' He looks at you. 'That, apparently, is what I am.'",
+      "requires_quest_complete": "the_day_arrives",
+      "disposition_delta": 15
+    }
+  ]
+}

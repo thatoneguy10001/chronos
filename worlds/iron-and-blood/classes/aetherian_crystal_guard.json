@@ -1,0 +1,42 @@
+{
+  "id": "aetherian_crystal_guard",
+  "name": "Crystal Guard",
+  "description": "The armor is the point. Crystal-composite plate — not standard Aetherium, a denser formulation developed for the guard corps, grown in controlled conditions over eighteen months per set. The discharge rifle is secondary; the Crystal Guard is designed around the concept that the best offense is being essentially impossible to kill while the person next to you does the shooting. The shield is the same crystal-composite, larger than seems practical, and somehow the Guard moves in it without visible effort, which suggests a degree of conditioning that is itself alarming.",
+  "base_stats": {
+    "hp": 100,
+    "attack": 10,
+    "defense": 15,
+    "intelligence": 4
+  },
+  "abilities": [
+    {
+      "id": "crystal_bastion",
+      "name": "Crystal Bastion",
+      "description": "Locks the composite shield into a braced position and lets the crystal lattice reinforce it through active resonance. Defense increases dramatically for 2 turns. Everything the enemy hits goes into the shield and the shield remembers it.",
+      "base_damage": 0,
+      "applies_effect": "defense_up",
+      "effect_damage": 8,
+      "effect_duration": 2
+    },
+    {
+      "id": "guard_sweep",
+      "name": "Guard Sweep",
+      "description": "A low shield sweep to disrupt the target's footing followed by a short-range discharge at point-blank range while they're off-balance.",
+      "base_damage": 14
+    }
+  ],
+  "passives": ["heavy_plate"],
+  "starting_equipment": [],
+  "xp_reward": 72,
+  "gold_reward": 20,
+  "tactics": [
+    {
+      "condition": { "type": "hp_below", "threshold": 0.5 },
+      "action": { "type": "heavy_attack", "multiplier": 1.3 }
+    },
+    {
+      "condition": { "type": "always" },
+      "action": { "type": "basic_attack" }
+    }
+  ]
+}

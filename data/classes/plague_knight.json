@@ -1,0 +1,37 @@
+{
+  "id": "plague_knight",
+  "name": "Plague Knight",
+  "description": "A venomous warrior who poisons foes and endures through attrition. High attack and intelligence; fragile but lethal over time.",
+  "base_stats": {
+    "hp": 100,
+    "attack": 11,
+    "defense": 6,
+    "intelligence": 5
+  },
+  "abilities": [
+    {
+      "id": "septic_strike",
+      "name": "Septic Strike",
+      "description": "A venomous blade strike that deals damage and inflicts bleed.",
+      "base_damage": 5,
+      "applies_effect": "bleed",
+      "effect_damage": 2,
+      "effect_duration": 4
+    },
+    {
+      "id": "poison_cloud",
+      "name": "Poison Cloud",
+      "description": "Release a billowing cloud of toxic vapor that ignores enemy defense.",
+      "base_damage": 8
+    },
+    {
+      "id": "toxic_aura",
+      "name": "Toxic Aura",
+      "description": "Emanate a poisonous field that boosts your resistance to damage. (Defense buff not yet wired.)",
+      "base_damage": 0
+    }
+  ],
+  "passives": ["poison_mastery"],
+  "starting_equipment": ["leather_armor", "poison_dagger", "tattered_cloak"],
+  "xp_reward": 0
+}

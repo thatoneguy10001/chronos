@@ -1,0 +1,12 @@
+{
+  "id": "bone_fields",
+  "name": "The Bone Fields",
+  "description": "You keep doing the math even though you know the answer. Three hundred and thirty years of war. The battle here lasted three days. The dead were never buried — too many, the ground already poisoned, and then there weren't enough soldiers left on either side to do it anyway. So they stayed where they fell, and the years cleaned the bones but didn't move them, and now the place is a record: boots still on feet, orders still in breast pockets, rifles rusted into the ground at the angle they were dropped. At dusk, the bones glow. Chemical reaction with the corruption, the rational part of you says. It says it a little too quickly, and too often, for you to be fully convinced it believes itself.",
+  "exits": {
+    "north": { "target_room_id": "no_mans_land", "label": "No Man's Land" },
+    "west": { "target_room_id": "iron_monastery", "label": "Monastery Path" },
+    "south": { "target_room_id": "crater_of_bones", "label": "Deeper Wastes" },
+    "down": { "target_room_id": "deep_iron_descent", "label": "Fissure (leads deep)" }
+  },
+  "requirements": {}
+}

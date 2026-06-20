@@ -1,0 +1,15 @@
+{
+  "id": "the_capacitor_ledger",
+  "name": "The Capacitor Ledger",
+  "description": "Moss mentioned that the authorization signature on the Lazarus supply chain changed eight months ago. But his records go back three years — and buried in the oldest entries is something else. A batch of SCAMP capacitors, triple-sealed, marked for delivery to a location that isn't in the maintenance manifest.",
+  "objective": {
+    "type": "reach_room",
+    "room_id": "maintenance_tunnels"
+  },
+  "gold_reward": 45,
+  "xp_reward": 110,
+  "giver_npc_id": "gideon_moss",
+  "requires_quest_complete": "what_moss_moves",
+  "accept_text": "He's flipping back through the ledger before you even ask. He already found it — you can tell because he has the particular stillness of someone who found something they weren't looking for and has been deciding whether to mention it. 'Three years ago. When I started moving Lazarus components.' He opens the ledger to a flagged page. 'First batch. Routine preservative compound — except it's not, because routine preservative compound doesn't come in triple-sealed canisters with blast-suppression labeling.' He runs his finger down the column. 'The destination code doesn't match anything in the maintenance manifest for Windward Pass. It matches a code I found in an old Lower Rigs archive that refers to — and this is where it gets interesting —' He looks up. 'A project called SCAMP. Marked complete. Date of completion: approximately three hundred years ago.' He closes the ledger. 'The delivery was made to a tunnel access point. Not the main tunnels — a secondary shaft that appears on pre-war maps and doesn't appear on current ones.' He holds your gaze. 'Someone in the maintenance tunnels has been maintaining equipment from a three-hundred-year-old weapons program. I want to know what's still running.'",
+  "complete_text": "The secondary shaft is behind a Ministry storage installation that's been accumulating institutional forgetting for three generations — the lock works but nobody remembers changing it. Inside: not a weapons cache. Older than that. Records — physical records, pre-digitization, in an archival format that required someone maintaining them deliberately for three centuries. Twelve names on the cover of the primary log, under a project designation that reads simply SCAMP. Below the names: a notation in careful script that reads 'The Gray Wastes are our signature. We are sorry. We did not understand what we were asked to build.' Someone has been keeping these records as if waiting for someone to come and read them. The dust is three hundred years old. The lock on the inner case is not."
+}

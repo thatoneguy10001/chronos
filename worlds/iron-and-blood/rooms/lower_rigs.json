@@ -1,0 +1,13 @@
+{
+  "id": "lower_rigs",
+  "name": "Lower Rigs",
+  "description": "The bottom of the world, which turns out to have children in it. Their eyes are very old. You learn the ceiling height by scraping your helmet, which is how everyone learns it, which is something you think about. Workers in gray move between shifts with the efficiency of people who lost the concept of choice about their schedule so long ago that the concept no longer presents itself as missing. The pipes burst regularly, patched with whatever was available, patched again over the patches. Ministry informants are everywhere; everyone knows it; everyone speaks in careful half-sentences anyway; and somehow the conversations that need to happen still happen, which tells you something about how hard it is to actually stop people from talking to each other.",
+  "exits": {
+    "north": { "target_room_id": "hive_gate_district", "label": "Gate District" },
+    "east": { "target_room_id": "maintenance_tunnels", "label": "Maintenance Access" },
+    "up": { "target_room_id": "hive_mid_levels", "label": "Mid-Levels" },
+    "west": { "target_room_id": "cobbles_corner", "label": "Dead-End Corridor" },
+    "down": { "target_room_id": "recruitment_pits", "label": "Assessment Facility" }
+  },
+  "requirements": {}
+}

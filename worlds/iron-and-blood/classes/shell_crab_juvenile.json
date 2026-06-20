@@ -1,0 +1,34 @@
+{
+  "id": "shell_crab_juvenile",
+  "name": "Juvenile Rock-Shell",
+  "description": "Not yet armored in the full shell — the crystal growth is patchy, the underlying chitin still visible beneath it. It compensates for the gap in protection with speed, which is not reassuring given how fast the adults already are. The claws are disproportionately large for the body, which means it's building toward something. It is currently between what it was and what it will be, and what it is right now is faster than it should be and angrier than its size warrants.",
+  "base_stats": {
+    "hp": 34,
+    "attack": 11,
+    "defense": 3,
+    "intelligence": 0
+  },
+  "abilities": [
+    {
+      "id": "scrabble_rush",
+      "name": "Scrabble Rush",
+      "description": "Closes distance in a chaotic burst of movement, claw strikes overlapping — two, three, four hits in rapid succession. Each one is lighter than an adult's, but the sum of them is the problem.",
+      "base_damage": 4,
+      "hit_count": 3
+    }
+  ],
+  "passives": [],
+  "starting_equipment": [],
+  "xp_reward": 25,
+  "gold_reward": 7,
+  "tactics": [
+    {
+      "condition": { "type": "hp_below", "threshold": 0.5 },
+      "action": { "type": "heavy_attack", "multiplier": 1.4 }
+    },
+    {
+      "condition": { "type": "always" },
+      "action": { "type": "basic_attack" }
+    }
+  ]
+}

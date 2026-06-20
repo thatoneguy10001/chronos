@@ -1,0 +1,67 @@
+{
+  "id": "lena_voss",
+  "name": "Lena Voss",
+  "initial_disposition": 55,
+  "greeting": "She's already there when you arrive â€” Aetherian medic's kit, same worn-down look as Adra, same precise hands. She looks at you the way someone looks at a mirror held at a slight angle. 'Voss,' she says. Not unfriendly. Assessment. 'You're the one she mentioned.' She doesn't specify who. 'I've been treating three of your soldiers. The ones that came back from wherever they went. I have questions. I assume you do too.'",
+  "dialogue": [
+    {
+      "keyword": "soldiers",
+      "prompt": "the returned soldiers",
+      "response": "'Three of them. Different from yours, or â€” maybe not different. Same pattern, different surface.' She opens a small notebook. 'They respond to Aetherian commands as readily as Terran ones. They remember both languages equally. I asked one of them to recite his serial number and he gave me both. Terran format, Aetherian format. Perfectly.' She closes the notebook. 'They're not confused about what they are. They're confused about who they were. That distinction is important and I don't think either of our governments understands it.'",
+      "disposition_delta": 6
+    },
+    {
+      "keyword": "adra",
+      "prompt": "Sister Adra",
+      "response": "'She's careful,' Lena says. 'She doesn't say things she hasn't verified. When she sent word that you were coming, she said you were someone worth talking to.' She pauses. 'She also said to tell you she's running low on field dressing and that the Ministry shipment is three weeks late. Which she told me to mention because she said you're better at finding things than she is at asking for them.' She almost smiles.",
+      "disposition_delta": 4
+    },
+    {
+      "keyword": "compound",
+      "prompt": "the Lazarus compound",
+      "response": "'We have a different name for it. Same effect.' She's quiet. 'Our program was smaller and we stopped it faster. Three months in, someone realized what the subjects were retaining wasn't just motor function. They were retaining â€” something else. Something that wasn't theirs originally.' She looks at the dark. 'Our program director called it contamination. I called it reception. We argued about the word for two weeks before command shut the whole project down.' She pauses. 'I don't think it's contamination. I think something is trying to reach through and it found a channel it could use.'",
+      "disposition_delta": 8,
+      "requires_quest_complete": "ah_medic_exchange"
+    },
+    {
+      "keyword": "watcher",
+      "prompt": "the watcher",
+      "response": "'Three nights running. Appears at the edge of the Armistice ground, between the two lines. Doesn't fight Abominations. Doesn't acknowledge either side. Moves between two specific points and then disappears before dawn.' She meets your eyes. 'I've been logging it for a week. The movement pattern is consistent â€” seven-night cycle. Which means it was here before I started watching, and it'll be here after.' She pauses. 'I don't think it's from either side. I think it's using the Armistice the same way I use it. As a window.'",
+      "disposition_delta": 8,
+      "requires_quest_complete": "ah_cooperative_hunt"
+    },
+    {
+      "keyword": "aetherian",
+      "prompt": "your side",
+      "response": "She considers for a moment. 'We have a name for the Armistice in our language that doesn't translate cleanly. It means something like â€” the hours when the war admits it's tired.' She looks at the ceasefire line. 'My commanding officer told me it was operationally convenient. That both sides needed the rest to keep fighting effectively.' She pauses. 'He wasn't wrong. That's the part that bothers me. He wasn't wrong and it was still the least honest thing I've ever heard a person say.'",
+      "disposition_delta": 5
+    },
+    {
+      "keyword": "anomaly",
+      "prompt": "the resonance anomaly eight months ago",
+      "response": "She opens a second notebook â€” separate from the first, this one with precise instrument readings rather than notes. 'I was here when it happened. Not at the Armistice ground â€” in the Forward Post, running a standard resonance check.' She turns to an entry that has been flagged with a red tab. 'Every instrument reading I had went off-scale simultaneously, at the same moment, in the same direction: northwest. Below the market.' She runs her finger down the numbers. 'Duration: four minutes and seventeen seconds. Then everything returned to baseline.' She closes the notebook. 'I reported it to Commander Serel. He told me the Aetherian fleet had registered it too â€” a resonance pulse visible at altitude, large enough to interfere with navigation instruments across a fifty-kilometer radius.' She pauses. 'Serel's been in correspondence with your side's records â€” apparently someone at the Terran Monastery registered it as a star-chart anomaly. The astronomer who was keeping the charts disappeared in the same week.' She meets your eyes. 'I don't know what caused a simultaneous ground-and-atmosphere resonance event of that scale with no visible seismic source. I have theories.' She looks at the northwest. 'My best theory is that something below the market went from inactive to active. Something very large.'",
+      "disposition_delta": 9
+    },
+    {
+      "keyword": "coordinates",
+      "prompt": "what you found in the border stone markings",
+      "response": "She reaches into her kit and removes a folded paper. 'I've been copying the marks the watcher leaves. Seven nights of them.' She unfolds it. 'Three nights ago I realized they weren't random â€” they're coordinates. Consistent reference points on both the Terran and Aetherian survey grids simultaneously.' She pauses. 'The location they point to doesn't appear on any map I have access to. It's below the Windward Pass, four hundred meters down, at a depth nothing should be at.' She holds out the paper. 'I think we're looking at the same place from different angles. I think that place wants to be found.'",
+      "disposition_delta": 10,
+      "requires_quest_complete": "ah_lena_knows"
+    },
+    {
+      "keyword": "offer",
+      "prompt": "what you decided when the Foundation offer came and what you are doing now at this site",
+      "response": "She looks at the ground -- the armistice ground, the specific patch of earth that has been the site of the ceasefire every night for three hundred years. 'I said yes.' She says it and then is quiet for a moment. 'I've been stationed here for fourteen months. The armistice ground changes you if you let it. You watch soldiers from both sides stop killing each other every night and start again every morning, and you understand something about what people are capable of that you can't understand from either side of the line alone.' She looks at the ground. 'The offer came and I heard it and I thought: yes. Because the thing the armistice ground has been trying to say for three hundred years is the same thing the offer was saying.' She pauses. 'What I'm doing here now: I'm documenting the ground. The coordinates I found in the border stone markings -- they were navigation points. Waypoints in a system the Elder People used to map the Grid's surface nodes.' She points at the ground. 'This is one of them. The armistice ground is directly above a Grid node. The ceasefire has been held here every night for three hundred years, on the surface above an Elder People resonance point.' She is quiet. 'I have been asking myself whether that's a coincidence. Whether whoever chose this ground three hundred years ago knew.' She looks at the stones. 'I think they knew. I think the armistice was held here because whoever established it felt something when they stood here that they couldn't name but responded to.' She pauses. 'The soldiers who have stood on this ground every night for three hundred years have been standing on a Grid node. Feeling something they couldn't name.' She looks at the ground. 'I am going to write this up. I am going to send it to the archive.'",
+      "requires_quest_complete": "the_day_arrives",
+      "disposition_delta": 15
+    },
+    {
+      "keyword": "ground",
+      "prompt": "what the archive confirmed about the site and what Solen Var means for the history of the armistice",
+      "response": "She is very still. You tell her everything the archive said. She does not interrupt. When you finish she is quiet for a long time. 'Solen Var.' She says the name. 'She is not in the transmission-origin group. She is not in the city. She survived the evacuation, or she tried to.' She looks at the ground. 'Three hundred and twelve years ago, she proposed this site to the Armistice Committee knowing what it was. Knowing that the resonance would do -- not what it has done, she couldn't have known that -- but something. That the ground would work differently than other ground.' She is quiet. 'The armistice has held for three hundred years. Every government that has tried to end it or revise it has run into an unexpected problem. Every soldier posted here comes back different -- not traumatized, just different. Like they saw something that the posted orders didn't prepare them for.' She looks at the boundary markers. 'The markers are Elder People survey stones. She placed them or had them placed. She defined this boundary using the infrastructure of the system she was part of, after the Cascade destroyed it.' She pauses. 'I have been standing on this ground for fourteen months not knowing what it was. Everything I felt here -- the specific quality of the ceasefire nights, the way both sides behave differently here than anywhere else on the front -- she planned that.' She looks at the archive direction, far south, underwater. 'I am going to write to the archive. I want to know everything in Solen Var's record. Not just the notation. Her full file.' She pauses. 'She designed something that outlasted her by three hundred years and kept working exactly as intended. I want to know who she was.'",
+      "requires_quest_complete": "lena_at_the_archive",
+      "disposition_delta": 18
+    }
+  ]
+}

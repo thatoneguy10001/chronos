@@ -1,0 +1,11 @@
+{
+  "id": "hive_command_spire",
+  "name": "Ministry Quarter",
+  "description": "The windows are real glass, and large, and they look out over the smog layer of the lower city as if it is a weather formation happening to a different altitude. The air up here is almost breathable. Almost. Ministry officials in tailored gray pass each other in the corridors with the nod of people who know each other's titles but not their names, which is exactly how the Ministry prefers it. Stone stands near the elevator bank with a schematic she is staring at with the specific focus of someone who is either solving a problem or has already solved it and doesn't like what the answer is. The officials who pass her give her slightly more room than they give each other. You're not sure if it's respect or the other thing.",
+  "exits": {
+    "west": { "target_room_id": "smog_market", "label": "Smog Market" },
+    "down": { "target_room_id": "under_district_entrance", "label": "Research Sub-Level" },
+    "north": { "target_room_id": "ministry_archive", "label": "Ministry Archive" }
+  },
+  "requirements": {}
+}

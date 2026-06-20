@@ -1,0 +1,9 @@
+{
+  "id": "tavern",
+  "name": "The Copper Mug",
+  "description": "Lamplight and laughter fill the common room. Brin the keeper leans across the bar with a knowing grin. \"Pull up a stool! What'll you have?\" Patrons trade rumors over their mugs — talk of threats in the woods, of bounties, of strangers passing through. The town square is back to the east.",
+  "exits": {
+    "east": { "target_room_id": "town_square", "label": "Town Square" }
+  },
+  "requirements": {}
+}

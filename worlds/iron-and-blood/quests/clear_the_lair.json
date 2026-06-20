@@ -1,0 +1,11 @@
+{
+  "id": "clear_the_lair",
+  "name": "Clear the Hollow",
+  "description": "Sister Adra's supply runners can't reach the eastern medical caches. A Rock-Shell Crab has claimed the hollow on the path south. Clear it.",
+  "objective": { "type": "kill_count", "class_id": "rock_shell_crab", "count": 1 },
+  "gold_reward": 25,
+  "xp_reward": 60,
+  "giver_npc_id": "sister_adra",
+  "accept_text": "Sister Adra keeps stitching while she speaks — she never stops moving. 'There's something nesting in a hollow south of the patrol site. My runners can't get the supply cache through while it's there. I've got soldiers bleeding out for lack of bandages and materials that are ten minutes away by foot if nothing were trying to kill them.' She finally looks up. 'Please.'",
+  "complete_text": "She actually pauses what she's doing. Puts down the needle. 'Thank you. I mean that.' She pays you without ceremony, then goes back to work. The wounded don't stop needing her just because one problem got solved."
+}

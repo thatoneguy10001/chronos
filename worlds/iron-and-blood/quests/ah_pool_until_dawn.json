@@ -1,0 +1,17 @@
+{
+  "id": "ah_pool_until_dawn",
+  "name": "Staying Until Dawn",
+  "description": "No objective. Just stay in the Armistice ground from dusk until the firing resumes. Lena will be there.",
+  "objective": {
+    "type": "reach_room",
+    "room_id": "armistice_ground"
+  },
+  "gold_reward": 0,
+  "xp_reward": 50,
+  "hope_reward": 2,
+  "requires_night": true,
+  "giver_npc_id": "lena_voss",
+  "requires_quest_complete": "ah_cooperative_hunt",
+  "accept_text": "She doesn't frame it as a request. She says it the way she says things that she's been thinking about for a while and has decided are simply true. 'I've been out here every night for two years. Before you. Alone, mostly — a few exchanges, some coordinated hunts, but mostly alone.' She looks at the ceasefire ground. 'I'd like company this time. The whole night. Until the firing starts again.' A pause. 'You don't have to talk. I don't always want to talk. I just want —' She stops. 'Same time tonight,' she says, which is how she asks for things.",
+  "complete_text": "You stay the whole night. There's not much to say and neither of you tries to say it. You fight two Abominations, drink from your respective canteens, sit on the border stone for a while in silence that is not uncomfortable. At some point she says: 'I've been counting the nights. Two years, most nights. That's seven hundred nights of the war admitting it's tired.' She doesn't say anything else for a long time. At dawn she stands and adjusts her kit. 'Same time tomorrow?' she says. You understand she is asking something larger than that. You also understand she knows you understand."
+}

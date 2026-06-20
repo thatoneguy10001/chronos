@@ -1,0 +1,67 @@
+{
+  "id": "captain_vale",
+  "name": "Captain Vale",
+  "initial_disposition": 45,
+  "greeting": "He's sitting by the fire on the Aetherian side of the cave, which is also the Terran side of the cave, which is the fire. Clean-shaven, which means he's either recently arrived or very disciplined — you have learned to read the pass in faces and you would say recently arrived. He looks at you the way Aetherians look at Terrans during the Armistice: the specific assessment of someone deciding whether to speak. He decides to. 'Vale,' he says. 'I come here most nights. There is a particular quality to this place.' He says it without apology. 'You've been outside the wire for a while. You can tell.'",
+  "dialogue": [
+    {
+      "keyword": "aetherian",
+      "prompt": "your side",
+      "response": "'We came from the sky, the history says, and we are going back to the sky.' He says it with the tone of someone quoting something they've heard too many times. 'What it doesn't say is that most of us have never left the ground. That most Aetherians are as scared of heights as anyone.' He watches the fire. 'The sky-cities are real — I was born on one. When I came down to fight in the pass I had to learn how to walk on ground that doesn't move. It took three weeks.' He pauses. 'I was embarrassed about this for a long time. I am less embarrassed now that I have met Terrans who were afraid of open sky.'",
+      "disposition_delta": 6
+    },
+    {
+      "keyword": "armistice",
+      "prompt": "the Armistice",
+      "response": "He is quiet for a moment. 'I have fought next to a Terran soldier who was in the middle of trying to kill me six hours earlier and will be in the middle of trying again in four.' He watches the fire. 'During those hours we were both trying very hard to stop something from killing us both. We were better at it together than apart.' He pauses. 'I used to think that was useful and nothing more. I have been coming to this cave for two years and I no longer think it is nothing more.' He doesn't name what it is more than. Some things you leave in the fire.",
+      "disposition_delta": 8
+    },
+    {
+      "keyword": "sky",
+      "prompt": "the sky-cities",
+      "response": "'There are thirty-seven left. When the war started there were two hundred and twelve.' He says it plainly, the arithmetic of a disaster stated so often it has become the kind of fact that no longer hits. 'We build new ones. Smaller. Each generation a little smaller than the last, because we have a little less of everything to build with.' He is quiet. 'My grandmother remembered when the Fleet blocked the sun for two hours as it passed over the mountains. She described it as something that happened to light.' A pause. 'My daughter will never see that. The largest thing in her sky that we built will be one ship.' He sets down his cup. 'The war will outlast the Fleet by fifty years if it continues as it is. That is what our strategists believe. They have not told command.'",
+      "requires_topic": "aetherian",
+      "disposition_delta": 7
+    },
+    {
+      "keyword": "terra",
+      "prompt": "what you think of Terra",
+      "response": "'The Hive.' He says it the way Aetherians say it — not contempt, something more complicated than contempt. 'I have seen the prisoner intake from Hive-born soldiers. The medical records.' He shakes his head slowly. 'The thing that confuses me — the Terran Ministry treats its own people as a resource to be managed, and the people tolerate it. They fight for it.' A pause. 'Solan — the Abbot at the Iron Monastery — sent us a copy of a record, three years ago. The recruitment intake process for the Hive's lower levels. What they do to children at the age of eight.' He is quiet. 'I have not been able to explain since then why those children grow up to fight for the thing that did that to them. I think about it most nights.'",
+      "disposition_delta": 5
+    },
+    {
+      "keyword": "kira",
+      "prompt": "Pilot Kira",
+      "response": "'My cousin.' He says it simply. 'We are very different, which is the most diplomatic thing I've said this week.' He checks this statement. 'She is better at altitude than I was. She is also better at the part where you stay up there.' He looks at his cup. 'She came down twice to visit me in the pass. Both times she couldn't settle — she'd stand in the cave entrance and look at the horizon as if expecting it to leave.' He pauses. 'She's one of the sharpest observers I know. The maps she makes of the Wastes from above are —' He considers. 'You can see things at altitude that the ground doesn't show. She's been tracking something for eight months that she can't explain and won't tell command about because command classified her initial report before she finished submitting it.' He pauses. 'She sent me the data directly. The thing she's been tracking is moving from a point below the Windward Pass outward in all directions, slowly.' He pauses. 'It moves like breathing.'",
+      "disposition_delta": 6
+    },
+    {
+      "keyword": "letters",
+      "prompt": "the drop point at the Armistice ground",
+      "response": "He is still for a moment. 'You found the stone.' He nods, once, slowly. 'I have been walking past that stone every night for two years.' He looks at the cave entrance. 'Serel leaves something, I carry it to the eastern edge of the armistice ground where the Terran line is nearest, and I leave it under the gray flat stone at the base of the second marker post. Or I find something already there and I carry it back to Serel.' He pauses. 'I know what it is. They have never told me what it is, but I know.' He watches the fire. 'Two commanders who trust each other across the wrong side of a war, corresponding in writing because the structure of everything around them makes the alternative impossible.' He is quiet. 'I've been carrying those letters for two years. I have not read one.' He pauses. 'I am not sure I would want to. The fact that they exist is already — I find it more useful to know they exist than to know what they say. It means that it is possible. That the kind of correspondence I hope exists between enemies actually exists between these two in particular.' He picks up the cup. 'That is the most hopeful thing I have encountered in three years at this pass. I hold it carefully.'",
+      "requires_topic": "armistice",
+      "disposition_delta": 10
+    },
+    {
+      "keyword": "watcher",
+      "prompt": "the figure at the Armistice Line",
+      "response": "'I know the one.' He looks toward the cave entrance and the dark beyond it. 'Seven-night cycle, two fixed points. Lena Voss has been documenting it. She showed me her logs.' He pauses. 'I followed it twice. Not close — it doesn't invite approach. But close enough.' He looks back at the fire. 'The second night I followed it, it stopped at the midpoint between lines, turned, and looked at me for approximately ninety seconds, and then resumed its route.' He is quiet. 'I am not someone who frightens easily. I have been in this pass for three years.' A longer pause. 'I understand what it is doing now. It is mapping the boundary. It is learning where the line is and where it can go. It has been doing this for a very long time and it is almost finished.'",
+      "disposition_delta": 9,
+      "requires_quest_complete": "ah_cooperative_hunt"
+    },
+    {
+      "keyword": "morning",
+      "prompt": "what the morning of the Day was like in the cave",
+      "response": "He looks at the fire. He has been looking at the fire on both sides of it for seven years. 'I was here,' he says. 'Where else would I be.' He means this literally -- in seven years he has left this cave four times, all of them for supply runs that couldn't be delegated. 'Terran side and Aetherian side of the same fire. Same fire every night. Both sides cease. Both sides start again.' He pauses. 'The morning of the Day, both sides stopped and did not start again.' He says it the way you say something that has been building for a long time and has finally arrived. 'Not the ceasefire. That happens every night. This was different. Both sides stopped, and looked at each other across the line, and some of them crossed it.' He is quiet for a long time. 'I have been in this cave for seven years watching that line. No one crossed it outside the ceasefire in seven years. That morning, twelve people crossed it by midday, in both directions, and nobody stopped them.' He looks at the fire. 'I said yes. To the offer. Before the sun was up.' He pauses. 'The letters I've been writing for seven years -- I send them to both sides. I have correspondents on both sides. People I've never met who write to me because I am the person in the cave who sees both.' He looks at the fire. 'Two of my Terran correspondents and three of my Aetherian correspondents crossed the line that morning. In the same direction. They met in the middle.' He is quiet. 'One of them sent me a letter afterward. She said: I went to see if it looked different from the middle. It does.' He looks at the fire. 'I would like to see that one day. I'm not ready to leave the cave yet. But I would like to see it.'",
+      "requires_quest_complete": "the_day_arrives",
+      "disposition_delta": 15
+    },
+    {
+      "keyword": "chosen",
+      "prompt": "what it means that someone chose this cave and this ground knowing what it was",
+      "response": "He is very still. Then he looks at the fire differently -- not the usual look of someone who has looked at a thing ten thousand times, but something else. 'An Elder People engineer proposed this site for the armistice.' He says it slowly. 'She knew the resonance. She knew what standing on a high-resonance lattice intersection does to people.' He is quiet. 'Every night for three hundred years, soldiers have come here because an engineer who died trying to evacuate a collapsing civilization chose this cave and those boundary markers and this fire.' He looks at the fire. 'I came here seven years ago because the letters I'd been reading from both sides described this place differently than other armistice sites. Something about the quality of the cease here. The way people talk about it.' He pauses. 'I came to observe. I stayed because I couldn't leave without understanding what I was observing.' He looks at the fire. 'What I was observing was an Elder People engineer's design still working three centuries after she placed it.' He is quiet for a long time. 'Tell me her name.' You tell him. 'Solen Var.' He says it with the quality of someone who has spent seven years sitting by a fire someone else lit and is learning her name for the first time. 'The fire in the archive's record -- is it still burning.' You tell him: yes, the armistice has held every night since. 'Three hundred years,' he says. 'She chose this ground because she understood what it would do. And it has done it.' He looks at the fire. 'I have been writing letters in this cave for seven years. I think I need to write a different kind of letter tonight.'",
+      "requires_quest_complete": "lena_at_the_archive",
+      "disposition_delta": 18
+    }
+  ]
+}

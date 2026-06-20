@@ -1,0 +1,33 @@
+{
+  "id": "crystal_wraith",
+  "name": "Crystal Wraith",
+  "description": "When the Grid restarted eight months ago, something happened in the active lattice nodes: residual resonance energy — stored impressions from three centuries of dormancy — condensed into coherent forms. Not conscious. Not the Hollow. Something between a memory and a wound, given shape by the same substrate that holds the Elder network together. Crystal Wraiths phase in and out of visible space, strike with kinetic resonance force, and dissipate when disrupted. They cannot be negotiated with and they do not feel anything about you. They are what happens when a system that has been building pressure for three hundred years finally exhales.",
+  "base_stats": {
+    "hp": 32,
+    "attack": 17,
+    "defense": 1,
+    "intelligence": 1
+  },
+  "abilities": [
+    {
+      "id": "resonant_strike",
+      "name": "Resonant Strike",
+      "description": "A focused pulse of crystalline resonance energy directed at the target's nervous system. High damage, bypasses conventional armor entirely — the resonance propagates through the metal.",
+      "base_damage": 20
+    }
+  ],
+  "passives": [],
+  "starting_equipment": [],
+  "xp_reward": 38,
+  "gold_reward": 6,
+  "tactics": [
+    {
+      "condition": { "type": "hp_below", "threshold": 0.6 },
+      "action": { "type": "heavy_attack", "multiplier": 1.5 }
+    },
+    {
+      "condition": { "type": "always" },
+      "action": { "type": "basic_attack" }
+    }
+  ]
+}

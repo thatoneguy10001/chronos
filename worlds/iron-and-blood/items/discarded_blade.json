@@ -1,0 +1,13 @@
+{
+  "id": "discarded_blade",
+  "name": "Discarded Blade [G]",
+  "description": "A knife assembled from two blades that were never meant to be one knife. The Discarded have an art form for this: find two broken things, understand how they break, make one thing that doesn't. The result is a weapon with a handle of wrapped wire and a blade of mismatched steel — ugly, balanced by instinct rather than engineering, and sharp enough to matter.",
+  "starting_room_id": "maintenance_tunnels",
+  "takeable": true,
+  "consumable": false,
+  "attributes": {
+    "equip_stat": "attack",
+    "equip_bonus": 4
+  },
+  "tags": ["weapon", "melee", "gray-wastes"]
+}

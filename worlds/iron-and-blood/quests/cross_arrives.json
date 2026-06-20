@@ -1,0 +1,15 @@
+{
+  "id": "cross_arrives",
+  "name": "Cross Arrives",
+  "description": "The day of the meeting. General Cross is traveling to the monastery. Commander Serel is traveling to the monastery. Abbot Solan is hosting. The player carries the acknowledgments to Cross.",
+  "objective": {
+    "type": "talk_to",
+    "npc_id": "general_cross"
+  },
+  "gold_reward": 60,
+  "xp_reward": 130,
+  "giver_npc_id": "abbot_solan",
+  "requires_quest_complete": "the_monastery_meeting",
+  "accept_text": "Solan hands you the second envelope with a specific gravity. 'The acknowledgment for General Cross.' He pauses. 'I have met General Cross once — the original Armistice signing, thirty years ago. He was a field commander then, not a general. He was young and very precise and deeply unhappy about what the signing day meant for his soldiers who had been in the field.' He looks at the envelope. 'I remember he shook Serel's hand at the signing and held it for a moment longer than protocol required. I don't know what passed between them in that moment. I've thought about it since.' He sets the envelope down. 'Carry this to him. When you return, carry his reply. When both have confirmed, come back to the monastery.' He pauses. 'I want you to be here for the meeting.' He says it simply. 'You have been the connection between these two people and between all of the threads that have brought this meeting to exist. It is appropriate for you to witness it.' He is quiet. 'The hall will be set when you return. We have been setting it for thirty years. The preparation takes less time than the waiting did.'",
+  "complete_text": "Cross reads Solan's letter at his operations table, in the posture of someone who processes serious things standing so that gravity helps him think. When he finishes, he is quiet. 'The monastery.' He says it with the weight of someone for whom the word has specific content. 'Solan's terms.' He folds the letter. 'Appropriate.' He doesn't elaborate. He takes a plain sheet of paper and writes a response in the sparse language of a commanding officer who has learned to be careful with written words. 'Confirm my attendance. Acknowledge the terms.' He seals it. Then, without being asked, he writes a second note on a smaller sheet, unsealed. 'Give this to Serel. Not through official channels — through you.' He hands you both. 'The official acknowledgment is for Solan. The note is for Serel.' He pauses. 'I have known Renna Serel for thirty years. I have communicated with her through official channels for thirty years. The meeting Solan is hosting is the first time we will have been in the same room since the Armistice signing.' He looks at the small note. 'Tell her: I remember the handshake. Tell her I have been trying to understand what it meant for thirty years, and I think I'm going to understand it better after the meeting.' He is quiet. 'And tell her I'm glad she proposed the monastery. It's the right place. I would not have thought to propose it.' A pause. 'I'm not always the one who thinks of the right thing. This time it was her. That matters, and I want her to know that I know it.'"
+}

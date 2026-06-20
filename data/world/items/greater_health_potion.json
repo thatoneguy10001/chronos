@@ -1,0 +1,12 @@
+{
+  "id": "greater_health_potion",
+  "name": "Greater Health Potion",
+  "description": "A large flask of deep crimson liquid. The warmth of a hundred hearths in one swallow.",
+  "starting_room_id": "inn",
+  "takeable": true,
+  "attributes": {
+    "use_effect": "heal",
+    "heal_amount": 60,
+    "consumable": true
+  }
+}

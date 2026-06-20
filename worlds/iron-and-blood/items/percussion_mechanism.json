@@ -1,0 +1,13 @@
+{
+  "id": "percussion_mechanism",
+  "name": "Percussion Mechanism",
+  "description": "A high-tension striking mechanism designed for maximum impact transfer. Clicking, oiled, precise. Drops cleanly into most frames. The springs alone could break a finger.",
+  "starting_room_id": "armory",
+  "takeable": true,
+  "attributes": {
+    "item_type": "weapon_part",
+    "part_slot": "mechanism",
+    "part_attack": 5
+  },
+  "tags": ["weapon_part", "mechanism", "terra"]
+}

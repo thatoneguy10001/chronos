@@ -1,0 +1,34 @@
+{
+  "id": "void_brood",
+  "name": "Void Brood",
+  "description": "Young. The carapace hasn't hardened to the same Void Crystal density as the adults — it's translucent in places, the internal structure visible as a dark tracery underneath. What it lacks in individual threat it compensates for in the specific way of creatures that evolved in an environment where individual threat was insufficient: pack behavior, coordinated movement, a swarm logic that doesn't require communication because it was built into the base pattern. It moves in bursts, probing for the gap in your guard that the other ones created. There are always other ones.",
+  "base_stats": {
+    "hp": 28,
+    "attack": 8,
+    "defense": 1,
+    "intelligence": 0
+  },
+  "abilities": [
+    {
+      "id": "swarm_rush",
+      "name": "Swarm Rush",
+      "description": "A coordinated burst of movement — four forelimb strikes in rapid succession, each one lighter than an adult's heat drain but faster. The pattern is designed to land before a defense can be repositioned.",
+      "base_damage": 4,
+      "hit_count": 4
+    }
+  ],
+  "passives": [],
+  "starting_equipment": [],
+  "xp_reward": 22,
+  "gold_reward": 5,
+  "tactics": [
+    {
+      "condition": { "type": "hp_below", "threshold": 0.5 },
+      "action": { "type": "heavy_attack", "multiplier": 1.3 }
+    },
+    {
+      "condition": { "type": "always" },
+      "action": { "type": "basic_attack" }
+    }
+  ]
+}

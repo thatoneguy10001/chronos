@@ -1,0 +1,10 @@
+{
+  "id": "forest",
+  "name": "The Forest",
+  "description": "The cultivated land gives way to old, dense woods at Millbrook's frontier. Kael the hunter checks a snare, bow slung across his back. \"The forest keeps us fed. Dangerous work, but honest.\" The trees stretch on toward darker country beyond the village. The grove lies back to the north.",
+  "exits": {
+    "north": { "target_room_id": "grove", "label": "The Grove" },
+    "south": { "target_room_id": "dark_forest", "label": "Dark Forest" }
+  },
+  "requirements": {}
+}

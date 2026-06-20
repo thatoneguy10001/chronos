@@ -1,0 +1,11 @@
+{
+  "id": "discarded_camp",
+  "name": "The Discarded Camp",
+  "description": "Older than any settlement you've seen in the Wastes, which should not be possible for something above ground, and yet: the camp has layers the way geological strata have layers. The current tents are staked into the foundations of structures from thirty years ago, which were built on the remnants of something from a hundred years ago, which rest on the lowest layer — stone work that predates the war, the original Discarded who came here rather than leave when the bombs started and have simply never left. Three hundred years of staying. You've been in the Hive, which is very old and does not know it. This camp knows exactly how old it is. The people here have a specific quality of attention — they watch the Wastes the way sailors watch water: not with fear, with information-gathering, the constant low-level read of an environment you understand well enough to trust and not well enough to stop watching. When they look at you they include you in the read. You are something the Wastes has produced, which means they want to know what kind.",
+  "exits": {
+    "east": { "target_room_id": "crater_of_bones", "label": "Crater of Bones" },
+    "north": { "target_room_id": "bone_fields", "label": "Bone Fields" },
+    "west": { "target_room_id": "memory_circle", "label": "The Memory Circle", "requires_night": true, "locked_message": "The low ground to the west is empty during the day. The memory circle only gathers after dark." }
+  },
+  "requirements": {}
+}

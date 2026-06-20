@@ -1,0 +1,15 @@
+{
+  "id": "the_oldest_record",
+  "name": "The Oldest Record",
+  "description": "Kell is certain the twelve engineers were commissioned deliberately. Morlak's predecessor notebooks — kept before Morlak himself was in the Wastes — contain observations going back to the early war. If twelve engineers disappeared into the Wastes three hundred years ago, someone wrote it down.",
+  "objective": {
+    "type": "talk_to",
+    "npc_id": "morlak"
+  },
+  "gold_reward": 55,
+  "xp_reward": 140,
+  "giver_npc_id": "brother_kell",
+  "requires_quest_complete": "the_twelve_names",
+  "accept_text": "Kell stands at the window for a long time before he turns. 'The Gray Wastes were designed,' he says. 'That's what the records say. Twelve engineers built a weapon to create permanent no-man's-land. They were officially killed to erase them.' He looks at you. 'I've been a monk for forty years. I have spent forty years believing the war was a tragedy that perpetuated itself through inertia.' He is quiet. 'I am reconsidering whether that belief was naive.' He meets your eyes. 'Morlak's notebooks. Not his — his predecessor's. The chain of observation in the Wastes goes back to the early war. The person who started that chain was old enough to have been there at the beginning. Morlak will know which notebook and where to find the relevant entries.' He is careful. 'Ask him what his predecessor saw in the first decade of the war. Before the stalemate had settled. When the Gray Wastes were still new.' He looks back at the window. 'And ask him if his predecessor ever recorded why the twelve engineers left. Not where they went. Why they left. There's a difference.'",
+  "complete_text": "Morlak retrieves the oldest notebook with the care of someone handling the primary record of a religion. He opens it to a section near the beginning — not the earliest entries but early. His predecessor's handwriting is different from Morlak's: spidery, urgent. He reads the relevant section aloud without you asking, because it is faster. The twelve engineers appeared in the Wastes six months after the official record of their deaths. They were building nothing — they were dismantling something. The predecessor watched them for four months as they systematically removed the secondary components of the SCAMP device, leaving only the parts embedded too deeply in the substrate to extract. On the last day, the last engineer still mobile handed the predecessor a sealed case. The predecessor describes the contents: twelve confessions, twelve signatures, and a document signed by a single authority above all twelve of them, commissioning the Gray Wastes as a strategic asset. 'To ensure,' the document read, 'that neither side may advance, and neither side may retreat, and the war may continue in perpetuity.' Morlak closes the notebook. 'My predecessor kept the sealed case for thirty years and then passed it to me and I have kept it for thirty more.' He reaches under the observation table and lifts a sealed case. 'I have been waiting for someone to arrive who would understand what it is.' He sets it on the table. 'Open it yourself. I don't need to see it again.'"
+}

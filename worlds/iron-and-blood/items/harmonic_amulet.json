@@ -1,0 +1,14 @@
+{
+  "id": "harmonic_amulet",
+  "name": "Harmonic Amulet [S]",
+  "description": "A piece of resonance-aligned crystal in a setting of deep-iron wire, sized to be worn. The crystal is tuned to a frequency that interferes with the animating compound in Lazarus Subjects — when worn, it creates a small field around the bearer that disrupts the compound's network coherence at short range. Subjects in range behave less coordinated, less responsive to external direction. The Starsmith made it for this purpose specifically: a tool for a war that shouldn't need to be fought. Restores 20 HP on use and provides passive defense bonus.",
+  "takeable": true,
+  "consumable": false,
+  "attributes": {
+    "equip_stat": "defense",
+    "equip_bonus": 3,
+    "use_effect": "heal",
+    "heal_amount": 20
+  },
+  "tags": ["accessory", "elder-craft", "anti-lazarus", "deep-iron"]
+}

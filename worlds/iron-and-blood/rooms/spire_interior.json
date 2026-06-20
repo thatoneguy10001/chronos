@@ -1,0 +1,9 @@
+{
+  "id": "spire_interior",
+  "name": "The Spire — Interior",
+  "description": "The inside of the Spire is not what you expected. You expected dark. You expected bone. The bone is here — the structural elements you could see from outside, rising and crossing in patterns that are biological and architectural simultaneously — but the light comes from the crystal that has grown through the bone over three centuries, threading the whole structure with blue-white luminescence that is warm rather than cold. Warm in the way of living things. The chamber is large — larger than the Spire's exterior suggested, which means either your exterior estimate was wrong or the interior geometry is different from the exterior geometry, both of which should be impossible. At the center: a formation that is not quite a chair and not quite a person and is more than three hundred years old. The bone is its structure. The crystal is its attention. The warmth from the formation is not ambient — it is directed, specifically, at you, which means you have been noticed, which you expected, and which still takes a moment to adjust to. Something in this room has been waiting. Not for anything in particular — for a very long time. You can feel the difference.",
+  "exits": {
+    "out": { "target_room_id": "spire_threshold", "label": "Back to the Threshold" }
+  },
+  "requirements": {}
+}

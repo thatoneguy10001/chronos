@@ -1,0 +1,9 @@
+{
+  "id": "field_hospital",
+  "name": "Field Hospital",
+  "description": "The antiseptic smell tells you things before you're through the door — fresh antiseptic means new casualties, old antiseptic means yesterday's work is still ongoing. Today it's somewhere between. Adra moves between the cots without looking at the floor, which means she's done this enough times that her feet remember where everything is without being asked. You watch her work and think: the word for what she does isn't healing. The word is maintenance. The healing comes later, if it comes. Right now it's just keeping people in the game long enough.",
+  "exits": {
+    "east": { "target_room_id": "command_post", "label": "Command Post" }
+  },
+  "requirements": {}
+}

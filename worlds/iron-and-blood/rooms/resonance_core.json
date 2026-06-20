@@ -1,0 +1,10 @@
+{
+  "id": "resonance_core",
+  "name": "The Resonance Core",
+  "description": "The floor is seared in a perfect circle where the Grid's great crystal stood. Stone fused glass-smooth. The energy that did this reduced the surrounding structures to their foundations, and then the foundations too. What grew back is wrong — twisted on itself, facets at angles no natural growth produces, the dark crystal of post-Cascade Aetherium that nobody fully understands including the people who study it. It pulses, but not like the Spire. Arrhythmic. The pulse of something in pain, or something trying to remember what its rhythm was. You step inside ten meters and the room changes. Not physically. You see the Cascade: the moment the Grid shattered, rendered through every eye that witnessed it simultaneously — sky burning, cities falling, a sound that no longer exists in the world as it currently is. You step back. The vision stops. You are shaking with someone else's three-hundred-year-old terror, and you're not sure there's a version of this where that feels fine.",
+  "exits": {
+    "south": { "target_room_id": "aetherion_plaza", "label": "Central Plaza" },
+    "north": { "target_room_id": "grid_control_chamber", "label": "Hidden Arch" }
+  },
+  "requirements": {}
+}

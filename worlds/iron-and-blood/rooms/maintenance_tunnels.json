@@ -1,0 +1,11 @@
+{
+  "id": "maintenance_tunnels",
+  "name": "Maintenance Tunnels",
+  "description": "Not on any official map, which is how you know this is where things actually happen. The Lower Rigs workers have been threading themselves through these passages for a century — contraband, messages, people, all moving through the Hive's bones while the Ministry watched the doors. The walls hold everything: gang marks, soot-drawn maps by people who navigated by feel, names of the dead written by whoever was left to write them. In an alcove, someone has maintained a shrine to a saint the Ministry banned thirty years ago. The offerings are fresh. The saint has apparently survived the prohibition, which is more than can be said for some of the saints the Ministry hasn't banned.",
+  "exits": {
+    "west": { "target_room_id": "lower_rigs", "label": "Lower Rigs" },
+    "up": { "target_room_id": "windward_approach", "label": "Windward Pass (surface)" },
+    "down": { "target_room_id": "sunken_city_threshold", "label": "Below (the passage continues deeper)" }
+  },
+  "requirements": {}
+}

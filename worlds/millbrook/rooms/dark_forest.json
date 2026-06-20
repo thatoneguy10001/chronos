@@ -1,0 +1,10 @@
+{
+  "id": "dark_forest",
+  "name": "Dark Forest",
+  "description": "The trees press in, bark black and bark-eaten, the canopy blotting out the sun. Strange howls echo from deeper in the wood. The air tastes of iron and old leaves. Skeletal undergrowth claws at your ankles. The familiar forest lies north; the sound of hollow stone echoes to the south.",
+  "exits": {
+    "north": { "target_room_id": "forest", "label": "The Forest" },
+    "south": { "target_room_id": "obsidian_dungeon", "label": "Obsidian Dungeon" }
+  },
+  "requirements": {}
+}

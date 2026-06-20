@@ -1,0 +1,22 @@
+{
+  "id": "rock_shell_crab",
+  "name": "Rock-Shell Crab",
+  "description": "A massive Abomination encased in crystallized rock-chitin armor. The Gray Wastes warped it from something that once scuttled on a shoreline into something that shatters tank armor with a single claw strike. Slow but devastatingly powerful.",
+  "base_stats": {
+    "hp": 65,
+    "attack": 15,
+    "defense": 8,
+    "intelligence": 0
+  },
+  "abilities": [],
+  "passives": [],
+  "starting_equipment": [],
+  "xp_reward": 50,
+  "gold_reward": 12,
+  "tactics": [
+    {
+      "condition": { "type": "always" },
+      "action": { "type": "heavy_attack", "multiplier": 1.4 }
+    }
+  ]
+}

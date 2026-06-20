@@ -1,0 +1,15 @@
+{
+  "id": "orc_bounty",
+  "name": "Orc Bounty",
+  "description": "An orc marauder has been stalking the dark forest road, preying on travelers. Bring it down.",
+  "objective": {
+    "type": "kill_count",
+    "class_id": "orc",
+    "count": 1
+  },
+  "gold_reward": 40,
+  "xp_reward": 100,
+  "giver_npc_id": "guild_master",
+  "accept_text": "Hendricks slides a marked bounty sheet across the table. 'Orc marauder — big one, scarred from old battles. It's been hunting the dark forest road. Merchants won't use the route until it's dead. Kill it and I'll pay forty gold.'",
+  "complete_text": "The orc marauder is dead. The dark forest road is open again."
+}

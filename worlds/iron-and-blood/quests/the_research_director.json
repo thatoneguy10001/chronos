@@ -1,0 +1,15 @@
+{
+  "id": "the_research_director",
+  "name": "The Research Director",
+  "description": "Moss's supply records show Helen Stone stopped signing Lazarus requisitions eight months ago. The compound formula changed, the quantities tripled, and someone else's name replaced hers. Stone is still in the Hive Command Spire. She may not know what the project became after her name was taken off it.",
+  "objective": {
+    "type": "talk_to",
+    "npc_id": "helen_stone"
+  },
+  "gold_reward": 50,
+  "xp_reward": 120,
+  "giver_npc_id": "gideon_moss",
+  "requires_quest_complete": "what_moss_moves",
+  "accept_text": "'The Spire isn't somewhere I go,' Moss says. He refolds the ledger. 'Stone designed the Lazarus compound from first principles. Brilliant work, actually — I've read the original research notes, the ones that were supposed to be classified. She built something that could genuinely work.' He looks toward the upper levels. 'Then eight months ago, her name stops appearing. No announcement. No retirement. Just — gone from the paperwork, and someone else's formula taking over.' He picks up his coat. 'She's still up there. I know because she still sends someone to buy medical supplies from my contact in the Mid-Level market. She's alive, she's in the Spire, and she's not working on the project anymore.' He looks at you. 'Use my name if they ask who sent you — it won't help with the Ministry officials, but Stone will know it means you're serious.'",
+  "complete_text": "Stone is very still when you finish. 'Eight months,' she says, very quietly. She turns to the window. 'I told Vane the compound modifications were unsafe. The new ratio was designed to overwhelm cellular resistance instead of work with it. It would integrate faster and deeper but it would also — it changes what the subjects become. What they're building toward.' She doesn't finish that for a moment. 'He thanked me for my input and reassigned two of my assistants the following week. I assumed I'd been removed for political reasons. I didn't know they kept using my name.' She turns. 'The original subject files are in the maintenance tunnels facility — sub-level, restricted access. I can't go there anymore. They changed my authorization eight months ago.' She holds out a key card. 'But this is a copy I made before they did.'"
+}

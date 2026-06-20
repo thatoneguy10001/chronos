@@ -1,0 +1,16 @@
+{
+  "id": "night_among_the_discarded",
+  "name": "Night Among the Discarded",
+  "description": "Grimka mentioned the memory circle — the nightly recitation of the full Discarded oral record. It takes eleven nights to complete. She said visitors are permitted. She did not say it was easy to find.",
+  "objective": {
+    "type": "reach_room",
+    "room_id": "memory_circle"
+  },
+  "gold_reward": 35,
+  "xp_reward": 90,
+  "requires_night": true,
+  "giver_npc_id": "grimka",
+  "requires_quest_complete": "vespa_confirms",
+  "accept_text": "You ask Grimka about the circle and she assesses you for a moment in her terrain-cataloguing way. 'You know what Vespa did,' she says. Not a question. 'You know what the second completion is. You've been to the Spire.' She looks toward the camp's interior. 'The memory circle has been running for three hundred years. Every night. The full recitation takes eleven nights and then begins again.' She pauses. 'Senn leads it. She has been leading it for forty years. She is ninety-four and she will lead it until she cannot, and the person after her will lead it after that.' She looks at you. 'Visitors are permitted but the rule is: you arrive before the recitation begins and you stay until it ends. You do not come and go during the recitation. A line dropped because someone moved at the wrong moment can never be entirely recovered.' She gives you the direction. 'After the Armistice fires, before the dawn bell. The circle is east of the main camp, in the low ground. You'll hear it before you see it.'",
+  "complete_text": "The recitation is already underway when you arrive — you can hear it from thirty meters out, the low rhythmic trading of lines between voices, the specific cadence of something that is performed rather than spoken, something with a structure beneath the words. You find your way into the low ground and the circle around the precise small fire and you sit where there is space, which is exactly where Grimka said there would be space, which means she knew you were coming and made arrangements without mentioning it. Eleven nights of recitation cycling continuously. You are hearing the section that happens to be tonight, which is some portion of the whole, which is more than has been written down in the three hundred years since the Cascade because writing it down would mean it could be confiscated. The old woman at the fire's north edge catches your eye at some point during the third hour and nods. She has the quality of someone who has assessed your presence and found it acceptable, which from her expression is the highest available finding. The recitation continues. You listen. Some of it is names and dates. Some of it is description — what the Resonant Plains looked like, room by room, district by district, farm by farm, from the perspective of people who were there. Some of it is instruction: how to read the crystal lines in the soil, how to know which Abomination circuits are territorial and which are patrol, how to navigate the Wastes in fog. It is everything. It is everything the Discarded decided was worth keeping."
+}

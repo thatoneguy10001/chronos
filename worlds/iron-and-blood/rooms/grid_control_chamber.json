@@ -1,0 +1,9 @@
+{
+  "id": "grid_control_chamber",
+  "name": "The Grid Control Chamber",
+  "description": "You find the entrance behind the resonance crystal ruins, where a collapsed arch has left a gap just wide enough to pass. On the other side: this. A room the Cascade left structurally intact because the walls are built from a crystal alloy that absorbed the catastrophic resonance rather than shattering under it. They are very warm. Three centuries of stored energy — the absorbed wave of the Cascade, still dissipating. You could put your hand on the wall and hold it there for years and the energy wouldn't be exhausted. The central console is intact. Not damaged. Not dormant. The Elder People built control surfaces from crystal that responds to intent rather than physical input, which means the console has been waiting for three hundred years for someone to approach it with sufficient certainty of purpose. The fact that it responds when you come close tells you something about you that you will think about for a long time. What it shows you: the Grid as it is right now. Fourteen percent of nodes active. The sequence of reawakening visible as a slow branching from a central source — the Watcher's description was an understatement. This is not testing reach. This is a systematic restart. Someone or something began this eight months ago. The origin node, the place from which the restart propagates, is located four hundred meters below the pass. You have been there. You have seen the light there. Now you know what the light means.",
+  "exits": {
+    "out": { "target_room_id": "resonance_core", "label": "Resonance Core" }
+  },
+  "requirements": {}
+}

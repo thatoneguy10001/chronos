@@ -1,0 +1,11 @@
+{
+  "id": "healing_herbs",
+  "name": "Healing Herbs",
+  "description": "A bundle of dried meadowsweet and yarrow. Restores a modest amount of health when consumed.",
+  "takeable": true,
+  "attributes": {
+    "use_effect": "heal",
+    "heal_amount": 15,
+    "consumable": true
+  }
+}

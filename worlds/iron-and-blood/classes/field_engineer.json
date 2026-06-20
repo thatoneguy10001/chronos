@@ -1,0 +1,46 @@
+{
+  "id": "field_engineer",
+  "name": "Field Engineer",
+  "description": "Tool belt, welding goggles, and a SCAMP turret strapped to their back. The Field Engineer digs in and holds ground — deploying automated fire support and self-repairing between attacks. Patient, tactical, dangerous.",
+  "base_stats": {
+    "hp": 100,
+    "attack": 9,
+    "defense": 7,
+    "intelligence": 10
+  },
+  "abilities": [
+    {
+      "id": "revolver_shot",
+      "name": "Revolver Shot",
+      "description": "A steady, well-aimed round. The engineer's sidearm has both physical and tech-enhanced ammunition modes.",
+      "base_damage": 8
+    },
+    {
+      "id": "overcharge",
+      "name": "Overcharge",
+      "description": "Run maximum current through the weapon system. Deals massive damage in a single supercharged burst.",
+      "base_damage": 16
+    },
+    {
+      "id": "field_repairs",
+      "name": "Field Repairs",
+      "description": "A quick self-repair with the engineer's tool kit. Not elegant, but effective. Restores 22 HP.",
+      "base_damage": 0,
+      "heal_amount": 22
+    },
+    {
+      "id": "suppression_fire",
+      "name": "Suppression Fire",
+      "description": "Sustained fire loaded with toxic chemical rounds. Deals damage and leaves enemies poisoned.",
+      "base_damage": 5,
+      "applies_effect": "poison",
+      "effect_damage": 3,
+      "effect_duration": 3
+    }
+  ],
+  "passives": [],
+  "starting_equipment": [],
+  "xp_reward": 0,
+  "gold_reward": 0,
+  "tactics": []
+}

@@ -1,0 +1,9 @@
+{
+  "id": "monastery_library",
+  "name": "Iron Monastery — The Library",
+  "description": "The library is the mountain. Shelves cut into living rock, records wrapped in oiled cloth against the damp, organized by a system no outsider has decoded and possibly no insider has either — the monks navigate it by accumulated memory, which does not transfer. The oldest materials are in the deepest chamber: rolls of something not quite paper, script that predates both nations, written by people who watched the Cascade from the other side of it. At the reading table: a lamp, a chair worn to the shape of someone specific. Notes in small precise handwriting spread across one end, ink still dark. At the far end: fresh copies in careful transcription, a cipher key tacked to the wall. Someone has been translating the oldest texts into a language the living can read. The lamp is burned low in the way of a lamp that was not extinguished when work stopped for the night but when work simply stopped, which is a different kind of burn.",
+  "exits": {
+    "out": { "target_room_id": "iron_monastery", "label": "Outer Court" }
+  },
+  "requirements": {}
+}

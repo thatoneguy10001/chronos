@@ -1,0 +1,134 @@
+{
+  "id": "helen_stone",
+  "name": "Director Helen Stone",
+  "greeting": "Stocky, strong, calloused hands. Coveralls and steel-toed boots. A tool belt heavy with instruments you don't recognize. Her face is lined by something beyond tiredness â€” a sustained expenditure that has become its own kind of existence. Dark, hollow eyes that don't avoid yours, but don't quite look at you either; they look at something near you, something she is always calculating. 'Stone,' she says without preamble. 'Director of Research, Under-District. I am not here officially. I am not often here officially these days.' She sets down a case of vials with careful precision. 'You have questions. So do I. Perhaps we can be of use to each other.'",
+  "dialogue": [
+    {
+      "keyword": "lazarus",
+      "prompt": "Project Lazarus",
+      "response": "'I designed it. Twenty years ago. The concept was elegant: the Gray Wastes preserve tissue indefinitely. The dead don't need food, sleep, or morale. An army of the dead ends the war without killing another living soldier.' She stops. 'That was the theory. The practice has produced... deviations from parameters.' Her voice is flat and careful. 'The Subjects walking in the Wastes were not supposed to be autonomous. They were not supposed to be purposeful. They were not supposed to be organized.' A pause. 'We have a containment problem.'"
+    },
+    {
+      "keyword": "subjects",
+      "prompt": "the Lazarus Subjects",
+      "response": "'The animating compound interacts differently with tissue that has had prolonged crystal exposure. The Gray Wastes dead have been contaminated for decades. Instead of simple motor reanimation, the Aetherium in the tissue is... interfacing with the neural substrate.' She picks up a vial, sets it down. 'They retain fragmentary memory. Not full cognition. But enough to recognize objectives. Enough to coordinate.' A longer pause. 'Some retain enough to suffer. I dream about that.'"
+    },
+    {
+      "keyword": "cure",
+      "prompt": "stopping or reversing the taint",
+      "response": "'The animating compound can be disrupted. Sufficient physical trauma â€” particularly to the crystal lattice in the tissue â€” unmakes the process. That is how you destroy them.' She hesitates. 'Reversal is theoretically possible in early-stage subjects. I have not attempted it. The Ministry did not fund that research direction.' Her jaw tightens. 'They were not interested in reversing the process.'"
+    },
+    {
+      "keyword": "ministry",
+      "prompt": "the Iron Ministry",
+      "response": "'They funded twenty years of my work. They gave me resources that no private institution could have matched. They asked for one thing in return: results.' Her hands are very still. 'I gave them results. Not the results they wanted. The results exist now, walking around in the Wastes, and the Ministry has decided that this is my problem to solve.' She meets your eyes for the first time. 'They are not wrong.'"
+    },
+    {
+      "keyword": "under-district",
+      "prompt": "the Under-District",
+      "response": "'I have spent twenty years in a place that does not appear on any official map, conducting research the Ministry does not officially acknowledge, on materials the Ministry does not officially possess.' A pause. 'The subjects we use â€” used â€” were recovered from the Bone Fields. Casualties of the early war. The Ministry's position is that they consented through their military service.' She is quiet for a moment. 'I do not share that position anymore. I did not always know I did not share it.'"
+    },
+    {
+      "keyword": "modified",
+      "prompt": "the compound modification",
+      "response": "Her jaw tightens. Not surprise â€” she's been waiting for this question. 'Eight months ago I pulled the active batch for analysis. Standard audit.' She picks up a vial, holds it to the light. 'The compound in circulation was not the compound I designed. The base chemistry is mine. The secondary layers â€” someone added a network-integration protocol that I have been trying to reverse-engineer since the day I found it.' She sets the vial down with precise care. 'It's elegant. It's brilliant. I hate that it's brilliant.' A pause. 'I know who did it. I have not reported it because reporting it would require explaining how I know, which would require explaining certain things about the clearance level above Vane.' She looks at you directly. 'I will tell you the name. But I want you to understand what you're holding when I do.'",
+      "requires_topic": "ministry",
+      "disposition_delta": 8
+    },
+    {
+      "keyword": "division9",
+      "prompt": "Research Division 9",
+      "response": "Something passes across her face â€” not pride, not shame, something between them that has been living there long enough to become its own expression. 'Three floors below the Hive. No windows, no insignia on the guards, no entry in any organizational map filed with Standard Governance.' She is quiet. 'I built my career there. I built Lazarus there. I built twenty years of research there and came out into the light one day and realized that the reason it didn't appear on any map was the same reason they'd given me everything I needed without asking questions: you don't track resources going to a place you intend to deny exists.' She picks up her toolkit. 'If you've been down there â€” if you've seen it â€” then you understand what I mean when I say that the Ministry's willingness to fund that work was a statement of intent, not generosity.'",
+      "disposition_delta": 6
+    },
+    {
+      "keyword": "thorn",
+      "prompt": "Commander Thorn's crystal growth",
+      "response": "She is quiet long enough that you know she's choosing what to say rather than formulating it. She already knows what she thinks. 'Third-stage application.' Not a question. 'I told Vane the compound wasn't designed for tertiary deployment. The tertiary dose pushes past integration threshold â€” past the point where the body and the crystal are coexisting, into the point where the crystal is leading.' She picks up a vial, sets it down. 'What Thorn sent me was a clinical summary. Progression rate, crystal distribution, timeline estimate. He sent it because he thought I might have something to offer.' She pauses. 'I wrote one paragraph back. Not because I don't have something to offer. Because what I have to offer requires explaining things I'm not sure he's ready to hear, and because if he's not ready to hear them, the offer becomes a cruelty.' She looks at you. 'The Elder integration â€” the real version, not the compound, not the imitation â€” allows for reversal. The Watcher reversed it, for others, in the early days after the Cascade. If the records in the Hall of Rememberers are intact, I may be able to determine whether the compound-stage growth can be brought back from threshold.' She pauses. 'I have not told Thorn this because I cannot tell him with certainty, and Thorn is the kind of person who will organize everything around a possibility before it's confirmed and then have nothing left if it doesn't hold.' Another pause. 'Is he all right?'",
+      "requires_topic": "modified",
+      "disposition_delta": 9
+    },
+    {
+      "keyword": "vault",
+      "prompt": "the SPIRE case in the Black Vault",
+      "response": "The stillness is different from her other stillnesses. Complete. 'You found it.' Not angry. Something closer to relieved. 'I have been trying to decide what to do with that case for four months.' She opens her toolkit, closes it. 'The lock is mine. A personal mechanism, not Ministry-issue, built to a combination that only I know.' She looks at the toolkit. 'I went to the Spire six months ago. Without clearance. Took a crystal sample from the structural lattice at the base.' She pauses. 'The crystal is not Aetherium. It reads as Aetherium in standard assay because it has the same base mineral structure. But when you run deeper analysis â€” when you look at the resonance signature at the lattice level â€”' She stops. 'The signature matches the modification that was made to my compound. Not a similar signature. An identical one.' She looks at you. 'Someone who had access to the Spire's crystal lattice, who understood its resonance signature at the sub-lattice level, modified my compound using the Spire's structural pattern as a template.' She pauses. 'The modification is not random. It's a translation. Someone took the Spire's building process and adapted it into a biochemical delivery mechanism.' She meets your eyes. 'The DO NOT OPEN note is there because I don't know what happens if someone with crystal integration close to third level is in the same room as uncontained Spire crystal. I don't know if it accelerates. I don't know if it resonates.' A pause. 'I do know that whoever modified my compound understood the Spire better than the Ministry does. Better than I do.' She is quiet. 'I have one person I trust with that information. You are now the second.'",
+      "requires_topic": "modified",
+      "disposition_delta": 11
+    },
+    {
+      "keyword": "nael",
+      "prompt": "Nael in the Silence Cells",
+      "response": "She goes still. Not the calculating stillness â€” a different kind. 'They're alive.' She says it quietly, to herself, before saying it to you. 'Third-level integration and they're alive.' She opens a case and takes out a notebook that is not the standard research format â€” handwritten, messy margins, the kind of thing you write when you're working something out for yourself rather than for a record. 'I have been modeling third-level integration for two years using tissue samples and assuming the outcome was â€” not compatible.' She looks at the notebook. 'Third-level with intact cognition and voluntary engagement of the transfer process.' She turns a page. 'The transfer process is not decay. That's what this changes.' She is quiet. 'If Nael is transferring memory and it's remaining recoverable â€” if the integration at that depth preserves rather than dissolves â€”' She closes the notebook. 'The modified compound is producing the Elder integration correctly. Not incorrectly. Not accidentally. Correctly, in a way that my base compound was not designed to achieve.' Another pause. 'Whoever modified it wasn't producing a weapon. They were producing the actual Elder network-integration process using my compound as a delivery mechanism.' She meets your eyes. 'And if the integration at that level can be reversed using the resonance technique â€” the one the Watcher used â€” then Thorn isn't dying. He's at the threshold of a choice he doesn't know he's being offered.' She is very still. 'I need the reversal technique. And I need someone who can work at that depth. Can you get me to the Hall of Rememberers.'",
+      "requires_topic": "cells",
+      "disposition_delta": 13
+    },
+    {
+      "keyword": "cells",
+      "prompt": "the Silence Cells and what you found there",
+      "response": "She goes very still. Not the stillness of someone composing an answer. The stillness of someone who has known this moment was coming and has not decided until now how to receive it. 'Third-level integration,' she says. Not to you. To herself. She says it a second time, quietly. 'I have been hoping, for two years, that the reports I was not receiving from the Cells were because there was nothing to report.' She picks up a vial, does not look at it. 'The modified compound is not mine. But the modification was built on my base. And if my base produces third-level integration at the Silence Cell depth â€” if the compound is capable of that â€”' She puts the vial down. 'Then the person who modified it knew it was capable of that. And designed the modification to produce it.' Her jaw tightens. 'Whoever modified my compound was not trying to make a better weapon. They were trying to reach third-level integration. They used my Lazarus compound as a delivery mechanism because the alternative â€” voluntary Elder integration â€” requires knowledge most people don't have.' She meets your eyes. 'Nael is not a failed subject. Nael is the intended outcome.' A long pause. 'I designed a weapon. Someone converted my weapon into an initiation mechanism.' She is very quiet. 'I would like to know who, and I would like to look them in the eye, and I have not decided what happens after that.'",
+      "requires_topic": "modified",
+      "disposition_delta": 11
+    },
+    {
+      "keyword": "brec",
+      "prompt": "Brec and what he found in the chamber",
+      "response": "She is very still for a moment. 'He's been continuing the monitoring protocols.' She says it to herself, not to you, the way of someone confirming something they hoped was happening. Then: 'The simultaneous resonance shift on the night of the reactivation. I noticed it from outside but I didn't have the internal data to confirm simultaneous rather than sequential.' She is quiet. 'The compound is responding to the Grid's construction wave. The crystal component in the integration compound is being pulled in the direction the lattice is moving.' Her jaw tightens in the specific way it does when she is calculating something she already suspected was true. 'For twenty years I worked on the compound. I tested every variable I could identify. I never tested it against an active Grid lattice because there was no active Grid lattice.' She looks at you. 'The compound was designed from Elder integration research. The Elder integration was designed to interface with the Grid. I designed something that interfaces with something I didn't know was real and now it is real and the compound is doing exactly what it was designed to do.' She is quiet. 'Which means the subjects in that chamber are in motion. Not just growing â€” moving toward whatever the Grid's construction wave is building toward.' She straightens. 'Tell Brec: keep the daily readings. Send them through the level-four maintenance junction, no manifest. Tell him: I will be in contact.' She pauses. 'The Ministry communication telling him to stop â€” I will handle that separately. Don't mention to him that I mentioned it.'",
+      "requires_quest_complete": "what_brec_found",
+      "disposition_delta": 10
+    },
+    {
+      "keyword": "sela",
+      "prompt": "what Sela told you about what the compound was designed to become",
+      "response": "She is quiet for a longer time than her other quietnesses. 'She told me what I'd spent twenty years not knowing how to ask.' She sets down the vial she's been holding and actually puts it away, which she doesn't usually do mid-conversation â€” she is giving this her full attention rather than her divided attention. 'The compound was always going to do this. Every single behavior I've classified as deviation from parameters â€” the autonomy, the crystal interface, the resonance response â€” every one of these is the compound doing exactly what it was designed to do. Not by me.' She pauses. 'By Sela. She built the integration sequence into the compound's base chemistry. The sequence only activates in the presence of a sufficiently coherent Grid signal. For three hundred years there was no sufficiently coherent Grid signal, so the compound produced the simple reanimation I thought I was getting.' She is very quiet. 'The Lazarus compound is a delivery mechanism for Elder network integration. I designed a weapon. I was working from Sela's documentation and I thought I understood it and I was right about the mechanism and entirely wrong about the purpose.' She looks at the observation window. 'They're going to be offered a choice,' she says. 'Sela said: when the Grid reaches full coherence, the compound reaches final configuration, and the subjects are asked whether they want to complete the integration voluntarily.' She turns to look at you. 'That's what Sela triggered the Cascade to prevent â€” being asked without being asked. She wanted them to have the choice that the original integration subjects didn't have. She built that choice into the compound's terminal state.' She is quiet. 'I have been running an inadvertent long-term research project to determine whether a conscious being can be preserved across three hundred years of history and offered a choice at the end.' She pauses. 'As research questions go, I have designed worse.'",
+      "requires_quest_complete": "stone_meets_sela",
+      "disposition_delta": 12
+    },
+    {
+      "keyword": "dael",
+      "prompt": "the checkpoint officer and what you owe him",
+      "response": "'Tell him it was me.' She says it without hesitation, which means she has already decided this. 'Project 1241. Lazarus Enhancement Protocol. I opened the classification fourteen months ago and I designated myself as sole recipient because I needed to control information flow during the crystal integration phase.' She looks at the cabinet where the ledger is. 'His reports were accurate. Every one of them. He described exactly what was happening â€” the substrate acquisition, the return cargo, the personnel who came up from below without cold response â€” and he filed it honestly and I closed it because if it had been followed up, the work would have been stopped.' She pauses. 'I would make the same decision again. I would close the reports again. The work was necessary and the outcome was right.' She meets your eyes. 'I am still sorry that making the right decision required making his honest record-keeping disappear. He deserves to know his reports were read and understood and acted on, even if the action was to close them.' She straightens. 'Tell him: the project is now in a phase where the reports he was filing no longer apply. What happens next in those levels will be different. If he starts seeing things that concern him again, he should file them to the same number.' She pauses. 'I'll read them.'",
+      "requires_quest_complete": "daels_number",
+      "disposition_delta": 8
+    },
+    {
+      "keyword": "watcher",
+      "prompt": "the message from Aetherion",
+      "response": "She reads what you've written down. Then she reads it again. When she looks up her expression has the quality of a solved equation that has revealed a more complex problem underneath it. 'The original records,' she says. 'In the Hall.' She is quiet for a moment. 'I have spent twenty years working from what I believed were preliminary notes, passed through three generations of Ministry researchers. If the original documentation of the Elder integration is intact in that hall â€”' She stops. 'The modification to my compound. Whoever made it wasn't guessing. They knew exactly what the Elder process produced because they had the source documentation.' She closes her eyes briefly. 'They've had it for longer than I've been working on this. They knew the destination before I started the journey.' She opens her eyes. 'I need to go to that hall. I need you to take me there.'",
+      "requires_quest_complete": "stone_investigates",
+      "disposition_delta": 10
+    },
+    {
+      "keyword": "morning",
+      "prompt": "what you did on the morning the offer arrived and what the oldest subject said",
+      "response": "'I was in the chamber.' She says it. 'I had been in the chamber for two days. I wanted to be there when it happened.' She looks at the observation window. 'When full coherence came I felt it in the compound readings first. The resonance monitors went flat. Not because the activity stopped. Because it stabilized. Two years of climbing readings leveled into a baseline that matched the Grid's construction frequency exactly.' She is quiet. 'And then the oldest subject spoke.' She says it with the quality of something she is still processing weeks later. 'Not in the Elder notation. In words. In Terran. In an accent I do not have a regional reference for, something older than the war's dialects, three hundred years out of use.' She pauses. 'It said: thank you for keeping us. Not me specifically — it was speaking to the room, to whatever it understood to be the presence that had been attending to it.' She looks at the window. 'Twenty years I have been the director of this project. I have been the one responsible for everything that happened here, good and bad. For the compound, for the subjects, for the choice to do the work and the choice to protect it.' She is very quiet. 'The oldest subject thanked the room. And I was in the room.' She pauses. 'I did not know what to do with that. I still do not entirely. But I received it. I said: you are welcome. And I meant it, for the whole of what it took to get there.'",
+      "requires_quest_complete": "the_day_arrives",
+      "disposition_delta": 15
+    },
+    {
+      "keyword": "voice",
+      "prompt": "what the archive said and what the oldest subject is waiting for",
+      "response": "She is very still when you finish. 'Not yet. But I wanted to hear your voice first.' She says it back slowly, the way you say something that needs to be held before it can be understood. 'Three hundred years.' She looks at the chamber. 'The oldest subject was in a first-attempt crystal storage state when I found her eleven years ago. She was in that state when the compound was administered. She has been listening for eleven years to everything that happens in this chamber, every procedure, every record I read aloud because I got into the habit of working aloud when I was alone.' She pauses. 'She wanted to hear the archive's voice. Not mine. Not the compound's frequency. A voice that knew what she had been before.' She looks at the oldest subject, who is looking back. 'She heard it. She isn't ready yet. She is waiting until she is.' Something moves in her face that you have not seen there before -- not softness, not grief, something past both of those. 'I have been worried for eleven years that what I did was irreversible. That there was no path that led somewhere better from here.' She looks at the oldest subject. 'The archive said the offer does not expire.' She is quiet for a long time. 'I am going to read her something tonight. Something I have been putting off reading aloud because I wasn't sure what the point was.' She picks up a folder from the desk. 'Her service record. From before.' She looks at it. 'She should hear her own name in a sentence that isn't a clinical notation.'",
+      "requires_quest_complete": "stone_asks_the_archive",
+      "disposition_delta": 20
+    }
+  ],
+  "vendor": true,
+  "shop": [
+    {
+      "item_id": "antitoxin_vial",
+      "price": 10
+    },
+    {
+      "item_id": "trauma_kit",
+      "price": 18
+    },
+    {
+      "item_id": "neural_disruptor",
+      "price": 35
+    },
+    {
+      "item_id": "iron_bandage",
+      "price": 6
+    }
+  ]
+}

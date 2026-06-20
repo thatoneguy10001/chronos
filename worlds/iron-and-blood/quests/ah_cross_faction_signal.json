@@ -1,0 +1,16 @@
+{
+  "id": "ah_cross_faction_signal",
+  "name": "Cross-Faction Signal",
+  "description": "The Watcher leaves marks on the Armistice ground. Return tonight and look at what it left — Lena has been copying them and thinks she's found a pattern.",
+  "objective": {
+    "type": "reach_room",
+    "room_id": "armistice_ground"
+  },
+  "gold_reward": 55,
+  "xp_reward": 135,
+  "requires_night": true,
+  "giver_npc_id": "lena_voss",
+  "requires_quest_complete": "ah_mirror_speaks",
+  "accept_text": "She shows you the pages. Seven nights of copied marks — the notations the Watcher leaves at its two waypoints. 'I thought at first they were territorial markers. Animals do this. But the marks aren't the same each night — they accumulate. Each night adds to what was there before, like a document being written in installments.' She traces the shapes. 'And they're not Aetherian notation. Not Terran either. I've shown them to three people on my side who would know. Nobody recognizes the system.' She looks at you. 'Come to the ground tonight. I want to show you where they are in the physical space, not just on paper. Something about the placement matters.'",
+  "complete_text": "The marks are in both sides' observation zones — at both waypoints simultaneously, which means the Watcher has been placing them in Terran territory and Aetherian territory on the same nights, moving between both lines freely, leaving the same notation in both places. The marks at the Terran waypoint and the Aetherian waypoint form two halves of the same message. Neither half alone makes sense. Together, in the Armistice ground between them, they point in the same direction: down. Below the Pass. Below the foundation stone."
+}

@@ -1,0 +1,34 @@
+{
+  "id": "archivist",
+  "name": "Senior Archivist Lemm",
+  "initial_disposition": 50,
+  "greeting": "She is reshelving. This involves a trolley, a system of call-number tags, and an expression of profound focus that you recognize as the look of someone whose work is meaningful to them in a way that does not translate well to other people. She acknowledges you by slightly adjusting the angle of her focus rather than stopping. 'The Archive is open to credentialed personnel.' She puts another document away with the precision of someone who has put approximately one hundred thousand documents away over a forty-year career. 'What are you looking for.'",
+  "dialogue": [
+    {
+      "keyword": "research",
+      "prompt": "classified research files",
+      "response": "'Everything in the Archive is classified. That's what the Archive is for.' She shelves another document. 'There are levels. Level one through three are accessible with standard Ministry credentials. Level four requires countersignature from an active Division Head. Level five —' She stops. 'Level five I no longer have clearance to discuss the contents of, as of fourteen months ago. I can tell you what level five is labeled. It's labeled LAZARUS PROGRAM, ADMINISTRATIVE RECORDS.' She puts another document away. 'I can tell you the level was reclassified fourteen months ago. I can tell you I had clearance before that and filed documents in that section for twelve years and know what was in it.' She pauses. 'I cannot tell you what's in it now. New documents have been added. I don't file them. Someone else does. I don't know who.'",
+      "disposition_delta": 7
+    },
+    {
+      "keyword": "authorization",
+      "prompt": "Ministry authorization codes",
+      "response": "'I know every authorization code format in current Ministry use.' She says this as fact, the way a mechanic says they know the sound of an engine. 'I've been reading them for forty years. I can tell you which ministry section, what year they standardized, which ministers have signed what.' She shelves three things in rapid succession. 'Fourteen months ago I started seeing an authorization code on Lazarus-adjacent paperwork that I don't recognize. The format is correct. The stamp is authentic. The signing office does not appear in any organizational chart I have access to.' She's quiet for a moment. 'I filed an inquiry. The inquiry was classified. I filed a second inquiry asking what had happened to my first inquiry. The second inquiry was also classified.' She puts away one more document. 'I am choosing to interpret your presence here as related to this situation. I hope that's correct, because otherwise I have said several inadvisable things to a stranger.'",
+      "requires_topic": "research",
+      "disposition_delta": 9
+    },
+    {
+      "keyword": "patterns",
+      "prompt": "patterns you've noticed across the records",
+      "response": "'Forty years.' She turns down a long aisle, speaks without stopping to shelve. 'There are things you notice when you read everything. Things that look like coincidences until there are enough of them that the word coincidence stops being accurate.' She stops, considers a section. 'Certain decisions, across the war's history, have been made at moments when peace seemed possible — and those decisions have reliably restarted the fighting. Not by mistake. With precision.' She takes something from a high shelf, examines it, puts it back. 'The peace initiative of year forty-three. The Ceasefire Accord of year eighty-one. The joint-command proposal of year two-hundred and twelve. In each case, within six weeks: a major incident, attributed to the other side, which made the initiative politically impossible.' She faces you. 'I have the files for all three incidents. I have read them in full. The preparation for each incident predates the peace initiative it derailed.' She pauses. 'Someone was ready. Someone knew the initiatives were coming. Someone prepared responses before the initiatives were public.' She turns back to the shelves. 'I do not have a name for the someone. I have patterns that all point to a somewhere that organizational theory says should not exist. I have been here forty years and I am still finding new instances.' She shelves something with particular care. 'I trust the patterns more than I trust explanations. Patterns do not need to deceive you.'",
+      "requires_topic": "authorization",
+      "disposition_delta": 10
+    },
+    {
+      "keyword": "historical",
+      "prompt": "historical records from before the war",
+      "response": "'We have records going back to the founding. The earlier material is badly indexed — three different governments' worth of filing conventions, partly in Old Terran which I cannot read fluently.' She starts down the aisle, gesturing for you to follow. 'The pre-Cascade material from the Aetherian sections is in considerably better condition than you'd expect. We traded some documentation with the Aetherian Archive as part of a cooperation agreement forty years ago.' She stops at a section. 'This is the most interesting part of the Archive and the least accessed. The contemporary records tell you what people did. The historical records tell you what they thought they were doing and what they thought they were building.' She pauses. 'The distance between those things is —' She doesn't finish. 'The distance is significant.'",
+      "disposition_delta": 6
+    }
+  ]
+}

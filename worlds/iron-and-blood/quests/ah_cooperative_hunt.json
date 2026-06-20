@@ -1,0 +1,18 @@
+{
+  "id": "ah_cooperative_hunt",
+  "name": "The Cooperative Hunt",
+  "description": "A larger Abomination has been spotted moving through the Armistice ground — too large for one side to handle alone. Lena has already marked the approach. Clear it together.",
+  "objective": {
+    "type": "kill_count",
+    "class_id": "rock_shell_crab",
+    "count": 2
+  },
+  "gold_reward": 55,
+  "xp_reward": 130,
+  "hope_reward": 1,
+  "requires_night": true,
+  "giver_npc_id": "lena_voss",
+  "requires_quest_complete": "ah_what_she_carries",
+  "accept_text": "She's already tracking it when you arrive — has the approach marked in her notebook, the likely behavior pattern, the point at which she estimates it will move into the open. 'I've seen this variant before. It hunts in two-stage — one draws attention, one flanks.' She looks at you. 'I'm better at the left approach. You take the right.' She says this with the specific matter-of-factness of someone who has already calculated that you are capable of this and simply needs you to confirm it. She doesn't ask if you're comfortable fighting alongside her side. The question doesn't seem to occur to her. It doesn't occur to you either. That's the thing you realize later.",
+  "complete_text": "You don't speak during it. Neither of you needs to — the positioning is intuitive in the way that two people doing the same thing for long enough makes intuitive, even the first time you do it together. When it's over she closes her notebook and makes a notation. You stand in the aftermath for a moment without either of you moving. 'Same time tomorrow?' she says. It's the first time she's asked for something directly. You realize she's been waiting to see if you'd come back on your own before asking. She has, you understand, been doing this for a very long time — all of it — alone."
+}

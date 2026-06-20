@@ -1,0 +1,34 @@
+{
+  "id": "private_pol",
+  "name": "Pol",
+  "initial_disposition": 45,
+  "greeting": "She is sitting at the edge of the crater, not inside it — on the rim, which means she has been watching the fire ring from the outside for some time. Third Division insignia, same as the kit in the crater. She looks at you with eyes that are not the eyes you were expecting: clear, attentive, focused differently than usual. Not hostile. Something that takes a second to place, and then you place it — she looks at you the way the Carrow subject in Division 9 looked at you, if you've been there. With that specific quality of presence. 'You found our camp,' she says. 'I've been sitting out here instead of in there for two days. The crater — there's something in it now, in the ground underneath. I can feel it if I sit inside.' She looks at the fire ring. 'I'm not afraid of it. It was afraid of me being afraid of it, which is a strange thing to know. I'm not sure how I know it.' She looks at you. 'My name's Pol. Private, Third Squad, Third Division. I came back.'",
+  "dialogue": [
+    {
+      "keyword": "returned",
+      "prompt": "why you came back to the crater",
+      "response": "'Kehl.' She says it immediately. 'Not like — I know he's dead. I know what's in those fields.' She gestures at the Bone Fields direction. 'But in the crater, the night the three of us were here, I saw him. Clearly. Not a shadow, not a dream. Standing at the crater's edge, looking at us, with the specific expression of someone who has something important to say and no good way to say it.' She pauses. 'Davan wouldn't look. Mira filed a report about it, which — Mira files a report about everything, it's her first response. I came back because Kehl was trying to tell us something and I was the only one who stayed long enough to notice he was trying.' She looks at the crater. 'When I came back and sat in it — three weeks ago now — the ground vibrated. Very low, very slow. I felt it in my chest.' She pauses. 'Then something in the ground sort of — looked at me. Not threateningly. The way you notice someone when they've been in your peripheral vision long enough that it's rude not to acknowledge them.' She is quiet. 'It acknowledged me. And then I felt warmer, and I understood something that I'm still trying to put into words.'",
+      "disposition_delta": 9
+    },
+    {
+      "keyword": "understood",
+      "prompt": "what you understood",
+      "response": "She is quiet for a while. Not avoiding the question — finding the words. 'The thing coming up from below that Kehl was warning us about. It came up.' She says it flatly. 'It's here. It's everywhere around here, running through the substrate. And it's not — what I expected something coming up from below to be.' She looks at the ground. 'It's warm. It's patient. It's been building something for a very long time and the building is going in a specific direction and the direction is not toward destroying us.' She pauses. 'Kehl's warning wasn't a danger alert. It was a courtesy notice. He was trying to tell us: something is about to happen down here, you're going to feel it, it's going to be confusing, I wanted you to know before it was too late to know in advance.' She meets your eyes. 'He went back to tell Davan directly. I know that because I felt it when I was in the crater — Kehl's trail through the lattice, the way he moved through the ground, trying to get to Davan before it was too late.' She is quiet. 'He was trying to help. He said so, in the way things say things through the ground. Not words. Just — intent, very clear.' She looks at the medical kit in the crater. 'I left the kit because I planned to come back. I did come back. I just didn't go back in yet.'",
+      "requires_topic": "returned",
+      "disposition_delta": 10
+    },
+    {
+      "keyword": "different",
+      "prompt": "what has changed in you",
+      "response": "'The lattice.' She says it without hesitation. 'When the ground looked at me and I looked at it — some of it stayed. Not inside me, exactly. In the substrate near me. Like — like a callus, except instead of skin thickening, the lattice got used to my resonance signature and stopped treating me as ambient.' She shows you her hand. No crystal growth. Normal. 'I'm not Lazarus. I'm not Division Nine. I'm something that happened because I sat in a Grid node access point during an active pulse and the Grid noted me.' She pauses. 'I can feel which direction the nodes are from wherever I am. Like knowing where north is, except it's not north, it's the deep infrastructure.' She looks at the crater. 'Adra would worry if I told her. Davan already worries about everything. Mira would file a report.' She pauses. 'I'm not worried about it. It feels like — like being aware of something vast that is also aware of you, and finding the awareness mutual and surprisingly okay.' She is quiet. 'I came back to the crater to sit with it. To understand it better. And also because Kehl was here, and wherever Kehl's trail in the lattice goes, it passes through this crater on the way.'",
+      "requires_topic": "understood",
+      "disposition_delta": 11
+    },
+    {
+      "keyword": "mira",
+      "prompt": "Private Mira and the report",
+      "response": "'She filed it.' She says it with affection, not exasperation. 'That's what Mira does — she sees something she doesn't understand and she files a report because the report makes it real, and real things can be addressed through channels.' She pauses. 'The report probably got classified. Mira knows that. She files anyway. She says: the filing is evidence that the observation happened, which matters if anyone is looking for evidence that the observation happened.' She looks at the crater. 'Mira reported Kehl's appearance, the warning, the three of us being at the site. She copied Adra because Adra is the person who receives those copies and does something with them.' She pauses. 'I love Mira. She is the most reliably functional person I know, in the specific way of someone who has decided what her job is and does it regardless of whether the system it reports to is working.' A pause. 'She's stationed at Fort Rigan now, three passes east. She transferred after. Said she needed to be somewhere she hadn't seen Kehl.' She meets your eyes. 'I understand that. I also made a different choice.'",
+      "disposition_delta": 8
+    }
+  ]
+}

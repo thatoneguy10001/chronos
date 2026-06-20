@@ -1,0 +1,32 @@
+{
+  "id": "factory_worker_hen",
+  "name": "Hen",
+  "initial_disposition": 50,
+  "greeting": "She's at the tier-six conveyor junction doing the adjustment that the tier-six conveyor junction requires every four hours because the tension calibration drifts in heat. She does it without looking at it, the hands doing their practiced thing while she watches you approach. The coveralls are gray-brown with machine oil layered on machine oil in a way that has become its own pattern. She finishes the adjustment before she speaks. 'You're not from this level,' she says. Not an accusation — the tier-six workers know each other by the way they walk the gantry, and you don't walk it right. 'What do you need.' She says 'what do you need' the way people say it when they're genuinely asking and also genuinely limited on time.",
+  "dialogue": [
+    {
+      "keyword": "machines",
+      "prompt": "what it's like working with the machines",
+      "response": "'You stop hearing them.' She says it simply, as something that becomes true. 'First week: the press percussion is in your skeleton all day and in your dreams all night. Third week: you hear it when it stops.' She wipes her hands on the coverall, not because they're wet but out of habit. 'After that you hear the difference between normal operation and something wrong. The pitch change that means a bearing is going. The missed beat that means a feed jam.' She listens to the conveyor for a second, head tilted, automatic. 'Normal.' She looks at you. 'Twelve years on this level. I can diagnose eight of the ten most common junction faults by sound. The other two require a hand on the housing.' She pauses. 'I'm telling you this because people ask what it's like and I try to give an honest answer. The honest answer is: the machines become the environment, the same way the Hive becomes the environment. After twelve years I don't know what I'd do with quiet.'",
+      "disposition_delta": 7
+    },
+    {
+      "keyword": "ministry",
+      "prompt": "what you think of how the Ministry runs things",
+      "response": "She looks at you with the assessment of someone determining if this is a test. Then she decides something. 'The Ministry runs things the way the machines run.' She nods at the tier. 'Correctly, mostly, for the purpose the machines were built for. Whether the purpose is the right one is a different question from whether the machines are running correctly.' She pauses. 'The purpose of this tier is: produce output. The purpose of the Ministry is: prosecute the war. Both are doing their purpose. Both are running correctly for that purpose.' She looks at the conveyor. 'The question of whether the purpose is right is not a question the machines can answer. Machines don't have opinions about their purpose.' She pauses. 'We do. That's the difference.' She looks at you. 'That's all I'm going to say about the Ministry on this tier.'",
+      "disposition_delta": 6
+    },
+    {
+      "keyword": "lung",
+      "prompt": "Hive Lung and how workers deal with it",
+      "response": "'You wear the filter.' She taps the filtration mask hung at her collar — she's been wearing it up since she stopped moving, which means she puts it up when she's talking to someone new as a matter of habit. 'Standard filter, replaced on schedule, checked at the start of every shift. The workers who don't replace on schedule — we notice. You can hear the early signs in the cough.' She is matter-of-fact about it. 'It develops in weeks without filtration. There are workers on this tier who came up from the Lower Rigs with it already partial. We watch them.' She pauses. 'The Ministry supplies filters. This is not charity — a worker with Hive Lung at third stage can't operate the machines, so the Ministry's calculation is: prevent the stage where the worker becomes non-functional.' She is quiet. 'I've been on this tier for twelve years. I've watched fourteen coworkers go back down with it advanced enough to matter.' She puts the mask back up. 'The filter works. The replacement schedule works. The problem is the people who think the schedule doesn't apply to them until it does.'",
+      "disposition_delta": 8
+    },
+    {
+      "keyword": "below",
+      "prompt": "what you've heard about the levels below this one",
+      "response": "She is quiet for a moment with the quality of deciding how much to say. 'There are levels below the Under-District that don't have official tier numbers,' she says. 'I know this because someone came through here three years ago who had a clearance badge with a sub-zero level number. Not zero — a level designation below zero.' She pauses. 'We don't ask questions about the sub-zero levels. The workers who have clearance to them don't volunteer information about them. What I know from twelve years of being on this tier: things come up from below on the service lifts that aren't on the manifest. Materials I don't recognize. Equipment I don't recognize.' She looks at the floor. 'And sometimes — not often, but sometimes — the workers who go down there come back changed in ways that are hard to put words to. Not sick. Changed.' She meets your eyes. 'I've been on this tier for twelve years. I'm going to keep being on this tier. I don't know what's below and I don't go looking.' She pauses. 'But I notice.'",
+      "disposition_delta": 9
+    }
+  ]
+}

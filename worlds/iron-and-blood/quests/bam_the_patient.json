@@ -1,0 +1,15 @@
+{
+  "id": "bam_the_patient",
+  "name": "A Patient Adra Doesn't Know What to Do With",
+  "description": "Adra has a soldier from third squad who arrived three days ago and hasn't slept since. He's been wandering the fort — mess, armory, gate — and she keeps finding him in the wrong places at the wrong hours. Right now he's sitting outside the Command Post in the rain. She wants a witness before she writes it in the chart.",
+  "objective": {
+    "type": "reach_room",
+    "room_id": "command_post"
+  },
+  "gold_reward": 35,
+  "xp_reward": 90,
+  "giver_npc_id": "sister_adra",
+  "requires_quest_complete": "the_transfer_order",
+  "accept_text": "She pulls the curtain back just enough for you to see the cot by the window. Empty. 'He was there an hour ago.' She lets the curtain fall. 'He does this. Wanders. I've found him in the field mess at three in the morning sitting in the dark. I've found him in the armory standing very still. Last night someone from the gate reported him outside in the rain.' She looks at her hands. 'He answers every question. He remembers his name and his rank and his squad number. He just — doesn't stay in beds.' She meets your eyes. 'Go find him. He'll be somewhere near the Command Post — he drifts toward Thorn, which I don't think is nothing. I need another pair of eyes on him before I write in the chart what I think I'm seeing.'",
+  "complete_text": "He's sitting on the steps outside, uniform soaked through, looking at nothing in particular. When you approach he looks up. His eyes are completely clear. 'Oh,' he says, as if you've arrived exactly when expected. 'I was waiting.' He says it without urgency — like a fact about the weather. He doesn't explain what he was waiting for. He walks back to the hospital with you without being asked, correctly, without taking a wrong turn. Adra is in the doorway. She watches him settle onto the cot and doesn't speak until he's still. 'You see it,' she says quietly. Not a question."
+}

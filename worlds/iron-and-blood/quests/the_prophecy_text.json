@@ -1,0 +1,15 @@
+{
+  "id": "the_prophecy_text",
+  "name": "The Prophecy Text",
+  "description": "Kell found a name in the monastery deep archive. Abbot Solan has kept a three-line prediction sealed in that same archive for twenty-one years — since the night he saw Ironheart. Both things cannot be coincidence. Ask Solan what the archive says.",
+  "objective": {
+    "type": "talk_to",
+    "npc_id": "abbot_solan"
+  },
+  "gold_reward": 45,
+  "xp_reward": 110,
+  "giver_npc_id": "brother_kell",
+  "requires_quest_complete": "kell_reads_the_name",
+  "accept_text": "Kell is at the archive table when you return, surrounded by records — monastery logs, visitor registers going back forty years, the observation notes from the night the hammer moved. He looks up. 'Twenty-one years ago, Solan sealed something in the deep archive. The same year I began finding Elder fragments in the ruins.' He sets down the log. 'I've respected the seal. Solan sets seals for reasons.' He looks at you. 'But the name in the fragment I found tonight — it maps to something in the sealed text. I know because Solan read me the first line once, twenty years ago, when he thought I was closer to understanding than I was.' He meets your eyes. 'Go ask him. Tell him you found the name. Tell him Kell sent you. He's been sitting with this for twenty-one years and I think he has been waiting for permission from the right circumstances to unseal it.' A pause. 'Whatever he tells you — bring it back word for word. I've been patient. I can wait another hour.'",
+  "complete_text": "Kell listens to every word of the three-line text. He listens to Solan's interpretation. He is quiet afterward for longer than usual. 'The ending,' he says finally. 'Not the world. The war-world. The one that's been the only world for three hundred years.' He looks at the monastery ceiling — the stone vault, the old stone, the place that has outlasted everything except the Wastes themselves. 'Kaelen built the hammer knowing what it was for. He built it from the inside of the prophecy, understanding what the ending meant.' He is quiet. 'That's not something a person does out of obedience. That's something a person does out of — clarity. Out of believing the world-after-the-ending is worth the work of building the key.' He meets your eyes. 'Osse,' he says. 'The Rememberer at Kaelen's tomb. She's been keeping this for thirty years. If anyone understands the full shape of it — what the ironheart is, what the smith understood, what the three lines actually mean together — it's her.' He picks up the log. 'Go to the tomb. Take Solan's interpretation. Let Osse tell you if he has it right.'"
+}

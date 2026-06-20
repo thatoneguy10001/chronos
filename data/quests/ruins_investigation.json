@@ -1,0 +1,15 @@
+{
+  "id": "ruins_investigation",
+  "name": "Ruins Investigation",
+  "description": "A powerful undead presence lurks in the Ancient Ruins east of the Obsidian Dungeon. Destroy it and report back.",
+  "objective": {
+    "type": "kill_count",
+    "class_id": "wraith",
+    "count": 1
+  },
+  "gold_reward": 50,
+  "xp_reward": 150,
+  "giver_npc_id": "guild_master",
+  "accept_text": "Hendricks unrolls a map and jabs a finger at the ruins. 'Our last scout reported an Ancient Wraith — old Velian spirit, bound to that place for centuries. It's been growing bolder. Put it to rest and you'll have earned your place in this guild.'",
+  "complete_text": "The ancient threat in the ruins has been vanquished. The Velian spirit is gone."
+}

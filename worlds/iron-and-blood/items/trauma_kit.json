@@ -1,0 +1,11 @@
+{
+  "id": "trauma_kit",
+  "name": "Trauma Kit",
+  "description": "A comprehensive field dressing kit containing coagulant powder, sterile bandages, a pressure tourniquet, and a single-dose local anesthetic. Standard issue for forward combat units. Restores 60 HP.",
+  "takeable": true,
+  "attributes": {
+    "use_effect": "heal",
+    "heal_amount": 60
+  },
+  "tags": ["consumable", "medical"]
+}

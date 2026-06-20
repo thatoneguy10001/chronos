@@ -1,0 +1,14 @@
+{
+  "id": "bleed_vial",
+  "name": "Bleed Vial",
+  "description": "A pressurized ampule of anticoagulant compound. Injected by the syringe spear's tip, it prevents clotting and causes profuse bleeding. Reusable — refills passively.",
+  "starting_room_id": "fort_iron_gate",
+  "takeable": true,
+  "attributes": {
+    "item_type": "payload",
+    "payload_effect": "bleed",
+    "payload_damage": 4,
+    "payload_duration": 2
+  },
+  "tags": ["payload", "bleed", "terra"]
+}

@@ -1,0 +1,42 @@
+{
+  "id": "spire_abomination",
+  "name": "Spire Abomination",
+  "description": "Three hundred years near the Architect has done something to these. They are larger than standard Abominations, denser, the crystal through their frame grown in organized lattice patterns rather than the chaotic spurs you see in the Fields. They do not charge. They position. They wait for you to make the first error and then they close the distance with the efficiency of something that has been watching how things fight for centuries. The Architect calls them community. That's accurate. They have territory, patterns, preferences. They know which approach angles are dangerous and they use them. Do not mistake patience for passivity.",
+  "base_stats": {
+    "hp": 105,
+    "attack": 13,
+    "defense": 11,
+    "intelligence": 3
+  },
+  "abilities": [
+    {
+      "id": "lattice_slam",
+      "name": "Lattice Slam",
+      "description": "A full-weight strike using a limb reinforced with organized crystal lattice. The impact resonates — the vibration continues after the blow lands.",
+      "base_damage": 15,
+      "applies_effect": "bleed",
+      "effect_damage": 4,
+      "effect_duration": 2
+    },
+    {
+      "id": "territorial_charge",
+      "name": "Territorial Charge",
+      "description": "A sudden burst of speed that contradicts the Spire Abomination's usual deliberate movement — brief, explosive, and delivered at precisely the wrong moment for the target.",
+      "base_damage": 18
+    }
+  ],
+  "passives": ["heavy_plate"],
+  "starting_equipment": [],
+  "xp_reward": 70,
+  "gold_reward": 18,
+  "tactics": [
+    {
+      "condition": { "type": "hp_below", "threshold": 0.5 },
+      "action": { "type": "heavy_attack", "multiplier": 1.4 }
+    },
+    {
+      "condition": { "type": "always" },
+      "action": { "type": "basic_attack" }
+    }
+  ]
+}

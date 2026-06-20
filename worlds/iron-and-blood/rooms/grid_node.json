@@ -1,0 +1,9 @@
+{
+  "id": "grid_node",
+  "name": "Grid Infrastructure — Primary Node",
+  "description": "Four hundred meters below the Aetherian Pass, at the depth where the rock stops being geology and starts being architecture. The chamber is Elder-built — you know it by the proportions, by the crystalline structural lattice that distributes load in ways that no engineer working from first principles would derive, by the fact that it is perfectly preserved in a way that suggests not age-resistance but active maintenance. And it is active. That's the thing. The crystals in the walls pulse with slow blue-white light in a rhythm you recognize after a moment — the same rhythm you felt in the Resonance Core. The same rhythm, from the same source, transmitted through the same lattice. A network. You are standing inside a node of a network that runs under the Wastes, under the Pass, under the mountains on both sides, connecting points that the Elder People considered significant three hundred years ago and left the infrastructure to say so. The Deep Iron pathways branch from here in eight directions. One of them goes east, toward the Spire. One goes north, toward where the Aetherian fleet reports the lattice anomaly. The fact that the light is pulsing — the fact that there is light — means something turned it on.",
+  "exits": {
+    "up": { "target_room_id": "stonehold", "label": "Stonehold" }
+  },
+  "requirements": {}
+}

@@ -1,0 +1,15 @@
+{
+  "id": "the_ninth_reversal",
+  "name": "The Ninth Reversal",
+  "description": "The Hall of Rememberers holds records of Elder integration reversals. The Ninth — an Elder mind preserved in crystal since the Cascade — performed eleven reversals after the war. If the technique still exists, it exists in those records.",
+  "objective": {
+    "type": "talk_to",
+    "npc_id": "the_ninth"
+  },
+  "gold_reward": 65,
+  "xp_reward": 165,
+  "giver_npc_id": "helen_stone",
+  "requires_quest_complete": "the_integration_depth",
+  "accept_text": "'The Hall of Rememberers.' Stone says it in a way that suggests she has been avoiding saying it for a long time. 'An Elder mind — the Ninth, in the fourth crystal matrix. Almost-dark. Not entirely.' She is quiet. 'I've been to the Hall twice. The Ninth recognized me the second time. It didn't speak.' She meets your eyes. 'It will speak to you. Rememberer Osse told me that — she said it speaks when it finds something worth speaking to.' A pause. 'Ask about reversal. Ask about what was possible after the Cascade, when eleven post-integration subjects chose to return to individual form. The technique they used.' She looks at the chart. 'If the combination exists — consent, resonance skill, the right procedure — I need to know what it requires before I walk into Thorn's office and tell him there's a path.'",
+  "complete_text": "Stone listens to every word. She writes nothing — she's committing it to memory, which she does for things she needs to hold exactly. 'Consent. Resonance resonance skill. A compound-stage case is more complex but possible.' She is quiet. 'The Ninth said possible.' She says it like she is testing the word for weight. 'After three hundred years and eleven cases and the Cascade itself, the answer is still possible.' She looks up. 'The combination isn't beyond assembling. That's what it said.' She stands. 'I can find the resonance approach — the research division has been mapping it for ten years without knowing that's what they were doing. I need to talk to the Watcher.' She is moving. 'And I need you to come with me. I am going to walk into the Hall of Rememberers and ask an Elder mind to help me reverse what was done to Thorn and I am not doing that alone.'"
+}

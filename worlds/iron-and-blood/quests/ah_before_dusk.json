@@ -1,0 +1,15 @@
+{
+  "id": "ah_before_dusk",
+  "name": "Before Dusk",
+  "description": "Something in the Bone Fields spoke to Morlak's runner and she couldn't move until dawn. Thorn needs to know. And he has something to tell you about the Armistice before you go out in it.",
+  "objective": {
+    "type": "talk_to",
+    "npc_id": "commander_thorn"
+  },
+  "gold_reward": 30,
+  "xp_reward": 80,
+  "giver_npc_id": "commander_thorn",
+  "requires_quest_complete": "ah_runner_network",
+  "accept_text": "He listens to the account of the runner without interrupting. When you finish he's quiet. 'That's the third report this month of something in the Fields that isn't a subject.' He goes to the window. 'During the Armistice. Consistently during the Armistice.' He turns. 'You've been to the front. You know what it looks like out there at night when the firing stops.' He pauses. 'The Armistice isn't peace. Adra said it to me once and she was right — it's something worse than peace, because peace would let you stop seeing them as people and the Armistice doesn't. Every night for three hundred and thirty years both sides have come out of the dark together to fight something neither one of them made.' He looks at you directly. 'I want you to go out there tonight. Pay attention to what's in the dark that isn't an Abomination.'",
+  "complete_text": "He takes the information and adds it to something he's already thinking. 'Adra trades bandages with an Aetherian medic during the ceasefire — has for two years. The medic's been missing. Adra's worried.' He looks at the front. 'Don't fire during the Armistice. Both sides stop at dusk and that's not a courtesy — if you break it, both sides respond and it ends for everyone.' He pauses. 'When you get out there, you'll understand why people keep it. It's not discipline. It's — recognition.' He doesn't elaborate. He doesn't need to."
+}

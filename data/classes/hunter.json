@@ -1,0 +1,38 @@
+{
+  "id": "hunter",
+  "name": "Hunter",
+  "description": "A ranged glass cannon with the highest base attack in the roster. Low HP and defense; wins fights fast or not at all.",
+  "base_stats": {
+    "hp": 90,
+    "attack": 13,
+    "defense": 5,
+    "intelligence": 4
+  },
+  "abilities": [
+    {
+      "id": "precision_shot",
+      "name": "Precision Shot",
+      "description": "A pinpoint arrow that ignores most of the enemy's defense.",
+      "base_damage": 8
+    },
+    {
+      "id": "net_trap",
+      "name": "Net Trap",
+      "description": "Tangle the enemy in netting and take a defensive stance. +3 defense for 2 turns.",
+      "base_damage": 0,
+      "applies_effect": "defense_up",
+      "effect_damage": 3,
+      "effect_duration": 2
+    },
+    {
+      "id": "multi_shot",
+      "name": "Multi Shot",
+      "description": "Loose 4 arrows in rapid succession, each with its own RNG roll.",
+      "base_damage": 3,
+      "hit_count": 4
+    }
+  ],
+  "passives": ["tactical_knowledge"],
+  "starting_equipment": ["hunter_leathers", "compound_bow", "quiver"],
+  "xp_reward": 0
+}

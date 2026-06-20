@@ -1,0 +1,14 @@
+{
+  "id": "venom_vial",
+  "name": "Venom Vial",
+  "description": "A sealed glass tube of concentrated neurotoxin. Slot it into the syringe spear to deliver poison on every strike. Reusable — the compound replenishes between uses.",
+  "starting_room_id": "fort_iron_gate",
+  "takeable": true,
+  "attributes": {
+    "item_type": "payload",
+    "payload_effect": "poison",
+    "payload_damage": 3,
+    "payload_duration": 3
+  },
+  "tags": ["payload", "poison", "terra"]
+}

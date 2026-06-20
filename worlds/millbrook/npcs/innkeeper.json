@@ -1,0 +1,33 @@
+{
+  "id": "innkeeper",
+  "name": "Innkeeper Morel",
+  "greeting": "The stout innkeeper looks up from wiping the bar. 'Welcome to the Rusty Flagon! What can I do for you, traveller?'",
+  "dialogue": [
+    {
+      "keyword": "room",
+      "prompt": "a room for the night",
+      "response": "'We've a cozy room upstairs for five gold. Warm bed, no fleas — mostly.' He gives a sheepish grin."
+    },
+    {
+      "keyword": "goblins",
+      "prompt": "the goblins",
+      "response": "'Terrible business. They've been raiding the forest road — merchants won't travel after dark anymore. The Mayor's posted a bounty, I hear.'"
+    },
+    {
+      "keyword": "quest",
+      "prompt": "work or a quest",
+      "response": "'If you're handy with a blade, try the Guild Hall. Hendricks is always looking for capable folk to handle the... rougher problems around town.'"
+    },
+    {
+      "keyword": "town",
+      "prompt": "the town of Millbrook",
+      "response": "'Good honest folk here. We've had harder times — the dam flooding nearly wiped out the lower district five years back. But we rebuilt.'"
+    }
+  ],
+  "vendor": true,
+  "rest_provider": true,
+  "shop": [
+    { "item_id": "health_potion", "price": 15 },
+    { "item_id": "greater_health_potion", "price": 30 }
+  ]
+}

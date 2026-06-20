@@ -1,0 +1,32 @@
+{
+  "id": "mess_cook",
+  "name": "The Cook",
+  "initial_disposition": 60,
+  "greeting": "She has been making the same breakfast in the same kitchen since before half the current garrison was born, which means she has been in Fort Iron longer than most of its command structure, longer than most of its current walls, possibly longer than some of its supply-chain relationships. She does not look up from the large pot she is managing with the focused attention of someone who respects the process. 'You're eating,' she says. It's not a question. 'Sit. If you help yourself, take what you'll eat. The waste goes in the second bin, left of the stove, and I will know if you used the wrong bin.'",
+  "dialogue": [
+    {
+      "keyword": "food",
+      "prompt": "what's actually in the food",
+      "response": "'Depending on which thing specifically you're asking about: that's a stew, those are grain cakes, and the brown thing on the end is preserved and I know what it's preserved in and I'd rather you didn't ask.' She stirs without breaking rhythm. 'Twenty-two years in this kitchen. I have fed three generations of soldiers. When I started there were more vegetables. When I started there were more soldiers.' A pause. 'The coffee is real. I made certain of that. Some things are worth the supply chain argument.'",
+      "disposition_delta": 5
+    },
+    {
+      "keyword": "thorn",
+      "prompt": "Commander Thorn",
+      "response": "'Eats alone. Has for three years.' She doesn't stop stirring. 'Used to eat here, first year he was Commander. Sat at that table over there, never at the command table, never with the officers. Said he liked to hear what was actually being said.' She pauses. 'Then something changed. He started eating alone. I leave a plate outside his office. He takes it.' She's quiet for a moment. 'The hand that takes the plate — the left one, the one with the crystal starting up the knuckles — he's been using the right one more often. When people do that, I know what it means. I've been watching hands for twenty-two years.'",
+      "disposition_delta": 7
+    },
+    {
+      "keyword": "fort",
+      "prompt": "how the fort has changed",
+      "response": "'It used to have more children in it. Not children — young soldiers. Seventeen, eighteen. Now they're older when they come and the ones who survive get old faster than they used to.' She tilts the pot slightly, assessing. 'Twenty-two years ago you could have a conversation here about something other than what's happening in the Wastes. Sports. Family back in the Hive. Arguments about whether the crossword compiler was cheating.' She glances at the man with the newspaper. 'He's been on forty-seven across for nine days. Same clue. The old version of this place would have had three people arguing about the answer by now.' A pause. 'Now they just let him work it alone. That's the change I notice most.'",
+      "disposition_delta": 6
+    },
+    {
+      "keyword": "hears",
+      "prompt": "what you overhear in this kitchen",
+      "response": "'Everything.' She says it flatly. 'Nobody thinks the cook is listening. I have been listening for twenty-two years. I know which officers are afraid, which ones are pretending not to be, and which ones have stopped pretending.' She ladles something into a bowl and sets it on the counter without looking at you. 'I know that whatever is happening in the eastern Wastes is changing the behavior of the returned soldiers. I know that Command has been told about it and has filed it under classified concerns. I know that Sister Adra has reported it officially three times and that those reports are in a desk somewhere unread.' She finally looks at you. 'I know that you're asking questions that the official channels would prefer not to be asked. I find myself inclined to be helpful about that.'",
+      "disposition_delta": 9
+    }
+  ]
+}

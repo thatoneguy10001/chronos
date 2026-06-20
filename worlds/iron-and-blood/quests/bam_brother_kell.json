@@ -1,0 +1,15 @@
+{
+  "id": "bam_brother_kell",
+  "name": "Brother Kell",
+  "description": "Abbot Solan told you his brother went to the Maintenance Tunnels two weeks ago and hasn't come back. He was looking for the second half of the Elder chronicle. Find him.",
+  "objective": {
+    "type": "talk_to",
+    "npc_id": "brother_kell"
+  },
+  "gold_reward": 60,
+  "xp_reward": 145,
+  "giver_npc_id": "abbot_solan",
+  "requires_quest_complete": "bam_maintenance_tunnels",
+  "accept_text": "Solan is quiet for a moment before he answers. 'Kell. Younger. The better scholar of the two of us, which I've never admitted to his face.' He looks toward the tunnel entrance. 'He told me two months ago that he'd found a reference — not in our archive, in a correspondence cache that came to us sideways — to a second cache of the Elder record. Somewhere below. He said watching was no longer sufficient.' He looks at you. 'Those were his exact words. Watching is no longer sufficient.' A pause. 'He was right. I was the one who said watching was enough. I don't — bring him back.'",
+  "complete_text": "He's alive. Sitting cross-legged on the floor of the deepest chamber with a candle burned most of the way down, reading from a collection of Elder manuscript pages that someone — not him — arranged in order on the stone around him. He looks up when you enter as if you're slightly late to something. 'You've read the first fragment,' he says. Not a question. 'Then you know the Elder People's technique worked.' He pauses. 'It worked completely. The dead woke up inside the network. They remembered everything they were. They could not return to what they were.' He looks at you. 'They've been awake in the crystal for four hundred years. They have been waiting for someone to build them a door. The Lazarus subjects are not hosts. They are the door.'"
+}

@@ -1,0 +1,9 @@
+{
+  "id": "dam",
+  "name": "The Dam",
+  "description": "A great timber-and-stone dam holds back the river, its sluice gates controlling the water that feeds Millbrook's fields. The structure groans under the weight of the current, vital and a little ominous. The riverside path is back to the west.",
+  "exits": {
+    "west": { "target_room_id": "river", "label": "Riverside" }
+  },
+  "requirements": {}
+}

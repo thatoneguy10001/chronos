@@ -1,0 +1,15 @@
+{
+  "id": "the_sergeant_at_the_wall",
+  "name": "The Sergeant at the Wall",
+  "description": "Sergeant Kehl is at the windward approach, waiting. Helen Stone needs to know what he found during his time in the Wastes — and what the modified Lazarus compound actually does, from the only person who can answer that from the inside.",
+  "objective": {
+    "type": "talk_to",
+    "npc_id": "sergeant_kehl"
+  },
+  "gold_reward": 80,
+  "xp_reward": 200,
+  "giver_npc_id": "helen_stone",
+  "requires_quest_complete": "high_ground",
+  "accept_text": "'He's there.' Stone sits down with the news the way you sit down after long travel. 'Go back. Talk to him. He'll tell you what the compound does at the third stage — what it actually does, not what the research notes say it should do.' She straightens. 'I need to know what they changed. The formula, the intent, what it makes of people at the end. Vane didn't know the compound was modified — I believe that. But someone above Vane did. Whoever changed the formula knew what they were building and they built it deliberately.' She meets your eyes. 'Kehl can feel the network. He told Kell that — he can sense the other subjects, the ones who've integrated fully. He's been mapping it from high ground.' She pauses. 'Ask him what they're building toward. And give him Stone's letter — I wrote it. He should have it.'",
+  "complete_text": "Stone listens to everything without moving. When you finish, she's quiet for a very long time. 'A network,' she says finally. 'The integration properties at high concentration — the subjects aren't losing coherence. They're changing the format of it. Individual consciousness becoming something distributed.' She stands and goes to the window. 'The Elder People stopped themselves because they understood what they were becoming. Not because they were afraid of it — because they chose not to.' She's looking at the smog layer below. 'Someone changed my compound to accelerate that process. In living people, in soldiers, in Kehl.' She turns. 'That's not a weapons program anymore. That's a succession plan.' She looks at you steadily. 'I need to know who signed the modification order. Not Vane. Above Vane. And I'm going to need help finding out.'"
+}

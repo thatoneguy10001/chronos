@@ -1,0 +1,32 @@
+{
+  "id": "guild_master",
+  "name": "Guild Master Hendricks",
+  "greeting": "A lean man with sharp eyes looks up from a spread of maps. 'Another adventurer. Good. We have three contracts here — goblins in the forest, an orc on the dark road, and something ancient in the ruins. Captain Bren at the Guard House has a fourth. All dangerous, all honest pay.'",
+  "dialogue": [
+    {
+      "keyword": "goblins",
+      "prompt": "the goblin situation",
+      "response": "'Organized raid — three or more working together. The forest road isn't safe until they're cleared. Thirty gold for the job. Type: accept goblin_hunt'"
+    },
+    {
+      "keyword": "orc",
+      "prompt": "the orc marauder",
+      "response": "'Big, scarred brute. Been preying on merchants using the dark forest road. Forty gold to put it down. Type: accept orc_bounty'"
+    },
+    {
+      "keyword": "ruins",
+      "prompt": "the ancient ruins",
+      "response": "'The Obsidian Dungeon leads east into old Velian stonework. Our last scout reported a powerful undead presence — an Ancient Wraith. Fifty gold for destroying it. Type: accept ruins_investigation'"
+    },
+    {
+      "keyword": "join",
+      "prompt": "joining the guild",
+      "response": "'Membership is earned, not bought. Complete a contract successfully and I'll consider it. We don't take raw recruits — we take proven adventurers.'"
+    },
+    {
+      "keyword": "quest",
+      "prompt": "available contracts",
+      "response": "'Three open: goblin_hunt (30g), orc_bounty (40g), ruins_investigation (50g). Ask me about any of them, or type accept <quest_id> to take one.'"
+    }
+  ]
+}

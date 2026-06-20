@@ -1,0 +1,27 @@
+{
+  "id": "lab_assistant_brec",
+  "name": "Brec",
+  "initial_disposition": 40,
+  "greeting": "He doesn't hear you come in because the chamber is always loud with the low hum of the preservation systems, and he's at the monitoring station with his back to you, cross-referencing two sets of readouts with the focused attention of someone who has been doing this long enough to know when the numbers are wrong and is currently watching them be wrong. When he does turn, the expression is: surprised, then calculating, then deciding-to-trust, in about three seconds. He's young to be the only person in this room. 'Brec,' he says. 'Junior researcher, under-district research division, currently — unassigned, since Director Stone stepped away.' He looks at the readouts. 'I've been continuing the monitoring. Someone should.'",
+  "dialogue": [
+    {
+      "keyword": "vats",
+      "prompt": "what the vats are and how they work",
+      "response": "'Preservation and integration,' he says. 'The animating compound is introduced here, in controlled concentrations, with the Aetherium catalyst from the Wastes-recovered tissue.' He looks at the rows of containers. 'The compound preserves the tissue and creates the interfacing conditions for the crystal growth. The crystal grows into the neural substrate.' He pauses. 'Director Stone designed the process. I've been running the monitoring protocols since she stepped away. I was her junior researcher for two years — I know the protocols.' He looks at the oldest vats. 'The early subjects — the very old intakes — the crystal is complete. The tissue is completely replaced, structurally. The manifest lists them as early integration, but in practice they're something new.' He is quiet. 'I check them every morning. Their vital readings — by which I mean their crystal resonance, not their biological readings, those flatlined a long time ago — their crystal resonance is not static. It's changing. Slowly. But consistently.'",
+      "disposition_delta": 7
+    },
+    {
+      "keyword": "stone",
+      "prompt": "Director Stone and what happened to the research",
+      "response": "'She stepped away.' He says it carefully. 'That's the official designation. Stepped away.' He crosses his arms. 'She didn't stop working — I know that because the lab clearance logs show entries in her access code in locations she doesn't officially have access to anymore. She's still doing the research. She's just not doing it here.' He pauses. 'I tried to reach her through the official channels. My communications were flagged for review. The review has been ongoing for three months.' He looks at the readouts. 'I haven't tried again because I know what ongoing review means — it means someone is monitoring whether I'm trying to communicate information that should stay in this room.' He meets your eyes. 'I have documentation of something that Director Stone needs to know. I can't get it to her through official means.' A pause. 'Are you in contact with her.'",
+      "disposition_delta": 8
+    },
+    {
+      "keyword": "change",
+      "prompt": "the change you've been documenting eight months in",
+      "response": "'Eight months ago, the crystal resonance readings on the entire population shifted.' He pulls a folder from the monitoring station — organized, dated, everything dated. 'Not a gradual shift. A single-night event. From one monitoring cycle to the next: the resonance frequency on every integrated subject in this chamber changed in the same direction simultaneously.' He opens the folder to the comparison charts. 'The frequency shift is subtle enough that it would be easy to attribute to instrument drift. I recalibrated six times. I replaced the sensors on three vats. The shift is real.' He taps the chart. 'The new frequency is consistent across all subjects regardless of integration stage. From the oldest complete-crystal subjects to the most recent intakes.' He pauses. 'In eight months of monitoring since the shift: the subjects' crystal resonance has been moving in a consistent direction. Slowly. But with a consistency that does not look random.' He sets the folder down. 'The shift date correlates with something I found in the external Grid resonance readings — but that's Grid research and I don't have clearance for those files.' He looks at you. 'I need Director Stone to see this data. She'll know what it means.'",
+      "requires_topic": "vats",
+      "disposition_delta": 10
+    }
+  ]
+}

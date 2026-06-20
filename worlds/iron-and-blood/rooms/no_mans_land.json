@@ -1,0 +1,12 @@
+{
+  "id": "no_mans_land",
+  "name": "No Man's Land",
+  "description": "Half a kilometer of craters, wire, and the bones of people that nobody came to claim. The chemical fog sits low to the ground and you've learned not to taste it, which is different from it not being there. Nobody came to claim the bones because it wasn't safe to, and then it became not safe to because of the bones, and now it's been long enough that this is simply what the ground looks like here and everyone has adjusted. Morlak is in a crater to the east, crouched in the way of someone who has been watching this particular strip of nothing for thirty years and has not yet run out of things to notice about it.",
+  "exits": {
+    "north": { "target_room_id": "trench_alpha", "label": "Trench Alpha" },
+    "south": { "target_room_id": "bone_fields", "label": "Bone Fields" },
+    "east": { "target_room_id": "fallen_patrol", "label": "Eastern Ruins" },
+    "west": { "target_room_id": "shell_crater", "label": "Shell Crater" }
+  },
+  "requirements": {}
+}

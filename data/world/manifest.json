@@ -1,0 +1,20 @@
+{
+  "start_room_id": "town_square",
+  "title": "Millbrook",
+  "encounters": [
+    { "class_id": "goblin", "room_id": "forest" },
+    { "class_id": "goblin", "room_id": "forest" },
+    { "class_id": "goblin", "room_id": "forest" },
+    { "class_id": "orc", "room_id": "dark_forest" },
+    { "class_id": "skeleton", "room_id": "obsidian_dungeon" },
+    { "class_id": "wraith", "room_id": "ancient_ruins" }
+  ],
+  "npc_placements": [
+    { "npc_id": "innkeeper",     "room_id": "inn" },
+    { "npc_id": "blacksmith",    "room_id": "smithy" },
+    { "npc_id": "guild_master",  "room_id": "guild_hall" },
+    { "npc_id": "aldwyn",        "room_id": "market" },
+    { "npc_id": "captain_bren",  "room_id": "guard_house" },
+    { "npc_id": "brin",          "room_id": "tavern" }
+  ]
+}

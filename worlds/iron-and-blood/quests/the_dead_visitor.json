@@ -1,0 +1,12 @@
+{
+  "id": "the_dead_visitor",
+  "name": "The Dead Visitor",
+  "description": "Morlak's records show a visitor to the abomination lair whose badge number matches someone officially listed as deceased fifteen years ago. Minister Vane has access to the full Ministry personnel archive — and may be able to explain how a dead man keeps a visitation schedule.",
+  "objective": { "type": "talk_to", "npc_id": "korr_vane" },
+  "gold_reward": 35,
+  "xp_reward": 90,
+  "giver_npc_id": "brother_kell",
+  "requires_quest_complete": "thirty_years_of_watching",
+  "accept_text": "Kell reads Morlak's notes twice. Then he sits for a while without speaking. 'A dead man,' he says finally. 'And both sides.' He taps the Aetherian entries in the log. 'Terran officials and Aetherian officials, visiting the same site on a coordinated schedule, for thirty years.' He closes the notebook and hands it back. 'This isn't a research program. Research programs don't span both governments and continue after the researcher is officially dead.' He looks at you. 'Vane. The Minister has the full personnel archive — not just the public records. If that badge number belongs to a real person with a real history, Vane will find it. Show him the badge number, not the context. See what he finds before he knows why you're asking.' A pause. 'He's going to find something strange. Watch his face when he reads the dates.'",
+  "complete_text": "Vane pulls the Ministry ledger without being asked — the physical one, not the filed copies. He finds the badge number. He reads the name. He reads the death certificate date. He reads Morlak's visitor date. He goes quiet in a way that is different from his usual considered pauses. He checks a secondary record. 'The signing authority on the death certificate,' he says. 'This office designation — I don't recognize it. It's Ministry format, Ministry stamps, but the office code doesn't correspond to any department in the current organizational chart.' He sets the ledger down. His voice is level, but there is something behind it that wasn't there a moment ago. 'I'm going to make inquiries. Quietly.' He looks at you. 'How did you come across this badge number?' It is a genuine question. Not an accusation. He doesn't know yet what he's found."
+}

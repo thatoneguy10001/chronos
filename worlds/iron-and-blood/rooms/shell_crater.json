@@ -1,0 +1,10 @@
+{
+  "id": "shell_crater",
+  "name": "Shell Crater",
+  "description": "Someone was here recently enough that the mud hasn't fully closed back around the fire ring. Three sets of bedroll impressions. Empty ration tins, labels still legible. They left in enough of a hurry to leave the medical kit behind — which is either bad or very bad, depending on whether they left because they wanted to or because they had to. The difference matters. You pick up the medical kit and look at it for a moment. People don't leave these behind.",
+  "exits": {
+    "east": { "target_room_id": "no_mans_land", "label": "No Man's Land" },
+    "south": { "target_room_id": "iron_monastery", "label": "Iron Monastery" }
+  },
+  "requirements": {}
+}

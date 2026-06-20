@@ -1,0 +1,42 @@
+{
+  "id": "spire_ancient",
+  "name": "Ancient of the Spire",
+  "description": "Three hundred years. You can see it in the crystal structure — not the organized lattice geometry of a decade's growth, but something that has been growing and integrating and reorganizing over the full span of the war, the Armistice, the three seasons per year when this part of the Wastes becomes briefly habitable and the two when it doesn't. The Architect knows this one's name, or what passes for a name in the context of something that has been becoming more lattice and less individual for three centuries. It moves with a slowness that is not impairment — it is deliberation, the movement of something that does not need to hurry because it has already decided what happens next. The crystal at the joints is warm. The warmth from the Spire reaches through it like sunlight through glass.",
+  "base_stats": {
+    "hp": 145,
+    "attack": 15,
+    "defense": 13,
+    "intelligence": 5
+  },
+  "abilities": [
+    {
+      "id": "ancient_resonance",
+      "name": "Ancient Resonance",
+      "description": "Channels three centuries of lattice integration through the body in a single discharge — a pulse of resonance energy that disrupts both physical and neurological systems simultaneously. The Architect asked it not to do this indiscriminately. It reserves the ability for genuine threats.",
+      "base_damage": 18,
+      "applies_effect": "bleed",
+      "effect_damage": 6,
+      "effect_duration": 3
+    },
+    {
+      "id": "weight_of_years",
+      "name": "Weight of Years",
+      "description": "A full-body strike using mass accumulated over three centuries of crystal growth. Not fast. Unavoidable once it commits. The ground shakes when it lands.",
+      "base_damage": 22
+    }
+  ],
+  "passives": ["heavy_plate", "undead_endurance"],
+  "starting_equipment": [],
+  "xp_reward": 105,
+  "gold_reward": 28,
+  "tactics": [
+    {
+      "condition": { "type": "hp_below", "threshold": 0.4 },
+      "action": { "type": "heavy_attack", "multiplier": 1.5 }
+    },
+    {
+      "condition": { "type": "always" },
+      "action": { "type": "basic_attack" }
+    }
+  ]
+}

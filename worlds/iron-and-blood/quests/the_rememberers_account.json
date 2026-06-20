@@ -1,0 +1,15 @@
+{
+  "id": "the_rememberers_account",
+  "name": "The Rememberer's Account",
+  "description": "Rememberer Osse has kept Kaelen Ironhand's true history for thirty years — not the monument version, the real one. The blacksmith's apprentice who built a key instead of a weapon, who preserved a decision in metal. Kell needs the full account.",
+  "objective": {
+    "type": "talk_to",
+    "npc_id": "rememberer_osse"
+  },
+  "gold_reward": 55,
+  "xp_reward": 135,
+  "giver_npc_id": "brother_kell",
+  "requires_quest_complete": "the_prophecy_text",
+  "accept_text": "Kell spreads what he has across the table: Solan's sealed text, the Elder fragment, thirty years of monastery observation notes. 'The pieces are here,' he says. 'But the piece I don't have is the hammer itself — what Kaelen built, what he understood he was building, whether the Elder People told him what the hammer was for or whether he understood it on his own.' He taps the Elder fragment. 'Osse's oral history. The one she's been maintaining at the tomb for thirty years.' He meets your eyes. 'She'll tell it to you if you've been to the Spire threshold. She'll know you've been there — Rememberers carry the oral record in a form that includes details about what the listener has seen.' He pauses. 'I've never been to the Spire. I've sent people but never gone.' A pause that might be regret. 'Bring back her exact words about the moment Kaelen decided what to build. And ask her: does the hammer require a person or a moment? I need to know if the key is a thing or a choice.'",
+  "complete_text": "Kell listens to Osse's account without interrupting. He asks one clarifying question — the warmth in the hammer when the right hand touches it, what the Elder People told Kaelen that meant — and then he is quiet. Very quiet. He goes to the monastery window and looks at the Wastes for a long time. 'Not a weapon,' he says. 'A question the war-world is asked, in the form of metal.' He looks at his hands. 'Kaelen built an answer to a question no one had been able to ask yet. A question that requires three hundred years of war to make the conditions for the asking.' He turns. 'The hammer is how you say yes to the second completion. Not a trigger — a consent mechanism.' He meets your eyes. 'Which means it doesn't work if someone picks it up who doesn't understand what yes means.' He is quiet. 'The Elder People built a lock that only opens for someone who understands what the room behind it is.' He sits. 'Tell me: where is the hammer now. Because if someone understands what yes means — and I think you might — it needs to be findable.'"
+}

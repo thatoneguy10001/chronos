@@ -1,0 +1,12 @@
+{
+  "id": "iron_monastery",
+  "name": "Iron Monastery — Outer Court",
+  "description": "The monastery is older than Fort Iron and older than the Hive and older, the monks would tell you patiently, than the idea that those things were useful ways of measuring time. The Outer Court is swept black stone, and at its center a single Aetherium crystal pulses with clean blue light — the only unweaponized crystal you have seen since the front, and you feel the difference in your chest before you have words for it. Something like a sound stopping. Something like remembering that silence existed. Two monks cross the courtyard without speaking. One pauses, studies you with the expression of someone checking whether the weather matches the forecast, and nods: you have been expected, or at least not not expected. The thin man near the crystal has been watching the eastern horizon and does not turn.",
+  "exits": {
+    "north": { "target_room_id": "shell_crater", "label": "Shell Crater" },
+    "east": { "target_room_id": "bone_fields", "label": "Bone Fields Path" },
+    "inside": { "target_room_id": "monastery_library", "label": "The Library" },
+    "up": { "target_room_id": "star_view_observatory", "label": "The Tower" }
+  },
+  "requirements": {}
+}

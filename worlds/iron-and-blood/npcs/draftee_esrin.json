@@ -1,0 +1,33 @@
+{
+  "id": "draftee_esrin",
+  "name": "Esrin",
+  "initial_disposition": 55,
+  "greeting": "He's in the waiting area with nine other people doing the waiting that the Assessment and Placement Facility does not call waiting but which is waiting. The others are looking at the middle distance with varying degrees of resignation. He's looking at his hands, which is different — it suggests he's thinking about something specific rather than trying not to think. When you sit near him he looks up with the expression of someone who has been alone with their thoughts long enough to welcome interruption. 'Esrin,' he says. 'From the Lower Rigs. Machinist, third class.' He pauses. 'I didn't know they drafted machinists. I know now.' He looks at his hands again. 'They said the wait is three hours. It's been four.'",
+  "dialogue": [
+    {
+      "keyword": "assessment",
+      "prompt": "what the assessment process involves",
+      "response": "'You go in one door and they give you a form and you fill it out and you go to the window and they take the form and they look at the form and then they tell you where you're going.' He says it with the precision of someone who has had four hours to think about it. 'The form has thirty questions. Twenty-five of them are about your skills. The other five are about what you believe, which they don't say out loud but you can tell that's what the five questions are about.' He pauses. 'I answered the twenty-five skills questions accurately. I answered the five belief questions the way I understood they were supposed to be answered.' He looks at the window. 'I think they call it Assessment and Placement because assessment implies they're evaluating what they're working with. But really the placement is already determined and the assessment is to find out how much training you'll need to get to the placement.' He looks at you. 'I'm going to the front. That's the placement. The assessment is: how fast can we make you useful there.'",
+      "disposition_delta": 7
+    },
+    {
+      "keyword": "before",
+      "prompt": "what you were doing before this",
+      "response": "'Machinist, third class, level four of the Hive.' He says it without self-pity, which is not the same as acceptance — it's more like the specific flatness that happens when you've been carrying something for four hours and the carrying has become the state. 'Precision work — I calibrate the resonance-tuned press heads on tier four. Takes good hands and concentration.' He looks at his hands. 'I was good at it. My supervisor told me I was in line for a tier-three posting, which is a significant step up, which meant better air quality and a higher wage band.' He pauses. 'The draft notice came six days later. The coincidence is not lost on me.' He looks at the window again. 'My supervisor was sorry. He said that. He seemed to mean it.' He is quiet. 'I left the tools behind in my locker. I was going to go back for them. I thought they'd give us time to go back.'",
+      "disposition_delta": 8
+    },
+    {
+      "keyword": "front",
+      "prompt": "what you think about going to the front",
+      "response": "He's quiet for a moment with the quality of someone who has been thinking about exactly this for four hours and has arrived somewhere complicated. 'I know people who've been there,' he says. 'My brother did two years on the Windward lines. He came back.' He pauses. 'He didn't tell me much about it. He said: it's not like what they say. I asked what it was like and he said: it's a place where you find out who you are, which I thought was something people said to make the place sound better than it is.' He pauses. 'I've been sitting here for four hours thinking about what he meant. I think what he meant was: the front is so specifically not what you expected that it makes you find a version of yourself that fits what's actually there, instead of what you imagined.' He looks at you. 'Did it do that to you?' He asks it directly, with the directness of someone who has been alone with a question long enough to ask it to anyone who might know the answer. 'Did it change who you were? Or did you go there already knowing who you were going to be?'",
+      "disposition_delta": 9
+    },
+    {
+      "keyword": "whole",
+      "prompt": "what happened the morning the offer came and whether you are still going",
+      "response": "He is quiet for a while. He is the kind of person who is quiet before he says something real, which you have noticed already in this assessment waiting room full of people who are not being quiet. 'The offer came at -- I don't know what time. Early. I was in the third-tier processing dormitory.' He looks at the room. 'The dormitory has twenty beds. Seventeen of us are still going through assessment.' He pauses. 'Three people stood up that morning and walked out.' He is careful when he says this -- not judging, not envying, something more careful than either. 'They walked out of the dormitory, out of the assessment center, and I watched them go from the window. They just -- walked. Into the city.' He is quiet. 'I didn't walk out.' He looks at his hands. 'I've been trying to understand why not. The offer came. I heard it. It was -- it was the clearest thing I have ever experienced. And I thought: I don't know what I am if I'm not going to the front. I've been told I'm going to the front since I was sixteen.' He pauses. 'I'm still in assessment. But the assessment is different now. They asked me this morning whether I wanted to be re-evaluated for a non-combat service role. Which is something they didn't offer two weeks ago.' He looks at the window. 'I don't know yet. I know that three people walked out that morning and went somewhere. I know that I am still here and I don't know if that's strength or habit.' He is quiet. 'I think knowing the difference is what I'm actually being assessed for.'",
+      "requires_quest_complete": "the_day_arrives",
+      "disposition_delta": 12
+    }
+  ]
+}

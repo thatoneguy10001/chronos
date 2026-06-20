@@ -1,0 +1,12 @@
+{
+  "id": "into_the_hive",
+  "name": "Into the Hive",
+  "description": "Everything points south — Kehl's transfer order, the Lazarus medical facility, the forged cancellation. Thorn can't leave the post. You can. Go to the Hive Gate District and find someone with access to Ministry records.",
+  "objective": { "type": "reach_room", "room_id": "hive_gate_district" },
+  "gold_reward": 40,
+  "xp_reward": 100,
+  "giver_npc_id": "commander_thorn",
+  "requires_quest_complete": "walking_back",
+  "accept_text": "Thorn spreads everything across the map table — the transfer order, Desh's copy, your notes from Adra and Sevyas. He looks at it for a long time without speaking. 'It all goes south.' He taps the Hive on the map. 'The Ministry medical facility. Whoever forged the cancellation. Whoever decided Kehl should go east instead of into the Under-District.' He looks up. 'I can't leave the post. Sevyas is proof of that — if I leave and more of them come back, there's no one here who knows what they're looking at.' He refolds the map. 'There's a High Minister stationed at the Gate District. Korr Vane. He's not your ally and he's not your enemy — he's someone who has already decided what you're worth and is waiting to see if he's right.' He almost smiles. 'He might actually help. He has something against loose ends. Go south. Find the thread and pull it.'",
+  "complete_text": "The Gate District opens above you like a different world — iron spires catching filtered light through the smog layer, Ministry banners hanging still in the recycled air. After the Wastes, the sound of it is almost shocking: boots on stone, machinery, voices in corridors. Somewhere below, the Lower Rigs. Somewhere above, the Spires. You are in the margin between them, where everything runs through and nothing stops. The Hive keeps its secrets in layers."
+}

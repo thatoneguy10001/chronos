@@ -1,0 +1,32 @@
+{
+  "id": "brin",
+  "name": "Brin",
+  "greeting": "A wiry woman with ink-stained fingers and shrewd eyes looks up from a ledger. 'Welcome to the Copper Mug. Sit down — I hear things in this business, and right now I'm hearing quite a lot.' She leans forward. 'Troubles to the south. Worse things than goblins, they say.'",
+  "dialogue": [
+    {
+      "keyword": "goblins",
+      "prompt": "goblin trouble",
+      "response": "'Three raids in a week on the forest road. Merchants won't travel after dark. The Guild's posted contracts — if you want coin and have a strong arm, talk to Hendricks at the Guild Hall. East of the square.'"
+    },
+    {
+      "keyword": "dungeon",
+      "prompt": "the dungeon",
+      "response": "'Obsidian Dungeon, they call it. Old place, volcanic rock. A guard went in last month — didn't come back. Captain Bren is fit to snap someone's head off about it. His post is at the Guard House, north of the Guild Hall.'"
+    },
+    {
+      "keyword": "ruins",
+      "prompt": "the ancient ruins",
+      "response": "'Velian ruins, east past the dungeon. Ancient empire, long dead. Smart people don't go near them. Less-smart people go near them and come back with stories of something cold and luminous following them out. Something wraith-like.' She shudders."
+    },
+    {
+      "keyword": "rest",
+      "prompt": "a place to sleep",
+      "response": "'For sleep? The Inn's your best bet — west from the market. Morel runs a clean house, fair prices. Five gold for a room, warm bed and a proper breakfast. We just serve drinks here.'"
+    },
+    {
+      "keyword": "town",
+      "prompt": "Millbrook",
+      "response": "'Good town, mostly. River floods once a decade and the Mayor panics, but that's just life here. The real problem is what's been stirring in the forest lately. I won't pretend it's nothing.'"
+    }
+  ]
+}

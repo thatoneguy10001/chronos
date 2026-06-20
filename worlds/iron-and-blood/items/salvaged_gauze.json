@@ -1,0 +1,12 @@
+{
+  "id": "salvaged_gauze",
+  "name": "Salvaged Gauze [G]",
+  "description": "Medical gauze salvaged from a battlefield supply crate. Old — the dating mark reads twelve years back. Kept dry in an oilcloth wrapper, so it's sterile enough to matter and intact enough to use. The Discarded waste nothing. A clean wound is a wound that closes. Restores 20 HP.",
+  "starting_room_id": "bone_fields",
+  "takeable": true,
+  "attributes": {
+    "use_effect": "heal",
+    "heal_amount": 20
+  },
+  "tags": ["consumable", "medical", "gray-wastes"]
+}

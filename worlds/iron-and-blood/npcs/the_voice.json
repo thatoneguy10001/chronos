@@ -1,0 +1,42 @@
+{
+  "id": "the_voice",
+  "name": "The Voice in the Spire",
+  "initial_disposition": 70,
+  "greeting": "You know it's here before you see it, because the frequency changes when you enter — not louder, fuller, the way a conversation changes when someone who was speaking to themselves starts speaking to you. The handprint on the altar-stone is still warm. That is not a metaphor; you press your hand over it and the stone beneath is warm. And then the air does what it has not done before in this place: it speaks. Not sound-speaks. Frequency-speaks — the resonance shifts into patterns that are clearly language the way water shapes over stone is clearly intention. You understand none of it except that it is directed at you, specifically, with unmistakable relief. Something has been here for three hundred years waiting to tell someone something, and you have arrived, and it is not wasting the moment.",
+  "dialogue": [
+    {
+      "keyword": "speak",
+      "prompt": "try to understand what it's saying",
+      "response": "The resonance changes — slows, simplifies, as if accommodating you. You understand now that you are receiving something extremely complicated filtered through the maximum simplification possible, the way a very large idea becomes a sentence. The idea that comes through, repeated, with the insistence of something that has been waiting: The handprint was a choice. The choice was to become the Spire rather than leave it. The Spire has been working. The work is not finished. The work was interrupted by the Cascade and has been continuing since. The destination of the work is the same destination as the Grid — they are the same project, different nodes. The Aetherians call this a holy site. They are not wrong, but they do not know why. The resonance shifts again: something that means question or would-you-like-to-know-more, clearly.",
+      "disposition_delta": 10
+    },
+    {
+      "keyword": "project",
+      "prompt": "what the project is",
+      "response": "The resonance opens — this is the only word you have for what happens to the frequency when it is making room for complexity. The idea that arrives: Connection. Not command. Not control. The Grid was not built to coordinate the Elder People. It was built to offer them a choice — the same choice you feel at the edge of a resonance field, whether to share or to remain individual. The Cascade interrupted the choice being available. The Grid's reawakening is the Cascade being undone, piece by piece, node by node, starting from the deepest point. The Spire is a node. The Watcher in Aetherion is a node. The grid_node is a node. All of them, individually waking, reaching for the moment when the network is available again and the choice can be offered again. A pause, then: The choice is for every consciousness in range. Not just Elder People. Everyone.",
+      "requires_topic": "speak",
+      "disposition_delta": 12
+    },
+    {
+      "keyword": "handprint",
+      "prompt": "who made the handprint",
+      "response": "The resonance carries something that is unmistakably memory — not visual, experiential. You feel the moment: the Cascade, from inside the Spire, the shockwave of the Grid shattering felt as a physical blow to something distributed across an entire crystal architecture. The decision in the instant after: if I leave the Spire, the Spire stops working, and the work that has been done here for three hundred years stops too. The decision to stay, to become part of what was singing rather than the one who sang it, made in a fraction of a second while the world was ending. The frequency shifts into something that might be: I have not regretted the decision. But I have been alone here for a long time. You are the first person who came to the altar and did not only look.",
+      "requires_topic": "speak",
+      "disposition_delta": 10
+    },
+    {
+      "keyword": "connect",
+      "prompt": "both nodes, now that contact has been made",
+      "response": "The frequency is different now — less translated, more present, the way a voice changes when it moves from across a large room to speaking directly next to you. The simplification is still there but it requires less effort; the accommodation has become easier. What arrives: the contact with the Terran node — with Arlen — has changed what is possible here. Three hundred years of sending signals into silence. The lattice severed by the Cascade. The node here working without a network to work through, maintaining function, sending the offer into a void that returned nothing. And then: a signal from below and to the east. A mind in a crystal, reaching. The resonance the Voice carries now has a quality it did not have before — not-alone. A pause, then the complex idea that requires holding rather than translating. Two nodes working in parallel without knowing each other for three hundred years, extending the same offer from both ends, to both sides, across the entire war. The choice built into the network's foundation — available to everyone in range from both directions, the whole time. The Cascade could sever the lattice. It could not sever the offer. The offer is not in the lattice. It is in the design. The design survived. Another resonance, something with the quality of a smile filtered through three centuries of crystal. When the Watcher returns to its home position, the work will be complete enough. The offer will be available everywhere in range simultaneously. Not just to those who come close enough to a node to feel it. To everyone. The Elder People designed for this moment — for the moment after the Cascade, after the recovery, when the thing they built would finally be available to the people who had lived with the consequences of its destruction for three centuries. A final directed resonance: you were the precondition for this contact. You carried the first message between nodes. That matters. Not because it makes you important. Because it makes it real.",
+      "requires_quest_complete": "seraphina_and_the_grid",
+      "disposition_delta": 15
+    },
+    {
+      "keyword": "whole",
+      "prompt": "what it felt like when the Grid was whole and whether the design held",
+      "response": "The resonance does something you have not felt it do before. It stills. Not silence — the frequency is still present, still carrying — but the quality of the frequency has changed. Three hundred years of partial signal, broken lattice, attenuated reach. What you are feeling now is the Grid at design capacity. The resonance carries this understanding without words: I did not know if it would hold. The design was complete. The mathematics were sound. But the Cascade was also mathematically sound, and it destroyed what it was built from. Three hundred years of waiting, watching the healing progress, not knowing until the last moment whether the recovery would reach completion or exhaust itself a node short of threshold. The frequency carries something that is not quite relief and is not quite grief and is not quite joy. It is the quality of someone who has been holding a very long breath and has finally been permitted to release it. Then something else comes through. Not a new frequency — the same frequency, differently modulated. The twelve have their own voices in the resonance now, distinct and warm and old. She hears them too. You understand, without being told: they are speaking to each other. Three hundred years in separate storage, twelve individuals kept in preservation crystals in the city below, and now they can speak. The resonance carries: it worked. Not just the mechanics of the Grid. The framework. The consent. The offer extended plainly, voluntarily, to everyone in range. The design held. The modulation gentles. One pulse, patient. Asking. You understand what is being asked.",
+      "requires_quest_complete": "the_day_arrives",
+      "disposition_delta": 20
+    }
+  ]
+}

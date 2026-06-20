@@ -1,0 +1,67 @@
+{
+  "id": "vespa",
+  "name": "Vespa",
+  "initial_disposition": 50,
+  "greeting": "She's older than anyone you've met in the Wastes — sixty, maybe seventy, with the Discarded's characteristic pale eyes and the specific stillness of someone who has been present for things. She's sitting at a stall with nothing on it, eating from a small tin, watching the market with the calm attention of someone who has seen this particular story told before in different costumes. 'You're lost,' she says. 'You found the market so you can't be geographically lost. But you look like someone who doesn't know what they're in.' She tilts her head. 'I'm Vespa. I keep the stories. You probably have a question.'",
+  "dialogue": [
+    {
+      "keyword": "before",
+      "prompt": "what this place was before the war",
+      "response": "She sets down the tin. 'The Wastes used to be called the Resonant Plains. This was the agricultural heartland of a civilization your history books don't have a chapter for, because neither nation admits it existed.' She says this without heat. 'The crater was a city called Iriel-Beneath — sky city, lower tier. The bone fields were farms. The market — we are standing in what was a transit junction, approximately. The Merchant Princes chose it not for coincidence. Merit knew what this land remembered.' She picks up the tin again. 'We remember for them. The Discarded are not survivors of the war. We are survivors of the civilization the war is being fought over the ruins of. That difference matters and nobody asks about it.'",
+      "disposition_delta": 7
+    },
+    {
+      "keyword": "market",
+      "prompt": "why Abominations avoid this place",
+      "response": "She considers the question with genuine respect, as if you've asked the right thing. 'Nobody knows for certain. I have a theory.' She looks toward the edge of the market. 'The Abominations avoid certain resonance frequencies — crystals at specific energies. The original junction here had a resonance grid. Transit infrastructure.' She pauses. 'Merit knew this. Merit built the first Silent Market here deliberately, because the market needed to be somewhere neutral — somewhere the Abominations wouldn't go.' She nods toward the two gray-robed enforcers. 'The Merchant Princes maintain the grid now, without advertising it. The no-weapons rule is real. But the real reason this market is safe is underneath us, and it's been there for three hundred years.' She finishes the tin. 'Merit was practical. I liked that about her.'",
+      "disposition_delta": 8
+    },
+    {
+      "keyword": "spire",
+      "prompt": "the Spire of Bones",
+      "response": "She doesn't answer immediately. She looks in the direction of the Spire even though it's not visible from here, with the look of someone checking a map they carry inside. 'The Spire is why I'm still alive,' she finally says. 'Not because of anything I did — because the thing that builds it is the same thing that taught me the stories, and the thing that taught me the stories has not yet decided I'm finished learning them.' She meets your eyes. 'The Discarded name what lives at the top of the Spire. We don't say the name outside the circle, not because of superstition but because the name is a statement of relationship, and saying it outside the relationship would be a lie.' She pauses. 'Morlak will tell you more than I will, if you earn it. He was in the circle once. He left. That's his story to tell.'",
+      "requires_topic": "before",
+      "disposition_delta": 6
+    },
+    {
+      "keyword": "abominations",
+      "prompt": "what Abominations actually are",
+      "response": "'Casualties,' she says simply. 'Not metaphorically. The Resonant Cascade released centuries of stored energy simultaneously. Every living thing in the radius was — changed. The ones that survived the change became what your people call Abominations.' She tilts her head. 'The Rock-Shell Crabs were tunneling creatures before — territorial, yes, but no different from any other animal. The Iron-Beak Vultures were mountain birds. The ones they call Night Stalkers were — we don't have records of what they were before. They changed too completely.' A pause. 'We do not hunt them. We treat them as what they are: the civilian casualties of a catastrophe that preceded the war by a thousand years. They are what they are through no choice of their own.' She lets that sit. 'Your people's word for them carries judgment. Ours doesn't.'",
+      "disposition_delta": 7
+    },
+    {
+      "keyword": "hammer",
+      "prompt": "when the hammer falls",
+      "response": "She is still for a long moment. 'You have been to the monastery.' She says it quietly. 'Or you have found someone who went.' She sets down the tin and does not pick it up again. 'Cobble knew that prediction. She said it in a specific context — in the story of the second founding, the one the Hive's Ministry history does not tell. She said: there is a hammer in the deep place that was made to be the end of something. And it is warm, and it has been warm for five hundred years, and the warmth means it is waiting. And when it is used for what it was made for, what ends is the decision to build this war instead of remembering the world we built before it.' She pauses. 'Cobble's translation of the prediction was not catastrophe. It was conclusion.' She looks in the direction of the Spire without seeing it. 'The Architect agrees. I have — this is difficult to explain — I have heard this, through the Spire's resonance, in the way you hear things that are transmitted through stone over very long distances. The Architect's purpose and Ironheart's purpose are the same purpose.' She pauses. 'The conclusion is not death. It is ending of a specific thing that has gone on too long.' She picks up the tin. 'I am not certain this is comforting. But it is what the stories say.'",
+      "requires_topic": "spire",
+      "disposition_delta": 12
+    },
+    {
+      "keyword": "grid",
+      "prompt": "who restarted the deep lattice",
+      "response": "She doesn't react. This is itself a reaction — she is someone who reacts to things, and the stillness when she doesn't is precise and intentional. 'Where did you hear that question.' She sets down the tin. 'No. I know where you heard it. You went into the node.' She looks at you steadily for a long time. 'Eight months ago, yes. It was me.' She says it simply, the way you say a thing that has been waiting to be said. 'The Architect told me the access sequence ten years ago. Told me to wait. Told me I would know when.' She pauses. 'Eight months ago the Spire showed me something — a frequency shift, a pattern in the lattice that the Architect identified as the precondition being met. I went to the junction beneath the market. I entered the sequence.' She folds her hands. 'The Architect has been connected to the Grid through the Spire since before the Cascade. The Spire is a node — a specific kind, a judgment node, the kind that evaluates whether the precondition is met and whether the operator understands what they are starting.' She meets your eyes. 'I asked the Architect, before I used the sequence: is this right? Is this the right time?' She pauses. 'The Architect said: the time is when someone who understands the question says yes.' She looks toward the Spire, the direction she sometimes looks. 'I said yes. I understood the question.' A long pause. 'I have been waiting eight months to know whether I was right to say yes. You are the first person to come from outside who has asked the right questions.' She meets your eyes again. 'I think I may have been right.'",
+      "requires_topic": "hammer",
+      "disposition_delta": 12
+    },
+    {
+      "keyword": "after",
+      "prompt": "what comes after",
+      "response": "She is quiet in the way she's been quiet since the node. A different quality than her usual stillness — that one was the stillness of attention, of someone listening to things other people couldn't hear. This one is the stillness of someone who has done a thing that cost something and is finding out what's left when the cost is paid. 'The stories don't stop,' she says. 'That's the first thing. I thought, when I was carrying the hammer, that this might be the end of the story-keeping. The chapter that ends the need for chapters.' She picks up her tin. 'It isn't. Cobble taught me a set of stories that are still true. The second completion is forty years away. The war is still happening. The Discarded are still the Discarded.' She sets the tin down. 'What changed is what I tell at the beginning. Before I say anything else, I say: there is a fact in the lattice now. A yes. From someone who understood. And that changes the shape of what's coming.' She is quiet again. 'I am sixty-eight years old. I will not live to see the second completion. This is — fine. I knew, when the Architect told me the timescale, that I was not going to see the ending I was working toward.' She looks toward the Spire direction. 'What I did not know is that I would feel — satisfied. I have been assuming I would feel incomplete. Unfinished.' A pause. 'The record has a new chapter. I have never added a chapter before. Osse told me what it cost her — the weight of the responsibility, the fear of getting it wrong. I understand now.' She looks at you steadily. 'You were the precondition. That word — I want you to understand what it means in the Elder records. Not a tool. Not an instrument. The necessary condition. The person without whom the moment cannot occur.' She picks up the tin again. Sets it down. 'I have been story-keeping for sixty years. I have been carrying the story toward someone who could be the precondition for the whole thing.' She almost smiles. 'I found you. Cobble would say I found you in the obvious place. She would be right.'",
+      "requires_quest_complete": "the_precondition_fulfilled",
+      "disposition_delta": 14
+    },
+    {
+      "keyword": "memory",
+      "prompt": "how you keep the stories",
+      "response": "'I was taught by Cobble, who was taught by the Founder's generation, who were the last people to walk the Resonant Plains as it was.' She says this factually. 'The method is oral — no text, because text can be confiscated. But it is not merely spoken. The full story-keeping method encodes information in rhythm, in the ordering of which details come first, in the specific words chosen. It is — technically a form of data compression.' She almost smiles. 'Cobble would be annoyed by that description. She called it a living library. I call it the same thing. She would be annoyed I agreed with her in different words.' A pause. 'She's been gone eight years. I still reach for her when I have questions. That's the other thing story-keeping is. It keeps the people in you.'",
+      "disposition_delta": 9
+    },
+    {
+      "keyword": "day",
+      "prompt": "what you felt on the morning everything changed and what the Discarded have decided",
+      "response": "She is very still. The Story-Keeper's stillness is different from other people's stillness -- it has a quality of attention in it that you feel rather than observe. 'I have been keeping the stories of the Discarded for thirty years,' she says. 'I have the accounts of everyone who came here. What they left behind. What they brought with them. What they understood when they arrived that they didn't understand before.' She looks at the camp. 'The morning of the Day. I was at the memory circle. I go every morning before the others are awake because the stories need maintenance -- the oral record requires attention, active recall, or they thin.' She pauses. 'The offer came while I was reciting. I was in the middle of the account of the third family that came to this camp, thirty years ago, when the woman said: we couldn't stay in Ironhaven and we couldn't leave Terra and so we came here.' She is quiet. 'The offer arrived. And I finished the sentence. Because the account was in progress and you do not stop an account in the middle.' She almost smiles. 'Then I said yes.' She looks at the camp. 'The Discarded have been making their own decisions since the Wastes were the Wastes. We don't do things by consensus -- we do things by discussion, which is different.' She pauses. 'We discussed it. For two days. Some of us said yes immediately. Some of us said: we came here because every other available connection was coercive. We are not accepting a new one without understanding it first.' She nods. 'Both positions are correct. The offer does not expire. The discussion continues.' She looks at you. 'The story I am keeping about this time is longer than any other I have kept. It has more voices. Some of them are saying yes and some are still deciding and all of them are part of the same account.' She is quiet. 'That is the shape of the Discarded. Always has been.'",
+      "requires_quest_complete": "the_day_arrives",
+      "disposition_delta": 14
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "id": "armory",
+  "name": "The Armory",
+  "description": "'I know exactly what's here,' Desh says, without looking up, while you are still in the doorway, before you have said or done anything. You're not sure if this is a warning, a statement of pride, or both. Probably both. The shelves run floor to ceiling — pneumatic gear, gas masks, ammunition crates, things with names you've had to learn the hard way. The ledger is open to a page dense with notations in handwriting so small it might be another language. You get the impression the ledger is always open to a different page, but always that dense, and that somewhere there is a master ledger containing all the other ledgers, and Desh has that one too, in his head, and has had it for years.",
+  "exits": {
+    "south": { "target_room_id": "command_post", "label": "Command Post" }
+  },
+  "requirements": {}
+}

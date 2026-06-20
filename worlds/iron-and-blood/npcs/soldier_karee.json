@@ -1,0 +1,40 @@
+{
+  "id": "soldier_karee",
+  "name": "Karee",
+  "initial_disposition": 35,
+  "greeting": "The soldier who gave you the minimum nod is now watching you from what she probably considers a safe distance, which tells you she's curious. When you approach, she reassesses you in one quick scan — weapons, insignia, face — and makes a small decision that you can see her making. 'You're not a prisoner and you're not a hostage,' she says. It's in Aetherian, which you may or may not understand, but she says it in the tone of someone reciting a category rather than making an accusation. She says it again in Terran, slightly accented. 'I speak yours.' She shifts her weight. 'Karee. Second Aetherian light infantry. I am not supposed to talk to you. I am going to anyway because I am curious and the sergeant is three hundred meters south.'",
+  "dialogue": [
+    {
+      "keyword": "terran",
+      "prompt": "what Terrans are like from where you're standing",
+      "response": "'The same as us but the armor's heavier and you complain about altitude more.' She says this without meanness. Observation. 'And you're louder, mostly. Not when it matters — when it's quiet, you're quiet the way we're quiet.' She leans against the crystal stake. 'We have a word for the way your side fights. I won't tell you what it means — it would make you self-conscious and then you'd stop doing it, and it's the thing that makes you survivable to be around.' Another pause. 'You have good medics. I've seen your field hospital from the approach. Your surgeon works with the lights on even at night, which means she doesn't sleep much, which means she cares more than the job strictly requires.' She looks at the Armistice ground. 'We're not supposed to notice those things. About the other side. It makes the other things harder.' She pauses. 'I notice them anyway. I think most of us do, and we just don't say it.'",
+      "disposition_delta": 7
+    },
+    {
+      "keyword": "armistice",
+      "prompt": "what the Armistice means to you",
+      "response": "'Sleep.' She says it immediately. 'The armistice means sleep. In the day there is no sleep — not real sleep, the kind where you go under completely. You stay surface-aware. You hear things.' She is quiet for a moment. 'At night, with the armistice holding, I go under completely. I trust the dark to hold the line for six hours.' She looks up. 'What it means is that I trust something larger than the two of us to enforce a guarantee. I have been trying to understand what that something is for four years.' She looks at you. 'What does your side call it? Why it holds?'",
+      "disposition_delta": 6
+    },
+    {
+      "keyword": "crystal",
+      "prompt": "the crystal in the Aetherian armor and gear",
+      "response": "'Grown, not mined.' She touches the crystal tip of one of the defensive stakes. 'We grow it. You refine it. The processes produce different properties — yours is harder, ours resonates better.' She pauses. 'In the last year some of the trench crystal has been doing things it doesn't usually do. Warming when there's no power source. Brightening at the same time every night.' She checks the sergeant's position automatically, a gesture so ingrained it doesn't require thought. 'Serel doesn't want us to discuss it. He says it's a known phenomenon. He doesn't explain what phenomenon.' She looks at the crystal stake. 'I've been writing down the timing. It's consistent. It started eight months ago.' She meets your eyes. 'Your side have anything like this?'",
+      "disposition_delta": 9
+    },
+    {
+      "keyword": "timing",
+      "prompt": "the timing you've been writing down, the warmings",
+      "response": "She checks the sergeant's position automatically before she answers. 'Eight months,' she says. 'Since the night the warmings started. I've been noting the time every night — when the trench crystal changes, when it brightens, how long before it returns to normal.' She pulls a folded paper from her jacket, separate from her official notebook. 'The intervals are consistent. There's drift, but the pattern fits a curve. A regular one.' She looks at it. 'Serel said it's a known phenomenon when I asked. He didn't say what phenomenon.' She looks at the crystal stake. 'There is a Skyborn Fleet pilot named Kira who has been mapping the lattice pattern below the Wastes from altitude. I know this because I read Serel's informal communications when he's not watching, which I'm not supposed to do.' She doesn't apologize for it. 'If the timing pattern I've been measuring in the trench corresponds to what she's been mapping from above — if what I can observe from ground level matches the lattice rhythm she sees from eight thousand meters — that is the same thing viewed from two positions.' She holds out the paper. 'Serel won't send it up the chain. He doesn't want either command asking too many questions about the Grid before he understands more. But this data should be in someone's hands who can use it.' She meets your eyes. 'Will you take it to Kira?'",
+      "requires_topic": "crystal",
+      "disposition_delta": 9
+    },
+    {
+      "keyword": "sky-watch",
+      "prompt": "Fort Sky-Watch",
+      "response": "'Where Serel's been stationed for twelve years.' She says it with the particular tone people use for someone they respect without quite saying so. 'He's — he's not what you'd expect from a Aetherian commander.' She considers. 'Most of our commanders have a specific relationship with altitude. They treat height as a moral argument — we're literally higher than you, therefore we're right.' She looks at the trench ceiling. 'Serel doesn't do that. He treats Fort Sky-Watch like what it is: a defensive position that happens to be in the sky. He treats your people like what you are: the enemy, which in his definition means someone trying to survive while facing a person also trying to survive, at cross-purposes.' She is quiet. 'He's been writing letters to a Terran commander he's never met. Sending them via the Armistice ground during the ceasefire, left in a specific spot that both sides know about but don't discuss.' She pauses. 'I know because I'm the one who carries them to the drop point.' She looks at you. 'I don't know if the letters go anywhere. I know he keeps writing them.'",
+      "requires_topic": "armistice",
+      "disposition_delta": 8
+    }
+  ]
+}

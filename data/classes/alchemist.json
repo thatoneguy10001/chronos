@@ -1,0 +1,41 @@
+{
+  "id": "alchemist",
+  "name": "Alchemist",
+  "description": "A brilliant status-effect specialist who hurls volatile concoctions. Low HP but high intelligence; rewards creative use of conditions.",
+  "base_stats": {
+    "hp": 85,
+    "attack": 8,
+    "defense": 5,
+    "intelligence": 8
+  },
+  "abilities": [
+    {
+      "id": "acid_flask",
+      "name": "Acid Flask",
+      "description": "Hurl a vial of corrosive acid that deals damage and leaves a burning DoT.",
+      "base_damage": 7,
+      "applies_effect": "burn",
+      "effect_damage": 3,
+      "effect_duration": 2
+    },
+    {
+      "id": "smoke_bomb",
+      "name": "Smoke Bomb",
+      "description": "Deploy a smoke cloud. +4 defense for 2 turns.",
+      "base_damage": 0,
+      "applies_effect": "defense_up",
+      "effect_damage": 4,
+      "effect_duration": 2
+    },
+    {
+      "id": "experimental_vial",
+      "name": "Experimental Vial",
+      "description": "Throw a volatile compound — hits twice with unpredictable impact.",
+      "base_damage": 5,
+      "hit_count": 2
+    }
+  ],
+  "passives": ["chemical_genius"],
+  "starting_equipment": ["alchemist_robes", "vial_belt", "goggles"],
+  "xp_reward": 0
+}

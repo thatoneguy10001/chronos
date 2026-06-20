@@ -1,0 +1,12 @@
+{
+  "id": "aetherion_plaza",
+  "name": "Aetherion — The Central Plaza",
+  "description": "The city is intact. That's the first thing. The wrong thing. Your mind keeps trying to find the damage and there isn't any — buildings standing, market stalls set, a meal on a table with the cloth still folded neatly at one end, preserved by the cold and the airlessness and three centuries of nobody coming to disturb it. Not intact — preserved. You know the difference. Intact things are being used. Preserved things are waiting for a reason to be intact again that hasn't arrived. At the center of the plaza: a figure. Gray skin cracked like stone that has been stone for a very long time. Crystal fragments in the flesh, pulsing faintly. It turns its head toward you, and something changes in the posture — something like the face a person makes when they see someone who reminds them of someone they loved, a very long time ago. It has been standing here since before either of your nations existed. It was waiting for someone to come back.",
+  "exits": {
+    "up": { "target_room_id": "sunken_city_threshold", "label": "Surface Entrance" },
+    "east": { "target_room_id": "crystal_spire_base", "label": "Crystal Spire" },
+    "west": { "target_room_id": "hall_of_rememberers", "label": "Hall of Rememberers" },
+    "north": { "target_room_id": "resonance_core", "label": "Resonance Core" }
+  },
+  "requirements": {}
+}

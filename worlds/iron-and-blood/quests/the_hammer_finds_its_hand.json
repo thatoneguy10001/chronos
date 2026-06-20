@@ -1,0 +1,15 @@
+{
+  "id": "the_hammer_finds_its_hand",
+  "name": "The Hammer Finds Its Hand",
+  "description": "Osse has kept Ironheart for thirty years. It belongs with the person who said yes first. Vespa is at the Silent Market.",
+  "objective": {
+    "type": "talk_to",
+    "npc_id": "vespa"
+  },
+  "gold_reward": 65,
+  "xp_reward": 165,
+  "giver_npc_id": "rememberer_osse",
+  "requires_quest_complete": "where_ironheart_rests",
+  "accept_text": "Osse placed the case in your hands and told you where to go. The market is east. Vespa is there most evenings, at a stall with nothing on it, watching the market move around her.",
+  "complete_text": "Vespa puts down her tin when you set the case on the stall. She opens it herself — she recognizes the lock mechanism, doesn't hesitate, doesn't ask what it is. When she sees the hammer she goes very still. Not the stillness of surprise. The stillness of confirmation, the moment when something you've been told for sixty years stops being a story and becomes an object you can touch. She doesn't touch it immediately. 'I've been talking to the Spire since I was twelve years old,' she says finally. 'The Architect told me about the hammer when I was forty. I spent twenty years assuming the hammer was a metaphor.' She looks at the case. 'Cobble never said it was literal. She said: there is a hammer in the deep place, it is warm because it is waiting. I assumed that was story language.' A long pause. Then she reaches into the case and lifts it. Her expression changes — the small shift of someone who has held a hypothesis for twenty years and just received the evidence. Her hands are steady. 'It's warm,' she says, to herself, not to you. She holds the hammer and looks at the Spire — the direction, the place she always looks toward. 'The Architect said when the precondition is met.' Her voice is very quiet. 'I think we need to go to the node.' She looks at you. 'Not yet. There's something that needs to happen first — the thing Vane has been building toward. The evidence from the Wastes.' She sets the hammer back in the case, gently, and closes it. 'The second completion shouldn't arrive into a world that's still managing the lie about how the war was built. When that's out — when both governments have heard it and there's no putting it back — then we go to the node.' She looks at the Spire direction one more time. 'Vane's at the command spire. Tell him it's time to move.'"
+}

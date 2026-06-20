@@ -1,0 +1,12 @@
+{
+  "id": "armistice_ground",
+  "name": "The Armistice Ground",
+  "description": "The guns stopped and you can hear the wind. Just the wind. You had genuinely forgotten there was wind — that beneath the artillery and the Abominations and the fog there was ordinary moving air the same as anywhere else in the world. Figures come out of the other treeline doing the same careful walk you're doing, and you understand from the walk what they're thinking, which means what you're both thinking, which is: we have been killing the same things in the dark for long enough that we know each other without having met. A woman is already here, standing at the midpoint like she's been here a while and was expecting you. She probably was.",
+  "exits": {
+    "east": { "target_room_id": "windward_approach", "label": "Back to Windward Pass" },
+    "north": { "target_room_id": "aetherian_trench", "label": "Aetherian Lines" },
+    "west": { "target_room_id": "armistice_cave", "label": "The Cave", "requires_night": true, "locked_message": "The cave is empty during the day. Both sides only come here under cover of dark." },
+    "south": { "target_room_id": "ceasefire_line", "label": "The Ceasefire Line", "requires_night": true, "locked_message": "The midpoint is exposed ground during the day. Both sides hold that strip clear. Under the Armistice, it's neutral." }
+  },
+  "requirements": {}
+}

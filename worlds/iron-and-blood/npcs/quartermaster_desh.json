@@ -1,0 +1,61 @@
+{
+  "id": "quartermaster_desh",
+  "name": "Quartermaster Desh",
+  "greeting": "A compact woman with ink-stained fingers and a ledger that never leaves her hands. 'Quartermaster Desh. I track every bolt, every bandage, every scrap of metal that moves through this fort. You need something, you buy it. You break something, you pay for it. Simple.'",
+  "dialogue": [
+    {
+      "keyword": "supplies",
+      "prompt": "supply situation",
+      "response": "'Tight. Always tight. The convoys from the Hive get raided, the Abominations eat our runners, and the Iron Ministry wants detailed receipts for every bullet fired. How that bureaucracy has lasted 330 years without collapsing is the greatest mystery of the age.'"
+    },
+    {
+      "keyword": "scraps",
+      "prompt": "Iron Scraps",
+      "response": "'Standard Terran currency \u00e2\u20ac\u201d Iron Scraps. Fragments of refined metal, weight-verified. One Scrap buys a bandage. Five gets you a meal. Everything has a price out here. That's the only Terran philosophy that actually works.'"
+    },
+    {
+      "keyword": "lazarus",
+      "prompt": "Project Lazarus",
+      "response": "'Above my clearance level. Above everyone's clearance level. All I know is there are requests coming through for chemical preservatives and neural-relay components that I'm not authorized to know the purpose of.' She shrugs. 'Above my pay grade. Though if you know what [[kehl]] was doing with his transfer order, you probably know more than I do.'"
+    },
+    {
+      "keyword": "kehl",
+      "prompt": "Sergeant Kehl's reassignment orders",
+      "response": "She stops writing. Sets the pen down. 'I processed that order. Ministry medical, Under-District facility, signed and filed.' She pauses. 'Three days later I got a verbal instruction to cancel it. No paper. Just a voice I didn't recognize, on the fort line, telling me to pull the transfer and shred the original.' She doesn't quite look at you. 'I'm a quartermaster. I document everything. It's a character flaw.' She opens the ledger to a folded sheet tucked inside the back cover and hands it to you. 'Cancellation orders don't arrive by voice. That's not how the Ministry works.' She takes her pen back up. 'I don't know what's in that file. I don't want to. But whoever told me to shred that order knew there was something in it worth hiding.'",
+      "requires_topic": "lazarus",
+      "disposition_delta": 6
+    },
+    {
+      "keyword": "transfer",
+      "prompt": "the transfer order",
+      "response": "'Same answer as Kehl.' She taps the ledger without looking up. 'The copy's already gone. You have what I have.'",
+      "requires_topic": "kehl",
+      "disposition_delta": 2
+    },
+    {
+      "keyword": "arris",
+      "prompt": "Arris, the missing soldier",
+      "response": "She sets down her pen. For Desh, this is the equivalent of a double-take. 'Where did you hear that name.' Not suspicious \u00e2\u20ac\u201d careful. 'Third squad, Third Division.' She opens the ledger to a section you haven't seen. 'Corporal Arris Venn. Assigned to third squad, standard rotation.' She runs her finger down the column and stops. 'Reassigned.' She turns the page. 'Three days before the eastern patrol. Removed from the roster and assigned to \u00e2\u20ac\u201d ' She reads again. 'Garrison support, non-front assignment.' She looks up. 'The authorization signature on this. It's not Thorn's.' She compares it to another page. 'It's not any signature I have on file.' She turns the ledger to show you. 'The same format as Kehl's cancellation instruction. The same non-existent authorization.' She looks at you and then at the ledger. 'Arris Venn is not in garrison support. I have the garrison support files. He's not there.' She taps the authorization. 'Someone pulled a soldier from a specific patrol three days before the patrol was ambushed. And used an authorization code that doesn't exist.'",
+      "disposition_delta": 10
+    }
+  ],
+  "vendor": true,
+  "shop": [
+    {
+      "item_id": "iron_bandage",
+      "price": 8
+    },
+    {
+      "item_id": "trauma_kit",
+      "price": 20
+    },
+    {
+      "item_id": "adrenaline_injector",
+      "price": 15
+    },
+    {
+      "item_id": "antitoxin_vial",
+      "price": 12
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "id": "ah_pool_name_on_wall",
+  "name": "The Name on the Wall",
+  "description": "Someone carved a name into the border stone at the Armistice midpoint. Neither side recognizes it. Find Lena and ask if she does.",
+  "objective": {
+    "type": "talk_to",
+    "npc_id": "lena_voss"
+  },
+  "gold_reward": 15,
+  "xp_reward": 40,
+  "hope_reward": 1,
+  "requires_night": true,
+  "giver_npc_id": "morlak",
+  "requires_quest_complete": "ah_first_crossing",
+  "accept_text": "Morlak noticed it on a night crossing. A name carved into the border stone — recent, within the last week, in a script that's neither Terran nor Aetherian. 'It's not a subject mark,' he says. 'Subjects don't do that kind of thing. This is deliberate. Personal.' He writes it down phonetically and hands it to you. 'Ask your medic contact. Aetherian archives go back further than ours.'",
+  "complete_text": "Lena looks at the phonetic transcription for a long time. 'That's an Elder People naming convention,' she says finally. 'Not a word — a personal designation. The Elder People marked places that mattered to them with the name of whoever considered it theirs.' She looks at the border stone in the dark. 'Someone has been marking this specific point as their place. Has probably been marking it for a very long time.' She's quiet. 'The border stone has been there for a hundred and sixty years. I wonder if the name has been there the whole time and we just never looked.'"
+}

@@ -1,0 +1,15 @@
+{
+  "id": "the_twelve_names",
+  "name": "The Twelve Names",
+  "description": "The SCAMP records in the maintenance tunnels contain twelve names and an apology written three hundred years ago. Brother Kell has been cross-referencing old Ministry personnel records with pre-war infrastructure documents. He'll recognize the pattern.",
+  "objective": {
+    "type": "talk_to",
+    "npc_id": "brother_kell"
+  },
+  "gold_reward": 50,
+  "xp_reward": 125,
+  "giver_npc_id": "brother_kell",
+  "requires_quest_complete": "the_capacitor_ledger",
+  "accept_text": "Kell reads the notation twice. He is very still. Then he goes to his index — not the monastery archive, his own index, the one that fills four long shelves in his workspace, thirty years of cross-referenced records. He finds what he's looking for on the third shelf. He puts the pages side by side. 'Twelve names,' he says. 'I've seen them before. All twelve appear in the Ministry founding records as engineers seconded to the Windward Pass garrison at the start of the war.' He looks at the archival cover. 'All twelve were officially listed as killed in action at the same battle, same date. A skirmish the official records describe as a minor engagement.' He looks at you. 'I've been to that engagement's location. It was not minor. But there are no bodies listed in the aftermath report — only twelve names marked with the specific Ministry notation that means, in bureaucratic language, the record is sealed and the matter is resolved.' He closes both sets of records. 'Twelve engineers listed dead at the same time, at the same minor battle, with no bodies. The notation means someone decided they were done being people before they were done being alive.' He meets your eyes. 'Go to Morlak. His notebooks go back further than the monastery record — he inherited the earliest ones from the person who kept them before him. If twelve people disappeared in the early war and ended up in the Wastes, Morlak's predecessor saw them.'",
+  "complete_text": "You already have what Kell needs. He said 'bring it to Morlak' but you're already bringing it from Morlak. He accepts the paradox easily — he's been building this picture from both ends for years. 'The records are consistent,' he says finally. 'Twelve engineers, officially dead, actually disappeared into the Wastes at the war's beginning. The SCAMP device created the Gray Wastes — the no-man's-land. The engineers knew it would. That's what the apology means.' He sets the records down. 'They didn't make a mistake. They were told exactly what to build and they built it. The Gray Wastes are the result of a deliberate decision.' He's quiet. 'The question isn't where the twelve engineers went. The question is who commissioned the weapon and what they wanted three hundred years of no-man's-land for.' He meets your eyes. 'That's not a small question. That's the question the war has been preventing anyone from asking.'"
+}

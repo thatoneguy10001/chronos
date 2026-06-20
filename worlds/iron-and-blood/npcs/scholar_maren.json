@@ -1,0 +1,41 @@
+{
+  "id": "scholar_maren",
+  "name": "Scholar Maren",
+  "initial_disposition": 55,
+  "greeting": "She is in the upper chamber when you find her \u00e2\u20ac\u201d not at the telescope but sitting on the floor below it with the two charts spread across her knees. She looks up with the expression of a person who has been very certain about something for a long time and is not entirely sure how to explain it to someone who has just arrived and has not been living with it for eight months. She stands. 'Maren,' she says. 'Aetherian High Council, crystal research attachment, on secondment here to use the lens. The Monastery has the best unobstructed southern sky in the region.' She looks at the charts. 'You saw the logbook.' Not a question. 'I stopped writing mid-sentence because I understood something and the understanding stopped everything else for a while.' She collects both charts carefully. 'I'm glad someone came up. I have been the only person in this room for eight months and the thing I've been looking at deserves a second set of eyes.'",
+  "dialogue": [
+    {
+      "keyword": "watcher",
+      "prompt": "the Watcher constellation and what it's doing",
+      "response": "'Moving.' She says it the way you say things you've been saying to yourself for a long time and have gotten past the stage where you expect someone to find it surprising. She spreads both charts on the floor \u00e2\u20ac\u201d the older one, then the newer one overlaid. 'Same constellation. Same lens. Same eight-month window. Recorded from the same position on two different nights eight months apart.' She points to the discrepancies. 'Those positions should be identical. Fixed stars do not move on an eight-month timescale. The differences you're seeing are not measurement error \u00e2\u20ac\u201d I've run the instrument calibrations twelve times. The stars are in different positions.' She pauses. 'The Skyborn navigational tradition preserves the Elder sky-maps alongside their own. I saw a Fleet intelligence summary three months ago that named this constellation using the Elder designation.' She looks at the charts. 'The Elder People called it the Watcher. A fixed navigational point \u00e2\u20ac\u201d the thing other measurements were taken against. You do not take measurements against something that moves. Fixed references are the whole basis of the system.' She looks up. 'The Watcher is moving.'",
+      "disposition_delta": 8
+    },
+    {
+      "keyword": "charts",
+      "prompt": "the two charts and why they don't match",
+      "response": "'Because the stars moved.' She says it without drama. 'Which should not be possible. And yet.' She points to specific positions on the newer chart. 'The movement is directional \u00e2\u20ac\u201d not random drift, not instrument error, not atmospheric distortion. The constellation is moving in a consistent direction at a consistent rate. If I extend the line forward it terminates at a specific point in the southern sky.' She pauses. 'I've been trying to identify what's at that terminus. Nothing is at that terminus. Nothing current. But in the Elder sky-maps \u00e2\u20ac\u201d' She pulls a notebook from the table. 'In the Elder sky-maps, the Watcher's home position is noted beside its navigational designation. The home position \u00e2\u20ac\u201d where the Elder People first observed it and where they took their original measurements from \u00e2\u20ac\u201d is exactly where the current movement terminates.' She looks at you. 'The Watcher is moving toward where it was when the Elder People first mapped it. It is moving home.' She is quiet. 'The Elder sky-maps include a conditional annotation beside the Watcher entry. It says: when the work is complete, the Watcher returns to its home position.' She meets your eyes. 'Something is completing.'",
+      "requires_topic": "watcher",
+      "disposition_delta": 10
+    },
+    {
+      "keyword": "monastery",
+      "prompt": "why an Aetherian scholar is working at the Terran monastery",
+      "response": "'The lens.' She says it simply. 'Neutral site, highest elevation in the region with unobstructed southern sky. The Monastery has been neutral for three hundred years. Brother Kell was willing to host a researcher from either side, provided the work was not military. My work is not military.' She pauses. 'My work is: what is happening to the sky above the Gray Wastes. Which the High Council classified eight months ago when I filed my first set of observations.' She looks at the telescope. 'I applied for secondment to the Monastery's observatory before the classification. The application had already been approved. The classification covered publication and communication of findings, not the observation itself.' She pauses. 'So I came here and I have been observing. The findings exist. Whether I can tell anyone official about them is a separate question that I have been setting aside.' She looks at you. 'You are not official. You are someone Brother Kell sent up here to look at the logbook.' A small pause. 'Tell me: is the lattice in the Wastes doing what I think it's doing?'",
+      "disposition_delta": 7
+    },
+    {
+      "keyword": "council",
+      "prompt": "what the Aetherian High Council knows",
+      "response": "'More than they're saying.' She doesn't hesitate. 'The classification order for my observations came through within a week of my first filing. Standard classification takes six to eight weeks to process. Something was watching for this category of report and had the classification prepared.' She closes the notebook. 'I've spent eight months thinking about who benefits from the Watcher's movement being classified. The answer is: anyone who knows what it means and wants to control when the information becomes public.' She pauses. 'The movement began eight months ago. The Grid reactivation began eight months ago. The Watcher is moving toward home, and home is where it was when the Elder People finished building the Grid.' She looks at you. 'The High Council has scholars who have been studying the Elder sky-maps for decades. Someone there knows what the Watcher moving home means.' A pause. 'I would like to know what they're planning to do about it. I am not optimistic that their plan aligns with simply telling everyone.'",
+      "requires_topic": "monastery",
+      "disposition_delta": 9
+    },
+    {
+      "keyword": "position",
+      "prompt": "whether the Watcher moved after full coherence and what you are studying now",
+      "response": "'No.' She says it with the satisfaction of a prediction confirmed. 'The Watcher is home. It reached home position and it held. Full coherence arrived and the Watcher stayed exactly where it was.' She has the sky charts from the Day and the three days following spread across the observatory table. 'I have been taking hourly position readings. The constellation has not moved by a measurable margin.' She looks at the charts. 'For eighty years \u2014 possibly longer, depending on which records you trust \u2014 the Watcher was in transit. Moving back to home position, following the Grid's healing curve. When the Grid reached full coherence, the Watcher stopped.' She is quiet. 'I spent three years tracking a movement. My entire independent research career has been defined by a moving thing.' She looks at the sky through the observatory lens. 'The Watcher is home and I am a researcher whose subject has stopped moving. I have been thinking about what that means for my next question.' She sits at the instrument. 'Here is what I have arrived at: the Watcher was the symptom. The healing was the thing. I spent three years on the symptom and the symptom gave me the data I needed to understand the thing. That is not wasted time.' She picks up a fresh notebook. 'My next question is about what the Grid does now that it is whole. What does a complete Grid look like from eight hundred meters altitude, over time. I have never studied something at rest before.'",
+      "requires_quest_complete": "the_day_arrives",
+      "disposition_delta": 13
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "id": "rage_injector",
+  "name": "Rage Injector [T]",
+  "description": "A heavy pneumatic auto-injector loaded with a compound the Ministry officially designates 'Combat Performance Enhancement Compound Tertius.' What it does: floods the blood with synthetic adrenaline and cortisol blockers. What the soldiers call it: liquid anger. +4 ATK for 3 turns. The headache afterward lasts approximately twice that long.",
+  "takeable": true,
+  "attributes": {
+    "use_effect": "buff",
+    "effect_kind": "attack_up",
+    "effect_amount": 4,
+    "effect_duration": 3
+  },
+  "tags": ["consumable", "stimulant", "terra"]
+}

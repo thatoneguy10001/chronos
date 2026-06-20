@@ -1,0 +1,14 @@
+{
+  "id": "serel_sends_you",
+  "name": "What the Altar Still Holds",
+  "description": "Serel was posted at Seraphina for three years. On her last night there, she heard something at the altar-stone she did not put in her report. She wants you to go there and find out if it's still waiting.",
+  "objective": {
+    "type": "reach_room",
+    "room_id": "seraphina_spire"
+  },
+  "gold_reward": 55,
+  "xp_reward": 130,
+  "giver_npc_id": "commander_serel",
+  "accept_text": "She has been watching the pass, but when she turns to face you there's the quality of a decision already made. 'I've told you what Seraphina is,' she says. 'What I haven't told you is what happened the last night I was stationed there.' She crosses her arms. 'Year fourteen of my service. Standard night resonance check — Seraphina affects the crystal instruments, you have to correct for it or the readings are useless. I was at the altar-stone when the frequency changed.' She is quiet. 'Not the usual Seraphina frequency. Something directed. At me specifically. The way attention is directed when someone decides to speak to you and you feel the intention before you hear the words.' She looks at the pass. 'I filed a report that said: anomalous resonance event, duration forty seconds, no structural damage. I wrote nothing in the report about what the resonance felt like.' She pauses. 'What it felt like was: something very old asking whether I could hear it.' She turns back. 'I was transferred within the year. The reassignment orders came through faster than any I've seen before or since.' She gives you the route — SkyHaven, then up the south face of the mountain. 'The spire is the oldest structure on that face. You'll feel the frequency before you see the walls.' She pauses. 'I want you to go to the altar. To the handprint. Stand there. Tell me if what I felt is still present — or if it was waiting for something and has since moved on.'",
+  "complete_text": "The handprint is still warm. You press your palm over the incised shape — Elder-proportioned, pressed into the crystal in the moment of the Cascade, permanent — and the stone beneath your hand has the warmth of something living. The frequency changes: from the ambient song of the walls to something deliberately composed, the difference between a room's ambient sound and a sentence. Something that has been here for three hundred years is paying attention to you specifically, with a quality of attention you've learned to recognize as a mind that lives in crystal — directed, curious, gentle in the way of something very old that does not experience urgency because urgency requires believing time is limited, and this mind does not appear to hold that belief. You are going to have a great deal to tell Serel."
+}

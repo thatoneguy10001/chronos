@@ -1,0 +1,16 @@
+{
+  "id": "ah_lena_knows",
+  "name": "Lena Knows",
+  "description": "Lena has been watching the Watcher longer than she let on. Return to the Armistice ground and ask her what she actually knows.",
+  "objective": {
+    "type": "talk_to",
+    "npc_id": "lena_voss"
+  },
+  "gold_reward": 60,
+  "xp_reward": 150,
+  "requires_night": true,
+  "giver_npc_id": "lena_voss",
+  "requires_quest_complete": "ah_cross_faction_signal",
+  "accept_text": "She doesn't apologize for it. 'I've been watching it for twenty-two nights. I told you three because I wanted to see if you'd noticed it independently. You had. That told me something.' She opens the full notebook — not the pages she'd shown you before, the earlier ones. 'The seven-night cycle has been consistent for everything I've observed. But I found references in our side's archive to similar observations going back forty years. Different watchers, different observers, same pattern.' She's quiet. 'Someone has been using the Armistice for a very long time to maintain a route. Not from our side. Not from yours. Something older.' She looks at you. 'I think I know where the route goes. I've been trying to decide whether to tell you.'",
+  "complete_text": "She decided. 'The marks accumulate toward a fixed point. Every seventh night, they add one more element to the notation and the total pattern shifts slightly toward the same destination.' She opens to the final page of the notebook. 'I cross-referenced them against our geological surveys. The destination is approximately four hundred meters below Windward Pass. Below the foundation level. Below where anything should be.' She looks at you steadily. 'Our side's archive calls it nothing — it's not on any Aetherian map. But our oldest chronicle has a line, once: the city that went under rather than fall. They called it the Quiet City.' She holds your gaze. 'I think you've heard of it by a different name.'"
+}

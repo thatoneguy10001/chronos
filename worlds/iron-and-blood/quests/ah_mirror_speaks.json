@@ -1,0 +1,17 @@
+{
+  "id": "ah_mirror_speaks",
+  "name": "The Mirror Speaks",
+  "description": "Lena wants to ask you something directly. Return to the Armistice ground after dusk.",
+  "objective": {
+    "type": "talk_to",
+    "npc_id": "lena_voss"
+  },
+  "gold_reward": 55,
+  "xp_reward": 135,
+  "hope_reward": 1,
+  "requires_night": true,
+  "giver_npc_id": "lena_voss",
+  "requires_quest_complete": "ah_the_watcher",
+  "accept_text": "She is quiet for a moment when you arrive, which is different from her usual directness. Then: 'I want to ask you something. About what you are, not what you do. I've been thinking about how to ask for three nights.' She pauses. 'We build our soldiers the same way. Different surface, same structure underneath. I've seen enough of your side now to know that.' She looks at you. 'What I want to know is whether that's a coincidence or whether someone decided it should be that way.' She meets your eyes. 'What did they tell you you were for?'",
+  "complete_text": "She listens to whatever you tell her the way she listens to everything — completely, like information that will go into the notebook. When you finish she's quiet. 'We were told we were built to win a war that has to be won,' she says. 'That's what they say on our side. The war has to be won because if it isn't won then everything we've built on top of fighting it will collapse and people will starve and the whole structure of — everything — comes apart.' She pauses. 'I believed that for a long time.' She looks at the ceasefire line. 'Then I started counting. How long the war has been going. How many times it could have ended. How many times it almost did and then didn't.' She looks at you. 'What would have to be true for that to make sense?'"
+}

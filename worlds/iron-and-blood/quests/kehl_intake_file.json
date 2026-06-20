@@ -1,0 +1,12 @@
+{
+  "id": "kehl_intake_file",
+  "name": "Kehl's Intake File",
+  "description": "Helen Stone has given you a key card to the restricted Lazarus facility in the maintenance tunnels. Kehl's intake file is in the ledger there — a record of what was done to him, by whom, and who authorized the third application that Stone says she never approved.",
+  "objective": { "type": "reach_room", "room_id": "maintenance_tunnels" },
+  "gold_reward": 60,
+  "xp_reward": 140,
+  "giver_npc_id": "helen_stone",
+  "requires_quest_complete": "the_research_director",
+  "accept_text": "The key card is already in your hand before she speaks. 'Sub-level access is behind the second maintenance junction — east side, past where the pipes run hot. There's no active guard detail anymore. The subjects don't come back down once they've integrated, so security became redundant.' She sits. 'Kehl's file will be in the red ledger on the third shelf. His first two applications are in my handwriting — methodical, annotated, with safety flags I put there because the process was promising but the risk window was narrow.' She stops. 'The third application won't be in my handwriting. I didn't do it. I wasn't consulted. I want you to find out whose handwriting it is, and what concentration they used.' She looks at the key card in your hand. 'And I want to know if he's still alive in any sense that matters.'",
+  "complete_text": "The facility is clean. That's the first thing — equipment maintained, surfaces wiped, lights on. Someone still works here; they're just not here now. The red ledger is where Stone said it would be. Kehl's file is flagged with a yellow marker — standard intake protocol. Two entries in Stone's careful, annotated script: first application, second application, safety observations in the margins, concern noted in neat red ink at the bottom of each page. Then the third entry. Different handwriting, compressed and efficient. Different compound ratio — a number that means nothing to you except that it's three times larger than Stone's second-application figure. At the bottom, a single line of authorization. Signed by Korr Vane. Date: fourteen months ago."
+}

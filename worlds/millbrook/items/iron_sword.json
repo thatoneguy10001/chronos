@@ -1,0 +1,12 @@
+{
+  "id": "iron_sword",
+  "name": "Iron Sword",
+  "description": "A well-balanced iron sword. Carrying it sharpens your combat edge.",
+  "starting_room_id": "smithy",
+  "takeable": true,
+  "consumable": false,
+  "attributes": {
+    "equip_stat": "attack",
+    "equip_bonus": 4
+  }
+}

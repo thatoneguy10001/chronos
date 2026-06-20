@@ -1,0 +1,15 @@
+{
+  "id": "bam_maintenance_tunnels",
+  "name": "The Maintenance Tunnels",
+  "description": "The drifting figure entered the tunnels under Windward Pass. Follow it in. What's down there has been used for something — there are Ministry stamps on equipment that shouldn't be here, and not everyone inside is as far gone as the others.",
+  "objective": {
+    "type": "reach_room",
+    "room_id": "maintenance_tunnels"
+  },
+  "gold_reward": 65,
+  "xp_reward": 155,
+  "giver_npc_id": "commander_thorn",
+  "requires_quest_complete": "bam_where_it_drifts",
+  "accept_text": "Thorn looks at the knotted cloth for a long time. When he finally speaks his voice is very even. 'That's a field notation. Third squad used it. It means — it meant — the path ahead is passable but something is wrong and I don't know what.' He sets it down. 'My sergeant. That's my sergeant's handwriting in knots.' He looks at you. 'He went in. He's still in there.' He's quiet. 'I'm going to give you the same briefing I gave third squad before they went east. The subjects in the tunnels are different from the ones in the Fields. Higher retention. They've been in there longer. They remember things.' He holds your gaze. 'Don't assume something that speaks is safe. Don't assume something that doesn't speak is not.'",
+  "complete_text": "The tunnels are older than the war. Ministry stamps on the equipment, but the stonework underneath predates the Ministry by generations. Someone was using this space before either government had a name for it. The subjects here move differently — slower, more deliberate, as if each step costs something. Three of them block the passage. They don't attack immediately. They wait, watching, in the manner of things deciding whether you are something worth addressing. You clear the path, and the silence after is complete. Somewhere deeper in the tunnels, something shifts."
+}

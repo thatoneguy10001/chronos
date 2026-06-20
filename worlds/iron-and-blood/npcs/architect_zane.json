@@ -1,0 +1,39 @@
+{
+  "id": "architect_zane",
+  "name": "Architect Zane",
+  "initial_disposition": 50,
+  "greeting": "His right arm is the giveaway — machined steel from the elbow down, articulated fingers that move with the slightly-too-precise quality of something that has no nerve endings to second-guess itself. The rest of him is unremarkable: middle-aged, medium height, the look of someone who thinks about things very carefully before saying them. He's calibrating something on the table when you enter and does not stop, because he's the kind of person who treats calibration as thinking and can do both at once. 'Architect Zane,' he says. 'I'm going to assume you're not here to object to what we do, because the people who come to object have not, in my experience, come this far before doing so.' He looks up. The eyes are his own — brown, clear, the particular attention of someone who has decided to be interested in everything until proved otherwise. 'What can I do for you?'",
+  "dialogue": [
+    {
+      "keyword": "communion",
+      "prompt": "the Machine Communion",
+      "response": "'Philosophy first. Practice second.' He sets down the calibration tool. 'The organic body is exceptional at most things and exceptional at failing. We don't replace what's working. We replace what's failing with something that won't fail in the same way.' He lifts the machined arm slightly. 'My elbow. Mining accident, twelve years ago. The organic replacement was — imprecise. The mechanical replacement is not imprecise.' He flexes it, the articulation smooth and silent. 'The Ministry tolerates us because our converts are more productive. We tolerate the Ministry's tolerance because it keeps people from harassing our patients.' A pause. 'The Ministry and I agree on very little. We have found an arrangement that accommodates the disagreement.'",
+      "disposition_delta": 5
+    },
+    {
+      "keyword": "crystal",
+      "prompt": "crystal and machine integration",
+      "response": "'Yes.' He says it with the tone of someone who has been waiting a long time for someone to ask the right thing. 'The mechanical components are good. The crystal-integrated components are better. We have been working on neural-crystal interfaces for eight years, and the answer we keep arriving at is: the interface works, but the crystal changes the interface.' He picks up a small component from the table — crystalline lattice embedded in steel. 'The original purpose holds. But the crystal adds — something. Fidelity, maybe. The patient reports that the crystalline arm does not feel like wearing an arm. It feels like having one.' He pauses. 'This has implications for the Lazarus research. Stone knows. I have not told the Ministry. I have been deciding for six months whether I will.'",
+      "requires_topic": "communion",
+      "disposition_delta": 8
+    },
+    {
+      "keyword": "lazarus",
+      "prompt": "Project Lazarus",
+      "response": "'Stone's work is elegant in the wrong direction.' He says this carefully, the way someone says something that could be misread as criticism but is actually respect plus objection. 'She's asking the crystal to animate. We've been asking the crystal to integrate. The difference: animation is one-directional, integration is mutual.' He is quiet. 'The Lazarus subjects retain function because the crystal interface is holding the neural pattern. That's not what Stone designed. It's what happened anyway because crystal doesn't do what you tell it — it does what the relationship between you and it produces.' He pauses. 'The modified compound someone is running through the networks — that modification uses a correct theory. I would very much like to know who derived it.'",
+      "disposition_delta": 7
+    },
+    {
+      "keyword": "chroma",
+      "prompt": "Sister Chroma",
+      "response": "'My colleague.' He says it with the specific cadence of someone who has thought carefully about which word to use. 'Chroma handles the — philosophical side of the work. The patients who come to us have usually already made the technical decision. What they need next is someone who has thought about what they're doing and can tell them it's a reasonable thing to do.' He half-smiles. 'I am not good at that part. I am very good at the technical side. Chroma is very good at the philosophical side. The arrangement is productive and also occasionally annoying, which is the hallmark of a real partnership.' He picks up the calibration tool again. 'She's in the second room. Go left.'",
+      "disposition_delta": 6
+    }
+  ],
+  "vendor": true,
+  "shop": [
+    { "item_id": "neural_disruptor", "price": 30 },
+    { "item_id": "trauma_kit", "price": 15 },
+    { "item_id": "antitoxin_vial", "price": 8 }
+  ]
+}

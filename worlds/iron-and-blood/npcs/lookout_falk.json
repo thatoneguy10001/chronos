@@ -1,0 +1,27 @@
+{
+  "id": "lookout_falk",
+  "name": "Corporal Falk",
+  "initial_disposition": 45,
+  "greeting": "He's at the railing with a scope and the practiced stillness of someone who has learned to stand in high wind without fighting it. He hears the hatch open and registers you without taking the scope from his eye, which is the gesture of someone who has been on watch long enough to assess sounds before turning to look. When he does look: the assessment of someone who knows every person assigned to this post and knows you're not one of them. 'Falk,' he says. 'Corporal, post security, third rotation.' He looks back out over the approaches. 'You're the one Tova let through.' Not a question. 'She clears people she's decided are worth clearing. I've been here two years. Her judgment's been reliable.' He puts the scope back to his eye. 'Don't go near the railing. Wind takes people.'",
+  "dialogue": [
+    {
+      "keyword": "watch",
+      "prompt": "what you can see from up here and what you look for",
+      "response": "'Everything.' He says it without moving the scope. 'The approach corridors, the bone fields, the outer perimeter, the ruins to the east and north. Six kilometers clear in good conditions.' He lowers the scope briefly. 'You look for movement patterns. The Abominations move differently than the wind in the scrub. They have direction and purpose, and they're worst at dusk and false dawn.' He raises the scope again. 'You also look for things that shouldn't move that do. Fallen trees. Weighted tarps. Things that are wrong about a landscape you've memorized.' He is quiet for a moment. 'You look for signals. Our people in the approaches use a frequency-color pattern in their lights. Terran patrols use a different pattern. I've learned both.' He pauses. 'There are three patterns I've seen in the last eight months that aren't either of ours. Consistent direction. Consistent rhythm. Not random.' He lowers the scope. 'I filed those observations. Command filed them under: unconfirmed, insufficient data for classification.' He raises the scope again. 'I keep logging them.'",
+      "disposition_delta": 8
+    },
+    {
+      "keyword": "sky",
+      "prompt": "what it's like being stationed at this altitude",
+      "response": "'Different.' He says it simply. 'You stop having inside and outside the way you do at ground level. The wind is always present. After six months you stop noticing the cold the way you did at first — not because it's less cold, because you've updated your baseline.' He looks at the sky to the east with the evaluating look of someone reading weather. 'What's good about it: clarity. You can see further and you see it first. Eight months ago the sky to the north changed for three nights — a light beneath the overcast that pulsed at an interval I couldn't categorize.' He looks at you. 'Three nights, then it stopped. I filed it. Same folder as the unconfirmed movement patterns.' He pauses. 'I have a theory that the folder for things command doesn't know what to do with is going to become important eventually.' He looks at the sky. 'Comes from being up here. You see things before the people below do. Whether they believe you is a different question.'",
+      "disposition_delta": 7
+    },
+    {
+      "keyword": "post",
+      "prompt": "what kind of soldiers come through the forward post below",
+      "response": "'All kinds, now.' He says it thoughtfully. 'Early in my rotation — two years ago — the traffic was combat rotation and supply. Standard composition. Soldiers going in and out on patrol, quartermasters, medical.' He looks at the hatch. 'In the last eight months: different. Scholars. Researchers. People with instruments I don't recognize who want access to the ruins. A geologist who spent two weeks taking samples and wouldn't tell me from what.' He pauses. 'Tova cleared most of them. Her assessment: they're not a security risk, they're looking for something specific, and what they're looking for isn't a threat to us.' He looks at the approaches below. 'I trust her assessment on the individual level. What I think about at the post level: a lot of different people from a lot of different directions are converging on the same area at the same time. That's usually because something has happened that they're all responding to.' He looks at you. 'You're one of them. I've seen your type before — in the last eight months specifically. Moving through the ruins with a purpose that isn't military.' He pauses. 'Tova cleared you. So: what are you looking for.'",
+      "requires_topic": "watch",
+      "disposition_delta": 9
+    }
+  ]
+}

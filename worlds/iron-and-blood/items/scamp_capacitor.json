@@ -1,0 +1,12 @@
+{
+  "id": "scamp_capacitor",
+  "name": "SCAMP Capacitor [T]",
+  "description": "A high-discharge capacitor unit used in the SCAMP turret's power cycling system. Replacing this is how you upgrade a Mark II to a Mark III. Gideon Moss fabricates them in the Lower Rigs from Ministry-surplus electrical components. He sells them below cost to Field Engineers on principle, he says, because the turrets save lives. The Field Engineers suspect he also enjoys the look on Ministry faces when SCAMP units perform beyond specification. Provides a defensive buff when used — the capacitor's static charge discharges as a protective electromagnetic field.",
+  "takeable": true,
+  "attributes": {
+    "use_effect": "defense_up",
+    "effect_amount": 4,
+    "effect_duration": 3
+  },
+  "tags": ["consumable", "equipment", "terra"]
+}

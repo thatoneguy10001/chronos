@@ -1,0 +1,33 @@
+{
+  "id": "drifting_sergeant",
+  "name": "A Soldier",
+  "initial_disposition": 60,
+  "greeting": "He stands in the deep chamber as if he has been standing there for a very long time, which he has. The crystal grows through his shoulders in symmetrical branches, catching faint light from the walls. He turns when you enter — not surprised, not threatening. The motion is deliberate, careful, like someone managing a body that has changed. His eyes are clear. He watches you the way you watch something you've been expecting.",
+  "dialogue": [
+    {
+      "keyword": "patrol",
+      "prompt": "third squad",
+      "response": "He is quiet for a moment. 'Third squad.' He says it as if reading it from somewhere inside. 'We went east. The fields. The fog was —' He stops. Searches. 'The fog was different. Not weather.' He looks at his hands — the crystal at his wrists, the way it moves the light. 'I am still thinking about the fog. I will be thinking about it for a long time.' He does not sound distressed. He sounds like a man who has made peace with a very difficult fact.",
+      "disposition_delta": 5
+    },
+    {
+      "keyword": "orders",
+      "prompt": "the folded orders",
+      "response": "He reaches into his uniform without hesitation. The motion is precise. He removes a folded paper — preserved by the crystal in his hands, three hundred years of handling leaving no mark on it. He holds it out. 'They said someone would come,' he says. 'I have been holding this for a long time.' He watches you take it. When you have it he exhales, the smallest sound, as if completing something. 'Good,' he says. That's all.",
+      "disposition_delta": 10
+    },
+    {
+      "keyword": "thorn",
+      "prompt": "Commander Thorn",
+      "response": "Something shifts in his expression — not emotion exactly, but the place where emotion used to be. 'He knows,' he says. 'He can feel it the same way I feel it. He has more time than he thinks.' A pause. 'Tell him — tell him the network is not trying to take him. It's trying to show him something.' He is quiet. 'That is the distinction I did not understand until I was inside it. It is not a trap. It is an invitation.'",
+      "disposition_delta": 8
+    },
+    {
+      "keyword": "direction",
+      "prompt": "where you are going now and whether you have chosen a direction",
+      "response": "He looks at you with the attention of a man who has been thinking about this question since before you asked it. 'Choosing,' he says. 'For the first time in twelve years.' He has the orders in his pocket still -- you can see the folded paper. He does not reach for it. 'Twelve years of service. Third squad. I know how to follow orders. I know how to give them. I know how to stand in a position and hold it until I'm told to move.' He looks at the maintenance tunnel around him. 'The Day came. The offer came. I said yes.' He pauses. 'And then I realized I had no orders for what came after that.' He looks at his hands. 'That sounds like a complaint. It isn't. It's the first time in twelve years that the absence of orders has felt like space rather than failure.' He is quiet. 'I've been standing in this tunnel for three days. Not because I'm lost. Because I'm deciding.' He looks at you. 'Thorn put out a request for volunteers for a new category of service. Non-combat, cross-faction, documentation and liaison. Working with Noss on the Hollow documentation. Working with the bone fields. Working with the Aetherian side on the cross-border research.' He pauses. 'I have been thinking about whether I am qualified for that.' He looks at the folded orders. 'The qualification they list is: someone who has been on the eastern front long enough to have seen what's there, and is willing to work with what they saw.' He straightens. 'I am that.' He folds his hands. 'I am going to volunteer in the morning. I'm standing here until I'm ready to walk there with intention instead of momentum.'",
+      "requires_quest_complete": "the_day_arrives",
+      "disposition_delta": 15
+    }
+  ]
+}

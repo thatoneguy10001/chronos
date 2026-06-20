@@ -1,0 +1,9 @@
+{
+  "id": "star_view_observatory",
+  "name": "Star-View Observatory",
+  "description": "The tower has been climbing since before the monastery had its current name. At the top: a lens the size of a wagon wheel, ground by someone with a very long patience from a single piece of uncut Aetherium, aimed at a sky that has been changing in ways the people below it haven't been told about. The observatory logbooks go back four hundred years. You find the current one open on the table. The entries for the last eight months are in a different hand than the earlier ones, smaller and faster, the kind of handwriting that happens when you're writing to keep up with what you're seeing rather than to record it. Margin notes beside margin notes. The last entry trails off mid-sentence. On the desk: star charts, two of them, overlaid. The positions on the newer chart don't match the older one in ways that shouldn't be possible in eight months. You check the dates. Both charts are from the same eight-month period. The stars in the same sky, recorded from the same lens, at the same time of year, do not match. Someone looked at this and stopped writing mid-sentence.",
+  "exits": {
+    "down": { "target_room_id": "iron_monastery", "label": "Outer Court" }
+  },
+  "requirements": {}
+}

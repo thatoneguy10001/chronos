@@ -1,0 +1,54 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "chronos/room-template",
+  "title": "RoomTemplate",
+  "type": "object",
+  "required": ["id", "name", "description", "exits"],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$"
+    },
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string",
+      "description": "Atmospheric prose rendered when the player enters or LOOKs"
+    },
+    "exits": {
+      "type": "object",
+      "description": "Direction → exit definition. Keys are canonical directions (north, south, east, west, up, down).",
+      "additionalProperties": {
+        "$ref": "#/definitions/ExitDefinition"
+      }
+    },
+    "requirements": {
+      "type": "object",
+      "description": "Arbitrary flags checked before entry (e.g. requires_item: 'brass_key')",
+      "additionalProperties": true
+    }
+  },
+  "definitions": {
+    "ExitDefinition": {
+      "type": "object",
+      "required": ["target_room_id"],
+      "properties": {
+        "target_room_id": { "type": "string" },
+        "label": {
+          "type": "string",
+          "description": "Button label override for BUTTONS input mode"
+        },
+        "requirement": {
+          "type": ["string", "null"],
+          "description": "Item ID that must be in player inventory to traverse this exit"
+        },
+        "locked_message": {
+          "type": ["string", "null"],
+          "description": "Message shown when requirement is not met"
+        }
+      }
+    }
+  }
+}

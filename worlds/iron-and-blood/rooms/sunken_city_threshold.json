@@ -1,0 +1,10 @@
+{
+  "id": "sunken_city_threshold",
+  "name": "The Sunken City — Threshold",
+  "description": "Below the tunnels, past the point where the Hive's stonework stops being the Hive's stonework and becomes something older and more considered. The crystal in the walls here is intact — not corrupted, not weaponized, just present, arranged in patterns that mean something in a language you don't speak but can feel the grammar of. The air is perfectly still and carries no smell, which is remarkable in a world that has spent three hundred years finding new things to make smell bad. The light from within the walls is faint and sourceless. The room is aware of you being in it. Not in a threatening way. In the way that old things become aware of new arrivals, and are deciding what to make of them.",
+  "exits": {
+    "up": { "target_room_id": "maintenance_tunnels", "label": "Maintenance Tunnels" },
+    "down": { "target_room_id": "aetherion_plaza", "label": "Descend Into the City" }
+  },
+  "requirements": {}
+}

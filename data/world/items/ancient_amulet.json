@@ -1,0 +1,12 @@
+{
+  "id": "ancient_amulet",
+  "name": "Ancient Amulet",
+  "description": "A glowing amulet etched with arcane runes. Its presence amplifies magical insight.",
+  "starting_room_id": "ancient_ruins",
+  "takeable": true,
+  "consumable": false,
+  "attributes": {
+    "equip_stat": "intelligence",
+    "equip_bonus": 6
+  }
+}

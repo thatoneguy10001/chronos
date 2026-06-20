@@ -1,0 +1,11 @@
+{
+  "id": "under_district_entrance",
+  "name": "Under-District — Level Zero",
+  "description": "The guards wear Ministry black with no insignia, which means they are the kind of official that doesn't appear in official records. They looked at your clearance and returned it without expression, which is either fine or the last calm thing that's going to happen. The corridor beyond slopes down under fluorescent light that eliminates every shadow completely — and you think: someone specifically wanted it that way, no shadows, nowhere for anything to hide from the light or the light from anything. A sign on the wall reads AUTHORIZED ACCESS ONLY — RESEARCH DIVISION 9. It's been there long enough to collect dust in the corners. Whatever the sign was protecting, it stopped being surprised by visitors some time ago.",
+  "exits": {
+    "up": { "target_room_id": "hive_command_spire", "label": "Ministry Quarter" },
+    "down": { "target_room_id": "lazarus_chamber", "label": "Lower Research" },
+    "west": { "target_room_id": "research_division_9", "label": "Research Division 9" }
+  },
+  "requirements": {}
+}

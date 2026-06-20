@@ -1,0 +1,10 @@
+{
+  "id": "deep_iron_descent",
+  "name": "The Deep Descent",
+  "description": "The entrance is not marked, which is intentional: a natural fissure in the bone field floor, widened by generations of hands and tools until it is navigable by adults who don't mind tight spaces and long drops. The surface people — both of them, Terran and Aetherian — do not know this is here. The Merchant Princes at the Silent Market suspect it. The Discarded above know it exists and do not mention it, which is a form of courtesy the Deep Iron taught them. You feel the temperature change as you descend: cooler, steadier, the volatile surface weather replaced by the constant cold of real deep places. The rock below is different from the surface rock — older, uncracked by the three centuries of artillery that have been rearranging everything above it. Below you, light.",
+  "exits": {
+    "up": { "target_room_id": "bone_fields", "label": "Bone Fields" },
+    "down": { "target_room_id": "stonehold", "label": "The Deep City" }
+  },
+  "requirements": {}
+}

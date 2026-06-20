@@ -1,0 +1,13 @@
+{
+  "id": "antitoxin_vial",
+  "name": "Antitoxin Vial",
+  "description": "A glass vial of broad-spectrum antitoxin developed for the chemical warfare environment of the Trenches. Clears most common battlefield poisons and chemical burns. Also provides minor tissue restoration. Restores 20 HP.",
+  "starting_room_id": "fort_iron_gate",
+  "takeable": true,
+  "attributes": {
+    "use_effect": "heal_and_cure",
+    "heal_amount": 20,
+    "cures_kind": "all"
+  },
+  "tags": ["consumable", "medical", "antidote"]
+}

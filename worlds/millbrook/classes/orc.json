@@ -1,0 +1,20 @@
+{
+  "id": "orc",
+  "name": "Orc Marauder",
+  "description": "A brutish warrior from the dark reaches of the forest. Thick-skulled and relentless.",
+  "base_stats": {
+    "hp": 55,
+    "attack": 11,
+    "defense": 5,
+    "intelligence": 1
+  },
+  "abilities": [],
+  "passives": [],
+  "starting_equipment": [],
+  "xp_reward": 40,
+  "gold_reward": 12,
+  "tactics": [
+    { "condition": { "type": "hp_below", "threshold": 0.35 }, "action": { "type": "heavy_attack", "multiplier": 1.8 } },
+    { "condition": { "type": "always" }, "action": { "type": "basic_attack" } }
+  ]
+}

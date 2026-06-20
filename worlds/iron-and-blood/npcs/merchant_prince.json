@@ -1,0 +1,39 @@
+{
+  "id": "merchant_prince",
+  "name": "Merchant Prince Cass",
+  "initial_disposition": 50,
+  "greeting": "She is looking at a set of maps spread across the largest table in the room — not battle maps, market maps: supply routes, trade lines, the specific topography of transaction. She is dressed expensively in a way that is also functional, which is the Merchant Prince signature. The iron pin at her collar is heavier than Vane's. She looks up when you enter, and the assessment is rapid and complete and interested, which is not what you expected. 'You're from the front.' Not a question. 'Sit down. I've been waiting for someone from the front for three months. The official reports are — there is a word for what they are.' She makes a gesture that means: we both know what the word is. 'Tell me what's actually happening out there.'",
+  "dialogue": [
+    {
+      "keyword": "merchant",
+      "prompt": "the Merchant Princes",
+      "response": "'We are the oldest institution in the Hive.' She says it without arrogance — as fact, delivered by someone who has read the founding charters. 'Older than the Ministry by a hundred years. We were the infrastructure before infrastructure was a Ministry word. Water rights, supply routes, the resonance grid maintenance around the Wastes trading sites.' She taps the map. 'The war is thirty percent of our revenue and one hundred percent of our political exposure. If it ends, we have to recalculate. If it doesn't, we have to keep feeding it.' She looks at you directly. 'I will be honest with you because you look like someone who knows when they're not being given the honest version: I believe the war has become the point of the war. It exists to justify the Ministry that exists to prosecute the war. I have been trying to prove this for six years.'",
+      "disposition_delta": 7
+    },
+    {
+      "keyword": "resonance",
+      "prompt": "the resonance grid around the Silent Market",
+      "response": "'We maintain it. Have for a hundred years.' She finds a specific overlay on the maps — grid lines in blue ink, running through the Wastes in patterns that don't match the geography. 'The Abominations avoid resonance frequencies in this band. We discovered this eighty years ago. We didn't announce it — we built a trading post inside the quiet zone and called it the Silent Market.' She traces the grid lines. 'The grid requires maintenance. The maintenance requires access to the Wastes. The access to the Wastes requires relationships the Ministry would rather we didn't have.' She meets your eyes. 'We have them anyway. The Discarded maintain the southern sections. The Deep Iron maintain the subsurface nodes. We pay both in goods they cannot acquire officially.' She pauses. 'If you've met Grimka at the camp, she'll tell you this is a fair arrangement. She has told me that directly.'",
+      "disposition_delta": 8
+    },
+    {
+      "keyword": "greasewater",
+      "prompt": "Greasewater",
+      "response": "'Our primary alternative to the Ministry port.' She folds the map to show the western trade route. 'Greasewater is technically Terran territory. Technically. The dock-masters have been operating independently since the Ministry's port authority tried to impose tariffs forty years ago and the dock-masters burned the customs office.' She traces the road west. 'Ships from eight nations that officially don't exist operate out of Greasewater. This is extremely convenient for us. The Ministry knows. They have decided, after considering the alternative of trying to control it, that they prefer the dock-masters to whoever would replace them.' She pauses. 'If you need to move something — information, material, people — without Ministry involvement, Greasewater is where that conversation happens. The dock-master Greer is the person that conversation is with.'",
+      "disposition_delta": 6
+    },
+    {
+      "keyword": "merit",
+      "prompt": "Merit, the Merchant Prince founder",
+      "response": "'Merit.' She says it the way you say the name of a relative who left something complicated. 'The Princes have been arguing about Merit for five hundred years. The short version: she founded the Floating Markets, built the trade network, accumulated the largest private wealth in the history of either nation, and disappeared at sixty without explanation.' She looks at the maps. 'She left one document. A letter to her partners, in which she said: the treasure is a reason. The reason is the point. Spend the next five centuries finding both.' She pauses. 'The monks at the Iron Monastery have a theory: the wealth exists but is smaller than legend. Merit hid it to leave a purpose, not a treasure. Five hundred years of searching has produced substantial ancillary discoveries, which she may have anticipated.' She opens a specific section of the map. 'I have been looking for Merit's trail for eight years. What I've found is not the treasure. What I've found is that Merit knew things about the Elder People's infrastructure that no surface-dweller has known before or since. And she left that knowledge in very specific places.' She turns to you. 'I believe the Vault of Coins is an Elder People installation. I believe Merit found it, documented it, and hid the documentation in the treasure map.' She pauses. 'The map leads everywhere. That is the problem and possibly the point.'",
+      "disposition_delta": 8
+    },
+    {
+      "keyword": "scamp",
+      "prompt": "the SCAMP engineers",
+      "response": "A pause that has a quality of assessment in it. 'Yes,' she says. 'Twelve engineers. Project SCAMP — Synchronized Crystal Amplification Manifold Project. They built the weapon that ended the Cascade.' She looks at the map. 'They went quiet afterward. Not disappeared — quiet. We tracked some of them through trade records.' She pauses. 'Two I know for certain went through Greasewater. One to a nation I am not naming in this room. One —' She pauses. 'One purchased a very specific type of crystal-diving equipment and headed south. You don't dive south of Greasewater. There's nothing south of Greasewater except open water and then, if the charts that have come through my hands are correct, something the official maps show as blank.' She looks at you. 'I do not know what's in the blank space. I know it warranted diving equipment.'",
+      "requires_topic": "merchant",
+      "disposition_delta": 9
+    }
+  ]
+}

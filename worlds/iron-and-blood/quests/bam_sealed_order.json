@@ -1,0 +1,15 @@
+{
+  "id": "bam_sealed_order",
+  "name": "The Sealed Order",
+  "description": "Thorn has something for you. The last thing.",
+  "objective": {
+    "type": "talk_to",
+    "npc_id": "commander_thorn"
+  },
+  "gold_reward": 0,
+  "xp_reward": 300,
+  "giver_npc_id": "commander_thorn",
+  "requires_quest_complete": "bam_whatever_thorn_decides",
+  "accept_text": "Days later, he sends for you. Not through a runner — he comes to the door of wherever you are and knocks, which he has never done. When you open it he's holding a sealed envelope, military paper, his own wax seal on the back. He's not in uniform. He looks like a man who has made a decision that cost him something. 'I've written down everything I know,' he says. 'About the patrol. About the compound. About the Ministry's involvement in the original Lazarus program. About what I hear in the crystal at night.' He holds out the envelope. 'This goes to whoever commands Fort Iron after me. You'll know when that time comes.' He meets your eyes. 'If you open it before then, make sure it's because you have to.' He releases the envelope. 'I trust you to know the difference.'",
+  "complete_text": "You take it. It's heavier than paper should be. He looks at you for a moment with something that is not quite a smile and not quite a farewell — something in between, specific to him. 'Thank you,' he says. 'For the patrol. For Sevyas. For going below.' He turns to go. He stops. 'I sent them east because I thought they could handle it. I want you to know I didn't know what was out there.' He doesn't look back. 'I know that doesn't change anything. I wanted to say it anyway.'"
+}

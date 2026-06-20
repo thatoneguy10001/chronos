@@ -1,0 +1,12 @@
+{
+  "id": "hive_mid_levels",
+  "name": "The Mid-Levels",
+  "description": "Eight tiers of conveyor belts, and the percussion of press machines so large that you feel them in your skeleton before you hear them with your ears. Workers move between stations in the rhythm of people doing the same thing they did yesterday and will do tomorrow — which is different from habit, because habit implies a choice was made at some point. The noise here is so complete that people have stopped trying to talk over it; they've developed a system of gestures the Ministry has never bothered to decode, which tells you exactly how the Ministry thinks about these floors. Through the grime-filmed skylights, if you look up: the clean windows of the Spires above. They appear to be looking back.",
+  "exits": {
+    "down": { "target_room_id": "lower_rigs", "label": "Lower Rigs" },
+    "up": { "target_room_id": "the_spires", "label": "The Spires" },
+    "east": { "target_room_id": "hive_gate_district", "label": "Gate District" },
+    "north": { "target_room_id": "great_foundry", "label": "The Great Foundry" }
+  },
+  "requirements": {}
+}

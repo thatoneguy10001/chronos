@@ -1,0 +1,15 @@
+{
+  "id": "vespa_confirms",
+  "name": "Vespa Confirms",
+  "description": "Grimka said Vespa knows what happened eight months ago — something about the Grid restart she hasn't shared with the community yet. Vespa has been talking to the Spire since childhood. She holds the piece that connects everything.",
+  "objective": {
+    "type": "talk_to",
+    "npc_id": "vespa"
+  },
+  "gold_reward": 60,
+  "xp_reward": 150,
+  "giver_npc_id": "grimka",
+  "requires_quest_complete": "the_discarded_name",
+  "accept_text": "Grimka says it simply. 'She's been carrying it alone since it happened. She doesn't share things until she understands them, and this one — she said to me once that she understands what she did but not what it means yet.' She looks at you. 'Maybe it means something different if someone from outside knows.' She is quiet. 'Vespa restarted the Grid. She won't say she did if you ask her directly, but she will say it if you've already found your way to the Spire threshold and you've talked about the hammer.' She meets your eyes. 'Show her you already know about the hammer. The Cobble translation — what Ironheart was built to do. Tell her Osse's word for the warmth in the metal.' A pause. 'She's been protecting us. She didn't tell us because she wasn't certain what she'd started and she didn't want us to be afraid.' She is quiet. 'I am afraid. I'm telling you that honestly. But I trust Vespa and the Architect, and they trust each other, and the lattice has been warm for eight months and nothing terrible has happened yet.' She pauses. 'Go find her. She's been ready to tell it for a while. She just needed someone to ask.'",
+  "complete_text": "Vespa looks at you for a long time after you lay out everything you know — the hammer, the Cobble translation, Osse's three decades, the Architect's grid topic. Then she says: 'I restarted it.' She says it plainly. 'Eight months ago. The Architect gave me the access sequence ten years ago and told me: when someone who understands the question says yes. I spent ten years waiting to understand the question.' She looks at the Wastes. 'Understanding the question was the hardest part. Not because it was complicated — because it required believing that what the Elder People built was what they said it was.' She is quiet. 'I believe it. I believe the second completion is what the Architect says it is. An offer, not a command.' She meets your eyes. 'The Discarded need to know. Not because they must decide now — they have forty years. But because they deserve to know the choice is coming.' She stands. 'There is a gathering place. I want you there when I tell them. You've been all the way to the lattice's edge. I want them to see someone who went to the edge and came back and isn't afraid.' She starts walking. 'Come. This is the part that was the point of all the rest.'"
+}

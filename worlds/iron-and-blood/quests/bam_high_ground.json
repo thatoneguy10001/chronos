@@ -1,0 +1,15 @@
+{
+  "id": "bam_high_ground",
+  "name": "What It Cost",
+  "description": "Adra wants to know what made Sergeant Kehl volunteer three times. Not medically — she already knows what it did to him. She wants to know what the war had already done to him first.",
+  "objective": {
+    "type": "talk_to",
+    "npc_id": "sergeant_kehl"
+  },
+  "gold_reward": 40,
+  "xp_reward": 100,
+  "giver_npc_id": "sister_adra",
+  "requires_quest_complete": "bam_bone_fields",
+  "accept_text": "She's looking at the intake chart but not reading it. 'Sergeant Kehl volunteered three times for a procedure most people refuse once. Nobody does that unless the alternative already costs too much.' She sets the chart down. 'I know what the compound did to him. That's not what I'm asking. I want to know what the war had already done to him that made it feel like a reasonable trade. Ask him. If he'll say.'",
+  "complete_text": "She's quiet for a long time when you come back. 'Crystal hands. Twenty years of service.' She straightens something that doesn't need straightening. 'He's still choosing, though. That's something. I keep telling myself that's something.'"
+}

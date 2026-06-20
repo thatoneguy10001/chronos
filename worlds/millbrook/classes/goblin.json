@@ -1,0 +1,26 @@
+{
+  "id": "goblin",
+  "name": "Goblin",
+  "description": "A wiry, snaggle-toothed forest goblin. Quick and vicious, but no match for a trained warrior — a fitting first kill.",
+  "base_stats": {
+    "hp": 30,
+    "attack": 7,
+    "defense": 3,
+    "intelligence": 1
+  },
+  "abilities": [],
+  "passives": [],
+  "starting_equipment": [],
+  "xp_reward": 20,
+  "gold_reward": 5,
+  "tactics": [
+    {
+      "condition": { "type": "hp_below", "threshold": 0.4 },
+      "action": { "type": "heavy_attack", "multiplier": 1.5 }
+    },
+    {
+      "condition": { "type": "always" },
+      "action": { "type": "basic_attack" }
+    }
+  ]
+}

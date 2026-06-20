@@ -1,0 +1,23 @@
+{
+  "id": "skeleton",
+  "name": "Skeleton Warrior",
+  "description": "Reanimated bones held together by dark magic. Rattling, relentless, and immune to fear.",
+  "base_stats": {
+    "hp": 45,
+    "attack": 10,
+    "defense": 7,
+    "intelligence": 1
+  },
+  "abilities": [],
+  "passives": [],
+  "starting_equipment": [],
+  "xp_reward": 55,
+  "gold_reward": 18,
+  "tactics": [
+    {
+      "condition": { "type": "player_effect_absent", "kind": "bleed" },
+      "action": { "type": "apply_effect", "kind": "bleed", "damage": 3, "duration": 3 }
+    },
+    { "condition": { "type": "always" }, "action": { "type": "basic_attack" } }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "id": "ah_coordinates",
+  "name": "What the Dark Holds",
+  "description": "Lena has coordinates. Both of you are pointing at the same place from different angles. Hear what she found before you go below.",
+  "objective": {
+    "type": "talk_to",
+    "npc_id": "lena_voss"
+  },
+  "gold_reward": 70,
+  "xp_reward": 175,
+  "hope_reward": 2,
+  "requires_night": true,
+  "giver_npc_id": "lena_voss",
+  "requires_quest_complete": "ah_lena_knows",
+  "accept_text": "She has the paper ready when you arrive. Seven nights of marks, organized into coordinates, cross-referenced against two different survey grids. 'Terran grid puts it here,' she says, pointing. 'Aetherian grid puts it here. They're the same location read from different baselines.' She holds the paper out. 'I've been doing this alone for three weeks. I'd like to stop doing it alone.' She waits. 'Whatever is down there — the Watcher has been trying to show both sides simultaneously. For as long as anyone has been watching. It needed someone from each side to understand the full picture.' She pauses. 'We're the first ones who did.'",
+  "complete_text": "You share what you know — the sergeant's orders, Solan's name for it, the tunnel route, everything Blood and Memory has assembled. She listens the way she always listens, completely. When you finish she is quiet for a long time. 'The Quiet City,' she says softly. 'We thought it was a metaphor. The city that chose to go underground rather than be conquered in the first war.' She looks at you. 'If it isn't a metaphor — if it's a real place, four hundred meters down, and the thing that's been using our ceasefire for forty years to leave a map is trying to get both sides to find it together —' She stops. 'Then the war isn't about the war,' she says. 'The war was always about this. Getting us here.' A long pause. 'Someone built the war around what was already there.'"
+}

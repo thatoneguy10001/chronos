@@ -1,0 +1,11 @@
+{
+  "id": "market",
+  "name": "Market",
+  "description": "Aldwyn the merchant presides over a row of crowded stalls, hawking potions, ethers, and honest steel. \"Welcome to my market! Looking for supplies?\" he calls. The clang of a hammer rings from the smithy to the east, and the inn's chimney smoke drifts in from the west. The town square lies back to the south.",
+  "exits": {
+    "south": { "target_room_id": "town_square", "label": "Town Square" },
+    "east": { "target_room_id": "smithy", "label": "Smithy" },
+    "west": { "target_room_id": "inn", "label": "The Inn" }
+  },
+  "requirements": {}
+}

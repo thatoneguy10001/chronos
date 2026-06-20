@@ -1,0 +1,17 @@
+{
+  "id": "windward_approach",
+  "name": "Windward Approach",
+  "description": "The mountains rise on both sides and the artillery damage rises with them — you can read the line of the front in the rock face the way you'd read rings in a tree, each scar a different campaign. In the far distance, Aetherian arc-lights pulse against the fog: blue-white and steady in a way your side's gas lamps are not. Kehl is at the ridge, sitting in the specific way of someone who has been sitting there long enough that it stopped being resting some time ago and is now just where they are. He turns when he hears you. You notice his hands before anything else.",
+  "exits": {
+    "west": { "target_room_id": "abomination_lair", "label": "The Hollow" },
+    "down": { "target_room_id": "maintenance_tunnels", "label": "Underground Tunnels" },
+    "north": {
+      "target_room_id": "armistice_ground",
+      "label": "Armistice Ground (night only)",
+      "requires_night": true,
+      "locked_message": "The ceasefire doesn't begin until dusk. Both sides are still shooting. Type 'wait' to pass time until the Armistice."
+    },
+    "east": { "target_room_id": "crystal_labyrinth", "label": "Mountain Passage" }
+  },
+  "requirements": {}
+}

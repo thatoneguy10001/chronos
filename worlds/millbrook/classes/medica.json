@@ -1,0 +1,36 @@
+{
+  "id": "medica",
+  "name": "Medica",
+  "description": "A battle-medic who combines surgical precision with healing arts. Moderate stats across the board; uniquely able to restore HP.",
+  "base_stats": {
+    "hp": 95,
+    "attack": 9,
+    "defense": 5,
+    "intelligence": 7
+  },
+  "abilities": [
+    {
+      "id": "surgical_strike",
+      "name": "Surgical Strike",
+      "description": "A precise attack targeting vital points.",
+      "base_damage": 6
+    },
+    {
+      "id": "healing_touch",
+      "name": "Healing Touch",
+      "description": "Channel healing energy to restore 25 HP.",
+      "base_damage": 0,
+      "heal_amount": 25
+    },
+    {
+      "id": "triage",
+      "name": "Triage",
+      "description": "Rapid field medicine: restore 12 HP instantly.",
+      "base_damage": 0,
+      "heal_amount": 12
+    }
+  ],
+  "passives": [],
+  "starting_equipment": [],
+  "xp_reward": 0
+}

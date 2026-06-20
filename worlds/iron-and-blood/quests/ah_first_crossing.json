@@ -1,0 +1,16 @@
+{
+  "id": "ah_first_crossing",
+  "name": "First Crossing",
+  "description": "After dusk, the Armistice begins. Cross into the ceasefire ground at Windward Approach and see what the war looks like when it stops.",
+  "objective": {
+    "type": "reach_room",
+    "room_id": "armistice_ground"
+  },
+  "gold_reward": 35,
+  "xp_reward": 90,
+  "requires_night": true,
+  "giver_npc_id": "commander_thorn",
+  "requires_quest_complete": "ah_before_dusk",
+  "accept_text": "The firing has stopped. You feel it before you hear it — the way the air changes when something very loud is suddenly absent. Thorn nods when you look at him. 'It's dusk. Go north from Windward Approach. The Armistice ground is there. The Abominations don't know about the ceasefire and neither does anything else out there — but you'll find people who do.' He pauses. 'Both sides send people out to fight the Abominations together. Some of them also talk. Most of them don't. You'll know which kind you are by what you do when you get there.'",
+  "complete_text": "It's exactly what Thorn said and nothing like what you expected. Figures emerge from the Aetherian treeline the same time you emerge from the Terran side. Nobody speaks. An Abomination crests the ridge — the Aetherian to your left angles without being asked, the Terran to your right takes the rear position, and you take the front because you're in front, and you kill it together with the efficiency of people who have been doing this for a very long time without meeting. The Aetherian nods at you when it's over. You nod back. Neither of you knows the other's name. That's the thing Thorn meant that he couldn't explain."
+}

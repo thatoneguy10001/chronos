@@ -1,0 +1,12 @@
+{
+  "id": "iron_bandage",
+  "name": "Iron Bandage",
+  "description": "Crude cloth strips infused with industrial-grade antiseptic and a coagulation compound. Fast to apply, rough on the wound, effective enough to matter. A staple of Terran field medicine.",
+  "starting_room_id": "shell_crater",
+  "takeable": true,
+  "attributes": {
+    "use_effect": "heal",
+    "heal_amount": 25
+  },
+  "tags": ["consumable", "medical"]
+}

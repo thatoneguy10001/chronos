@@ -1,0 +1,12 @@
+{
+  "id": "resonance_blade",
+  "name": "Resonance Blade [S]",
+  "description": "Forged in the Forge of Stars using crystal-resonance metalworking that the surface world does not have the theory for yet. The blade is aligned at the molecular level with a specific harmonic frequency — not heat-drawn, sound-shaped. Lighter than it looks. Holds an edge without sharpening because the crystal alignment does the work the grinding stone would. There is a faint warmth to it that has nothing to do with use or storage. The warmth is structural.",
+  "takeable": true,
+  "consumable": false,
+  "attributes": {
+    "equip_stat": "attack",
+    "equip_bonus": 8
+  },
+  "tags": ["weapon", "melee", "elder-craft", "deep-iron"]
+}

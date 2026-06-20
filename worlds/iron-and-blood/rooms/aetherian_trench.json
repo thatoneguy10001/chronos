@@ -1,0 +1,11 @@
+{
+  "id": "aetherian_trench",
+  "name": "Aetherian Trench Line",
+  "description": "The Aetherian trenches are quieter than yours. The arc-lights run on crystal — steady blue-white, where your line runs on gas that flickers when the wind changes. The crystal-tipped defensive stakes scatter the light in small precise patterns that someone clearly spent time planning. The soldiers here wear light fitted armor and move with the efficiency of people trained to use their bodies rather than machines to extend them, which is different from your training in ways you keep noticing. They watch you the way your side watches Aetherians during the Armistice: the specific wariness of someone who has stopped shooting but has not stopped being the kind of person who might start again. One of them nods at you, barely, the minimum acknowledgment that costs nothing and concedes nothing. You understand exactly what that nod is. You've given it.",
+  "exits": {
+    "south": { "target_room_id": "armistice_ground", "label": "Armistice Ground" },
+    "east": { "target_room_id": "aetherian_forward_post", "label": "Forward Post" },
+    "north": { "target_room_id": "fort_sky_watch", "label": "Fort Sky-Watch" }
+  },
+  "requirements": {}
+}

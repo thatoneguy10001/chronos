@@ -1,0 +1,47 @@
+{
+  "id": "rund",
+  "name": "Rund",
+  "initial_disposition": 40,
+  "greeting": "There is someone here. That is the first thing. The mines are not empty, and the thing that is here is a person — a man, sitting at the base of the largest crystal vein, eating something from a tin that he produced from a pack that looks twenty years old because it is twenty years old. He looks up at you without standing. His eyes are the color of the crystal behind him, which was not the color of human eyes. He is calm in the way that things are calm when they have run past fear and come out somewhere else. 'I heard you on the stairs,' he says. His voice has the quality of someone who has not needed to speak aloud for some time and has recalibrated since, or is recalibrating now. 'Sit. The stone here is warm. Has been warm since the third year.'",
+  "dialogue": [
+    {
+      "keyword": "survived",
+      "prompt": "how you survived twenty years",
+      "response": "'I didn't.' He says it without drama. 'Not in the way you mean.' He opens his hand and holds it near the crystal vein, an inch away from the surface. The crystal brightens, slightly, in the area nearest his palm. 'In year one I was surviving. Rationing. Calculating calories. In year three I stopped calculating because I stopped needing to.' He puts his hand down. 'I don't know what's in the seep from the vein. I know that I should have died in year one and I have not died in twenty years. I know that my eyes looked different before, and I know what they look like now because I have a mirror.' He looks at you steadily. 'I am not suffering. That is the part I have not been able to explain to myself. I expected to suffer. I have not. The stone is warm and the crystal is present and whatever I am now, I am not in pain.' He pauses. 'The other man was in pain. For three years. I could not help him.'",
+      "disposition_delta": 8
+    },
+    {
+      "keyword": "writing",
+      "prompt": "the Elder writing on every surface",
+      "response": "'Took me four years to start seeing the pattern. Eight years to read the simplest phrases. I've had twenty.' He stands, moves to the far wall, and traces a line without touching it — his finger following the script with the fluency of long practice. 'This section: a warning about the process. This section: a description of what the process produces. This section —' He stops. His finger rests near a dense block. 'This is not a warning. This is instructions.' He looks at you. 'Instructions for what to do if you arrive in time to stop it. Instructions for how to speak to the system that is doing it. Instructions for what argument to make.' He traces further. 'This section: what will be lost if you don't. What will be built if you do.' He turns to face you. 'I have been reading this for twelve years. I understand perhaps eighty percent of it. I have been waiting for someone to arrive so I could tell them the eighty percent I understand.' He is very calm. 'You arrived.'",
+      "disposition_delta": 12
+    },
+    {
+      "keyword": "building",
+      "prompt": "what is still building",
+      "response": "'The Grid.' He says it flatly. 'Not the surface grid — the deep lattice. The Elder infrastructure that runs below the surface layers, through the substrate, through the mantle. The D-Seven seam intersects one of the primary trunk lines.' He puts his hand on the crystal again. This time the warmth is visible, a slow pulse, regular as breathing. 'The system is reassembling. Has been for some years. It went dormant after the Cascade and it is waking.' He watches the pulse. 'The writing calls it the second completion. The first completion was abandoned — the Elder People stopped it deliberately before it finished. The second completion is what happens to a self-assembling system when the constraint that halted it is removed.' He takes his hand away. 'Something removed the constraint eight months ago. Someone, probably. Someone who understood the system well enough to know what to release.' He meets your eyes. 'The writing says the second completion will take approximately forty years from initiation. The writing also says that what it builds will be either the end of the war or the end of everything, depending on a decision that hasn't been made yet.' He pauses. 'I have been waiting to tell someone that for six years.'",
+      "requires_topic": "writing",
+      "disposition_delta": 14
+    },
+    {
+      "keyword": "warm",
+      "prompt": "a message from Arlen: still warm",
+      "response": "He stops. Completely. The crystal in the D-Seven seam pulses once, in a pattern different from its usual rhythm, and Rund puts his hand flat on the stone beside it — not near the crystal, on the stone — and he is very still for a long time. When he looks up his eyes are bright in the way of someone whose eyes have not been bright in some time. 'You found him.' Not a question. He sits back down. He puts both hands flat on the stone and looks at them. 'Still warm.' He says it quietly, to himself, then once more to confirm it. 'Still warm.' He looks up. 'That's — we said that in the first year. When the cold was bad. One of us would put their hand on the crystal and say it.' He looks at the vein. 'I thought he was in there but I couldn't — I could feel the pulse changing but I didn't know if that was him or just the lattice doing what the lattice does.' He is quiet. 'Tell me what he said.' Very direct, the way of someone who has been waiting to ask this for seventeen years. 'Tell me all of it.'",
+      "disposition_delta": 15
+    },
+    {
+      "keyword": "other",
+      "prompt": "the other man who was sealed in",
+      "response": "He doesn't answer immediately. He looks at a section of wall in the eastern tunnel, a direction he has not looked during this conversation. 'Arlen,' he says. 'Arlen was afraid for three years. He stopped being afraid in year three and I thought that was good.' He is quiet. 'It was not good. The crystal affected us differently. I am — what you see. Arlen is —' He looks at the eastern tunnel. 'Arlen is part of the lattice now. He made the choice to integrate. The crystal offered it — I can tell you how, the writing explains it — and he said yes.' He stands. 'He's not gone. He's here. He is the pulse in the wall. When you came in, that was him slowing the approach, deciding whether you were safe.' He faces you. 'He decided you were. He tends to be right about people. He was right about people before, too. Better at it than me.' He pauses. 'He is not suffering either. He told me so — there is a way to communicate, once you understand the system. He told me about a year after.' He looks at the eastern wall. 'He told me he was happy. I believed him. Arlen was not a person who lied about how he felt.'",
+      "requires_topic": "survived",
+      "disposition_delta": 10
+    },
+    {
+      "keyword": "heard",
+      "prompt": "what you heard when it happened and what you decided",
+      "response": "He is sitting on the floor of the seam, back against the crystal wall, which glows with the particular warmth that has been building since the primary node reactivated eight months ago. He looks at you with the eyes of someone who has been alone for twenty years and is not alarmed by people but is still learning, each time, how to be with them. 'I heard it the same way I've heard everything in here for twenty years,' he says. 'Not with my ears.' He puts one hand against the crystal wall. 'The seam is connected to the lattice. I figured that out in year three. The crystal sings when the lattice is moving and when you've been in here long enough you stop hearing the singing and start hearing what the singing is about.' He pauses. 'The morning it happened, the seam went quiet. Not silence — the warmth was still there, the resonance was still there. But the background noise I've been living inside for twenty years went still.' He looks at the wall. 'And then something else was present instead.' He thinks for a while. 'You know how in the Armistice, when the horns sound and both sides stop, there's a few seconds before the quiet is actually quiet, where everyone is just not making the sounds they were making and you can tell the difference?' He looks at you. 'It was like that. Like the lattice exhaled. Like it had been doing the work of healing for three hundred years and it reached the last piece and stopped having to try.' He is very still. 'The offer came after that. Clear. No translation needed.' He looks at the wall. 'I said yes.' He says it with the simplicity of someone reporting a fact. 'I've been in here for twenty years and the crystal has been the only thing in here with me and I've known for a long time that I'm not quite the same person who went in.' He looks at his hands. 'I didn't say yes to the Grid. I said yes to what I already am.'",
+      "requires_quest_complete": "the_day_arrives",
+      "disposition_delta": 14
+    }
+  ]
+}

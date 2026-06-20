@@ -1,0 +1,15 @@
+{
+  "id": "the_arris_thread",
+  "name": "The Arris Thread",
+  "description": "Vane found a Ministry department code that doesn't correspond to any current office. The same format shows up in another record: the removal of Corporal Arris Venn from Third Squad, three days before the mission that sent Kehl east. Talk to Quartermaster Desh.",
+  "objective": {
+    "type": "talk_to",
+    "npc_id": "quartermaster_desh"
+  },
+  "gold_reward": 45,
+  "xp_reward": 110,
+  "giver_npc_id": "korr_vane",
+  "requires_quest_complete": "the_dead_visitor",
+  "accept_text": "Vane sits with it — the badge number, the dead man's name, the office code that belongs to no current department — and you watch him arrive at the same place you arrived at earlier. He does it more neatly. 'A department that exists in the paperwork but not in the organizational chart,' he says. 'One that has been signing authorizations for thirty years.' He closes the ledger. 'I need to know how far this extends. If the same authorization format appears elsewhere in the pass's paperwork —' He looks at you. 'Desh. The Quartermaster at Fort Iron. He processes every transfer order, every reassignment that runs through that post. If someone used a non-existent office to move personnel before the Kehl incident — before the patrol disappearance — Desh will have seen the paperwork.' He writes a brief note and seals it. 'Give him this. Tell him I need to know about any authorization signatures in the last eighteen months that didn't match the standard Ministry office codes. Tell him this is not an audit. Tell him it's the opposite of an audit.'",
+  "complete_text": "Vane reads Desh's findings twice. He sets them down precisely. He is quiet for longer than his usual considered pauses — this is a different kind of quiet, the kind that comes after something larger than expected has landed. 'Corporal Arris Venn,' he says. 'Removed from Third Squad three days before the patrol. Same non-existent authorization format.' He taps the paper. 'Desh noted Arris isn't in garrison support records, which is unusual. A reassigned soldier goes somewhere. Somewhere has a record.' He meets your eyes. 'I've been keeping a list. Not for the Ministry — mine. In the last fourteen months: three peace initiatives derailed at the point closest to success. All three with precision that suggests preparation before the initiatives were announced.' He picks up a pen. 'I'm going to show you the list. And then I'm going to ask you to take it to someone with a wider view than mine.' He starts writing. 'I've been calling them The Silent, in my notes, because a group this careful leaves silence everywhere they act.'"
+}

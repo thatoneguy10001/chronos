@@ -1,0 +1,15 @@
+{
+  "id": "diary_found",
+  "name": "What Arris Left",
+  "description": "Sevyas can't see Arris's face anymore — but he remembers Arris kept a diary. Adra was there when they brought him in. She might know what happened to his things.",
+  "objective": {
+    "type": "talk_to",
+    "npc_id": "sister_adra"
+  },
+  "gold_reward": 0,
+  "xp_reward": 30,
+  "giver_npc_id": "corporal_sevyas",
+  "requires_quest_complete": "walking_back",
+  "accept_text": "He doesn't say it as a request — he says it the way a person offers something they've been holding too long. 'He kept a diary. Arris did.' His eyes don't quite settle on anything. 'He was always writing. Between patrols, before sleep, sometimes during the long watches when there was nothing to do but watch.' He pauses. 'I don't know what happened to it. After we came back — after I was brought here — I wasn't asking the right questions.' He turns his head toward the ward entrance, slowly, the way he moves everything now. 'Sister Adra was there. When we came in. She keeps track of things that come with the patients. She might know.' He is quiet. 'I don't want you to read me what's in it. I just want to know if it still exists.' A pause. 'Some things should still exist.'",
+  "complete_text": "She doesn't need to ask which diary. She goes to the locked cabinet at the far end of the supply room — the one that holds the things no one has claimed — and brings back a small book, dark cloth cover, worn at the corners. She sets it in your hands. 'I found it in his coat when we stripped the uniform,' she says. 'I kept it because there was no one to give it to. He didn't list next of kin on the intake form.' She looks at the book. 'That happens sometimes. The ones who don't expect to need to list anyone.' She looks at Sevyas through the ward doorway. 'He's been asking, some days, in his way. Not directly. The way he asks about everything now.' She pauses. 'You don't have to tell him what's in it. Just tell him it exists.' She looks at the book in your hands. 'He's right. Some things should still exist.'"
+}

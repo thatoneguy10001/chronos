@@ -1,0 +1,9 @@
+{
+  "id": "silence_cells",
+  "name": "The Silence Cells",
+  "description": "The cells are not designed to hold people who do not want to be held. They are designed to hold people who no longer want to hold themselves. The doors are not locked from the outside — you check, because you cannot help checking. They are sealed from the inside. The occupants chose to close the door. You understand this gradually, as you walk the row: each cell contains someone who was part of Project Lazarus at a stage where the process had gone far enough to change what they needed. Not pain — you've seen Lazarus subjects in pain. These are subjects who have arrived somewhere beyond it, who have folded themselves into a quiet that the world outside doesn't know what to do with. Some look at you when you pass. Some don't. One of them has pressed his forehead against the crystal wall and is very slowly, very carefully, transferring something — you don't know the word — from himself into the stone. He has been doing this for some time. The indent in the stone is unmistakable.",
+  "exits": {
+    "north": { "target_room_id": "lazarus_chamber", "label": "Lazarus Chamber" }
+  },
+  "requirements": {}
+}

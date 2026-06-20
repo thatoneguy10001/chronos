@@ -1,0 +1,10 @@
+{
+  "id": "trench_alpha",
+  "name": "Trench Alpha",
+  "description": "Ten feet of mud and desperate engineering, and you can read the repair history in the walls if you know what to look for — patches on top of patches on top of original work, each one a different campaign. The iron plate reinforcing the sides carries the wrong army's markings in places. Nobody mentions this. The sky above is the color of a bruise that's been there long enough to be just part of the face. The eastern perimeter has a fresher repair than the rest. The Rock-Shell Crabs find the weak spots. They always do. The crabs have been doing this for longer than anyone currently stationed here has been alive.",
+  "exits": {
+    "north": { "target_room_id": "fort_iron_gate", "label": "Fort Gate" },
+    "south": { "target_room_id": "no_mans_land", "label": "No Man's Land" }
+  },
+  "requirements": {}
+}

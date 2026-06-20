@@ -1,0 +1,12 @@
+{
+  "id": "the_shrine",
+  "name": "The Shrine",
+  "description": "Morlak has watched the Abominations circle the lair to the south for thirty years. Something changed recently — a new presence appeared there, one that moves differently from the ancient things that live in the deep. He wants to know what it is, and he won't go himself.",
+  "objective": { "type": "reach_room", "room_id": "abomination_lair" },
+  "gold_reward": 40,
+  "xp_reward": 100,
+  "giver_npc_id": "morlak",
+  "requires_quest_complete": "morlak_intelligence",
+  "accept_text": "'Thirty years I've watched them circle that lair.' He pulls his goggles down and looks south. 'The Abominations don't guard things. They eat things. They fight things. They don't orbit a chamber for three decades like it's a shrine.' He's quiet. 'Something in there has weight. Something that makes them — careful.' He taps the worn edge of his notebook. 'Eight months ago a new one appeared. Different from the ancient things. It moves with purpose. It watches the entrance.' He looks at you. 'I don't go in there. I've survived thirty years in the Wastes by knowing which things I don't approach.' A pause. 'You're going to go anyway, aren't you.' It isn't a question. 'Go. Look. Tell me exactly what you see — every detail. Especially if anything looks like writing.'",
+  "complete_text": "The chamber is older than the fort above — older than the war, from the feel of the stone. The ancient Hollow are arranged near the far wall: four of them, perfectly still, present the way a stone wall is present. Not threatening. Not waiting. Simply there, the way they have been for as long as anything in the Wastes can remember. The new one is different. It stands closer to the entrance, and when you enter it turns — slowly, deliberately — to face you. Its eyes are still human. It watches you for a long moment. Then it crosses to the wall and marks it, a sequence of precise gestures traced with one finger in the dust of the stone. Careful. Intentional. When it finishes, it turns back to you and goes still. You memorize the marks and return to Morlak. He listens without expression. Then he opens his notebook to a page he's had marked for several months. 'Writing,' he says. He's quiet for a long time. 'The Abbot at the monastery. Go to the monastery and show him exactly what you showed me.'"
+}

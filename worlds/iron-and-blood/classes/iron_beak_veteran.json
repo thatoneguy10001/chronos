@@ -1,0 +1,33 @@
+{
+  "id": "iron_beak_veteran",
+  "name": "Veteran Iron-Beak",
+  "description": "Old. The beak has been reinforced by the same crystal process that ages everything in the Wastes — thicker, denser, with a hairline crack near the base that healed wrong decades ago and gave it a slight asymmetry that does not appear to have slowed it down. It circles longer than the juveniles before striking, which means it has learned that patience is a weapon. When it does move, it moves with the unhurried certainty of something that has done this before and has no particular concern about the outcome. The feathers around the neck have gone crystalline at the tips. Iridescent. Beautiful, actually, if you can stop thinking about the beak.",
+  "base_stats": {
+    "hp": 58,
+    "attack": 16,
+    "defense": 5,
+    "intelligence": 3
+  },
+  "abilities": [
+    {
+      "id": "precision_dive",
+      "name": "Precision Dive",
+      "description": "A calculated drop from height, beak angled to a specific weak point the Veteran identified during the circling phase. Less speed than a flock dive, more placement. If the target is already wounded, the precision matters more.",
+      "base_damage": 22
+    }
+  ],
+  "passives": [],
+  "starting_equipment": [],
+  "xp_reward": 50,
+  "gold_reward": 12,
+  "tactics": [
+    {
+      "condition": { "type": "hp_below", "threshold": 0.4 },
+      "action": { "type": "heavy_attack", "multiplier": 1.5 }
+    },
+    {
+      "condition": { "type": "always" },
+      "action": { "type": "basic_attack" }
+    }
+  ]
+}

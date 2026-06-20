@@ -1,0 +1,11 @@
+{
+  "id": "find_the_patrol",
+  "name": "Into the Fog",
+  "description": "Commander Thorn's third squad went east two days ago to investigate strange lights near the ruins. Six soldiers, no word since. Go to the site and find out what happened.",
+  "objective": { "type": "reach_room", "room_id": "fallen_patrol" },
+  "gold_reward": 40,
+  "xp_reward": 100,
+  "giver_npc_id": "commander_thorn",
+  "accept_text": "Thorn taps the map. 'Third squad. Six soldiers. They went east — here — two days ago. Should have been back yesterday morning. I need eyes on that location.' He pauses. 'The vultures started circling the same time they went silent. Could be coincidence.' He doesn't say it isn't. 'Come back with something I can work with.'",
+  "complete_text": "Thorn studies what you've brought back. He's quiet for a long time. 'No bodies. That's not what crabs or vultures do.' He picks up one of the fallen ID tags, reads it, sets it down. 'Third squad. I knew their sergeant.' A pause. 'Whatever happened out there — it matters. I'll find out how.'"
+}

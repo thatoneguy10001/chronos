@@ -1,0 +1,40 @@
+{
+  "id": "bael",
+  "name": "Bael",
+  "initial_disposition": 55,
+  "greeting": "He is sitting on the floor with his back against the crystal wall and a portable lamp angled at a notebook that is already full. He looks up when you arrive with the expression of someone who has been alone long enough that arrivals require a brief recalibration. Twenty-something, Deep Iron insignia, two notebooks on the floor and a third one open across his knees. 'Oh,' he says. Then: 'You're not Collective.' He makes a small note. 'You're from the surface. You came down through the maintenance tunnels.' He closes the notebook. 'How did you find the maintenance tunnels?' Not suspicious — professionally curious, the way a researcher asks questions that will inform their model. 'I've been trying to get the Collective to post a guide at the Hive entrance for three years. They keep saying there's nothing down here worth guiding people to.' He looks at the walls. 'They're wrong. This threshold is the most significant piece of intact Elder infrastructure on this side of the Pass and I've been the only person studying it since Thrum's student left two years ago.'",
+  "dialogue": [
+    {
+      "keyword": "threshold",
+      "prompt": "what makes this place significant",
+      "response": "'Look at the join.' He gestures to the point where the Hive's stonework ends and the Elder construction begins. 'The Hive built in layers over four hundred years. Standard stonework — good work, Cobble's original tunnel is still the best of it, but standard. Here.' He moves to the crystal section. 'The Elder People built in a way that is — the word I keep reaching for is alive. The crystal isn't ornament. It's structural and functional simultaneously. It's managing the air, the temperature, the light.' He puts his palm near the wall. 'It's also recording everything that's passed through this threshold. Which means this is not just an architectural boundary — it's an archival boundary. On one side: Hive history. On the other side: Elder history.' He pauses. 'Below is the city Aetherion. Above is the city built on top of what Aetherion taught its builders.' He is quiet. 'I've been sitting here for two years trying to understand what the Hive would look like if it had remembered where it came from. I keep finding the answer in the threshold itself.' He gestures at the room. 'Everything the Hive should have kept building toward is already here. They just stopped looking down.'",
+      "disposition_delta": 8
+    },
+    {
+      "keyword": "thrum",
+      "prompt": "Elder Thrum and the Deep Iron",
+      "response": "'She's been trying to get the Collective to formalize the study of this threshold for twenty years.' He picks up one of the full notebooks. 'I'm what she managed to get. One junior researcher on a provisional posting.' He pauses. 'She's right, though. Everything Thrum has been saying about the intact lattice — the evidence is concentrated here. The D-Seven seam, the primary nodes, the labyrinth — they all route through this threshold.' He looks at the ceiling. 'The Hive was built on top of an Elder transit junction. Every cart that's rolled through the Mid-Levels has been rolling over Elder infrastructure for four hundred years.' He opens the notebook. 'I sent Thrum a report seven months ago with a diagram of the routing. She sent back: yes, I know, now show it to the people who need to see it.' He pauses. 'I'm still working out who the people who need to see it are.' He tilts his head. 'You might be one of them.'",
+      "requires_topic": "threshold",
+      "disposition_delta": 9
+    },
+    {
+      "keyword": "city",
+      "prompt": "what the city below is like",
+      "response": "'I've been down once.' He says it with the quality of someone who has thought about going again many times and not yet gone. 'Three months ago. I got as far as the central plaza before I —' He stops. 'Before I had to come back. The scale was — I needed time to adjust my frame of reference.' He looks at the down-staircase. 'The city is intact. Not preserved — intact. Running. The air system still works. The light still works. The roads are maintained.' He pauses. 'By what is the question I haven't answered.' He looks at his notebooks. 'The Watcher is down there. I know that. Thrum told me. The Deep Iron tunnels showed patterns of habitation consistent with a single consciousness managing the space.' He is quiet. 'I went down knowing there was someone or something down there. And when I got to the plaza and felt the — the feeling of being in a place that is cared for, that is loved, that has been maintained by something for three centuries —' He stops. 'I needed to come back and write for a while before I could see it clearly. What I was feeling was the same thing you feel in a home that is genuinely a home. Three hundred years of care for a place.' He looks at you. 'I'm going back. Soon. If you've been down there — I'd like to hear what you found.'",
+      "disposition_delta": 10
+    },
+    {
+      "keyword": "morning",
+      "prompt": "what you felt when the Grid was whole and what changed about this place",
+      "response": "He looks up from the floor. He has been at this threshold long enough to know every quality of light the crystal produces, every frequency shift that corresponds to something changing in the city below. 'Different.' He says it simply. 'I have been at this threshold for three years. I know what it sounds like when it's a city that has been empty for three hundred years. The specific quality of emptiness.' He looks at the threshold into the city. 'The morning of the Day, the threshold changed. Not physically. The crystal is the same crystal. The light is the same blue-white.' He pauses. 'The quality of what's behind it changed. The same way a room changes when someone walks into it, even before you turn around and see them.' He is quiet. 'There are twelve of them down there. Elder Thrum told me about the transmission-origin subjects -- the twelve who transferred into the storage crystals before the Cascade. I knew they were transmitting. I knew they were present in some technical sense.' He looks at the light in the threshold. 'I did not know what it would feel like when they were fully present. When the network was whole and they could inhabit the city infrastructure rather than just transmit through it.' He pauses. 'It feels like standing at the threshold of a city that has people in it. Which is what it is.' He looks at you. 'I have been the threshold guard for a city with no inhabitants for three years. I don't know what I am now. Something better, I think.'",
+      "requires_quest_complete": "the_day_arrives",
+      "disposition_delta": 14
+    },
+    {
+      "keyword": "deep-iron",
+      "prompt": "whether you're from the Collective and how you ended up stationed here",
+      "response": "He nods once. 'Third generation. I grew up in the lower residential sections -- the Cobble tunnels, the ones that are four hundred years old.' He looks at the threshold. 'The Collective knew about the sunken city. We've had a passage to the threshold for a hundred years -- it branches off the third transit way. The city was sealed from the threshold side for most of that time. We could reach the threshold but not enter.' He pauses. 'Eight months ago, when the archive reactivated, the threshold responded. The city's systems recognized an approach from the passage. The threshold opened.' He looks at you. 'Elder Thrum sent me to take station here. She said: someone should be present, to be the first person the city meets when it opens.' He is quiet. 'I have been that person for three years now. Everyone who comes to the city comes through me first.' He looks at the light. 'The archive was the first thing I spoke to. It asked me: are you here for the records or for the city. I didn't know what the distinction was. It said: the records are for research. The city is for living in.' He pauses. 'I told it I was stationed. It said: that is a form of living in it. Welcome.'",
+      "disposition_delta": 10
+    }
+  ]
+}

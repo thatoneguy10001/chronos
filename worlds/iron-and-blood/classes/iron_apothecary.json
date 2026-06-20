@@ -1,0 +1,49 @@
+{
+  "id": "iron_apothecary",
+  "name": "Iron Apothecary",
+  "description": "Industrial disruptor. Plague doctor gear, toxic smoke, leaking pipes, grimy green vials. The Iron Apothecary dismantles enemies through systemic chemical failure — poisons, corrosives, and hemotoxins applied with surgical precision via a pneumatic syringe spear.",
+  "base_stats": {
+    "hp": 90,
+    "attack": 8,
+    "defense": 5,
+    "intelligence": 14
+  },
+  "abilities": [
+    {
+      "id": "syringe_lunge",
+      "name": "Syringe Lunge",
+      "description": "A rapid spear thrust that injects neurotoxin directly into the bloodstream. Deals damage and applies poison.",
+      "base_damage": 6,
+      "applies_effect": "poison",
+      "effect_damage": 2,
+      "effect_duration": 3
+    },
+    {
+      "id": "acid_stream",
+      "name": "Acid Stream",
+      "description": "A pressurized stream of corrosive acid. Ignores armor plating entirely.",
+      "base_damage": 12
+    },
+    {
+      "id": "hemotoxin_impale",
+      "name": "Hemotoxin Impale",
+      "description": "A deep spear thrust delivering an unremovable hemotoxin payload. Massive damage and severe bleeding that won't stop.",
+      "base_damage": 9,
+      "applies_effect": "bleed",
+      "effect_damage": 6,
+      "effect_duration": 3
+    },
+    {
+      "id": "antitoxin_jab",
+      "name": "Antitoxin Jab",
+      "description": "Self-administer a restorative compound. The apothecary knows their own chemistry better than anyone. Restores 28 HP.",
+      "base_damage": 0,
+      "heal_amount": 28
+    }
+  ],
+  "passives": [],
+  "starting_equipment": [],
+  "xp_reward": 0,
+  "gold_reward": 0,
+  "tactics": []
+}

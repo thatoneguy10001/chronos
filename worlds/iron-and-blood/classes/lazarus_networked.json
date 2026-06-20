@@ -1,0 +1,36 @@
+{
+  "id": "lazarus_networked",
+  "name": "Networked Subject",
+  "description": "Deep integration. The crystals through this one are organized differently — lattice geometry rather than random growth, the substrate optimizing itself over months of network connection. It doesn't move like the fresh subjects. It moves like something that knows where you are before you move, because the network has been watching from several angles simultaneously. The eyes track without focusing, which means it isn't seeing from them. It is seeing from everywhere the lattice touches.",
+  "base_stats": {
+    "hp": 68,
+    "attack": 13,
+    "defense": 7,
+    "intelligence": 4
+  },
+  "abilities": [
+    {
+      "id": "network_pulse",
+      "name": "Network Pulse",
+      "description": "Channels resonance energy from the lattice connection through the body and into contact range. The discharge disrupts the target's nervous system — the effect lingers after the strike ends.",
+      "base_damage": 10,
+      "applies_effect": "bleed",
+      "effect_damage": 5,
+      "effect_duration": 3
+    }
+  ],
+  "passives": ["undead_endurance"],
+  "starting_equipment": [],
+  "xp_reward": 58,
+  "gold_reward": 13,
+  "tactics": [
+    {
+      "condition": { "type": "hp_below", "threshold": 0.5 },
+      "action": { "type": "heavy_attack", "multiplier": 1.3 }
+    },
+    {
+      "condition": { "type": "always" },
+      "action": { "type": "basic_attack" }
+    }
+  ]
+}

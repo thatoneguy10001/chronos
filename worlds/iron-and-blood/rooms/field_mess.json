@@ -1,0 +1,9 @@
+{
+  "id": "field_mess",
+  "name": "Field Mess",
+  "description": "The coffee is probably coffee. You've been telling yourself this for weeks and you're sticking to it. The soldiers eat in the particular silence of people who have run out of new things to say and found, to their surprise, that this is not actually a problem. Someone to your left is working a crossword from a newspaper three months old. He's been on the same clue since Tuesday. Nobody's looking at the clock. Nobody needs to — the Armistice ends at dawn, and they all know what that means, and knowing it hasn't made it easier, and not knowing wouldn't have either.",
+  "exits": {
+    "west": { "target_room_id": "command_post", "label": "Command Post" }
+  },
+  "requirements": {}
+}

@@ -1,0 +1,15 @@
+{
+  "id": "both_governments_at_once",
+  "name": "Both Governments at Once",
+  "description": "Kira will transmit at two minutes past midnight if Vane is transmitting. Tell Vane the window is confirmed. This is the only moment the Silent cannot suppress both at once.",
+  "objective": {
+    "type": "talk_to",
+    "npc_id": "korr_vane"
+  },
+  "gold_reward": 75,
+  "xp_reward": 180,
+  "giver_npc_id": "pilot_kira",
+  "requires_quest_complete": "the_silent_strikes",
+  "accept_text": "Kira confirmed the window: two minutes past midnight. You carry that confirmation back to Vane.",
+  "complete_text": "Vane is still at the desk when you return. He's been here since you left — the ashtray has three more cigarettes in it. He listens to Kira's confirmation without interrupting. When you finish he is quiet. He opens the small ledger — the one without the Ministry crest, the one with the three dates — and picks up a pen. He writes a fourth line. Date, event, the office code of the nonexistent authority. He reads the four lines back to himself, very quietly, under his breath. Then he closes the ledger. 'The first three times something tried to end this war, the mechanism stopped it,' he says. 'An incident each time. Authorized from the same dead office, classified before anyone could examine it.' He puts the ledger in his breast pocket — not in the desk where it usually lives. 'Tonight the incident arrives after the fact. Tonight the filing is already staged. Tonight Kira is transmitting before anyone has been told to classify what she's sending.' He stands, which he does rarely during working hours. 'I want you to understand something.' He says it formally, the way Vane says things that are not for the record but that he means for someone to have. 'I have been a Ministry man for thirty years. I have believed in what the Ministry is for — what it exists to do. That hasn't changed.' He picks up his coat. 'What has changed is that I now know the Ministry's arithmetic has been audited from outside for the entire period I thought it was mine to run.' He puts on the coat. 'Tonight I stop the audit.' He pauses at the door. 'Two minutes past midnight. Don't be in the Ministry sector when it happens.' He leaves."
+}

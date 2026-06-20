@@ -1,0 +1,20 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "chronos/world-manifest",
+  "title": "WorldManifest",
+  "description": "World-level configuration: the canonical entry point and metadata not tied to any single room or item.",
+  "type": "object",
+  "required": ["start_room_id"],
+  "additionalProperties": false,
+  "properties": {
+    "start_room_id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$",
+      "description": "Room the player spawns in at world init. Must match a RoomTemplate id."
+    },
+    "title": {
+      "type": "string",
+      "description": "Display title for the world. Not yet wired to the UI."
+    }
+  }
+}

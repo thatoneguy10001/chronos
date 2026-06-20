@@ -1,0 +1,15 @@
+{
+  "id": "the_silent_geometry",
+  "name": "The Silent Geometry",
+  "description": "Kira confirmed The Silent have been managing both sides of the war for decades, using non-existent office codes in both governments. Vane now has the full picture — and a decision to make about what to do with it.",
+  "objective": {
+    "type": "talk_to",
+    "npc_id": "korr_vane"
+  },
+  "gold_reward": 70,
+  "xp_reward": 175,
+  "giver_npc_id": "pilot_kira",
+  "requires_quest_complete": "three_initiatives",
+  "accept_text": "Kira gives you the encrypted data packet herself. 'Forty-eight hours of repositioning data before the Aeldren initiative collapsed. Six instances of dual-government authorization with the same dead office code across both Terran and Aetherian chains of command. The Grid classification timing.' She closes the navigation case. 'The shape of it.' She meets your eyes. 'This group — they've been inside both governments long enough to use both chains of command without anyone recognizing the pattern, because the pattern only becomes visible if you're looking at both sides simultaneously.' She almost smiles. 'I'm at altitude. I look at both sides simultaneously.' She hands over the packet. 'Vane gets this. No one else until he decides who else gets it. He's the only Ministry official I've heard of who's been trying to understand what he found instead of classifying it.' She turns back to her instruments. 'Tell him the Aeldren repositioning wasn't an anomaly. It was a signature. And if he wants to find the source, he should look for whoever had simultaneous administrative access to both governments fifteen years ago, before either office was officially decommissioned.'",
+  "complete_text": "Vane takes the data packet and reads it without hurrying. He reads it all the way through. He folds the paper and puts it in his inside pocket — not the desk, the pocket, which means he is not filing this. He looks at you. 'Fifteen years ago.' He says it quietly. 'That's when both offices were decommissioned. That's when the dead man's badge was last officially active.' He stands and goes to the window. 'I've spent twenty-two years believing that the Ministry was what it appeared to be — a government that was doing a war badly, corruptly, with the usual institutional failures.' He is quiet. 'This is not institutional failure. This is architecture.' He turns. 'I'm going to need allies outside the Ministry. Outside the standard channels.' He looks at you steadily. 'I need to meet Kira. And I need an introduction to Commander Serel — not through official channels.' He picks up his coat. 'What I've found goes higher than my clearance. Which means I'm about to do something that ends my career if I'm wrong.' He meets your eyes. 'I don't think I'm wrong. Lead me to the armistice cave.'"
+}

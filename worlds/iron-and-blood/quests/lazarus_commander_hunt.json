@@ -1,0 +1,15 @@
+{
+  "id": "lazarus_commander_hunt",
+  "name": "Decapitate the Column",
+  "description": "A Lazarus Commander — an elite animated soldier retaining sufficient higher function to coordinate other Subjects — has been identified directing the Lazarus activity in the eastern Gray Wastes. Director Stone has authorized its destruction. Neutralize it before it can consolidate the scattered Subjects into a coherent force.",
+  "objective": {
+    "type": "kill_count",
+    "class_id": "lazarus_commander",
+    "count": 1
+  },
+  "gold_reward": 80,
+  "xp_reward": 200,
+  "giver_npc_id": "helen_stone",
+  "accept_text": "She doesn't look away from the schematic. 'A Commander-class Subject. Higher cortical function retained — strategic capability, coordination of lesser Subjects. In the early research phase we called this an ideal outcome.' Her voice is perfectly flat. 'It is not an ideal outcome.' She finally looks at you. 'I need you to understand: the Commander will not behave like the basic Subjects. It will anticipate. It will react. It may retreat and regroup.' She sets down the schematic. 'It is also the reason the Subjects in your area are organized rather than scattered. Remove it and the pattern collapses. I will pay well for that outcome.'",
+  "complete_text": "She receives the confirmation without visible relief. 'Good. The coordination pattern should disperse within forty-eight hours.' She makes a notation in her records — the specific shorthand of someone documenting an experiment. Then stops. Sets down the pen. 'It was someone, once. Before the animating compound.' She doesn't say anything else. Pays you precisely, without ceremony, and goes back to work."
+}

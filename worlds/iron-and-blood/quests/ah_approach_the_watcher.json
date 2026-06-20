@@ -1,0 +1,16 @@
+{
+  "id": "ah_approach_the_watcher",
+  "name": "Approach the Watcher",
+  "description": "Lena's seven nights of observation and Vale's two nights of following have produced a consistent data point: the Watcher stops at the midpoint between its two fixed positions. It doesn't wait. It moves through. The question is what happens if someone is already at the midpoint when it arrives.",
+  "objective": {
+    "type": "reach_room",
+    "room_id": "ceasefire_line"
+  },
+  "gold_reward": 40,
+  "xp_reward": 110,
+  "requires_night": true,
+  "giver_npc_id": "lena_voss",
+  "requires_quest_complete": "ah_the_watcher",
+  "accept_text": "She closes the notebook. 'I've been watching it wrong.' She says this the way she says things she has verified — as a fact. 'I've been trying to understand what it is by watching what it does. But what it does is walk a route and nothing I observe from the edge of that route tells me what it would do if the route was occupied.' She pauses. 'If it's a patrol — and the movement pattern is a patrol pattern, both Vale and I have agreed on that — then it's following a command. And commands have a response to obstacle.' She meets your eyes. 'Walk to the midpoint. The midpoint between its two fixed positions — it's marked now, I've been watching it for seven nights, I can tell you exactly where it is.' She opens the notebook to the map page. 'Stand still. Wait for it to arrive. Whatever happens, note the exact moment its behavior changes from its observed pattern.' She pauses. 'This is not a comfortable request. I want to be honest about that. I don't know what it does when the route is occupied because I've been careful not to occupy it.' She closes the notebook. 'But I think careful watching has told us everything careful watching can. We need different information now.'",
+  "complete_text": "The Watcher stops. This has not happened before — in seven nights of Lena's observation, in two nights of Vale following at a careful distance, it has never stopped for anything. The Abominations in the surrounding area give it a wide berth without acknowledging it; the two sides' medics have been doing the same. You're the first thing that made it stop. It turns. You see the crystal formation up close for the first time — total integration, the deep blue of something that has been in this state for longer than the current war's current name. It looks at you. Then it says: 'Hold—' And stops. And says: 'Holding.' Two hundred years of command in two words. You understand, standing there at the midpoint, that it recognizes you not as a person but as a posture: you walked to the midpoint and stood still and waited. That is what it recognizes. The presence of someone at the boundary who is not advancing. Someone, after all this time, who is holding the line with it."
+}

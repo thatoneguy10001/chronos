@@ -1,0 +1,16 @@
+{
+  "id": "the_armored_subject",
+  "name": "The Armored Subject",
+  "description": "Brother Kell has been observing a Lazarus Armored Subject in the maintenance tunnels for weeks. Unlike the wanderers, it patrols a specific route — purposeful, sentinel-like. Kell believes it's guarding or waiting for something. Clear it before you and Kell can move further into the tunnels.",
+  "objective": {
+    "type": "kill_count",
+    "class_id": "lazarus_armored",
+    "count": 1
+  },
+  "gold_reward": 70,
+  "xp_reward": 160,
+  "giver_npc_id": "brother_kell",
+  "requires_quest_complete": "brother_kells_warning",
+  "accept_text": "'Six weeks,' Kell says. He opens the small book — every page is dense with observations, times, measurements, sketches of patrol routes. 'Five-minute intervals. Precise. It never varies by more than thirty seconds.' He traces a route on the page with one finger. 'Standard armored subjects are aggressive at proximity — they don't have patrol behavior because they don't have purpose left. This one does.' He looks at you. 'The crystal growth has reached its skull. That's a third-stage indicator. It's been in the program long enough that the integration is deep.' He closes the book. 'I want to know what it's guarding. But I can't know that until it's cleared, and I'm not a soldier.' A pause. 'I am sorry. It was someone, before this.'",
+  "complete_text": "Kell looks at you for a moment when you return. He notes something in the small book. Then he goes to the corridor the subject was patrolling and walks it — once, slowly, not looking for threats but for what the subject was protecting. He stops at a section of wall where the pipes run close together and crouches. There's a mark there: scratched lightly, easy to miss. A sergeant's mark. The same one you saw on the crystal in the Bone Fields. He stays crouched for a long time, then stands. 'Kehl came through here,' he says quietly. 'Recently. Within the week.' He reaches into his coat and produces a folded document — yellowed, careful handwriting, a monastery seal at the top. 'Elder People records. The only legible account of the last time this happened.' He holds it for a moment. 'They didn't lose control. They mastered the process. And then they stopped themselves.' He gives you the document. 'I finally understand why. Kehl is at the windward approach. He's been there two days. He's waiting — I think he's waiting for you.'"
+}

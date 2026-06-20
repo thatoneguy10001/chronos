@@ -1,0 +1,48 @@
+{
+  "id": "ministry_enforcer",
+  "name": "Ministry Enforcer",
+  "description": "The Ministry of Iron does not have a public police force. It has Enforcers — plainclothes operatives who appear in the Hive's corridors when someone has been asking the wrong questions or moving through the wrong spaces. They wear the gray-green of administrative staff, carry pneumatic clubs and nerve-disruption canisters, and have the practiced look of people who have been authorizing force on behalf of the state for long enough that the authorization no longer weighs on them. They are not soldiers. They are more practiced than soldiers at the specific violence of institutional control.",
+  "base_stats": {
+    "hp": 72,
+    "attack": 11,
+    "defense": 8,
+    "intelligence": 4
+  },
+  "abilities": [
+    {
+      "id": "nerve_canister",
+      "name": "Nerve Canister",
+      "description": "A gray canister that releases a short-range nerve disruption compound. Not lethal — debilitating. Forces the target to fight through involuntary muscle interference.",
+      "base_damage": 6,
+      "applies_effect": "bleed",
+      "effect_damage": 3,
+      "effect_duration": 3
+    },
+    {
+      "id": "suppression_club",
+      "name": "Suppression Club",
+      "description": "A weighted pneumatic impact weapon designed to control rather than kill. Three rapid impacts, the third with a full-charge pneumatic spike that concusses.",
+      "base_damage": 5,
+      "hit_count": 3
+    }
+  ],
+  "passives": [],
+  "starting_equipment": [],
+  "xp_reward": 50,
+  "gold_reward": 22,
+  "tactics": [
+    {
+      "condition": { "type": "hp_below", "threshold": 0.5 },
+      "action": {
+        "type": "apply_effect",
+        "kind": "bleed",
+        "damage": 4,
+        "duration": 2
+      }
+    },
+    {
+      "condition": { "type": "always" },
+      "action": { "type": "basic_attack" }
+    }
+  ]
+}

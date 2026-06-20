@@ -1,0 +1,9 @@
+{
+  "id": "town_walls",
+  "name": "Town Walls",
+  "description": "The rampart runs the length of Millbrook's edge, timber palisade overlooking fields that fade into distant forest. From up here the whole village spreads out below, and the dangers beyond it feel very close. The only way back is west, into the guard house.",
+  "exits": {
+    "west": { "target_room_id": "guard_house", "label": "Guard House" }
+  },
+  "requirements": {}
+}

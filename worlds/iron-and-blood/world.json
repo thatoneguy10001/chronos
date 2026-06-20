@@ -1,0 +1,11 @@
+{
+  "id": "iron-and-blood",
+  "title": "Iron & Blood",
+  "tagline": "330 years of war. One night to change everything.",
+  "description": "The Gray Wastes stretch between two dying empires. You stand at Fort Iron, a Terran forward base on the edge of the Trenches. Abominations hunt by night. The dead may soon walk again.",
+  "tone": "dieselpunk",
+  "currency": "scraps",
+  "currency_symbol": "⚙",
+  "secondary_currency": "shards",
+  "secondary_currency_symbol": "◆"
+}

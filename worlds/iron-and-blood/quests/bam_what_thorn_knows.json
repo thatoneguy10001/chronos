@@ -1,0 +1,15 @@
+{
+  "id": "bam_what_thorn_knows",
+  "name": "What Thorn Knows",
+  "description": "Bring back what the sergeant gave you. Thorn has been holding something back for months. It's time he told you.",
+  "objective": {
+    "type": "talk_to",
+    "npc_id": "commander_thorn"
+  },
+  "gold_reward": 75,
+  "xp_reward": 175,
+  "giver_npc_id": "commander_thorn",
+  "requires_quest_complete": "bam_sergeants_gift",
+  "accept_text": "He doesn't speak when you return. He reads the order twice, sets it down, reads it again. He looks at the patrol coordinates — where they are on the map, what they point to. Then he looks at his hand. The crystals in his palm have been there for four months. He hasn't told you that. 'I've been hearing things,' he says finally. 'For six months, at least. I thought it was the stress. I thought it was the constant exposure to the Wastes.' He meets your eyes. 'I hear them the way you hear something in the next room. Not words exactly. A register. A — familiarity. Like listening to music in a language you almost know.' He doesn't look away. 'I hear more of them every week.'",
+  "complete_text": "He tells you everything. The crystal growth — not just his palm now, up to his wrist, slow and bloodless and he hasn't reported it because once he reports it he becomes a subject and he can't command from a medical facility. The things he hears: not compulsion, not instruction. Something more like — presence. Something that knows he's here. 'I've been telling myself it's passive,' he says. 'That it's listening to me but not directing me.' He looks at his wrist. 'Three nights ago, I dreamed a room. Clean stone walls. People who weren't afraid — people who had been somewhere very dark for a very long time and were no longer in that dark.' He looks up. 'I think that's what it showed me. Not a dream. A place.' He's quiet. 'I think it knows where I'm going. And I think it wants to make sure I know where that is.'"
+}

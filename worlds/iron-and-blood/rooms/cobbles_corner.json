@@ -1,0 +1,9 @@
+{
+  "id": "cobbles_corner",
+  "name": "Cobble's Corner",
+  "description": "The lamp is in an alcove at the end of a dead-end corridor that the official map of the Lower Rigs does not record, because the official map of the Lower Rigs was last updated one hundred and forty years ago and the people responsible for updating it have had other things on their mind. The lamp is a clay oil-lamp, roughly made, and it has been burning for five hundred years. This is not a rumor. The Discarded who maintain it have the records: continuous flame, documented by every generation, passed hand to hand with the same care as a name. Cobble was one of Terra's founding generation — a builder, the records say, not a fighter, which is not what the Ministry's founding mythology wants to hear. The lamp was lit at the completion of the first corridor in what would become the Lower Rigs. It has been here since before the Hive had a second floor. The oil that feeds it comes from somewhere that nobody has been able to trace back to a source, which the Discarded document as a fact and decline to explain, and which the Ministry has simply never thought to ask about.",
+  "exits": {
+    "out": { "target_room_id": "lower_rigs", "label": "Lower Rigs" }
+  },
+  "requirements": {}
+}

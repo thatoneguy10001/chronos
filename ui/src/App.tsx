@@ -1,0 +1,155 @@
+import { useEffect, useState } from 'react';
+import { Terminal } from '@/components/Terminal';
+import { InputManager } from '@/components/InputManager';
+import { TimelineDebugPanel } from '@/components/TimelineDebugPanel';
+import { CharacterPanel } from '@/components/CharacterPanel';
+import { WorldSelectionScreen } from '@/components/WorldSelectionScreen';
+import { CharacterCreationScreen } from '@/components/CharacterCreationScreen';
+import { useGameStore } from '@/store/gameStore';
+
+// TODO: Add "Restart fight" button to GameOverScreen using time travel.
+// The store already has rewindToTick(). Find the tick just before the fight room was entered
+// (first tick where currentRoomId changed to the death room) and offer a one-click rewind to it.
+// This lets the player retry the fight without losing all progress before it.
+function GameOverScreen({ worldTitle, onRestart }: { worldTitle: string; onRestart: () => void }) {
+  return (
+    <div style={{
+      height: '100vh',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      fontFamily: 'monospace',
+      background: '#030303',
+      gap: '1.5rem',
+    }}>
+      <div style={{ color: '#2a2a2a', fontSize: '0.8em', letterSpacing: '0.2em' }}>── {worldTitle.toUpperCase()} ──</div>
+      <div style={{ color: '#993333', fontSize: '2em', fontWeight: 'bold', letterSpacing: '0.1em' }}>YOU DIED</div>
+      <div style={{ color: '#553333', fontSize: '0.85em' }}>Your story ends here.</div>
+      <button
+        onClick={onRestart}
+        style={{
+          marginTop: '1rem',
+          background: 'transparent',
+          border: '1px solid #993333',
+          color: '#cc6666',
+          fontFamily: 'monospace',
+          fontSize: '0.9em',
+          padding: '0.5rem 2rem',
+          cursor: 'pointer',
+          letterSpacing: '0.1em',
+        }}
+        onMouseEnter={e => { (e.target as HTMLElement).style.background = '#1a0000'; }}
+        onMouseLeave={e => { (e.target as HTMLElement).style.background = 'transparent'; }}
+      >
+        RESTART
+      </button>
+    </div>
+  );
+}
+
+export function App() {
+  const init = useGameStore(s => s.init);
+  const initialized = useGameStore(s => s.initialized);
+  const submitCommand = useGameStore(s => s.submitCommand);
+  const playerCharacter = useGameStore(s => s.playerCharacter);
+
+  const [selectedWorldId, setSelectedWorldId] = useState<string | null>(null);
+  const [worldTone, setWorldTone] = useState('fantasy');
+  const [worldTitle, setWorldTitle] = useState('');
+  const [initError, setInitError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!selectedWorldId) return;
+    init(selectedWorldId).catch(err => setInitError(String(err)));
+  }, [selectedWorldId, init]);
+
+  useEffect(() => {
+    const rewindToTick = useGameStore.getState().rewindToTick;
+    const getSnapshot = () => useGameStore.getState();
+    (window as any).__gameCmd = submitCommand;
+    (window as any).__rewindToTick = rewindToTick;
+    (window as any).__getState = getSnapshot;
+  }, [submitCommand]);
+
+  if (!selectedWorldId) {
+    return (
+      <WorldSelectionScreen onSelect={(id, tone, title) => {
+        setSelectedWorldId(id);
+        setWorldTone(tone);
+        setWorldTitle(title);
+      }} />
+    );
+  }
+
+  if (initError) {
+    return (
+      <div style={{
+        height: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        color: '#cc4444',
+        fontFamily: 'monospace',
+        padding: '2rem',
+        whiteSpace: 'pre-wrap',
+      }}>
+        {`Engine failed to load:\n\n${initError}`}
+      </div>
+    );
+  }
+
+  if (!initialized) {
+    return (
+      <div style={{
+        height: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        color: '#4a7a4a',
+        fontFamily: 'monospace',
+      }}>
+        Loading engine...
+      </div>
+    );
+  }
+
+  if (!playerCharacter) {
+    return (
+      <CharacterCreationScreen
+        worldId={selectedWorldId}
+        tone={worldTone}
+        worldTitle={worldTitle}
+        onSelect={classId => submitCommand(`become ${classId}`)}
+      />
+    );
+  }
+
+  if (playerCharacter.hp <= 0) {
+    return (
+      <GameOverScreen
+        worldTitle={worldTitle}
+        onRestart={() => init(selectedWorldId).catch(err => setInitError(String(err)))}
+      />
+    );
+  }
+
+  return (
+    <div style={{
+      height: '100vh',
+      display: 'flex',
+      flexDirection: 'row',
+      maxWidth: '1100px',
+      margin: '0 auto',
+    }}>
+      {/* Main terminal column */}
+      <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column' }}>
+        <Terminal />
+        <InputManager onCommand={submitCommand} />
+        <TimelineDebugPanel />
+      </div>
+      {/* Character sidebar */}
+      <CharacterPanel />
+    </div>
+  );
+}

@@ -1,0 +1,15 @@
+{
+  "id": "what_pol_understood",
+  "name": "What Pol Understood",
+  "description": "Pol has been changed by direct Grid contact at the shell crater — she can feel the lattice, knows what Kehl was trying to warn them about. Adra needs to examine her, and Pol herself is ready to explain what the warning actually was.",
+  "objective": {
+    "type": "talk_to",
+    "npc_id": "sister_adra"
+  },
+  "gold_reward": 55,
+  "xp_reward": 140,
+  "giver_npc_id": "private_pol",
+  "requires_quest_complete": "the_third_soldier",
+  "accept_text": "She says it without hesitation when you ask. 'Adra. Yes. I've been — I knew she'd want to know. I've been putting it off because I wasn't sure how to say what happened, and I wanted to understand it well enough to explain it correctly before I showed up at her door with something she doesn't have a diagnosis for.' She looks at the crater rim. 'I think I understand it well enough now.' She stands. 'Take me back. I'll walk — I've been sitting with the crater for long enough. And when we get there, tell Adra what Kehl was actually warning us about.' She meets your eyes. 'Because the warning wasn't a danger alert. That's the part that matters most. Tell her before she looks at me and starts worrying about the wrong thing.'",
+  "complete_text": "Adra sits with everything you've told her for a long time. She doesn't reach for the chart. She doesn't go for the diagnostic instruments. She just sits. 'A courtesy notice,' she says finally. She says it softly, the tone of someone turning a new fact over to see all its sides. 'Kehl went back to warn them that something was coming — not to threaten them, to give them time.' She looks at her hands. 'He came back for them.' She's quiet. 'The lattice is warm. The Grid is patient.' She looks up. 'I've had forty-three Lazarus patients in this hospital in three years. I've watched thirty-one of them drift and four of them come back wrong. I've been telling myself the drift is death because that's what I was told it was.' She is quiet. 'Pol is standing in my doorway with clear eyes and a new relationship with the substrate of this valley and she came out the other side.' She folds her hands. 'I need to write something down. I need to go talk to Pol. And then I need to go talk to Stone.' She meets your eyes. 'Will you take me?'"
+}

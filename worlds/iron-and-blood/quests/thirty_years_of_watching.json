@@ -1,0 +1,12 @@
+{
+  "id": "thirty_years_of_watching",
+  "name": "Thirty Years of Watching",
+  "description": "Kell needs to know who has been visiting the abomination lair. Morlak has spent thirty years in the Wastes watching everything that moves — if anyone kept records of visitors to that chamber, it's him.",
+  "objective": { "type": "talk_to", "npc_id": "morlak" },
+  "gold_reward": 35,
+  "xp_reward": 90,
+  "giver_npc_id": "brother_kell",
+  "requires_quest_complete": "kell_reads_the_name",
+  "accept_text": "'Morlak,' Kell says immediately. 'He's been in the Wastes longer than anyone. If there have been official visitors to the lair — Ministry personnel, research teams, anyone with a badge — Morlak will have seen them and he will have written it down.' He produces a small sealed note. 'Give him this. He'll know what it means.' He pauses. 'Ask him about the last two years specifically. That's when the Lazarus modification was introduced — I can trace the behavioral shift in the subjects from the monastery records. Whoever changed the compound was visiting the lair in the period just before the modification appeared.' He looks up. 'I need names. Badge numbers. Anything he kept.'",
+  "complete_text": "Morlak produces the notebook without being asked — he's had it ready since you turned up the first time. He opens it to a section near the back, the entries dense and careful. Twelve visits over thirty years. Official-looking people, both Terran and Aetherian, at intervals that look like a schedule. He points to an entry from fourteen months ago. Then to an entry from eleven years before that. The badge number is identical. 'I noticed the repeat,' he says. 'Thought it was rotation.' He points to a name in the garrison records he keeps separately — handwritten cross-references going back decades. The badge number appears against a name, with a date of death listed fifteen years ago. He shows you both entries side by side without comment. 'A dead man has been visiting that lair for thirty years,' you say. He closes the notebook. 'Bring that to Kell,' he says. 'And ask Kell what he thinks it means. I know what I think it means. I want to hear what someone else says before I say it out loud.'"
+}

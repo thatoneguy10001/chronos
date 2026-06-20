@@ -1,0 +1,15 @@
+{
+  "id": "bam_bone_fields",
+  "name": "Three Hundred Thousand",
+  "description": "One of the diary entries mentions a place where the ground changed color. Adra thinks you should take the diary there.",
+  "objective": {
+    "type": "reach_room",
+    "room_id": "bone_fields"
+  },
+  "gold_reward": 30,
+  "xp_reward": 80,
+  "giver_npc_id": "sister_adra",
+  "requires_quest_complete": "bam_before_silence",
+  "accept_text": "She doesn't reach for the diary but she nods toward it. 'One of the entries mentions a place where the ground changed color. Not by name. Just that.' She adjusts something on a shelf. 'Three days of fighting that never got written up as a battle. Nobody counted it. Nobody buried any of them.' She's quiet for a moment. 'If the diary goes there, maybe it belongs there for a little while. Maybe that's all anyone can do for a place like that.'",
+  "complete_text": "You understand the entry now. There's no way to explain it without having stood here."
+}

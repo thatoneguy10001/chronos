@@ -1,0 +1,9 @@
+{
+  "id": "hall_of_rememberers",
+  "name": "Hall of Rememberers",
+  "description": "You count seven before you stop. Not because you've run out of alcoves — the walls go floor-to-ceiling in both directions further than your lamp reaches — but because seven is where your mind quietly tapped out and declined to continue. Each alcove holds a crystal matrix about the size of a human torso. Dark, in the way of things that were lit once and are not now. You know what they are. The Elder People's most gifted transferred their minds into crystal, lived on as thought, as pattern, as something the language you were raised in has no good word for. These are their bodies. Or what they chose instead of bodies. The hall is perfectly still and you keep expecting one of them to move, and the expectation doesn't stop, and you've begun to think the expectation is the correct response.",
+  "exits": {
+    "east": { "target_room_id": "aetherion_plaza", "label": "Central Plaza" }
+  },
+  "requirements": {}
+}

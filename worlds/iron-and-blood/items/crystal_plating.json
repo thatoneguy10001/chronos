@@ -1,0 +1,12 @@
+{
+  "id": "crystal_plating",
+  "name": "Crystal Plate Armor [S]",
+  "description": "Armor built from resonance-shaped crystal-alloy, produced in the Forge of Stars using methods not replicated anywhere in the surface world. The crystal matrix distributes impact across the full surface rather than concentrating it at the point of contact — force in, force dispersed, significantly less of it reaching the body. Weighs a third of equivalent steel plate. The surface has a very faint blue iridescence that is not decoration but structure.",
+  "takeable": true,
+  "consumable": false,
+  "attributes": {
+    "equip_stat": "defense",
+    "equip_bonus": 7
+  },
+  "tags": ["armor", "elder-craft", "deep-iron"]
+}

@@ -1,0 +1,13 @@
+{
+  "id": "scrap_revolver",
+  "name": "Scrap Revolver [T]",
+  "description": "A six-chamber revolver assembled from salvaged components — the cylinder from one model, the barrel from another, the grip wrapped in electrical tape. Balanced wrong, trigger pull uneven. Still puts rounds downrange. A standard Gray Wastes backup weapon; every Terran soldier has one somewhere on their person.",
+  "starting_room_id": "smog_market",
+  "takeable": true,
+  "consumable": false,
+  "attributes": {
+    "equip_stat": "attack",
+    "equip_bonus": 5
+  },
+  "tags": ["weapon", "ranged", "terra"]
+}

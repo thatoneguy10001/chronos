@@ -1,0 +1,33 @@
+{
+  "id": "rock_shell_elder",
+  "name": "Elder Rock-Shell",
+  "description": "Centuries. The shell has grown in layers — the original chitin underneath, then the first crystal integration, then successive crystalline strata added over decades until what you're looking at is less crab and more geological formation that happens to move. Slowly. It has all the time in the world and it knows it. Whatever made it aggressive three hundred years ago has settled into something more like territory maintenance — it will kill you because you are in its space, not because it wants to, and the distinction will be cold comfort. The joints where the shell meets the body are the only place a weapon finds purchase. Everything else rings like hitting a wall.",
+  "base_stats": {
+    "hp": 95,
+    "attack": 11,
+    "defense": 15,
+    "intelligence": 1
+  },
+  "abilities": [
+    {
+      "id": "shell_slam",
+      "name": "Shell Slam",
+      "description": "Drops the full weight of the crystal-layered shell onto the target — not a strike, a collapse. The impact is distributed across the entire carapace and concentrated at a single point by the geometry of it.",
+      "base_damage": 18
+    }
+  ],
+  "passives": ["heavy_plate"],
+  "starting_equipment": [],
+  "xp_reward": 75,
+  "gold_reward": 20,
+  "tactics": [
+    {
+      "condition": { "type": "hp_below", "threshold": 0.3 },
+      "action": { "type": "heavy_attack", "multiplier": 1.5 }
+    },
+    {
+      "condition": { "type": "always" },
+      "action": { "type": "basic_attack" }
+    }
+  ]
+}

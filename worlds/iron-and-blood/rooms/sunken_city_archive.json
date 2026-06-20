@@ -1,0 +1,9 @@
+{
+  "id": "sunken_city_archive",
+  "name": "The Sunken City — Archive",
+  "description": "The records go back further than anything you've seen. Pre-Cascade. Pre-war. Pre-the period the Terran historians call the Settlement Era. The Sunken City is older than the Hive, older than Aetherion, older than the nations above who have been fighting over the same land for three hundred years without knowing what was underneath it. The crystal-matrix shelving preserves everything — not just the records, but the context of the records, the arrangement, the indexing system. You can tell immediately that the Elder People organized information differently than either surface civilization: not chronologically, not by subject, but by relationship. Each record connects to other records by what it shares with them, creating a web rather than a hierarchy. The result is that you can start anywhere and end up everywhere, which makes this both the richest and the most difficult archive you've ever stood in. An engineer's kit sits in one corner — camping equipment, research notes in a cramped hand, a mug that has been used recently. He's been here long enough to have opinions about where to sit. The notes are technical. Very technical. And at the bottom of the third page, underlined twice: THIS IS HOW THE GRID WAS BUILT.",
+  "exits": {
+    "south": { "target_room_id": "sunken_city_plaza", "label": "Central Plaza" }
+  },
+  "requirements": {}
+}

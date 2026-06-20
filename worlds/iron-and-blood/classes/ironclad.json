@@ -1,0 +1,50 @@
+{
+  "id": "ironclad",
+  "name": "Ironclad",
+  "description": "The walking fortress. Industrial plate armor, hydraulic pistons, and a pneumatic hammer that can shatter stone. Slow to act, impossible to stop. Built to hold the line while everything else falls apart.",
+  "base_stats": {
+    "hp": 150,
+    "attack": 10,
+    "defense": 14,
+    "intelligence": 2
+  },
+  "abilities": [
+    {
+      "id": "steam_smash",
+      "name": "Steam Smash",
+      "description": "A full-force pneumatic hammer swing. The impact sends shockwaves through enemy armor.",
+      "base_damage": 13
+    },
+    {
+      "id": "shield_bash",
+      "name": "Shield Bash",
+      "description": "A brutal blow with the riot shield's edge. Leverages defensive weight as offensive force.",
+      "base_damage": 8
+    },
+    {
+      "id": "fortress_stance",
+      "name": "Fortress Stance",
+      "description": "Lock into a defensive position. Steam vents redirect to armor plating. Defense increases dramatically for 3 turns.",
+      "base_damage": 0,
+      "applies_effect": "defense_up",
+      "effect_damage": 8,
+      "effect_duration": 3,
+      "cooldown": 4,
+      "targeting": "caster"
+    },
+    {
+      "id": "seismic_slam",
+      "name": "Seismic Slam",
+      "description": "A shockwave hammer blow that reverberates through the ground — hits every enemy in the room.",
+      "base_damage": 7,
+      "hit_count": 1,
+      "cooldown": 3,
+      "targeting": "aoe"
+    }
+  ],
+  "passives": [],
+  "starting_equipment": [],
+  "xp_reward": 0,
+  "gold_reward": 0,
+  "tactics": []
+}

@@ -1,0 +1,15 @@
+{
+  "id": "bam_crystal_structure",
+  "name": "The Crystal Structure",
+  "description": "Stone's analysis found a crystal lattice structure she's seen before — in old research photographs from the Monastery archives. She needs Abbot Solan. Take her findings to the Iron Monastery.",
+  "objective": {
+    "type": "reach_room",
+    "room_id": "iron_monastery"
+  },
+  "gold_reward": 40,
+  "xp_reward": 100,
+  "giver_npc_id": "helen_stone",
+  "requires_quest_complete": "bam_sevyas_says_yes",
+  "accept_text": "She spreads the analysis across the table. 'This lattice pattern — the way the crystal organizes around the neural tissue — I've seen this structure before. Twenty years ago, in a photograph from the Monastery archive that was loaned to the research program and never returned.' She traces the diagram with one finger. 'The Monastery keeps records that predate both governments. If they have photographs from twenty years ago that match what Sevyas carries in his bones right now —' She stops. 'That means someone at the Monastery was studying this before I started designing Lazarus. Which means I wasn't first.' She looks at you. 'The Abbot will be cautious. Show him the diagram. Tell him I sent you. He'll know my name.'",
+  "complete_text": "Solan looks at the diagram for a long time without speaking. He sets it down, goes to the window, comes back. 'Twenty years ago, a Ministry researcher asked to examine our oldest archive. She was polite. Thorough. She returned everything except one photograph, and I didn't pursue it because I thought it was an oversight.' He looks at the diagram again. 'It was not an oversight.' He's quiet. 'Come inside. There's something I've been watching in the Bone Fields that I think you need to see.'"
+}

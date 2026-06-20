@@ -1,0 +1,12 @@
+{
+  "id": "high_ground",
+  "name": "High Ground",
+  "description": "Kell says Sergeant Kehl is at the windward approach — high ground overlooking both the Terran and Aetherian lines. He's been there two days, coherent, and Kell believes he's been waiting for someone to come. Stone needs to know if Kehl is still himself.",
+  "objective": { "type": "reach_room", "room_id": "windward_approach" },
+  "gold_reward": 50,
+  "xp_reward": 120,
+  "giver_npc_id": "helen_stone",
+  "requires_quest_complete": "the_armored_subject",
+  "accept_text": "Stone is already on her feet when you come back. Kell sent word through the monastery watch system — she reads the message twice, sets it down. 'Windward approach.' Something changes in her face, but she controls it. 'Kehl used to talk about that ridge. Before any of this — during the original research, when he was one of the volunteer observers for the first trials. He said you could see both sides of the front from up there. He found that significant.' She starts writing notes she doesn't show you. 'At this stage of the third application, the coherence window is narrow. Weeks, not months. He's been in the Wastes long enough that the integration is deep. But if he's made it to high ground and stayed there for two days, that means he's oriented. He has a reason to be there.' She stops writing. 'Go to him. See if he's still himself. And give him this — he'll know what it means.' She holds out Stone's sealed envelope from the Bone Fields quest. 'I wrote it fourteen months ago, after he came to me. I didn't think I'd need to send it.'",
+  "complete_text": "The windward approach is high enough that you can see the whole front spread below — Terran iron fortifications to the south, Aetherian crystal-work glittering to the north, the Gray Wastes between them like a wound that never closed. At the edge of the ridge, a figure is sitting completely still, watching the horizon. He doesn't turn when you arrive. He's been expecting the sound of boots for a while. 'I wondered when someone would come,' he says."
+}

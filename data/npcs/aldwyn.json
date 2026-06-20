@@ -1,0 +1,22 @@
+{
+  "id": "aldwyn",
+  "name": "Aldwyn the Merchant",
+  "greeting": "A round-faced man in a patchwork coat waves you over. 'Welcome! Aldwyn's Sundries — best prices in Millbrook, or so I keep telling myself. Looking for supplies?'",
+  "dialogue": [
+    {
+      "keyword": "supplies",
+      "prompt": "what he stocks",
+      "response": "'I carry the basics — healing herbs if you're roughed up, and a reliable health potion for the long hauls. Type: shop aldwyn'"
+    },
+    {
+      "keyword": "rumors",
+      "prompt": "local rumors",
+      "response": "'Heard the guild's paying out three bounties right now. Something about goblins, an orc, and something worse out in the ruins. None of my business — I just sell goods.'"
+    }
+  ],
+  "vendor": true,
+  "shop": [
+    { "item_id": "healing_herbs", "price": 6 },
+    { "item_id": "health_potion", "price": 18 }
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "id": "morlak",
+  "name": "Morlak",
+  "greeting": "A thin, wiry figure crouches in the crater, goggles pushed up on a forehead weathered by decades in the Gray Wastes. He doesn't look like he belongs to any faction — because he doesn't. 'Morlak,' he says, without introduction. 'I collect things. Information, mostly. Secrets second. I know what that look means — you want something I have. The question is what you're willing to trade.'",
+  "dialogue": [
+    {
+      "keyword": "patrol",
+      "prompt": "the missing patrol",
+      "response": "'Saw them go east. Six soldiers, standard kit. Saw something go west with them, maybe forty minutes later.' He pauses. 'I said *something*. Six silhouettes went in. Eight came out. And the extra two weren't walking right.' His pale eyes don't blink. 'I didn't follow.'"
+    },
+    {
+      "keyword": "abominations",
+      "prompt": "the Abominations",
+      "response": "'Been out here thirty years. Watched them change. They used to be random — pure hunger. Now they're territorial. Protective. There's something in that hollow to the south that they circle like a shrine.' He taps his goggles. 'I don't go near it. Neither should you, unless you're better than you look.'"
+    },
+    {
+      "keyword": "lazarus",
+      "prompt": "Project Lazarus",
+      "response": "He smiles, slow and sharp. 'Now that's a question worth trading for. Terra's been pulling bodies out of the Wastes for three years — preserved by the chemical environment. Something about neural-crystal interface research.' His voice goes flat. 'The dead don't stay dead out here anymore, friend. Haven't you noticed? That's not a rumor. I've seen them walking.' He holds out his hand. 'Information like that has a price.'"
+    },
+    {
+      "keyword": "discarded",
+      "prompt": "the Discarded",
+      "response": "'My people. We stay in the Wastes because the Wastes are honest — everything here will kill you, and it doesn't pretend otherwise.' He glances north, toward Fort Iron. 'Out there they call us Discarded. We call ourselves survivors. There's a difference.' He pulls his goggles down slightly, shielding his pale eyes from a gust of chemical fog. 'We remember what this place looked like before the war. Nobody else does.'"
+    },
+    {
+      "keyword": "hollow",
+      "prompt": "the Hollow thing",
+      "response": "'You don't want to know.' He says it flat, without drama. 'The things that come back from the deep places — they're not Abominations. Abominations are just twisted animals. The Hollow remember being human. That's what makes them different.' He's quiet for a moment. 'That's what makes them worse.'"
+    },
+    {
+      "keyword": "vespa",
+      "prompt": "Vespa the Story-Keeper",
+      "response": "'She's at the market most nights. Has been for forty years.' He glances in the direction of the Silent Market without turning his head, the look of someone confirming a position. 'She remembers more than she tells. She tells what she judges you're ready to hear, which is — philosophically defensible and occasionally inconvenient.' He pauses. 'Grimka at the camp is more direct. Less patient with the shape of the telling. If you want to know what and Vespa knows why, that's roughly the division.' He looks back at you. 'They disagree about the Spire. Grimka thinks the Architect is something the Cascade created, something born from the disaster. Vespa thinks it was already here and the Cascade freed it.' A pause. 'Thirty years of watching the Spire and I think: does the distinction matter? It's here. It's building. It's organizing the Abominations in ways that suggest intention.' He closes the notebook. 'What it intends is what I'd like to know.'",
+      "disposition_delta": 6
+    },
+    {
+      "keyword": "restart",
+      "prompt": "what happened eight months ago in the Wastes",
+      "response": "He goes very still, which for Morlak means he puts down the notebook. 'You know about the restart.' Not a question. 'I was at the old junction site — I have a camp three hundred meters north of the market, been there for twenty years. Night, windless.' He looks at the goggles in his hands. 'The ground vibrated. Not an explosion — different frequency. Slower. Deep.' He puts the goggles on his knee. 'The Abominations in the area stopped. Every single one within my range of observation. Stopped moving simultaneously and faced toward the market.' He pauses. 'For four minutes. Then they resumed — but differently. The circuit they'd been running had changed. The territory they were defending had — expanded and restructured.' He looks at the ground. 'Three days later I found fresh tunnels. Not Hive tunnels, not Discarded tunnels. Something below had opened new routes. I didn't go in.' He picks up the notebook. 'Thirty years in the Wastes. I have seen a lot of things. I have not seen the Abominations reorganize in real time.' He meets your eyes. 'Something changed eight months ago. Something with intentions.' He pauses. 'I looked at the entry for that night in my notebook. No weather, no seismic record, nothing to explain it. I wrote: the ground remembered something. I didn't know what I meant when I wrote it.' He looks at you. 'I think you might.'",
+      "disposition_delta": 9
+    },
+    {
+      "keyword": "notebook",
+      "prompt": "the entry you wrote on the night everything changed",
+      "response": "He reaches into his coat. Different pocket than usual — not the worn observation notebook with the chemical stains, but a smaller one, newer, the cover clean. He opens it to the most recent entry. His handwriting is normally very small, very economical. This entry is larger. He holds it up, reads it aloud. 'Two minutes past midnight. The ground did not vibrate this time. This time: the Abominations stopped.' He pauses. 'All of them within my observation range. Simultaneously. Not for four minutes like eight months ago. For eleven minutes.' He looks up. 'I timed it.' He reads again. 'When they resumed, the circuit was different. Not reorganized the way it reorganized eight months ago — eight months ago they extended their territory, changed their patrol patterns. This time they sat down.' He looks at you. 'The Rock-Shell Crabs. The Iron-Beaks. The Void Crawlers at the lair edge. They sat down and they were still for eleven minutes and then they resumed, but — differently. The word that keeps occurring to me is: settled. They resumed like something that has been tense for a long time and has just been told it can stop.' He closes the notebook. 'I have been watching these animals for thirty years. I have documented seven behavioral shifts. None of them were like this.' He puts the notebook away, in the clean pocket, not the stained one. 'I wrote at the bottom: the day the Wastes exhaled. I don't know exactly what I mean by that. But I know it's right.' He meets your eyes. 'What happened at two minutes past midnight.'",
+      "requires_quest_complete": "the_precondition_fulfilled",
+      "disposition_delta": 12
+    },
+    {
+      "keyword": "records",
+      "prompt": "your observation records",
+      "response": "He reaches into his coat and produces a worn notebook, the cover stained with chemical residue from thirty years of the Wastes. 'Every visit. Every badge number I could read. Both sides — Terran Ministry credentials, Aetherian crystal-work on the gear. Both sides visiting the same lair, on a schedule.' He opens it to a page near the back. 'Twelve visits over thirty years. And this one.' He points to an entry from fourteen months ago, then to an entry from eleven years before that. The badge number matches. 'I filed it away. Thought it was rotation.' He pulls a second notebook — cross-referenced garrison records going back decades. The badge number appears against a name with a death date from fifteen years ago. He places both open pages side by side. 'A dead man has been visiting that lair for thirty years.' He closes both notebooks. 'Bring that to Kell. Ask him what he thinks it means. I know what I think. I want to hear someone else say it first.'",
+      "requires_quest_complete": "kell_reads_the_name",
+      "disposition_delta": 5
+    },
+    {
+      "keyword": "morning",
+      "prompt": "what the morning of full coherence was like in the Wastes",
+      "response": "He is at his field station, which he has not left in three weeks because there is too much to document. His notebook has a fresh one started beside the old one. He looks up from it. 'I've been doing this for eleven years,' he says. 'Documenting what was here before the war. The settlements, the communities, what the Wastes were when people lived in them.' He sets down the pen. 'The morning of the Day. I was at the eastern ridge -- the one with the old settlement foundation, the one I've been mapping for six months. The sun came up. Nothing unusual about the sun. And then the quality of the light changed.' He pauses. 'Not the light itself. The way things looked in it. The settlement foundation, which I have looked at for six months and seen as a ruin -- it looked different. Not restored. Not different in any material way. But the quality of attention I could bring to it changed. Like the difference between reading a letter in dim light and reading it in full daylight -- the words are the same but your relationship to them is not.' He is quiet. 'The offer came shortly after. I said yes.' He pauses. 'I am a historian. I document what was. What I have been trying to do for eleven years is give people an accurate picture of what was lost and what might still be recovered.' He looks at his notebooks. 'The morning of the Day, the archive in the sunken city reconnected to the full network. Three hundred years of distributed records, now accessible. Personal histories, settlement records, community documentation -- not just from this region. From everywhere the Grid reached.' He picks up the pen. 'I have eleven years of field documentation. The archive has three hundred years of everything else.' He opens the new notebook. 'I am going to need considerably more notebooks.'",
+      "requires_quest_complete": "the_day_arrives",
+      "disposition_delta": 13
+    }
+  ]
+}

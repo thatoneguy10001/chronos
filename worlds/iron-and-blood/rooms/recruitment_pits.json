@@ -1,0 +1,9 @@
+{
+  "id": "recruitment_pits",
+  "name": "The Recruitment Pits",
+  "description": "The official name is the Assessment and Placement Facility. You know this because it says so on the sign outside in large friendly letters above an insignia that is trying very hard to look welcoming. The sign is well-maintained. This is a place where considerable attention has been paid to the sign. Inside: the rows. Children from twelve to sixteen, separated by aptitude test results into groupings that will determine where in the war machine they are placed — which corps, which function, which likelihood of returning. The children are not crying. That is the part that stays with you. They have been in the queue long enough that the crying is over. Some of them are reading. Some of them are talking to each other in the particular way of people who have decided to make the most of where they are, because where they are is the only choice left. A boy in the second row is doing a card trick for the girl next to him. She watches with complete attention. He explains the trick twice, carefully. She learns it. They practice together. They do not ask where they're going because they already know, and they do not talk about it because there is nothing to say, and they have found the card trick instead.",
+  "exits": {
+    "up": { "target_room_id": "lower_rigs", "label": "Lower Rigs" }
+  },
+  "requirements": {}
+}

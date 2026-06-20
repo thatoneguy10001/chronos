@@ -1,0 +1,10 @@
+{
+  "id": "obsidian_dungeon",
+  "name": "Obsidian Dungeon",
+  "description": "Rough-hewn chambers cut from volcanic rock stretch before you, torches guttering in a sourceless wind. The walls gleam like dark mirrors. Old bones litter the floor — not all of them human. The dark forest is back north; a crumbling archway leads deeper east into ruins.",
+  "exits": {
+    "north": { "target_room_id": "dark_forest", "label": "Dark Forest" },
+    "east": { "target_room_id": "ancient_ruins", "label": "Ancient Ruins" }
+  },
+  "requirements": {}
+}

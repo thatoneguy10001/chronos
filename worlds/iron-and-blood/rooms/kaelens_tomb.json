@@ -1,0 +1,9 @@
+{
+  "id": "kaelens_tomb",
+  "name": "Kaelen's Tomb",
+  "description": "The door is not locked. You checked. The door has been unlocked for a thousand years, which is its own kind of test — the Ministry calculates it as a risk worth tolerating because the alternative, opening the door officially, would require confronting what's on the other side. The chamber is exactly as the oldest records describe: iron walls, smooth, worked by hands that understood iron the way certain people understand languages — intuitively, completely. And at the center, on a bier that has been here since before the Hive had a second floor, Kaelen Ironhand. Smaller than you expected. The great founder of Great Terra, in death, is about your height, which says something about founders and what we do to them in the telling. The hammer Ironheart is across his chest. You put your hand near it without touching it. The hammer is warm. You check your own hand. The hammer is warm and your hand is not and you check again just to have checked twice and the answer is still the same.",
+  "exits": {
+    "up": { "target_room_id": "black_vault", "label": "The Black Vault" }
+  },
+  "requirements": {}
+}

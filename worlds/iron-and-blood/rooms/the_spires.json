@@ -1,0 +1,9 @@
+{
+  "id": "the_spires",
+  "name": "The Spires",
+  "description": "The air is clean. You notice it the way you notice a sound stopping — by the sudden awareness of its absence. Iron filigree arches over corridors of polished steel, and the Ministry officials who move through them have the bearing of people who have always had enough air and have therefore never had to think about it. The maps on the walls are excellent. Someone with real skill made these maps of the front, in precise red ink, annotated in detail. You stand in front of one and do the calculation: from your position, on a bad day, fifty meters is the difference between cover and not having a head. A clerk at a desk is revising a report. He does not look up. He has not been asked to look up. This is, you think, also a kind of answer to a question nobody here has been asked.",
+  "exits": {
+    "down": { "target_room_id": "hive_mid_levels", "label": "Mid-Levels" }
+  },
+  "requirements": {}
+}

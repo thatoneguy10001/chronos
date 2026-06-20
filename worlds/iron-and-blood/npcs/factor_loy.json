@@ -1,0 +1,33 @@
+{
+  "id": "factor_loy",
+  "name": "Factor Loy",
+  "initial_disposition": 60,
+  "greeting": "The Merchant Prince factor has the specific ease of a person who has not been uncomfortable since they were nineteen years old, which is not arrogance so much as a kind of achieved ambient equilibrium. He is drinking something hot and watching both sets of clouds below the platform and appears to have been doing this for some time. He looks up when you arrive with the expression of someone who expected you and is pleased to have their calendar confirmed. 'Ah,' he says. 'From the surface.' He pats the seat across from him. 'Sit. The view is the same everywhere on the platform but this table has the better angle for watching both cloud edges simultaneously, which has a meditative quality I've come to appreciate. What can I do for you.'",
+  "dialogue": [
+    {
+      "keyword": "market",
+      "prompt": "how this market works",
+      "response": "'Cargo, information, passage, and quiet.' He counts them on his fingers. 'We take anything that's moving and needs a direction-change with no record. The no-record part costs extra. The quiet part is included free.' He gestures at the other tables. 'The Fleet captain has wool, upper-atmosphere medicines, and a specific crystal component I will not name. The Terran dirigible captain has pressed metal, industrial lubricants, and intelligence about troop movements on the Terran eastern flank, which I'm buying for resale to a party I'm not going to name who is going to use it for purposes I'm not going to inquire about.' He picks up his drink. 'The rule up here is no questions about ends. We care about means. The means is: someone has something, someone else needs it, I facilitate. The accounting is very clean.'",
+      "disposition_delta": 6
+    },
+    {
+      "keyword": "cass",
+      "prompt": "Merchant Prince Cass",
+      "response": "'My principal. She is —' He pauses, hunting for the right descriptor. '— very thorough. She has opinions about everything and is correct about most of them, which is less convenient than being wrong about things because you can dismiss wrong but you have to do something about correct.' He sets down his cup. 'She has told me, if you come through here, to extend every courtesy. That phrasing from Cass means she respects you, which she does not give out freely.' He looks at you. 'She's also asked me to mention — carefully — that she has concerns about the Grid reactivation timeline that she would prefer to discuss with someone who has direct access to the Aetherion information.' He pauses. 'That's all she said. She's leaving the next move to you, which is how she handles things she considers important.'",
+      "disposition_delta": 7
+    },
+    {
+      "keyword": "war",
+      "prompt": "the view of the war from up here",
+      "response": "'You can see it.' He nods at the cloud layer below. 'Both sides. Simultaneously. The geometry of it is very obvious at altitude — two identical sets of infrastructure, two identical supply lines, two identical casualty rates, fighting over a strip of land that neither could fully occupy if they won it tomorrow.' He is quiet for a moment. 'I've been coming to this platform for eleven years. I have watched the war from up here every single trip. The thing that strikes me, every single time, is that from down there you can't see it. You can only see your side.' He picks up his cup. 'I'm not making a political point. I make no political points, ever, on this platform. I'm making an observational one: when you can see both sides at once, it becomes very difficult to understand what either side thinks it's winning.'",
+      "disposition_delta": 8
+    }
+  ],
+  "vendor": true,
+  "shop": [
+    { "item_id": "antitoxin_vial",    "price": 18 },
+    { "item_id": "trauma_kit",        "price": 22 },
+    { "item_id": "neural_disruptor",  "price": 40 },
+    { "item_id": "smoke_canister",    "price": 10 }
+  ]
+}

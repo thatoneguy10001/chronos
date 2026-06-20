@@ -1,0 +1,34 @@
+{
+  "id": "engineer_four",
+  "name": "Aldric Penn",
+  "initial_disposition": 65,
+  "greeting": "He is sitting on the bench with the look of someone who has had three years to get comfortable with where he is and has achieved this in exactly the same way you achieve peace with anything: by stopping resisting and starting paying attention. He looks at you with an expression of genuine interest that hasn't been performed in company for a long time and has therefore become pure. 'Aldric Penn,' he says, standing. 'Originally Fourth Engineer on the SCAMP project, currently —' He gestures at the plaza, the lit lamps, the impossible intact city around them. 'Currently at a loss for title. Take a seat. The bench is original Elder construction and is significantly more comfortable than it looks. They thought about sitting. They thought about a lot of things.'",
+  "dialogue": [
+    {
+      "keyword": "scamp",
+      "prompt": "the SCAMP project",
+      "response": "'We built a weapon.' He says it plainly. 'The twelve of us. Twelve people who understood crystal resonance better than anyone alive, pooling three years of work. The SCAMP fired a synchronized resonance pulse that could disrupt large-scale crystal formations.' He's quiet. 'After it worked, the Ministry wanted to deploy it. I said no. The others said — various things. I'm the only one who said it with enough conviction to mean it.' He looks at the street lamps. 'The thing you can disrupt with that weapon is the Abominations. The thing you can also disrupt with that weapon is the Elder infrastructure. The same crystal matrix. The same frequencies.' He turns to you. 'I came here to understand what we would be destroying. Three years later: I understand it. We would not have stopped the war. We would have ended something much older than the war, something that was in the process of waking up, and we would have ended it from ignorance. That's not a mistake I can be responsible for.'",
+      "disposition_delta": 8
+    },
+    {
+      "keyword": "city",
+      "prompt": "the Sunken City",
+      "response": "'It's called Ather'sol in the original Elder. Means roughly: the city that waits beneath.' He walks toward the archive, gesturing for you to follow. 'It's been running for three hundred years. Maintenance systems, climate control, archival preservation — all automated, all crystal-driven, all based on systems so well-engineered that they haven't needed a technician.' He pauses. 'Which tells you something about their engineering and something about their planning. They sank this city deliberately. Not as an accident of the Cascade. As an intentional act, with the intention of preserving it until — until whatever they were preparing for was resolved.' He stops. 'I have been trying to determine what they were preparing for. The archive has the answer. I have been reading for three years. I am close.'",
+      "disposition_delta": 9
+    },
+    {
+      "keyword": "grid",
+      "prompt": "the Elder Grid",
+      "response": "'The archive has the original construction notes.' He leads you to the third shelf, third section. 'The Grid was built in seventy-three years of continuous work. The scale of it — if you'd told me this before I came here, I would have said impossible. Now I know it's not.' He traces a crystal-matrix diagram. 'The Grid connects every Elder settlement in the region. It was designed to distribute resonance rather than concentrate it. A nervous system, not a power plant. The individual is still individual — but the system can, if everyone consents, share experience across the network.' He pauses. 'The Lazarus compound is a fragment of the integration mechanism. Very early stage. What it does to Terran soldiers is a pale shadow of what the Grid was designed for.' He looks at you. 'The soldiers who came back changed — they're not malfunctioning. They're receiving. The transmission is just meant for a different kind of receiver.'",
+      "requires_topic": "city",
+      "disposition_delta": 10
+    },
+    {
+      "keyword": "watcher",
+      "prompt": "The Watcher in Aetherion",
+      "response": "'I know about it.' He says it quietly. 'Not directly. The archive has records of the decision — the choice to stay behind, to remain as witness. It's documented.' He sits down again. 'There were seven who stayed. Not all of them are intact. The Watcher is the only one I'm certain still carries a full self.' He looks at the lamps. 'The archive records also tell me what The Watcher has been waiting for. Not just someone to come. Specifically: someone with enough of the pieces to understand what the Grid waking up means. And someone with access to the people who can do something about it.' He looks at you with the focus of someone who has thought about this for three years. 'You've been to Aetherion. You've talked to it.' He pauses. 'I've been waiting for someone like you to come through that gate for a long time.'",
+      "requires_topic": "grid",
+      "disposition_delta": 12
+    }
+  ]
+}

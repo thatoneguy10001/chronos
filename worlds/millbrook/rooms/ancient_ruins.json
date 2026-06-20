@@ -1,0 +1,9 @@
+{
+  "id": "ancient_ruins",
+  "name": "Ancient Ruins",
+  "description": "Vast columns rise from rubble, carved with script no living scholar can read. The ceiling has long since collapsed; moonlight pools on a cracked mosaic floor. The weight of centuries presses down. Something old and deeply hostile stirs in the shadows. The dungeon lies west.",
+  "exits": {
+    "west": { "target_room_id": "obsidian_dungeon", "label": "Obsidian Dungeon" }
+  },
+  "requirements": {}
+}

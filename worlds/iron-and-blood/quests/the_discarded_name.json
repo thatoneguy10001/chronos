@@ -1,0 +1,15 @@
+{
+  "id": "the_discarded_name",
+  "name": "The Discarded Name",
+  "description": "Morlak's intelligence runs deeper than the surface. He is Discarded — one of the pre-war people who have lived in the Wastes since before the conflict. There's a community here with its own history, its own relationship to the Spire and the Abominations. Grimka tends the junction nodes and she'll talk if Morlak has vouched for you.",
+  "objective": {
+    "type": "talk_to",
+    "npc_id": "grimka"
+  },
+  "gold_reward": 40,
+  "xp_reward": 100,
+  "giver_npc_id": "morlak",
+  "requires_quest_complete": "morlak_intelligence",
+  "accept_text": "Morlak sets the notebook down after he's told you everything about the patrol. He is quiet for a moment. Then: 'You've been asking the right questions. Nobody from either side of the wire usually asks the right questions because they're too busy fighting.' He looks at the distance. 'There is more I can tell you. But the rest of it isn't mine to tell — it belongs to the community that's been here since before the war started.' He holds up a hand. 'We don't have a name you'd recognize. You've probably been calling us something unflattering.' He almost smiles. 'Discarded is what the Hive records us as. We use it ourselves now — it's honest.' He produces a small flat stone, marked with a symbol. 'Take this to Grimka. She tends the junction nodes near the deep access — not the ones on your maps, the older ones. She'll find you.' He sets the stone down. 'Tell her you're trying to understand what the Wastes are. Not what they can offer you — what they are. That's the question she'll answer.' A pause. 'She might also tell you who Vespa is to us. That's worth knowing.'",
+  "complete_text": "Grimka tells you things about the Wastes that no garrison record contains. The pre-war infrastructure. The junction nodes that predate the conflict by five hundred years. The way the crystal lattice in the substrate responds to care versus extraction. The names — not the Terran or Aetherian names, the older ones, the ones Discarded parents teach their children in the evenings when there's time. 'The Abominations,' she says, finally. 'That's your word.' She says it without reproach — just locating it. 'We don't have a better one that translates. What the Cascade did to some people — what it made them — we have a word that means \"changed by something too large to survive intact.\" Not \"destroyed.\" Changed.' She looks at the junction node she's been maintaining. 'Vespa talks to the Spire.' She says it the way you'd say \"the weather comes from the north\" — as a fact about how things work. 'She has, since she was young. It told her things about the lattice that we confirmed by looking at the nodes.' She meets your eyes. 'She knows something that happened eight months ago. Something about the Grid. She hasn't told most of us yet.' A pause. 'Ask her. She's been waiting for someone from outside to be ready to hear it.'"
+}

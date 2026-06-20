@@ -1,0 +1,52 @@
+{
+  "id": "inex",
+  "name": "Inex",
+  "initial_disposition": 60,
+  "greeting": "She is behind a stall piled with goods that do not fit together — a ceramic water-filter with a stamp you don't recognize, folded paper maps of coastlines you've never seen, three different types of preserved food in containers labeled in four languages, and a compact medical kit that is better than anything the Terran military issues. She is reading something, does not look up immediately, and when she does look up she assesses you in the specific way of someone who has spent years selling things across borders: not unfriendly, not naive, and clear about what this is. 'Something in particular, or looking?' Her accent is not Terran. It is not Aetherian. It is a city that the current war treats as not existing, which is the kind of city where she comes from.",
+  "dialogue": [
+    {
+      "keyword": "where",
+      "prompt": "where you're from",
+      "response": "'Freeport Calesh.' She says it like she's watching to see if you recognize it. 'South coast. We're not on your Ministry maps — we've been off them for a hundred and eighty years, since we informed the Ministry we would not be administering the conscription requirement and the Ministry decided the paperwork of removing us was simpler than the confrontation.' She folds away whatever she was reading. 'Twelve thousand people. Warm, mostly. We manufacture very good water filters and we trade routes with everyone.' She gestures at the stall. 'The food is from Calesh, the medical kit is from the Aetherian supply chain two middlemen back, and the maps are from everywhere I've been, which is more places than you've been told exist.' She doesn't say it unkindly. 'The war is smaller than it looks from inside it. The world is much larger than either map.'",
+      "disposition_delta": 7
+    },
+    {
+      "keyword": "war",
+      "prompt": "what the war looks like from outside it",
+      "response": "'Confusing.' She says it immediately, as if it's the first word she always reaches for. 'I have been coming through Greasewater for fifteen years. I watch both sides, because both sides buy things. They are extremely similar, your two factions. The architecture is different, the bureaucratic style is different, the religious framing is different.' She taps the counter. 'The soldiers are identical. The ones who are tired, the ones who are angry, the ones who are still convinced it means something. From outside, I cannot tell which is Terran and which is Aetherian until they tell me.' She looks at the market. 'The thing that confuses me most: the war is old enough that no one alive started it. No one knows what started it. And yet it continues.' She meets your eyes. 'In Calesh we have a word for a fire that has been burning longer than anyone remembers starting. We call it a legacy fire. Legacy fires burn because you stop thinking about whether to put them out.' She pauses. 'I say this as someone whose income includes selling things to both sides of your legacy fire. I am not innocent. I am however confused.'",
+      "disposition_delta": 8
+    },
+    {
+      "keyword": "passage",
+      "prompt": "passage out of Terra",
+      "response": "'You're the fourth person this month.' She doesn't say it as a judgment. 'I can connect you to a ship going south to Calesh, or west to the island chains that the Ministry also doesn't acknowledge. Not cheap. Not fast.' She opens a ledger. 'The honest version: half the people who ask me this don't actually leave. They ask, they hear what it costs, they think about what they'd be leaving, and they decide to stay.' She closes the ledger. 'The cost isn't only money. You'd be a citizen of nowhere for some time — possibly permanently. The countries that exist officially won't have paperwork for you. You'd be building from nothing.' She pauses. 'The other half do it. They show up in Calesh three weeks later with nothing but what they could carry, and they're terrified, and they're alive in a way I notice they weren't before.' She looks at you. 'I don't know which half you'd be. Most people don't know until they're on the ship.'",
+      "disposition_delta": 5
+    },
+    {
+      "keyword": "staying",
+      "prompt": "whether you are still looking to leave or whether the Day changed your plans",
+      "response": "She is sorting through the goods on her stall in a way that looks like inventory and is actually decision-making, you have come to understand. The ceramic filter gets moved left. A cloth roll gets moved right. 'Staying,' she says. Not with resignation. With something more complicated. 'I came here six months ago to find passage. I had passage arranged for three weeks ago. I canceled it.' She picks up the filter, sets it back down. 'What changed: the Day. What the Day changed specifically: I spoke to a woman in the market two days after, a Terran woman, maybe sixty, who had been trying to reach family in Aetherian territory for four years.' She looks at the filter. 'She asked me if I had family on my side of the line. I said I didn't, not anymore. She said: then you're here for the same reason I am. Because this is where something is happening.' She is quiet. 'I don't know what I'm doing here. I know why I came -- the war, the passage, the logic of leaving before things got worse. But what I'm finding is: things got different instead of worse.' She moves another item. 'The market is different now. The people passing through are different. Two weeks ago a Deep Iron Collective trader came up for the first time -- they've never come to the surface market before. She brought goods we've never seen in Terra.' She picks up the filter. 'I'm a market person. I know what it means when new trade routes open.' She sets the filter on the left side. 'I'm staying until I understand what's opening. That might take a while.'",
+      "requires_quest_complete": "the_day_arrives",
+      "disposition_delta": 14
+    }
+  ],
+  "vendor": true,
+  "shop": [
+    {
+      "item_id": "iron_bandage",
+      "price": 7
+    },
+    {
+      "item_id": "antitoxin_vial",
+      "price": 10
+    },
+    {
+      "item_id": "trauma_kit",
+      "price": 18
+    },
+    {
+      "item_id": "smoke_canister",
+      "price": 8
+    }
+  ]
+}

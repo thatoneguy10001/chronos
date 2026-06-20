@@ -1,0 +1,15 @@
+{
+  "id": "the_fourth_engineer",
+  "name": "The Engineer Who Went South",
+  "description": "Foss found Haelen Solen in the Greasewater dock records — a SCAMP engineer who said the device was the Grid's own construction wave inverted, was dismissed from the project, and disappeared south three years ago with dive equipment.",
+  "objective": {
+    "type": "reach_room",
+    "room_id": "sunken_city_plaza"
+  },
+  "gold_reward": 50,
+  "xp_reward": 125,
+  "giver_npc_id": "foss",
+  "requires_quest_complete": "the_engineers_testimony",
+  "accept_text": "Foss has the notes she made after your last conversation clipped to the top of her main notebook. 'Solen,' she says. Not hello — the name is the hello, said like she's been waiting to say it to someone who would understand why it matters. 'Haelen Solen. Twelfth engineer on the SCAMP project.' She opens the clipped notes. 'I found him in the Greasewater dock-master's records, three years ago. Dive kit, long-range equipment, single-passenger manifest south. No return booking.' She shows you the copied entry. 'He was the one who said — at the final project review, on record — that the SCAMP device and the Grid's construction wave were using the same frequency base. He said: what if it's the same mechanism, polarity-inverted? What if what we built is the Grid's own construction wave running backwards?' She pauses. 'He was dismissed from the project two days later. The dismissal report says directional misalignment with project objectives. I have a copy of the dismissal report.' She meets your eyes. 'He went south. The only thing at that range from Greasewater is the Southern Shelf. The only thing at the Southern Shelf is an old dive site the Merchant Princes put on restricted charts the year before Solen disappeared.' A pause. 'I can't go. The lattice recordings are entering a critical phase and I need to be present for them. But you can. The Shelf is a long journey — make arrangements. If Solen went down and has been there three years, I want to know what he found that was worth staying for.'",
+  "complete_text": "The engineer looks at you with the expression of a man who has been alone in a self-maintaining city for three years and is currently running several large calculations about what your arrival means. He has the bearing of someone who found his work and stayed on it past the point where any reasonable person would have surfaced. The mug on the bench beside him has been recently used — the city's maintenance systems include water, which he's clearly figured out. The notebook on his knee is covered in very small handwriting, conservative with paper the way people get conservative when they know the nearest resupply is a very long dive away. He sets the notebook on the bench and looks at you. 'Did Foss send you,' he says, 'or did you find it yourself?' He asks it with the patience of a man who has been doing his work regardless and is genuinely, it turns out, pleased that someone has arrived."
+}

@@ -1,0 +1,14 @@
+{
+  "id": "observatory_charts",
+  "name": "The Observatory Charts",
+  "description": "Brother Kell went up to the observatory three days ago and found the logbook open on the table, trailing off mid-sentence. Someone was there, or is there. He wants you to investigate.",
+  "objective": {
+    "type": "reach_room",
+    "room_id": "star_view_observatory"
+  },
+  "gold_reward": 30,
+  "xp_reward": 75,
+  "giver_npc_id": "brother_kell",
+  "accept_text": "Kell has a smaller notebook open beside his main one — field notes, recent, the handwriting faster than his usual careful hand. 'Three days ago I went up to the observatory,' he says. 'The current logbook was open on the table. The last entry trailed off mid-sentence.' He pauses. 'The astronomer who keeps those logs is a meticulous person. I've read six years of her entries. She does not trail off.' He opens the field notebook to a sketch — two overlapping star charts, positions marked with different symbols. 'The entry before the incomplete one: two charts from the same eight-month window, same lens, same section of sky. The positions don't match.' He pauses. 'The stars in the same sky, recorded from the same lens, in the same eight months, are in different positions on the two charts. Which is not possible.' He closes the notebook. 'I need someone to go up there and look more carefully than I had time to. Through the monastery outer court and up the tower stair. The current logbook is on the table.' A pause. 'The mug on the desk had been refilled recently when I was there. She may still be in the tower. If something has happened to her, I want to know what.'",
+  "complete_text": "The observatory is quiet with the particular quality of a space used for intensive work that is currently paused. The logbook is open on the table — you find the entry Kell mentioned, the one that stops mid-sentence. The sentence reads: 'The constellation tracking positions from the Fleet data confirm it. Not orbital drift. The Watcher is moving. This is not a mechanical phenomenon. This is—' A line across the page where the pen moved without intent behind it, which is what a pen does when your hand goes still because you've just understood something and the understanding has stopped everything else. The mug on the desk is still faintly warm. The astronomer is in the upper chamber."
+}

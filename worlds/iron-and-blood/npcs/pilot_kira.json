@@ -1,0 +1,55 @@
+{
+  "id": "pilot_kira",
+  "name": "Pilot Kira",
+  "initial_disposition": 50,
+  "greeting": "She doesn't look up when you board \u00e2\u20ac\u201d she's running a calibration sequence on the navigational crystal, and navigational calibrations don't wait for visitors. 'Two minutes,' she says. Not rudely. Factually, the way someone says it when they trust you to understand that priorities are priorities. When the calibration completes she turns: young for a pilot, which means thirty-five, lean in the way of people who work in wind, with the evaluation look that all Skyborn have but that she has adjusted for ground-born visitors. 'Kira,' she says. 'Your altitude was lower than I expected. Either you climbed from the post or you walked the mountain path \u00e2\u20ac\u201d one of those means you're more adaptable than average.' She pauses. 'I like adaptable. What do you need?'",
+  "dialogue": [
+    {
+      "keyword": "fleet",
+      "prompt": "the Skyborn Fleet",
+      "response": "'Thirty-two thousand on current census. We were forty thousand at the war's start.' She says it plainly. 'The war costs us differently than it costs the ground. We lose ships to artillery when we fly low. We lose people to things that follow altitude \u00e2\u20ac\u201d crystal corruption from the upper-air formations, and in the last year, something new that we haven't identified yet but that manifests at eight thousand meters and above.' She recalibrates something without looking at it. 'The ground factions don't know about the altitude problem. We haven't told them because the Fleet Council doesn't want either side to know that there are parts of the sky we can no longer safely reach.' A pause. 'I'm telling you because you've seen things on the ground that suggest the problems are connected. Your altitude versus mine, same cause.'",
+      "disposition_delta": 7
+    },
+    {
+      "keyword": "above",
+      "prompt": "what you can see from up here",
+      "response": "'Everything.' She says it not as boast but as geography. 'The Terran Hive from directly above looks like a heat signature \u00e2\u20ac\u201d the Great Foundry burns hot enough to show through the smog layer. The Aetherian sky-cities show as crystal-light. The Gray Wastes show as \u00e2\u20ac\u201d' She pauses. 'The Gray Wastes have been showing as something else for eight months. A pattern in the Aetherium distribution that wasn't there before. The crystal lattice below the Wastes has been energizing. Slowly, but consistently.' She looks at the navigational crystal. 'We've been mapping it. The pattern is not random. It's like watching something inhale \u00e2\u20ac\u201d the same movement, from the same center, on a very slow rhythm.' She meets your eyes. 'The center of the pattern is approximately four hundred meters below the surface of the Windward Pass. Where the old Grid infrastructure was.'",
+      "requires_topic": "fleet",
+      "disposition_delta": 9
+    },
+    {
+      "keyword": "stars",
+      "prompt": "the changing stars",
+      "response": "She goes very still. The calibration sequence completes without her attention. 'You've been to the observatory.' She says it in a voice that has gone flat in the way of a voice that was about to say something and has had to recalculate. 'The Fleet has been tracking it for two years.' She is quiet. 'The stars that are changing are in the constellation the Elder People called the Watcher. We know that because Skyborn navigational tradition preserves the Elder sky-maps alongside our own, and when we looked up the pattern we found it named.' She pauses. 'The Elder sky-maps are eight hundred years old. The Watcher constellation shows up in every one of them as a navigational constant. A fixed reference that other things were measured against.' A pause. 'Fixed references don't move. They are not supposed to move. Something is moving them.'",
+      "requires_quest_complete": "observatory_charts",
+      "disposition_delta": 10
+    },
+    {
+      "keyword": "serel",
+      "prompt": "Commander Serel and what you've been comparing",
+      "response": "'She saw the same thing I saw.' Kira says it with the directness of a technical confirmation. 'The Fort Sky-Watch resonance instruments are better than mine for ground-facing readings. She flagged the change within three days of when I did.' She runs a navigation check without looking away. 'We've been exchanging data informally since then. Not official \u00e2\u20ac\u201d official would require approvals that neither of us is confident in right now, given that the thing we're measuring was reported up both our chains and classified in both directions.' She pauses. 'Serel is careful. She files the reports correctly and then notes, privately, that the classification response was faster than classification responses usually are, which implies someone was watching for this specific type of report.' She checks the crystal calibration. 'When the classification comes down in twenty-four hours on a resonance anomaly in the Wastes, that means someone already had the report categorized and waiting.' She meets your eyes. 'We've been asking each other what that implies. Neither of us has said it aloud. But we've been mapping what it implies, and the map keeps having the same center point.' She pauses. 'There is a person, or a group, that has been monitoring the Grid's dormancy status. They noticed the restart before we did. They were ready to classify it.' She is quiet. 'They did not appear to want to stop it. They just wanted to control what information got out.'",
+      "requires_topic": "above",
+      "disposition_delta": 10
+    },
+    {
+      "keyword": "midnight",
+      "prompt": "what you saw at two minutes past midnight",
+      "response": "She checks the navigational crystal before she answers. Not because she needs to \u00e2\u20ac\u201d because she's been running her hands over the instruments since it happened, the way you touch something familiar when you need to stay grounded. 'The relay confirmed. Both channels.' She doesn't look at you while she says this, which is not her usual. 'I've been flying above this war for fifteen years. I've transmitted three hundred classified reports. Battle assessments, crystal-lattice readings, Grid restart mapping. Three hundred documents and every one of them was classified within twelve hours.' She looks at the crystal. 'This one: seventeen minutes. Which means someone was waiting. Which means they knew, before the filing, that the category existed.' She pauses. 'Which means they've been watching for this document for longer than Vane has been investigating. Maybe longer than I've been mapping the lattice restart.' She runs the calibration again. 'From eight thousand meters, the war looks like a heat signature and a crystal-light and thirty years of the same ground being contested in the same way.' She is quiet. 'At two minutes past midnight I transmitted forty-seven pages of documented evidence that the war was deliberately maintained by an authority operating within both governments simultaneously.' She looks at you. 'From eight thousand meters: nothing changed. The Hive burned the same. The Aetherian sky-cities glittered the same. The Gray Wastes showed the same lattice pattern, the same slow pulse.' She pauses. 'From three hundred meters: also nothing changed. Immediately.' She goes back to the crystal. 'From thirty years: I'll tell you in thirty years.' She almost smiles. The navigational crystal hums. 'Serel confirmed receipt. She filed it through Fort Sky-Watch channels. She was ahead of the classification by four minutes.' She looks at the sky. 'She always was faster than she let on.'",
+      "requires_quest_complete": "both_governments_at_once",
+      "disposition_delta": 12
+    },
+    {
+      "keyword": "vale",
+      "prompt": "Captain Vale",
+      "response": "'My cousin.' She says it without surprise that you know him. 'He went down three years ago. Told the Fleet Council he had an obligation to the people on the mountain and they couldn't argue with that because it's true.' She checks something on the navigation panel. 'He sends reports when he can. The armistice cave \u00e2\u20ac\u201d yes, I know about it. Everyone in the Fleet knows about the cave. Soren's in it most nights and his reports tell us things the formal Aetherian military intelligence does not.' She pauses. 'He's better at the ground than I expected. He still holds himself like he expects the floor to move. But he's learning.' A brief something in her expression that is not quite a smile. 'He told me the armistice tastes like bad coffee and cards and watching people decide to be human for six hours. He said it's the most honest thing he's ever seen in the war.' She looks at the sky. 'I think about coming down sometimes. Then I look at the map and stay up here.'",
+      "disposition_delta": 6
+    },
+    {
+      "keyword": "dawn",
+      "prompt": "what the pulse did when it finally stopped being intervals and became continuous",
+      "response": "She has the logbook open to the last page of recorded intervals. The final entry reads: 0. Below it, in different ink, a single sentence: no more intervals. Baseline continuous. She traces it with her finger. 'I was in the air,' she says. 'I fly the dawn run and I was in the air when it happened and I had the best possible view of the worst possible time to have a significant experience because I still had to land the aircraft.' She almost laughs. 'The pulse disappeared. The gaps were gone. What I had been counting for eighteen months became a continuous signal and the crystal instruments that I have been treating as weather gauges all year went to baseline steady simultaneously.' She looks at the logbook. 'I was flying over the eastern sector \u2014 over the ceasefire zone \u2014 and the Gray Wastes looked different from altitude. Not dramatically. Not visually different in any way I could point to in a photograph. But the quality of the light on the ground was different.' She pauses. 'I have been flying that route for four years. I know what the Wastes look like from altitude at dawn in every season. What I saw that morning was the Wastes looking like somewhere that was in the process of becoming something else.' She closes the logbook. 'I landed safely. Then I sat in the aircraft for a while before I climbed out.' She looks at the final entry. 'No more intervals. I do not know what I do with the notebook now. But I do not want to leave out that entry.'",
+      "requires_quest_complete": "the_day_arrives",
+      "disposition_delta": 14
+    }
+  ]
+}

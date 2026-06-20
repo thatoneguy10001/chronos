@@ -1,0 +1,9 @@
+{
+  "id": "seraphina_spire",
+  "name": "Seraphina Spire",
+  "description": "The Aetherian holy site and the Elder ruins are the same thing, because the Aetherians decided, three hundred years ago, that they were. The ruin predates them by a thousand years and it does not care whether they have declared it sacred. What it does is: sing. At night. At a frequency you feel in the back of your teeth and the base of your sternum before you identify it as sound. The outer walls are intact. The inner chambers have collapsed in ways that look random but, when you look longer, are not random — the collapse has a geometry to it, as if the structure dismantled specific sections deliberately and left others standing. The crystals in the standing walls are active. Not brightly — a low, even pulse, very slow, the pulse of something that is breathing while asleep and has been sleeping for three centuries and is currently at the boundary between asleep and something else. In the central chamber, where the Elder residents would have gathered: a single intact altar-stone. On the stone: a handprint. Elder-proportioned, the same dimensions as the marks in the Hollow Vassal's lair, except this one is incised, not traced — pressed into the crystal in the moment of the Cascade, when the energy was sufficient to mark stone. Someone was here when the world changed. They pressed their hand into what they had built. They left that fact.",
+  "exits": {
+    "down": { "target_room_id": "skyhaven", "label": "SkyHaven" }
+  },
+  "requirements": {}
+}

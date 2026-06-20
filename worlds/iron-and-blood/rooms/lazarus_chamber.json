@@ -1,0 +1,11 @@
+{
+  "id": "lazarus_chamber",
+  "name": "The Lazarus Chamber",
+  "description": "The vats are larger than you expected. This is the thought that keeps arriving — not the horror, not the ethics, just the scale. Row on row of glass and steel, each one containing a body suspended in chemical preservation, crystal growing in slow fine patterns through the tissue, blue-white in the fluorescent dark. Some of the bodies are recent. Some are very old, the crystal overgrown to something almost architectural, something that stopped being a person and started being a structure somewhere in the middle of a century. The manifests on the wall list them by intake number, not name. You notice that the oldest intake numbers belong to bodies where the crystal has gone completely opaque — you cannot see what is inside anymore. The newest ones you can. Some of them have their eyes open. None of them are moving. You keep checking to make sure.",
+  "exits": {
+    "up": { "target_room_id": "under_district_entrance", "label": "Level Zero" },
+    "north": { "target_room_id": "black_vault", "label": "The Black Vault" },
+    "south": { "target_room_id": "silence_cells", "label": "The Silence Cells" }
+  },
+  "requirements": {}
+}

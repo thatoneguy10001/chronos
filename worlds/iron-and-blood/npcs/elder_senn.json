@@ -1,0 +1,34 @@
+{
+  "id": "elder_senn",
+  "name": "Elder Senn",
+  "initial_disposition": 60,
+  "greeting": "The recitation finishes when it finishes. She sits with her hands in her lap, watching the fire, for perhaps two minutes after the last voice stops. This is part of it — the listening after, to make sure nothing was dropped. When she is satisfied she looks at you. Her face carries the specific age of someone who stopped counting years sometime in their eighties and is now simply old, with the completeness that implies. 'The fire says you waited until we were done,' she says. 'That was correct.' She shifts. 'Sit. I am Senn. I have been leading this circle for forty years, since the woman before me could no longer stand to lead it.' A pause. 'She could still stand fine. She simply couldn't continue — the weight of it was more than she wanted to carry alone. I understand now. I couldn't then.' She looks at the fire. 'Ask what you came to ask. The night is long but not endless.'",
+  "dialogue": [
+    {
+      "keyword": "circle",
+      "prompt": "what the circle does",
+      "response": "'Remembers.' She says it simply. 'The recitation is the full oral record of the Resonant Plains from the third generation before the Cascade to the present. It takes eleven nights to complete and then begins again.' She looks at the fire. 'Every person in this circle carries a section. When someone dies, their section is distributed to the others in pieces, so the whole never dies with any one person.' She is quiet. 'That is the theory. The practice is: sections are long and memories are imperfect and the recitation drifts over generations. I have been comparing the current recitation to my grandmother's for forty years. It has drifted by about four percent in my lifetime.' She pauses. 'Four percent in forty years means it has drifted approximately thirty percent since the Cascade. I do not know what the original was. I only know the current version and the direction of the drift.' She looks at you. 'This is what it is to be a memory-keeper. You know what you have. You know it is not the same as what was.'",
+      "disposition_delta": 8
+    },
+    {
+      "keyword": "grandmother",
+      "prompt": "your grandmother and what she remembered",
+      "response": "'She was born after the Cascade.' She says this carefully, establishing the line. 'She did not remember the Resonant Plains. But her grandmother did — my great-great-grandmother, who was a grain worker on the plains before the Cascade, who was forty years old when the first bomb fell on Iriel-Beneath and ran north into the mountain passes with four children and the clothes she had.' She is quiet. 'My grandmother grew up listening to four children's worth of Cascade stories. She passed on what they passed to her.' She looks at the fire. 'I carry one memory specifically that is not in the main recitation. I have never put it in, because the main recitation is not for specific things — it is for general things, things that can be said exactly the same way every time, which is the only kind of memory that survives eleven nights and thirty percent drift.' She pauses. 'A specific memory is fragile. Specific memories can only survive if they are told exactly right, and I am not confident I can tell it exactly right. My grandmother was not confident she had received it exactly right from her grandmother.' She looks at you. 'But you are here. You waited through the recitation. I have decided to tell it to you once, before it is gone entirely.'",
+      "requires_topic": "circle",
+      "disposition_delta": 10
+    },
+    {
+      "keyword": "harvest",
+      "prompt": "the specific memory you carry",
+      "response": "'The sound,' she says. 'That is the memory. Not a sight, not a name, not a fact. A sound.' She faces the fire fully. 'The Resonant Plains had crystal deposits in the soil — not Aetherium, a different kind, a shallower formation, not useful for military applications, which is why it was not in any strategic survey. But the farmers knew. For three thousand years, the grain farmers of the plains had used the crystal frequency to separate grain from chaff. The crystal in the soil resonated at a specific frequency when you induced it, and the grain vibrated free of the chaff without threshing.' She is quiet. 'During harvest season, the entire plain hummed. Not loud. Not uncomfortable. A low, collective sound, like a very large thing breathing out.' She pauses. 'My great-great-grandmother said you could hear it from the mountain passes. That the Aetherian traders came down from the sky-cities once a year at harvest time, specifically to stand in the passes and hear it. Not to trade. Just to hear it.' She is quiet for a long time. 'She said the Aetherian sky-ships would hold position above the plains for the full three weeks of harvest and then go back up. She said it was the one thing that brought them down every year without fail.' She pauses. 'The Cascade destroyed the crystal formation in the soil. The harmonic changed. What was once the harvest sound became the frequency that draws Abominations.' She looks at the fire. 'The Aetherians stopped coming down three hundred years ago. The passes went quiet.' She faces you. 'That is the specific memory. A sound that used to be a reason to come down from the sky. I have told you exactly what my grandmother told me, which is as close to exactly right as I can get.' A pause. 'Now you carry it.'",
+      "requires_topic": "grandmother",
+      "disposition_delta": 14
+    },
+    {
+      "keyword": "wastes",
+      "prompt": "what the Wastes used to be",
+      "response": "'Iriel-Beneath is what they hit first.' She says this as though telling the weather. 'The Resonant Plains were the agricultural center of — we don't have a name for the civilization now, because the nations that formed after agreed not to use the old name, which tells you something about what they were afraid the old name implied.' She looks at the bone fields, or where the bone fields would be in daylight. 'The bone fields were farms. Grain fields with crystal-harmonic irrigation systems. The farmers knew the crystal lines the way farmers anywhere know the soil.' She pauses. 'The Abominations are the animals that were here before the war. Changed by the Cascade, yes. But not changed into nothing — changed into what they are now, which is still something.' She is quiet. 'The Wastes still know what they were. The soil still knows where the crystal lines are. The Architect still knows the layout of every building that was here.' She looks at you. 'Sometimes at night, when the recitation is done and the fire is low, I think about what the plains sounded like. And then I listen to what the Wastes sound like now.' She is quiet. 'They are not the same sound. But they are the same silence between sounds. That part hasn't changed.'",
+      "disposition_delta": 9
+    }
+  ]
+}

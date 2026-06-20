@@ -1,0 +1,46 @@
+{
+  "id": "vanguard",
+  "name": "Vanguard",
+  "description": "The front line made flesh. Heavy iron armor, pneumatic shield, and a short-blade built for close fighting in trench conditions. Vanguards go in first and take the hit that would have killed someone else. They are not subtle. They are not fast. They are still standing when subtlety and speed have failed.",
+  "base_stats": {
+    "hp": 135,
+    "attack": 11,
+    "defense": 10,
+    "intelligence": 3
+  },
+  "abilities": [
+    {
+      "id": "trench_charge",
+      "name": "Trench Charge",
+      "description": "A full-body ram at close range — closing distance in one brutal stride, using armor weight as a weapon.",
+      "base_damage": 12
+    },
+    {
+      "id": "iron_press",
+      "name": "Iron Press",
+      "description": "Three rapid body-check strikes using the shield's edge, then a blade draw. The combination creates openings in enemy defenses.",
+      "base_damage": 4,
+      "hit_count": 3
+    },
+    {
+      "id": "bulwark_stance",
+      "name": "Bulwark Stance",
+      "description": "Lock the pneumatic shield into a braced position and let the enemy break against you. Defense increases significantly for 3 turns.",
+      "base_damage": 0,
+      "applies_effect": "defense_up",
+      "effect_damage": 7,
+      "effect_duration": 3
+    },
+    {
+      "id": "bayonet_drive",
+      "name": "Bayonet Drive",
+      "description": "A vicious forward stab — not elegant, not subtle, lethal. The Vanguard's backup weapon when the shield is locked.",
+      "base_damage": 9
+    }
+  ],
+  "passives": ["iron_skin"],
+  "starting_equipment": ["terran_helmet", "iron_coat"],
+  "xp_reward": 0,
+  "gold_reward": 0,
+  "tactics": []
+}

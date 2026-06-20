@@ -1,0 +1,13 @@
+{
+  "id": "heavy_frame",
+  "name": "Heavy Iron Frame",
+  "description": "A dense iron receiver frame salvaged from a destroyed siege weapon. Heavy but solid — forms the base of any serious custom weapon. Reinforced stress points. Adds significant impact mass.",
+  "starting_room_id": "armory",
+  "takeable": true,
+  "attributes": {
+    "item_type": "weapon_part",
+    "part_slot": "frame",
+    "part_attack": 8
+  },
+  "tags": ["weapon_part", "frame", "terra"]
+}

@@ -1,0 +1,53 @@
+{
+  "id": "grimka",
+  "name": "Grimka",
+  "initial_disposition": 45,
+  "greeting": "She is not sitting when you arrive, which tells you something. She is standing at the camp's edge, watching the bone fields with the stance of someone whose body has decided that sitting is a separate activity reserved for moments of true safety, and has not yet identified this as one of those moments. When she turns to look at you, the assessment is rapid and complete in a way that makes you feel like a terrain feature being catalogued. 'Grimka,' she says. 'Camp speaker. Ask what you came to ask.' Not unfriendly. Not warm. The particular directness of someone who has found that ceremony wastes time that could be used for information.",
+  "dialogue": [
+    {
+      "keyword": "discarded",
+      "prompt": "the Discarded",
+      "response": "'We stayed.' She says it as if that's the whole explanation, which it mostly is. 'When the bombs started, the people of the Resonant Plains had choices. Some went north, into the mountains. Some went south, toward what would become the coastal cities. Some went underground.' She looks at the bone fields. 'Some stayed. To watch. To remember. To be here when the people who left decided it was safe to ask what had happened to what they left.' She pauses. 'They haven't decided that yet. Three hundred years. The war is still happening. We are still here.' Something like dry humor in the pause that follows. 'We have discussed whether we will acknowledge the question, when it is finally asked. The vote, so far, is split.'",
+      "disposition_delta": 6
+    },
+    {
+      "keyword": "abominations",
+      "prompt": "living with Abominations",
+      "response": "'We don't fight them when we don't have to.' She says it plainly. 'They have territories. We know the territories. We move around them the way you move around any dangerous thing you understand well enough to predict.' She pauses. 'They have been changing. The circuits near the Spire are organized in a way they weren't five years ago. The Rock-Shell Crabs near the old resonance lines are moving in patterns that have something to do with the crystal frequency — we've been mapping it.' She glances at your weapons. 'The surface people kill them on sight, which means they never learn anything about them.' She doesn't say this with contempt. Just as observation. 'We've learned more about the Abominations in three hundred years than either nation has in the same time. It has mostly kept us alive.'",
+      "disposition_delta": 7
+    },
+    {
+      "keyword": "spire",
+      "prompt": "the Spire of Bones",
+      "response": "She is quiet in a way that is different from her other quietness — considered rather than assessing. 'The Spire is growing. We track the height. We have been tracking it for a hundred years.' A pause. 'What's in it — what gives it direction — we call the Architect. Not because we know what it is, but because the word fits what it does.' She meets your eyes. 'Vespa has told you that we don't speak the name outside the circle. That's true. What she may not have told you is that the name is not a secret because it's dangerous to know. The name is a statement of relationship — we belong to this land and this land contains the Architect, which means we are in some definition related to it.' Another pause. 'The name we would be speaking would commit us to something we're not sure we can commit to. Not yet.'",
+      "requires_topic": "discarded",
+      "disposition_delta": 8
+    },
+    {
+      "keyword": "vespa",
+      "prompt": "what Vespa has done",
+      "response": "She looks at you for a long time. The stance she uses for assessment — the terrain-cataloguing stance — settles into something different: the specific stillness of someone receiving information that changes a calculation. 'She told you.' Not angry. Not surprised. 'She has been carrying that for eight months.' She looks toward the market — not at it, toward it, the direction. 'I knew she went to the junction. I didn't know what she did there.' Another pause. 'I knew the Architect gave her the sequence ten years ago. Vespa tells me things in parts, which is her way — she decides what you're ready to know based on what questions you ask.' She faces you. 'She didn't tell me because she didn't know if it was right. Vespa is the one who knows the stories. Knowing the stories means knowing what can go wrong.' The stillness. 'The second completion is — not something the camp has a position on. We have three hundred years of position on surviving in the Wastes. We do not have a position on what happens when the thing that's been building for eight months finishes.' She looks at the Spire direction. 'Vespa decided it was time. I trust Vespa. I trust the Architect.' A pause. 'I am still afraid.' She says it plainly. 'That's not a position against it. That's just what is true.'",
+      "requires_topic": "spire",
+      "disposition_delta": 9
+    },
+    {
+      "keyword": "circle",
+      "prompt": "the night ceremony",
+      "response": "'Every night.' She says it simply, as she says most things. 'When the light goes, we gather. The recitation takes eleven nights to complete and then starts again — we are always somewhere in the middle of it.' She looks toward the low ground west of camp. 'Senn leads it. Has led it for forty years. Before her it was a man named Corvin, who led it for thirty years before his back went.' She pauses. 'Visitors are permitted, but the rule is absolute: you arrive before the recitation begins and you stay until it ends. A line dropped because someone moved at the wrong moment cannot be fully recovered. The recitation has been running for three hundred years. We have lost approximately thirty percent of the original to drift. We do not lose more than we have to.' She meets your eyes. 'If you go — and I think you should, given what you know about the Wastes and what it was — you will hear things that are not in any archive on either side. You will hear the specific detail of what was here before both nations decided it was worth fighting over.' She pauses. 'It takes about three hours on any given night. The fire in the low ground is the marker. You'll hear the recitation before you see the fire.'",
+      "disposition_delta": 8
+    },
+    {
+      "keyword": "memory",
+      "prompt": "what you remember from before the war",
+      "response": "'I don't remember it. My grandmother did.' She looks at the bone fields with an expression that has had a very long time to stop being grief and has become something else, something without a clean name. 'She described it to me the way you describe a place you've been to and want to go back to. Not as lost — as temporarily inaccessible.' She pauses. 'She said the hardest thing about living in the Wastes wasn't the Abominations. It was that the Wastes used to be something else and you can see the remnants of it everywhere if you know what to look for, and you always know what to look for, and you always look.' She is quiet. 'She said: we stayed because leaving would have meant forgetting. And forgetting would have meant they were right that there was nothing here worth keeping.'",
+      "disposition_delta": 9
+    },
+    {
+      "keyword": "gathered",
+      "prompt": "what people did when the offer came and where they went",
+      "response": "She is watching the bone fields still, but something about the watch has changed since you last spoke with her. Not in the direction -- she is still watching toward the fields. In the quality of it. The watch of someone observing rather than guarding. 'The circle,' she says. 'The memory circle, in the old center of the camp. Vespa was already there -- she said afterward she had been there since before dawn, doing the morning recitation.' She looks at the fields. 'By midday there were forty people at the circle. People who hadn't spoken to each other since the argument over the eastern expansion two years ago. People from the three different Discarded communities who have been in separate orbit since the spire incident.' She pauses. 'Nobody organized it. Nobody called a meeting. People just started walking in the same direction.' She is quiet. 'I didn't go to the circle. I came here.' She looks at the bone fields. 'I've been coming here every morning for two years. Watching. Trying to understand what happened to the people who are there.' She pauses. 'The morning of the Day, there were seven people crossing the fields. Not Discarded -- three from the Aetherian side, four from the Terran side. Walking toward each other from opposite ends.' She watches. 'They met in the middle. They stood there for a while. Then they walked back.' She is quiet. 'I watched the whole thing. I didn't go out. I'm not ready.' She looks at the fields. 'But I'm watching differently now. Less like something is wrong with those fields. More like something is beginning in them.' She pauses. 'Vespa says the beginning has been happening for three hundred years and I just didn't have the frame for it. She might be right.'",
+      "requires_quest_complete": "the_day_arrives",
+      "disposition_delta": 12
+    }
+  ]
+}

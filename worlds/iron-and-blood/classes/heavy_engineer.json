@@ -1,0 +1,47 @@
+{
+  "id": "heavy_engineer",
+  "name": "Heavy Engineer",
+  "description": "Bomb disposal armor, gauntlets crackling with elemental energy, and a bandolier of grenades. When in doubt, blow it up. The Heavy Engineer solves problems through application of overwhelming explosive force.",
+  "base_stats": {
+    "hp": 130,
+    "attack": 12,
+    "defense": 9,
+    "intelligence": 6
+  },
+  "abilities": [
+    {
+      "id": "power_punch",
+      "name": "Power Punch",
+      "description": "A full-force gauntlet strike, elemental energy discharging on impact.",
+      "base_damage": 11
+    },
+    {
+      "id": "frag_grenade",
+      "name": "Frag Grenade",
+      "description": "A fragmentation grenade — three bursts of shrapnel tearing through the target.",
+      "base_damage": 5,
+      "hit_count": 3
+    },
+    {
+      "id": "incendiary_round",
+      "name": "Incendiary Round",
+      "description": "A thermite-tipped round that ignites on impact. Deals initial damage and leaves the target burning.",
+      "base_damage": 6,
+      "applies_effect": "burn",
+      "effect_damage": 4,
+      "effect_duration": 3
+    },
+    {
+      "id": "cluster_bomb",
+      "name": "Cluster Bomb",
+      "description": "A cluster munition that releases multiple explosive submunitions. Three separate detonations, each full-force.",
+      "base_damage": 8,
+      "hit_count": 3
+    }
+  ],
+  "passives": [],
+  "starting_equipment": [],
+  "xp_reward": 0,
+  "gold_reward": 0,
+  "tactics": []
+}

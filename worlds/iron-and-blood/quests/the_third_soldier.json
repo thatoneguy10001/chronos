@@ -1,0 +1,15 @@
+{
+  "id": "the_third_soldier",
+  "name": "The Third Soldier",
+  "description": "Davan mentioned the third member of Third Squad went back to the crater alone. He's been filing missing-person queries for two weeks with no result. Go to the shell crater and find out what happened to Private Pol.",
+  "objective": {
+    "type": "talk_to",
+    "npc_id": "private_pol"
+  },
+  "gold_reward": 40,
+  "xp_reward": 100,
+  "giver_npc_id": "private_davan",
+  "requires_quest_complete": "walking_back",
+  "accept_text": "He says it quietly, still in the gap between the pipe housings. 'Pol went back to the crater. Three weeks ago. Maybe more now.' He looks at the floor. 'I filed a missing query. Got a response from Fort Rigan saying she'd signed in there. She hadn't. I know she hadn't because Pol doesn't do things and then not tell me.' He meets your eyes. 'She went back to understand it. That's what she does. She walks toward whatever scares her until it doesn't.' A pause. 'I can't go. I tried. I got as far as the outer wire and I couldn't — I couldn't walk toward that place.' He is honest about it without apology. 'I need someone who can go there and tell me she's all right.'",
+  "complete_text": "Davan listens to everything without moving. When you finish he closes his eyes for a moment. 'Clear eyes,' he says. He exhales. 'Not the drift.' He is quiet for a long time. 'She went back to understand it and she understood something.' He says this like a fact being filed in the correct place. 'Pol would.' He looks up. 'What changed in her — is it permanent?' He listens to your answer. Whatever it contains, he nods. 'She's still her. That's the only part that mattered.' He's quiet again. 'Tell Adra. Adra's been asking about her and Adra deserves to know she's alive and — Adra will want to know the rest too, but you should tell her the alive part first.'"
+}

@@ -1,0 +1,9 @@
+{
+  "id": "ministry_archive",
+  "name": "Ministry Archive",
+  "description": "The records of a war lasting three hundred and thirty years fill, by your rough calculation, approximately the same volume as a small town. The filing system was designed by someone who had a very clear system and then died, and each subsequent archivist has added their own supplementary system to clarify the previous one, and the result is a palimpsest of methodology that tells you more about the institutional history of the Ministry than the files themselves. Things filed under W for War, filed again under C for Conflict, cross-referenced under E for Engagement and under H for History and under T for Terra and under O for Operations, and at the bottom of one of these chains, which you will find if you follow the right thread: the original. Everything you have been told about this war is here, which sounds like a thing that should be reassuring. The reason it isn't: very few of it has been filed under T for True.",
+  "exits": {
+    "out": { "target_room_id": "hive_command_spire", "label": "Command Spire" }
+  },
+  "requirements": {}
+}

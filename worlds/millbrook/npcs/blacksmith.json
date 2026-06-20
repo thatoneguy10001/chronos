@@ -1,0 +1,33 @@
+{
+  "id": "blacksmith",
+  "name": "Blacksmith Goran",
+  "greeting": "A massive man with burn-scarred arms looks up from his anvil. 'Need something forged? Or just browsing?' He wipes sweat from his brow.",
+  "dialogue": [
+    {
+      "keyword": "weapons",
+      "prompt": "weapons for sale",
+      "response": "'I've swords, axes, and maces — all solid work. Nothing fancy, but they won't break when you need them most. Prices are fair.'"
+    },
+    {
+      "keyword": "strength",
+      "prompt": "the Strength Elixir",
+      "response": "'Ah, that? Old Marta the herbalist left it here as payment for repairs. Potent stuff — brewed it herself from forest roots. Should give quite the boost.'"
+    },
+    {
+      "keyword": "training",
+      "prompt": "combat training",
+      "response": "'Ha! I'm a smith, not a soldier. Talk to Captain Bren at the Guard House if you want lessons. Though the best teacher is a real fight.'"
+    },
+    {
+      "keyword": "goblin",
+      "prompt": "goblin raids",
+      "response": "'They broke into my shop two weeks ago. Stole three shortswords. Imagine — goblins with proper steel.' He shakes his head grimly."
+    }
+  ],
+  "vendor": true,
+  "shop": [
+    { "item_id": "strength_elixir", "price": 25 },
+    { "item_id": "iron_tonic", "price": 20 },
+    { "item_id": "scholars_draught", "price": 20 }
+  ]
+}

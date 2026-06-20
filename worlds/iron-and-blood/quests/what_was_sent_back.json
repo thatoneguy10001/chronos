@@ -1,0 +1,15 @@
+{
+  "id": "what_was_sent_back",
+  "name": "What Was Sent Back",
+  "description": "Korr Vane's signature is on Kehl's third application. Helen Stone wants you to take the file to Vane directly — not to the Ministry council, not to a tribunal. To Vane himself, in person, with the evidence in hand.",
+  "objective": {
+    "type": "talk_to",
+    "npc_id": "korr_vane"
+  },
+  "gold_reward": 65,
+  "xp_reward": 150,
+  "giver_npc_id": "helen_stone",
+  "requires_quest_complete": "kehl_intake_file",
+  "accept_text": "'Take it to him.' Stone doesn't qualify the statement. 'Not to the Ministry council. Not through official channels — official channels will bury it in three weeks of procedural review and Vane will have time to manage the story.' She stands. 'Take it to Vane directly. He'll know you have it the moment you walk in. He reads people the way I read lab reports — quickly and without sentiment.' She looks at the intake file in your hands. 'Vane isn't malicious. He makes calculations. He authorized Kehl's third application because Kehl asked him to and the war makes everyone believe that outcomes justify methods.' She pauses. 'I need to know if he regrets it. Not whether he made the right call by his own accounting — I need to know if he understands what he authorized. That matters for what I do next.'",
+  "complete_text": "Stone is standing when you return. She listens without interrupting. When you're done, she sits down — not slowly, as if tired, but as a decision. 'He told you Kehl volunteered.' It's not a question. 'Of course he did.' She's quiet for a long time. 'Kehl came to me eighteen months ago. His deterioration was accelerating — crystals at his left hand, spreading. He asked me if a third dose at high concentration might reverse it. I told him it would accelerate instead. That at those levels the compound stops trying to heal and starts trying to integrate completely.' She looks at her hands. 'He went to Vane. Who said yes, because he needed third-stage data and Kehl needed hope, and that's an exchange Vane could justify to himself.' She closes her eyes. 'Kehl knew what I'd said. He went anyway. That's not Vane's crime. It's not even Kehl's.' She opens her eyes. 'The crime is that someone changed the compound formula eight months ago without telling anyone what they changed it to do. Vane authorized a procedure based on my original research. Whatever Kehl actually received — it wasn't my compound anymore.' She stands. 'I need to know where Kehl is.'"
+}

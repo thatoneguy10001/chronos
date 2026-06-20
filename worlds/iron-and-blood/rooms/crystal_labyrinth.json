@@ -1,0 +1,9 @@
+{
+  "id": "crystal_labyrinth",
+  "name": "The Crystal Labyrinth",
+  "description": "The passage narrows and then opens into something that has no good analogy. Aetherium grown over millions of years, floor-to-ceiling, wall-to-wall — not the refined cut crystal of the Spire or the corrupted mass of the Resonance Core but crystal as it forms when nothing and nobody intervenes, complex as coral, dense as architecture, lit from within by its own slow accumulation of light. Beautiful. You know it's beautiful the way you know the weather is going to kill you — factually, in the foreground, without the knowing making it less true. The crystals find the frequency of your thoughts. This is not a figure of speech. You notice it as a slight warmth behind your eyes: the sense that something is listening, not with intent but with the absorbed attention of a place that has been recording everything that passes through it for longer than the word 'record' has existed. Further in, the walls show you things. You learn this when one of them shows you something you're not prepared for, and you understand from the quality of the image that it was waiting for you specifically.",
+  "exits": {
+    "west": { "target_room_id": "windward_approach", "label": "Windward Approach" }
+  },
+  "requirements": {}
+}

@@ -1,0 +1,15 @@
+{
+  "id": "lazarus_patrol",
+  "name": "The Unquiet Dead",
+  "description": "High Minister Korr Vane has confirmed what the soldiers have been reporting: Lazarus Subjects — the animated dead from Project Lazarus's containment breach — are active in the Gray Wastes. Five have been located in your operational area. Neutralize them before they breach the Terran defensive perimeter.",
+  "objective": {
+    "type": "kill_count",
+    "class_id": "lazarus_subject",
+    "count": 5
+  },
+  "gold_reward": 50,
+  "xp_reward": 120,
+  "giver_npc_id": "korr_vane",
+  "accept_text": "Vane places the coordinates on the table with a precise hand. 'Five confirmed subjects in your operational zone. The Lazarus animating compound is disrupted by sufficient physical trauma — target the exposed joints and the crystal-tissue interface points at the neck and wrists. They are slower than living soldiers but they do not stop for injury. Kill them thoroughly.' He pauses. 'There will be more. But these five are a problem I can assign to you today.'",
+  "complete_text": "Vane reviews the report without expression. 'Five. Confirmed.' He makes a notation in his ledger — a single line, no elaboration. 'You'll find payment in the standard manner. There will be additional assignments.' He does not say thank you. The Iron Ministry never does. But there is something in the precise way he closes the ledger that reads, in its own bureaucratic language, as something close to relief."
+}

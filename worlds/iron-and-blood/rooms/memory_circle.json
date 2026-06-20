@@ -1,0 +1,9 @@
+{
+  "id": "memory_circle",
+  "name": "The Memory Circle",
+  "description": "The fire is smaller here. Not banked — precisely sized, the fire of people who know exactly how much light and heat they need and do not waste what they have. The circle around it: Discarded of several generations, sitting in specific places that are not assigned but are always the same, the way seats in an old house are always the same without being assigned. They are reciting something, low and rhythmic, trading the lines back and forth with the care of people who are doing this because it cannot be written down and cannot be lost. They look up when you enter. Nobody stops. Nobody in this circle stops the recitation for a visitor — that would mean losing a line, and no line can be lost. A very old woman at the fire's north edge nods at you. You can sit. The recitation will be over when it's over.",
+  "exits": {
+    "out": { "target_room_id": "discarded_camp", "label": "Discarded Camp" }
+  },
+  "requirements": {}
+}

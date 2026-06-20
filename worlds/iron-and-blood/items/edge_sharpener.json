@@ -1,0 +1,14 @@
+{
+  "id": "edge_sharpener",
+  "name": "Serrated Edge Enhancement",
+  "description": "A set of micro-serrations welded to the weapon's striking surface. Industrial cutting teeth. The wound it makes bleeds longer than it should.",
+  "starting_room_id": "armory",
+  "takeable": true,
+  "attributes": {
+    "item_type": "weapon_part",
+    "part_slot": "enhancement",
+    "part_attack": 3,
+    "part_effect": "bleed"
+  },
+  "tags": ["weapon_part", "enhancement", "terra"]
+}

@@ -1,0 +1,11 @@
+{
+  "id": "smog_market",
+  "name": "Smog Market",
+  "description": "The market runs on things the Ministry has officially decided don't exist, which makes it technically the most important economy in the Mid-Levels. Oil-lamp stalls in the haze, workers trading ration vouchers for the specific items the official supply chain has determined they don't need, which includes most things. Above, the factory tiers stack toward whatever the Hive has instead of sky, their hammering a rhythm you've stopped consciously hearing the way you stop hearing your own heartbeat — it's still there, it's just become part of you. The wiry man in the worker's coat moves between stalls with the unhurried confidence of someone who knows exactly where everything is and also knows nobody is going to stop him. He notices you noticing him and smiles like you've just made his day marginally more interesting.",
+  "exits": {
+    "south": { "target_room_id": "hive_gate_district", "label": "Gate District" },
+    "east": { "target_room_id": "hive_command_spire", "label": "Ministry Quarter" },
+    "north": { "target_room_id": "communion_workshop", "label": "The Workshop" }
+  },
+  "requirements": {}
+}

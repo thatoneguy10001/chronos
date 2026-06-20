@@ -1,0 +1,17 @@
+{
+  "id": "ah_pool_shared_meal",
+  "name": "The Shared Meal",
+  "description": "Someone left food at the Armistice midpoint. Go pick it up and bring it back.",
+  "objective": {
+    "type": "reach_room",
+    "room_id": "armistice_ground"
+  },
+  "gold_reward": 15,
+  "xp_reward": 40,
+  "hope_reward": 1,
+  "requires_night": true,
+  "giver_npc_id": "sister_adra",
+  "requires_quest_complete": "ah_first_crossing",
+  "accept_text": "She hands you a wrapped cloth without ceremony. 'Lena's side left something at the midpoint last night. Food — I know what their field rations smell like at this point. Bring it back and leave this.' She pats the cloth. 'This is how it started, two years ago. She left something at the midpoint and I left something back. We haven't spoken about it directly.' She doesn't elaborate on what she means by that.",
+  "complete_text": "There's a package at the midpoint, set out carefully. You swap it for Adra's bundle and bring back what was left. When you return, Adra unwraps it, examines the contents, and is quiet for a moment. She eats one piece of what's there. Then she sets the rest aside for the ward and doesn't say anything else about it, which is more than she usually says about things that matter to her."
+}

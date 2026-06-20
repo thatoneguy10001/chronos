@@ -1,0 +1,9 @@
+{
+  "id": "forge_of_stars",
+  "name": "The Forge of Stars",
+  "description": "The heat is the first thing, which is unexpected this far underground. The second thing is the light: deep Aetherium, the kind that has been forming without human interference for millions of years, lining a chamber so large the far wall is invisible. The forges are not like surface forges — no coal, no fire in the conventional sense. The Deep Iron work with crystal resonance: careful calibration of frequencies that causes specific reactions in specific metals at specific temperatures. You watch a craftsperson shape something without touching it, shaping it with sound alone, and you understand that you are watching a technology that the surface world has not even theorized. The ceiling is too high to see. From somewhere above, faint light that might be the Aetherium formations far above or might be the underside of something you have not seen yet. Everything the Deep Iron has built for three hundred years, they have built here. You understand from the scale of it that they have not been idle.",
+  "exits": {
+    "up": { "target_room_id": "stonehold", "label": "Stonehold" }
+  },
+  "requirements": {}
+}

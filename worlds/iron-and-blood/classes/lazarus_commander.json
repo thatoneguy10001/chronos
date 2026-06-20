@@ -1,0 +1,35 @@
+{
+  "id": "lazarus_commander",
+  "name": "Lazarus Commander",
+  "description": "An elite Lazarus Subject that retained higher cognitive function through the reanimation process — the result of prolonged Gray Wastes Aetherium exposure before death. It still wears officer's insignia. It still moves with tactical awareness. The crystals embedded in its skull form a crown-like growth that pulses with directed purpose. This is what Director Stone did not intend, and what she cannot stop.",
+  "base_stats": {
+    "hp": 120,
+    "attack": 14,
+    "defense": 10,
+    "intelligence": 5
+  },
+  "abilities": [],
+  "passives": ["undead_endurance", "tactical_awareness"],
+  "starting_equipment": [],
+  "xp_reward": 110,
+  "gold_reward": 25,
+  "tactics": [
+    {
+      "condition": { "type": "hp_below", "threshold": 0.6 },
+      "action": { "type": "heavy_attack", "multiplier": 1.6 }
+    },
+    {
+      "condition": { "type": "player_hp_above", "threshold": 0.7 },
+      "action": {
+        "type": "apply_effect",
+        "kind": "bleed",
+        "damage": 6,
+        "duration": 3
+      }
+    },
+    {
+      "condition": { "type": "always" },
+      "action": { "type": "basic_attack" }
+    }
+  ]
+}

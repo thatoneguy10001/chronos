@@ -1,0 +1,24 @@
+{
+  "id": "wraith",
+  "name": "Ancient Wraith",
+  "description": "A spectral remnant of whoever once ruled this place. Insubstantial, hungry, and utterly without mercy.",
+  "base_stats": {
+    "hp": 70,
+    "attack": 14,
+    "defense": 4,
+    "intelligence": 8
+  },
+  "abilities": [],
+  "passives": [],
+  "starting_equipment": [],
+  "xp_reward": 80,
+  "gold_reward": 30,
+  "tactics": [
+    {
+      "condition": { "type": "player_effect_absent", "kind": "poison" },
+      "action": { "type": "apply_effect", "kind": "poison", "damage": 4, "duration": 3 }
+    },
+    { "condition": { "type": "hp_below", "threshold": 0.5 }, "action": { "type": "heavy_attack", "multiplier": 2.0 } },
+    { "condition": { "type": "always" }, "action": { "type": "basic_attack" } }
+  ]
+}

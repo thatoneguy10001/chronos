@@ -1,0 +1,9 @@
+{
+  "id": "smithy",
+  "name": "Smithy",
+  "description": "Heat rolls off the forge in waves. Blacksmith Goran looks up from his anvil, soot streaking his arms. \"Need something forged? Or just browsing?\" Racks of blades and tonics line the walls. The iron sword on the rack catches your eye. The market is back to the west.",
+  "exits": {
+    "west": { "target_room_id": "market", "label": "Market" }
+  },
+  "requirements": {}
+}

@@ -1,0 +1,32 @@
+{
+  "id": "private_marsh",
+  "name": "Private Marsh",
+  "initial_disposition": 40,
+  "greeting": "She is reinforcing the section of trench wall where the supports have been doing what trench supports do after a while, which is shift slightly in ways that matter. She doesn't stop when she hears you — she finishes the crossbeam first, which you recognize as the behavior of someone who has learned that the trench won't wait for social priorities. When she does turn, the look she gives you is the look that everyone gives you in the trenches: a read of what kind of soldier you are and whether you're going to make her section better or worse. 'Marsh,' she says. 'Assigned to this position since the spring offensive, which did not achieve anything that justifies the name.' She looks at the beam she's just set. 'Is the beam level. I've been looking at it too long to tell.'",
+  "dialogue": [
+    {
+      "keyword": "trench",
+      "prompt": "what the trenches are actually like",
+      "response": "'Wet.' She says it without irony, the way of something that has been true long enough to stop being a complaint. 'And then not wet, but damp, which is different and in some ways worse. And loud in one specific way — the low-frequency percussion of the press machines in the Hive, which carries all the way up here on clear nights and means you never fully forget that there is a city behind you working all night.' She leans against the reinforced beam. 'The parts they don't tell you about in the recruitment halls: how specific the mud smell is, how you learn to sleep through certain sounds and can't sleep through others, how the section of wall you work on becomes yours in a way that is not in any document.' She pauses. 'I've repaired this specific twelve feet of wall four times since spring. I know every sag and shift. If someone redug this trench section from scratch I'd know the difference inside a day.' She looks at it. 'That's the trench. You end up caring about the wrong things because the wrong things are the only things in range.'",
+      "disposition_delta": 7
+    },
+    {
+      "keyword": "patrol",
+      "prompt": "what patrols are like in this sector",
+      "response": "'You go out. You come back. In between, you are in the part of the world where both sides are present and both sides are watching and both sides are trying not to start something during the Armistice while also not looking like they're trying not to start something.' She wipes her hands on her jacket. 'The trick is moving like you belong to the ground rather than moving like you're a soldier on it. Soldiers have a specific posture. The ground doesn't care about your posture.' She pauses. 'You learn to read the other side's patrol patterns the way you learn to read your own section of trench — where the footfall goes, where the pauses happen, which section gets watched and which gets walked past.' She looks toward No Man's Land. 'The Armistice patrols are different. Slower. You're not moving to avoid detection — you're moving alongside people who are also moving slowly. It changes the feel.' She pauses. 'I've gone out to the armistice ground forty times. The first time I came back I couldn't explain why I felt the way I did, which was: less afraid. Not safe. Less afraid. There's a difference.'",
+      "disposition_delta": 7
+    },
+    {
+      "keyword": "enemy",
+      "prompt": "what you make of the Aetherians across the line",
+      "response": "She thinks about it. Not a short answer, not a long one — the right one. 'The same as us, with different equipment and a different problem with altitude.' She looks at the trench ceiling. 'We lost six people in the spring offensive. They lost — I don't know, I don't have their counts. We each have our counts. We don't share them.' She pauses. 'During the Armistice I've been close enough to hear an Aetherian soldier cough. It's the same cough. The same tired quality behind it.' She looks at her hands. 'I've been in this trench long enough that the people on the other side of the line have stopped being the enemy in the abstract sense and have become the people I've been watching from forty meters away for a year. I know their patrol schedule better than I know our own sergeant's habits.' She pauses. 'That's a strange thing to know about someone you've never spoken to. I think about that sometimes.' She looks at the trench wall. 'Not when I'm working. When I'm working I just think about the wall.'",
+      "disposition_delta": 8
+    },
+    {
+      "keyword": "home",
+      "prompt": "what home means after this long in the field",
+      "response": "She's quiet for a moment with a quality of looking at something that isn't in front of her. 'The Lower Rigs,' she says. 'Three floors above the main conveyor level. My mother still works the morning shift there. My brother works it now too.' She looks at the trench floor. 'I write her when the mail runs, which is every three weeks when the trench is accessible. I write the same things: still here, still okay, the food is bad but there's enough of it, the people in my section are decent enough.' She pauses. 'I don't write about the trench. She knows I'm in it — she can see the front lines from the Foundry's upper observation level, the smoke and the artillery flashes. She can see where I am from her workplace every day.' A pause. 'I write about what I'll do when I'm back. I write about the specific meal I'm going to eat on the first night. The specific walk I'm going to take. The specific nothing I'm going to do for a full afternoon.' She looks at you. 'That's what home is now. A specific meal and a walk and an afternoon of nothing. Everything else is here.' She turns back to the wall. 'Is the beam level?'",
+      "disposition_delta": 9
+    }
+  ]
+}

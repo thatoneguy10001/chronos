@@ -1,0 +1,12 @@
+{
+  "id": "smoke_canister",
+  "name": "Smoke Canister [T]",
+  "description": "A gray-iron cylinder containing a compressed chemical smoke compound. Pull the ring, throw, and the resulting cloud provides approximately thirty seconds of visual cover. Used by Terran infantry for tactical repositioning, extraction under fire, and occasionally as a distraction when better ideas have run out. The smoke smells strongly of burning rubber and does not taste good to breathe. Provides a temporary defense boost from the cover effect. Restores 0 HP, adds +3 DEF for 2 turns.",
+  "takeable": true,
+  "attributes": {
+    "use_effect": "defense_up",
+    "effect_amount": 3,
+    "effect_duration": 2
+  },
+  "tags": ["consumable", "tactical", "terra"]
+}

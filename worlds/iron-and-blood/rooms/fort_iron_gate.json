@@ -1,0 +1,11 @@
+{
+  "id": "fort_iron_gate",
+  "name": "Gate of Fort Iron",
+  "description": "Fort Iron has been here for two hundred years. The stone shows it — artillery scorch layered on artillery scorch, each one faded enough that nobody knows which campaign did which. Soldiers move in and out in controlled streams, helmets down, carrying things. You watch them and realize you've stopped being able to see the individual people in a crowd in uniform, and you're not sure exactly when that started.",
+  "exits": {
+    "north": { "target_room_id": "command_post", "label": "Command Post" },
+    "south": { "target_room_id": "trench_alpha", "label": "Trench Alpha" },
+    "west": { "target_room_id": "hive_gate_district", "label": "Hive Gate District" }
+  },
+  "requirements": {}
+}

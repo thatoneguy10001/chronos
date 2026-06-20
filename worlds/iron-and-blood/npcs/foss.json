@@ -1,0 +1,34 @@
+{
+  "id": "foss",
+  "name": "Foss",
+  "initial_disposition": 50,
+  "greeting": "She is sitting cross-legged in the middle of the Labyrinth where the crystals are densest, with a notebook on her knee and the expression of someone in the middle of a conversation she cannot quite hear. She notices you the way people notice movement in peripheral vision — after a moment's delay, while something else finishes completing. 'Sorry.' She marks her notebook. 'The recordings take some attention.' She looks at you with the assessment of someone who has been Deep Iron her entire life and can read surface-dwellers at a glance. 'You're not one of mine. You're not Ministry. You're — you've been through things, whatever you are.' She closes the notebook. 'Foss. Crystal Archive Research, Collective Third Floor. I've been working in this Labyrinth for eleven years.' She tilts her head. 'You can see the recordings if you want. Just stand still and think about something specific. The crystal will find the closest match it has.'",
+  "dialogue": [
+    {
+      "keyword": "recordings",
+      "prompt": "what the crystal records",
+      "response": "'Everything.' She says it immediately. 'That's the short version. Anything with a strong enough resonance signature passes through and leaves an impression. Thoughts at high intensity. Significant emotions. Physical events that disturb the lattice.' She stands, moves to a section of wall and puts her fingers near it without touching. 'This section — here — shows the aftermath of the first great battle. Three hundred and thirty years ago. I've watched it fourteen times and I still haven't parsed everything in it.' She moves. 'Over here: something moving through the Labyrinth approximately eight months ago. Not a person — a pulse, a wave through the substrate. The Grid restart. I can show you what it looked like from the inside if you want to know.' She moves again. 'Here: someone who came through forty years ago and stood in this exact spot for six hours.' She pauses. 'I don't know who that was. The resonance signature is — unusual. Not Terran. Not Aetherian. Something older.' She faces you. 'That's the one that keeps bringing me back.'",
+      "disposition_delta": 8
+    },
+    {
+      "keyword": "teacher",
+      "prompt": "the unusual recording you keep returning to",
+      "response": "'I'll show you, if the crystal cooperates.' She moves to a specific section — different from the others, the crystal here has a subtly different color, older. 'Stand close and think: Elder People, teaching.' She watches the crystal. Something brightens — a shape you can almost read, a posture, something with hands that are not human hands demonstrating a resonance technique you've seen before, in the Deep Iron forge, in the Starsmith's work. 'That's what I see every time.' She steps back. 'The technique they're demonstrating — I've been trying to identify it for seven years. The style is different from anything in the Deep Iron training materials. The way they use the hands —' She stops. 'You recognized something. I can see you recognized something.' She watches you. 'I've been trying to identify this teacher for seven years. I would very much appreciate anything you can add to that effort.'",
+      "requires_topic": "recordings",
+      "disposition_delta": 10
+    },
+    {
+      "keyword": "solen",
+      "prompt": "what happened to Solen, the engineer who went south",
+      "response": "She opens the notebook to the clipped section — the pages with narrower handwriting, faster, the notes she made when she found the dock records. 'Haelen Solen. He was the twelfth engineer on the SCAMP project.' She sets the notebook down. 'I found him in the Greasewater dock-master's ledgers. Three years ago: dive kit, long-range supply manifest, single passenger south. No return ticket booked.' She pauses. 'He was the one who said, at the final SCAMP review — on record, with witnesses — that the device and the Grid's construction wave were using the same frequency base. He said: what if it's the same mechanism with the polarity inverted? What if we built the Grid's own heartbeat running backwards?' She meets your eyes. 'He was dismissed from the project two days later. Directional misalignment with project objectives, the report said. I have a copy.' She looks at the recording wall. 'He went south. The Greasewater port ledger is the last official record of him. The only thing at that range, that deep south, is the old dive site the Merchant Princes put on the restricted charts the year before he disappeared.' She closes the notebook. 'I can't leave the Labyrinth right now — the recordings are entering a phase I need to observe. But you can make the journey. If Solen went down three years ago and hasn't come back, he either found something worth staying for, or something went wrong, and I want to know which.'",
+      "disposition_delta": 9
+    },
+    {
+      "keyword": "grid",
+      "prompt": "the Grid awakening eight months ago, as captured in the crystal",
+      "response": "She moves to the different section, the one she indicated before. 'Here. Stand and think: the moment of the restart.' The crystal responds — the shape of it is different from any other recording you've seen, because it has no person-shape in it. It is purely the lattice: a single point below the Silent Market brightening, then a thread to the next node, then the thread splitting. A branching. The warmth in the crystal is unmistakable, the same warmth as the Grid node, the same warmth as Arlen's voice. Foss watches your face. 'Eight months ago,' she says. 'Middle of the night. The Labyrinth lit up like I've never seen it light up. I was here.' She pauses. 'I stayed for six hours. Watched the branching spread.' She looks at the recording. 'Whoever initiated this — the origin point, below the market — was precise. Elder-format access, correct protocol, authorized sequence.' She faces you. 'I have been trying to find who was at that origin point. The recording doesn't show the person. It shows the act.' A pause. 'I've been very slowly narrowing down who in the Wastes has that knowledge. I've gotten as far as: Discarded, old, keeper of something significant.' She looks at you. 'Does that mean anything to you.'",
+      "requires_topic": "recordings",
+      "disposition_delta": 9
+    }
+  ]
+}

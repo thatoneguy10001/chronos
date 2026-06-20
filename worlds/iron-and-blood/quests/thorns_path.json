@@ -1,0 +1,15 @@
+{
+  "id": "thorns_path",
+  "name": "Thorn's Path",
+  "description": "The reversal is possible. Stone has assembled what she needs. But Thorn has to know — and Thorn has to choose. The choice belongs to him, not to the technique.",
+  "objective": {
+    "type": "talk_to",
+    "npc_id": "commander_thorn"
+  },
+  "gold_reward": 100,
+  "xp_reward": 250,
+  "giver_npc_id": "helen_stone",
+  "requires_quest_complete": "the_ninth_reversal",
+  "accept_text": "'I've been holding the information for two days.' Stone says it plainly. 'Deciding whether to tell him changes his options — and I have spent a significant portion of my career deciding other people's options for them without asking.' She is quiet. 'Not this time.' She sets a sealed envelope on the desk. 'Take this to him. It's everything: the integration depth, the reversal technique, the Ninth's assessment. What he chooses is his.' She meets your eyes. 'If he says no — if he wants to continue into whatever the integration is taking him — I want you to be the witness. Not because I think he's wrong. Because someone should know he chose, and chose clearly, and it was his.' A pause. 'And if he says yes — then we have a great deal of work to do and not much time to do it.' She holds your gaze. 'Go. He's been waiting for someone to tell him there was a question he was allowed to answer.'",
+  "complete_text": "Thorn reads everything. He reads slowly, which is not his usual speed with documents. He sets it down. He looks at his wrist. He looks out the window at the smog layer and the Wastes beyond. He reads the part about the Ninth again. He folds the papers carefully, the way you fold something you are going to read many more times. He looks at you. 'She found a way,' he says. It is not quite a question. 'Stone found a way.' He is quiet for a long time. The crystals in his wrist catch the light. 'I've been imagining, for four months, that the only choice was which version of the ending. Either the command post or the Wastes.' He looks up. 'Tell Stone —' He stops. He looks at his wrist again. 'Tell her I need three days to think. Tell her I'm not saying no. Tell her I haven't slept properly in two months and I'd like to decide this with something closer to a clear head.' He almost smiles. 'Tell her I'm grateful.' He sets the papers aside. 'You should know — whatever I decide — the time you put into this was not wasted. Even if I choose the lattice. Especially then.' He meets your eyes. 'Because the choice is mine now. That's what you gave me.'"
+}

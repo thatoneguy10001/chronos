@@ -1,0 +1,41 @@
+{
+  "id": "sister_chroma",
+  "name": "Sister Chroma",
+  "initial_disposition": 55,
+  "greeting": "She closes the book carefully before she speaks. 'The workshop sent you.' Not a question, but not unfriendly. 'Zane tells people to go left when they need to think rather than build. It is the politest possible way of saying that you have a question he is not the right person to answer.' She gestures toward the other chair — the invitation is genuine, without the performance of hospitality. 'Sister Chroma. I handle the conversation that comes before the decision, and sometimes the one after.' She pauses. 'What did Zane tell you about us?'",
+  "dialogue": [
+    {
+      "keyword": "why",
+      "prompt": "why people choose this",
+      "response": "'They come for many reasons and almost none of them are the reason they say.' She opens the book again briefly, then closes it. 'They say: my leg doesn't work. My hand is gone. I need to function.' She looks at the mechanical hand. 'All true. Also: they want to stop being afraid of the body. They want to know it will hold. They have spent years in a war that breaks bodies as a primary activity, and they want — not to be invulnerable. To be reliable.' She pauses. 'The mechanical parts fail too. But they fail predictably. People find that easier to live with than organic failure, which happens without notice and carries the implication that the body has its own priorities.' A quiet moment. 'I find that distinction very interesting. It tells me that what people are afraid of is not pain. It is surprise.'",
+      "disposition_delta": 7
+    },
+    {
+      "keyword": "communion",
+      "prompt": "the Machine Communion philosophy",
+      "response": "'We believe that the body is not sacred by nature. It is made sacred by what you do with it.' She says this without heat, as if it were simply factual. 'The Terran Ministry believes the body belongs to the state. The Iron Monk believed the body was the last honest thing a person possessed. We believe the body is a tool, and you are the craftsperson, and craftspeople get to decide what their tools look like.' A pause. 'This makes people uncomfortable for reasons that are usually about something other than what they say they are. The objections to body modification are always philosophically interesting when you trace them back far enough. They usually end at questions about who gets to decide things about other people. Which is, you will notice, the root question underneath every other conflict in this war.'",
+      "disposition_delta": 8
+    },
+    {
+      "keyword": "lazarus",
+      "prompt": "Project Lazarus and integration",
+      "response": "She is quiet for a long moment. 'What the Lazarus process does is force the body to accept a partner it did not choose.' She says this carefully. 'What we do is help the body accept a partner it does choose.' She looks at the mechanical hand. 'The crystal-integrated work Zane has been doing — the subjects report that the crystal feels like an extension, not an addition. It participates rather than occupies.' She pauses. 'The Lazarus subjects I have spoken with — the early-stage ones, while they still talk — describe the compound differently. Less like a partner. More like a current that moves through them and carries things with it.' She folds her mechanical hand over her organic one. 'I have been thinking about this for a long time. I think the difference is consent at the cellular level, if that concept makes sense. The crystal knows when it is welcome.'",
+      "requires_topic": "communion",
+      "disposition_delta": 9
+    },
+    {
+      "keyword": "watcher",
+      "prompt": "the oldest integration",
+      "response": "Something changes in her expression — not quite recognition, the thing before recognition. 'Tell me more.' She listens without interrupting. When you finish she is quiet in the way she is quiet when something has rearranged itself in her thinking. 'Three hundred years. And it chose to stay because the city would have no witness.' She looks at the mechanical hand. 'That is the most complete integration I have ever heard described. To have the body persist beyond every organic process, maintained by the crystal, and to still be — present. To still be choosing.' She is quiet. 'Our highest-integration patients — the ones furthest in — the question I have never been able to answer for them is whether there is an end. Whether the crystal eventually becomes the person, or whether the person remains.' She looks at you. 'You have spoken with someone who knows the answer.'",
+      "requires_quest_complete": "visit_aetherion",
+      "disposition_delta": 10
+    },
+    {
+      "keyword": "resonance",
+      "prompt": "what you felt at the sanctuary when the Grid was whole",
+      "response": "She has been waiting for this question, in the way she waits for things: without impatience, with the quality of someone who knows something is coming and is prepared to meet it. 'The communion sanctuary is built on a crystal lattice point,' she says. 'You may not have known that. I knew it. The sanctuary has been in communication with the lattice for two hundred years, which is when it was built and when the builders understood what they had built on.' She closes the book she has been not-reading. 'The communion is not a religious practice in the conventional sense. It is an attuning. The sanctuary creates conditions for the lattice's frequency to be perceptible to unmodified human senses.' She is quiet. 'Most people who come here perceive something but cannot name it. I perceived it clearly for the first time twelve years ago, which is when I understood what the sanctuary was built to do.' She pauses. 'The morning of the Day, the sanctuary was different in a way that I had not anticipated, which is unusual. I had anticipated many things.' She looks at the crystal in the sanctuary walls. 'The frequency was complete. For twelve years I have been attuning to a frequency with something missing from it. The way a sentence without its final word is still a sentence but is also waiting.' She is quiet. 'The morning of the Day, the sentence finished.' She looks at the walls. 'I said yes immediately. Then I spent the rest of the day sitting with what yes had opened into. That part I had not anticipated either.' She looks at you. 'The sanctuary is receiving visitors differently now. Some people come in and hear something immediately. That did not happen before.' She pauses. 'The communion is working as intended. For the first time in three hundred years.'",
+      "requires_quest_complete": "the_day_arrives",
+      "disposition_delta": 15
+    }
+  ]
+}

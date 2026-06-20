@@ -1,0 +1,12 @@
+{
+  "id": "the_third_application",
+  "name": "The Third Application",
+  "description": "Stone believes Lazarus subjects at the third stage are drawn east, to the Bone Fields — something about the crystal density resonates with the compound at high concentration. If Kehl went into the Wastes after his third application, the Bone Fields are where he'd go first.",
+  "objective": { "type": "reach_room", "room_id": "bone_fields" },
+  "gold_reward": 55,
+  "xp_reward": 130,
+  "giver_npc_id": "helen_stone",
+  "requires_quest_complete": "what_was_sent_back",
+  "accept_text": "'We documented it in the early trials,' Stone says. She's pulling files from a cabinet she's had locked for eight months — she opens it without hesitating now. 'Third-stage subjects orient east. Not randomly — specifically east. Toward the Bone Fields, toward the older crystal formations.' She spreads a map. 'We thought it was environmental at first. Something in the magnetic field from the crystal clusters. But the compound itself has a resonance property at high concentration — it responds to the crystalline structure in the ground the way a tuning fork responds to its pitch.' She marks the map. 'If Kehl went through the third application with the modified compound, he went east. He's coherent enough to have a destination.' She folds the map and gives it to you. 'I need to know if he's still himself. And if he's not — I need to know what he's become instead.'",
+  "complete_text": "The Bone Fields smell like metal and old things. The crystal formations here are larger than anywhere else in the Wastes — chest-height in places, clustered in patterns that suggest intention, as if the ground itself has opinions about geometry. There are Lazarus subjects here too, drifting between the formations, but they don't approach. They watch. Farther in, evidence of a camp: a cleared area, a fire ring three days cold, a methodical arrangement of stones at the perimeter like someone was measuring something. At the face of the largest crystal cluster, scratched at eye height with a blade: a sergeant's mark. Third Division. Precise. Not panicked. Kehl was here. He measured the crystals, made notes no one can read anymore, and moved on."
+}

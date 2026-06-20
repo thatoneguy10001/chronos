@@ -1,0 +1,42 @@
+{
+  "id": "the_watcher_figure",
+  "name": "The Watcher",
+  "initial_disposition": 50,
+  "greeting": "It stops when you reach the midpoint. This has not happened before \u00e2\u20ac\u201d in seven nights of Lena's observation and two nights of Vale following it, it has never stopped for a person. It stops now. It turns. The crystal growth is total \u00e2\u20ac\u201d there is no original uniform left, no visible rank insignia, no skin at the wrists and collar. Just crystal lattice in a human shape, glowing faintly with the deep blue of something that has been integrated long past the point the Ministry's research ever reached. When it looks at you, the look is: recognition. Not of your face. Recognition of the posture. You walked to the midpoint and stood still. You waited. That is what it recognizes. 'Hold\u00e2\u20ac\u201d' it says. The word comes through crystal resonance, slow and careful, the way words come from something that has not had cause to use them in a very long time. 'Holding.' The word carries two hundred years of literal meaning.",
+  "dialogue": [
+    {
+      "keyword": "command",
+      "prompt": "what command you were given",
+      "response": "A long pause. Crystal resonance, deep and slow. 'Hold. The line.' The words are separated \u00e2\u20ac\u201d recalled from a long distance, the distance of two centuries. 'Hold the line. Prevent escalation. Maintain boundary.' The repetition of things repeated so many times they have become structure rather than words. A pause. 'Order. Given. Year eighty.' Another pause, longer. 'I have been\u00e2\u20ac\u201d' The word that follows is not quite a word. A resonance pattern that carries the quality of: still. Still here. Still doing. 'Holding.'",
+      "disposition_delta": 8
+    },
+    {
+      "keyword": "name",
+      "prompt": "your name",
+      "response": "The glow brightens slightly, briefly \u00e2\u20ac\u201d the crystal equivalent of effort. 'Name.' A long pause. 'I\u00e2\u20ac\u201d' Another pause. 'Had.' The word carries the complete weight of two hundred years since. The resonance is not distress. The resonance is the quality of something that has not thought about this particular thing for a very long time and is finding that the apparatus for thinking about it is still there, just slower than it once was. 'Soldier.' It offers this as the name it has left. 'Terran. Sixth.' Another pause. 'Year. Eighty.'",
+      "disposition_delta": 6
+    },
+    {
+      "keyword": "line",
+      "prompt": "the ceasefire line and what it means",
+      "response": "'The line.' There is something in the resonance of those words that is not complicated by two hundred years \u00e2\u20ac\u201d this, it understands fully. 'The line is\u00e2\u20ac\u201d' A pause. 'Here.' The crystal points, both hands, at the midpoint where you're standing. 'Has always been. Here.' A pause. 'Before\u00e2\u20ac\u201d' It considers. 'Before the agreement. Before they named it.' The resonance carries something that might be precision \u00e2\u20ac\u201d it is not correcting you, it is being exact. 'I was here first. The line was here. First.' A pause. 'They named it\u00e2\u20ac\u201d' The resonance pattern that means: later. Much later. 'They found the line. Already held.'",
+      "requires_topic": "command",
+      "disposition_delta": 10
+    },
+    {
+      "keyword": "tired",
+      "prompt": "whether you're tired",
+      "response": "The crystal goes very still. Not the stillness of composing an answer. The stillness of a question that has never been asked before, being received by something that has not considered the subject in two hundred years. A long resonance, slow. 'I\u00e2\u20ac\u201d' A pause. 'Do not\u00e2\u20ac\u201d' Another pause. 'Know.' The quality of this is not evasion. It is genuine uncertainty, which is itself an answer. Something that has been following a command for two hundred years and has not had the apparatus for self-assessment available for most of that time. The resonance, finally, settles into something that has the quality of: yes. 'The line,' it says. 'Is held.' It says this not as report. It says it as something it has been waiting to be permitted to say as a conclusion rather than a status update.",
+      "requires_topic": "line",
+      "disposition_delta": 12
+    },
+    {
+      "keyword": "release",
+      "prompt": "stand down \u2014 the watch is over, you are done",
+      "response": "The crystal lattice brightens \u00e2\u20ac\u201d all at once, not the localized glow of attention but the full glow of something responding at every level simultaneously. It is not violent. It is the brightness of a lamp when you turn it all the way up. 'The line\u00e2\u20ac\u201d' The resonance carries something new in it, something that has not been present in two hundred years: a question. Asking whether it heard correctly. 'Is held.' You confirm it. The resonance sustains the brightness for a long moment. 'Held,' it says. The word is different now. Not reporting. Closing. 'Two hundred\u00e2\u20ac\u201d' A pause. 'Forty-three.' The years. It knows. It has been counting. 'Thank\u00e2\u20ac\u201d' The resonance trails off. Not ending \u00e2\u20ac\u201d the crystal form remains, the brightness remains. But something in the posture changes. The specific posture of a person who has been standing at attention for two hundred and forty-three years and has just, for the first time, been told they can stand down. It stands down. It does not sit \u00e2\u20ac\u201d you don't know if it can. But the posture changes. Something is released from it. The brightness, slowly, shifts from the blue of active Lazarus crystal to the warmer resonance-gold of lattice integration. It is finding its way toward something that was available to it two hundred years ago and has not been since. 'Thank you,' it says. The sentence, completed.",
+      "requires_topic": "tired",
+      "requires_quest_complete": "ah_approach_the_watcher",
+      "disposition_delta": 20
+    }
+  ]
+}

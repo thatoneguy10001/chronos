@@ -1,0 +1,10 @@
+{
+  "id": "aetherian_forward_post",
+  "name": "Aetherian Forward Post",
+  "description": "A depot carved into the mountain rock: bunk area, medical station, an operations space with maps in Aetherian script you can't read but recognize as tactical by the contour lines and the way the marks cluster at chokepoints. The medical kit holds instruments without names in your training — crystal-tipped probe, something like a tuning fork in surgical steel, vials in shades of blue your pharmacopeia doesn't stock. The maps show the Windward approach from a perspective you have never seen it from: your fortifications in careful Aetherian notation, your firing positions marked with a precision that takes a moment to register and then registers quite thoroughly. And then: a photograph propped against the lamp, a letter mid-sentence, a small carved bird on the shelf above the bunk — mountain species, looks like it took time to get the feathers right. Someone's life, left here mid-sentence. They didn't plan to leave. You know the difference.",
+  "exits": {
+    "west": { "target_room_id": "aetherian_trench", "label": "Trench Line" },
+    "up": { "target_room_id": "airship_landing", "label": "Roof Access" }
+  },
+  "requirements": {}
+}

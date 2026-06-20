@@ -1,0 +1,5 @@
+# Enables getrandom's browser-crypto backend for wasm builds.
+# Required because getrandom 0.3 refuses to compile for wasm32-unknown-unknown
+# without an explicit backend selection (see getrandom docs §WebAssembly support).
+[target.wasm32-unknown-unknown]
+rustflags = ['--cfg', 'getrandom_backend="wasm_js"']

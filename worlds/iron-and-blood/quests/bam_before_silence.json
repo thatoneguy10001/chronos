@@ -1,0 +1,15 @@
+{
+  "id": "bam_before_silence",
+  "name": "Before the Silence",
+  "description": "Sister Adra noticed you picked up the diary from the empty cot. She thinks Commander Thorn might recognize something in it — or might just need to hold something real for a minute.",
+  "objective": {
+    "type": "talk_to",
+    "npc_id": "commander_thorn"
+  },
+  "gold_reward": 20,
+  "xp_reward": 60,
+  "giver_npc_id": "sister_adra",
+  "requires_quest_complete": "diary_found",
+  "accept_text": "She doesn't ask if you've read it. 'The Commander knew him. Not well — there aren't many faces that stay the same long enough to know well. But he signed the orders.' She wipes her hands on a cloth. 'He might recognize something in it. Or he might just need to hold something real for a minute. Either way, I think he should see it.'",
+  "complete_text": "She doesn't ask what Thorn said. She can read enough from your face. 'I've watched him at that map for three years. Same posture, same red ink. He keeps adding to it and nothing on the map changes.' She folds a bandage. 'Whatever he said — he meant it. He just doesn't have anywhere to put it.'"
+}

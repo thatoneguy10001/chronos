@@ -1,0 +1,9 @@
+{
+  "id": "mayors_office",
+  "name": "Mayor's Office",
+  "description": "A tidy room of ledgers and town records. Mayor Elric rises from behind a broad desk with a politician's warmth. \"Welcome to Millbrook. We're glad to have adventurers pass through.\" Maps of the surrounding lands paper the walls. The guild hall is back to the north.",
+  "exits": {
+    "north": { "target_room_id": "guild_hall", "label": "Guild Hall" }
+  },
+  "requirements": {}
+}

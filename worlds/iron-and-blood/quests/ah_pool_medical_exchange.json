@@ -1,0 +1,17 @@
+{
+  "id": "ah_pool_medical_exchange",
+  "name": "Medical Cross-Training",
+  "description": "Lena wants to show you an Aetherian wound treatment. She's asked you to show her a Terran one in exchange. The notes go to Adra.",
+  "objective": {
+    "type": "talk_to",
+    "npc_id": "lena_voss"
+  },
+  "gold_reward": 20,
+  "xp_reward": 50,
+  "hope_reward": 1,
+  "requires_night": true,
+  "giver_npc_id": "sister_adra",
+  "requires_quest_complete": "ah_first_crossing",
+  "accept_text": "Adra gives you a folded set of notes — standard Terran wound protocols, nothing classified, the kind of information that would save lives if it crossed lines freely. 'Lena has been trying to share their equivalent for six months. We keep getting interrupted — a bad night, too many Abominations, the wrong kind of attention from both sides.' She folds her hands. 'Tonight looks quieter. Go. Write down everything she shows you. I'll trade what I know.'",
+  "complete_text": "Lena demonstrates the Aetherian method for crystal fragment wounds — they've had more practice, and their technique involves a compound that neutralizes the lattice structure before extraction rather than forcing it. You share the Terran approach for penetration wounds. She takes notes in her precise handwriting. 'Adra will want the compound name,' she says. 'Tell her it's listed as neutral-7 in our pharmacopeia. Tell her I'll leave a supply at the midpoint.' She looks up. 'This is what it would look like,' she says simply. 'If it stopped.'"
+}

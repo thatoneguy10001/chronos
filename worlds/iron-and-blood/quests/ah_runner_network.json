@@ -1,0 +1,15 @@
+{
+  "id": "ah_runner_network",
+  "name": "The Runner Network",
+  "description": "Morlak's intelligence network is falling apart. Two Discarded runners have gone silent between the Shell Crater and the Monastery. One of them was last seen heading into the Bone Fields after dark. Find out what happened.",
+  "objective": {
+    "type": "reach_room",
+    "room_id": "bone_fields"
+  },
+  "gold_reward": 40,
+  "xp_reward": 100,
+  "giver_npc_id": "morlak",
+  "requires_quest_complete": "find_the_patrol",
+  "accept_text": "He doesn't frame it as distress. He frames it as a logistics problem, which is how he frames everything that matters to him. 'Two runners. Reva and Desh — not your Desh, different Desh. They were covering the route between the Shell Crater and the Monastery. Reva didn't make it through. Desh went to find her and I haven't heard back.' He lights something small and bitter-smelling. 'Reva I can account for — subjects have been hunting that route, I've lost people there before. Desh is different. She knows the fields at night better than anyone I have. If she stopped moving, something made her stop.' He looks at you. 'She was heading toward the Bone Fields when contact cut. I need to know what she saw.'",
+  "complete_text": "She's there — pressed against a rock outcropping at the edge of the Fields, too frightened to move, has been there for hours. She looks at you when you arrive with the specific relief of someone who had genuinely considered not making it out. She can't explain what stopped her. Something spoke to her. Not a subject — she knows what subjects sound like. Older. It said her name and then nothing else and she couldn't move her feet. She asks you to stay with her until dawn. You do. Whatever spoke doesn't speak again. But you feel it the way you feel something very large standing just outside a lit room, patient, not threatening. Waiting for something specific."
+}

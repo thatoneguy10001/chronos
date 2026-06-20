@@ -1,0 +1,17 @@
+{
+  "id": "ah_body_between",
+  "name": "The Body Between",
+  "description": "One of Morlak's runners is dead in contested ground — the strip between both lines. Neither side can claim the body in daylight without it being perceived as an advance. During the Armistice, both sides want the same thing. Return to the Armistice ground.",
+  "objective": {
+    "type": "reach_room",
+    "room_id": "armistice_ground"
+  },
+  "gold_reward": 45,
+  "xp_reward": 110,
+  "hope_reward": 1,
+  "requires_night": true,
+  "giver_npc_id": "morlak",
+  "requires_quest_complete": "ah_cooperative_hunt",
+  "accept_text": "He tells you without sentiment, which is how he tells you everything and which you've come to understand means this one actually costs him. 'Reva. The runner I lost before Desh got stuck. She's still out there — in the middle. Can't get her in daylight without both sides opening up.' He looks at the contested ground. 'The Armistice is tonight. I want her back.' He pauses. 'Your Aetherian contact — the medic. She'll be there. She knows about it. We've done this before, quiet coordination through the ceasefire, when there's something both sides need to resolve without it becoming a record.' He meets your eyes. 'Bring Reva back.'",
+  "complete_text": "Lena is already there when you arrive, which means she had the same information through her own channels before you did, which tells you something about how the Armistice actually works beneath its official surface. You retrieve the body together without speaking except for what's necessary. On the way back Lena says, 'We have one of yours who's been out there since last month. On our side of the line. We haven't been able to return her.' She says it simply, like a ledger entry. 'Same arrangement. Tomorrow night.' She crosses back to her side before you can answer. You realize the answer was already understood."
+}

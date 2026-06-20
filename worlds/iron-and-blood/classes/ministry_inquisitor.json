@@ -1,0 +1,42 @@
+{
+  "id": "ministry_inquisitor",
+  "name": "Ministry Inquisitor",
+  "description": "Lethal force authorized. This is not an Enforcer performing crowd control — the Inquisitor is the Ministry's response to problems that have gone past the stage where a nerve canister handles things. No gray-green administrative uniform: matte black, no insignia, carrying a short-blade and a directed charge pistol that does not appear in Ministry supply catalogs. The Inquisitor's expression is professional, which is more frightening than anger would be. This is not personal. This is the Ministry deciding that whatever you represent costs more to manage than to remove.",
+  "base_stats": {
+    "hp": 82,
+    "attack": 15,
+    "defense": 9,
+    "intelligence": 6
+  },
+  "abilities": [
+    {
+      "id": "directed_charge",
+      "name": "Directed Charge",
+      "description": "A close-range discharge from the off-catalog pistol — focused to a tight beam rather than dispersed. Precise. Leaves a specific kind of wound.",
+      "base_damage": 18
+    },
+    {
+      "id": "termination_protocol",
+      "name": "Termination Protocol",
+      "description": "When the target is weakened, the Inquisitor closes the distance and delivers a compound strike — blade to create the opening, charge to exploit it. Final. Professional. The Ministry does not authorize loose ends.",
+      "base_damage": 26,
+      "applies_effect": "bleed",
+      "effect_damage": 7,
+      "effect_duration": 2
+    }
+  ],
+  "passives": [],
+  "starting_equipment": [],
+  "xp_reward": 78,
+  "gold_reward": 30,
+  "tactics": [
+    {
+      "condition": { "type": "hp_below", "threshold": 0.35 },
+      "action": { "type": "heavy_attack", "multiplier": 1.6 }
+    },
+    {
+      "condition": { "type": "always" },
+      "action": { "type": "basic_attack" }
+    }
+  ]
+}

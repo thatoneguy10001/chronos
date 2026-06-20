@@ -1,0 +1,40 @@
+{
+  "id": "old_miner",
+  "name": "Old Hett",
+  "initial_disposition": 40,
+  "greeting": "He is outside the upper works sorting yard, watching the ore carts with the look of a man who is watching them through twenty years of overlay — what they were then on top of what they are now. He is probably sixty-five, possibly older. His hands have the specific roughness of forty years underground. He looks at you with the assessment of someone who wants to know if you've been underground before. 'You're not Ministry.' He says it with relief, which tells you something. 'And you're not press. They stopped coming six years ago.' He tilts his head at the sealed door in the lower slope. 'You're here about the lower works. Every three or four years someone shows up about the lower works.'",
+  "dialogue": [
+    {
+      "keyword": "sealing",
+      "prompt": "why the mines were sealed",
+      "response": "'Twenty years ago we were running the D-Seven seam, four hundred meters down.' He speaks like a man who has rehearsed this — not scripted, rehearsed, the difference being he's said it enough times to have found the shape that leaves the most important things in. 'The crystal in the D-Seven was different. Not Aetherium — something older. We called it dark-ite until the Ministry came and told us not to call it that and took samples and filed reports we never saw.' He pauses. 'Three months after, the crew started leaving markings. Not carvings — grew. Out of the stone, around the work surfaces, while people were standing there. Blue crystal. The marks meant something. The older Discarded who worked the lower seams said they'd seen that script before.' He looks at the sealed door. 'The Ministry sealed it the next day. We got paid three months' wage to not discuss it. I took the money. I don't feel good about that.'",
+      "disposition_delta": 8
+    },
+    {
+      "keyword": "markings",
+      "prompt": "what the markings said",
+      "response": "'I asked a woman from the Discarded camp. She read them.' He's quiet. 'I want to say she was wrong. I've had twenty years to decide she was wrong.' He looks at his hands. 'She said the marks were a warning. In Elder script. The word she translated — she said it was like' — he stops — 'like the word that means something is still building and it wants you to leave before the building is done.' He pauses. 'The Ministry didn't ask what the marks said. They just sealed it. Either they already knew, or they didn't want to know, and I've never been able to decide which is worse.' He looks at the door. 'I know the second one is still in there. Not all of us got out clean. Two men stayed down in the D-Seven when the door went, got locked in. The Ministry says they were relocated. I know their families.'",
+      "requires_topic": "sealing",
+      "disposition_delta": 9
+    },
+    {
+      "keyword": "alive",
+      "prompt": "one of the men still being alive",
+      "response": "He goes very still. The ore carts continue. He watches them without seeing them. 'Which one.' The question comes out rough. 'There were two. Rund and Arlen.' He looks at you for the first time in this conversation with something that is not rehearsed at all. 'Twenty years.' He says it to himself, and then again. 'The Ministry told the families they were lost in the collapse. Official casualty paperwork.' He turns toward the sealed door. 'I helped draft that paperwork. I thought they were gone. I thought — the air, the food, it's been twenty years.' He is quiet for a long moment. 'How.' He asks it differently than you'd expect. Not how did he survive. How does he look. How is he. 'Is he — is Rund still—' He stops. 'Is he all right.'",
+      "disposition_delta": 12
+    },
+    {
+      "keyword": "rund",
+      "prompt": "what happened to the man who went in and whether you know he survived",
+      "response": "He is quiet for a long moment. 'Rund.' He says the name with the quality of someone who has been saying it to himself for a long time to keep it from becoming just a story. 'The younger of the two. Fenwick was fifty-two when they went in. Rund was twenty-nine.' He looks at the sealed entrance. 'We sealed it eight months after they went in. Fenwick -- we knew Fenwick was gone by then. We could feel it in the seam. But Rund...' He shakes his head. 'You can feel a person in the seam. If you've worked crystal long enough you know the difference between the resonance of rock and the resonance of a person inside the rock. Rund was still there. Rund has been there for twenty years.' He looks at the entrance. 'I pushed for a reopening twice in the first five years. The Ironhaven mining authority said the seam was too unstable -- true, actually, for normal access. The resonance density in the D-Seven section has been increasing since the Cascade damage went into partial repair. Normal breathing equipment isn't enough.' He is quiet. 'I kept the surface clear. I kept the record. Every year someone asks me why I still tend a sealed entrance and every year I say: because there is a man in there.' He looks at you. 'You've been in. You've spoken to him.' He does not ask this as a question. 'Is he all right.' He says it as a question, the one he has been asking for twenty years.",
+      "disposition_delta": 12
+    },
+    {
+      "keyword": "change",
+      "prompt": "what changed in the seam when the Grid was whole and whether anything shifted",
+      "response": "He picks up a small crystal fragment from the sorting yard -- not ore, one of the seam markers, the kind they use to track the resonance boundary. He holds it out. 'Feel that.' He holds it himself for a moment first. 'Three weeks ago this had the specific frequency of the D-Seven seam -- slightly elevated from baseline, unstable at the edges, the kind of reading we've been getting for twenty years from that section.' He is quiet. 'The morning of the Day, the seam frequency stabilized. Every resonance marker in the section went to baseline simultaneously. The elevation is gone. The instability is gone.' He looks at the marker. 'The mining authority wants to reopen the D-Seven access. The safety reading that's been blocking it for twenty years is clear.' He holds the marker. 'I am going to be there when they open it. I have been keeping the surface clear for twenty years because there is a man in there. When they open it I am going to be the first person to go down.' He sets the marker down carefully. 'I don't know what twenty years does to a person. I know Rund has been in contact with the seam the whole time -- you can read that in the crystal, the way a person shapes the resonance they live inside.' He is quiet. 'The shape in the seam is steady. It has been steady for twenty years. That is either very good or I don't know what it means.' He picks up the marker again. 'I prefer very good.'",
+      "requires_quest_complete": "the_day_arrives",
+      "disposition_delta": 13
+    }
+  ]
+}

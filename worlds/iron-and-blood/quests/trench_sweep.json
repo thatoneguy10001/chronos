@@ -1,0 +1,11 @@
+{
+  "id": "trench_sweep",
+  "name": "Clear the Trench",
+  "description": "Two Rock-Shell Crabs have breached Trench Alpha's eastern perimeter. Eliminate them before they tear through the defensive line.",
+  "objective": { "type": "kill_count", "class_id": "rock_shell_crab", "count": 2 },
+  "gold_reward": 30,
+  "xp_reward": 80,
+  "giver_npc_id": "commander_thorn",
+  "accept_text": "Thorn marks the breach on the map with a red X. 'Two crabs, Trench Alpha, east wall. Standard shells won't crack that armor — you'll need to find the weak points, the joints, the undercarriage.' He hands you a set of coordinates. 'Clear them. Don't die. In that order.'",
+  "complete_text": "Thorn nods once. The kind of nod that says he expected you to succeed but is glad you're not dead. 'Clean work. That's how it's done. Take your pay — you've earned it.'"
+}

@@ -1,0 +1,26 @@
+{
+  "id": "lamp_keeper",
+  "name": "The Lamp Keeper",
+  "initial_disposition": 65,
+  "greeting": "She is very old and sitting with complete stillness in the alcove beside the lamp, in the manner of someone who has made their peace with where they are and has had a long time in which to make it. When she sees you she moves only her eyes, and the movement has the economy of someone whose economy is very good. 'Not many come here,' she says. Not suspicious. Noting. 'I am the tenth. My grandmother's grandmother taught my grandmother, who taught my mother, who taught me.' She turns to look at the lamp. 'And my daughter will be eleven.' The lamp makes no sound. It has the quality of something that has been burning so long that the burning has become architectural.",
+  "dialogue": [
+    {
+      "keyword": "lamp",
+      "prompt": "the lamp and what it means",
+      "response": "'Cobble lit it when he put in the first corridor.' She says it the way other people say 'the sun rises in the east' — not for information but for the rightness of saying it. 'The Ministry has never found it. Or they found it and decided not to know about it. The outcome is the same.' She looks at it. 'When you tend something for five hundred years you learn what it's made of. This lamp is made of: the decision to remember. That is what the oil is. The oil is the decision. You cannot run it out because the decision has not ended.' She pauses. 'I know how that sounds. I've been tending it for forty years and I still know how that sounds. I have decided to accept that what is true sometimes sounds unlikely.'",
+      "disposition_delta": 7
+    },
+    {
+      "keyword": "discarded",
+      "prompt": "your connection to the Discarded",
+      "response": "'Some of us go to the Wastes. Some of us stay in the Hive.' She says it without hierarchy. 'Grimka's family watches what happens outside. My family watches what happens inside. The Hive has been here for a thousand years. We've been watching for five hundred of them.' She glances toward the corridor. 'The Lower Rigs people — they don't know they're being watched over. I don't mean by Ministry informants. I mean by us. When the food chain breaks and the distribution from above fails, the Discarded here know where the reserves are that the Ministry has forgotten about. When the pipes fail and the maintenance teams are delayed, we know which crews can be called without going through official channels.' She turns back to the lamp. 'Grimka keeps them from being forgotten. We keep them from being alone.'",
+      "disposition_delta": 8
+    },
+    {
+      "keyword": "cobble",
+      "prompt": "the founder Cobble",
+      "response": "'The Ministry says the Hive was founded by General Aldous Tray. In year one of the war.' She says it gently, in the way you contradict someone when you are going to be correct and you know it and you do not wish to be unkind about it. 'Cobble was a builder. She came eight years before the first battle. She and nine others. They were looking for stable rock to build in, because the surface was becoming what it was becoming, and stable rock was what they needed.' She pauses. 'The Ministry doesn't count those eight years because they happened before the war, and the Ministry's history begins with the war. But the Hive is eight years older than the Ministry believes, and those eight years were the years of the building, and the builder was a woman named Cobble who understood that the lamp you leave burning is the thing you build toward.' She looks at the flame. 'She was not wrong.'",
+      "disposition_delta": 9
+    }
+  ]
+}

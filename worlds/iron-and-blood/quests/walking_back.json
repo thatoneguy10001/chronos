@@ -1,0 +1,15 @@
+{
+  "id": "walking_back",
+  "name": "Walking Back",
+  "description": "Sister Adra has a patient she can't explain — a soldier from third squad who walked out of the eastern ruins after the patrol went silent. She's been watching him for days and found nothing wrong. Talk to Corporal Sevyas yourself.",
+  "objective": {
+    "type": "talk_to",
+    "npc_id": "corporal_sevyas"
+  },
+  "gold_reward": 30,
+  "xp_reward": 80,
+  "giver_npc_id": "sister_adra",
+  "requires_quest_complete": "bam_the_patient",
+  "accept_text": "Adra closes the curtain before she speaks. 'His name is Sevyas. Corporal, third squad. He came in four days ago — walked through the gate at dawn, uniform intact, no wounds I can find. Orientation intact. Memory mostly intact.' She stops. 'I've run every test I know. His blood pressure is perfect. His heartbeat is steady. His reflexes are normal.' She looks through the curtain at the cot by the window. 'He doesn't sleep. He sits there, very still, and when I check on him in the middle of the night he's in exactly the same position. He says he doesn't feel tired.' She meets your eyes. 'Talk to him. See what you think. I'm starting to doubt my own conclusions.'",
+  "complete_text": "Adra is in the doorway when you come out. She doesn't ask what you found — she reads it in your face. 'Yes.' She closes the door quietly behind her. 'I know. I've known for two days and I didn't want to write it in the chart because once it's in the chart it's real.' She leans against the wall. 'He came back from wherever they went. He came back coherent and functional and present. And something else came back with him.' She's quiet. 'I've had soldiers come back wrong before. Trauma, shock, burns. I know what that looks like. This isn't that.' She looks at her hands. 'Whatever happened to the patrol in those ruins — he's the only evidence we have. And I don't know what he's evidence of.'"
+}

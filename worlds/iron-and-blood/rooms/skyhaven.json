@@ -1,0 +1,10 @@
+{
+  "id": "skyhaven",
+  "name": "SkyHaven",
+  "description": "The Aetherian capital is a city built for a problem: you have more people than ground, and the people have decided, for reasons historical and cultural and spiritual that have become entangled over three centuries, that going down is not an option. So: up. The crystal-lift pylons rise from mountaintop moorings and the city rises from there — layered platforms, each larger than the one below, tapering toward the top in a shape that the Aetherian architectural theory says is structurally optimal and that looks, from the outside, like something between a cathedral and a tree. From inside it looks like a city, which is to say: markets and noise and children and old people sitting where the wind is less and young people in a hurry and arguments that have been going on for twenty years and are part of the character of the street. The altitude problem is visible if you know to look: the faces have the flush of people at altitude for too long, the pace is slightly slower than the streets warrant, the median age in the crowd is lower than it should be. SkyHaven is a city that is winning everything except the argument with altitude, and altitude is patient.",
+  "exits": {
+    "down": { "target_room_id": "skyborn_deck", "label": "Outpost Deck" },
+    "up": { "target_room_id": "seraphina_spire", "label": "Seraphina Spire" }
+  },
+  "requirements": {}
+}

@@ -1,0 +1,11 @@
+{
+  "id": "greasewater_docks",
+  "name": "Greasewater — The Docks",
+  "description": "The first thing is the smell, which is not the smell of the Hive and not the smell of the Wastes and is therefore, by elimination, the smell of the sea. You have been so long in places that smell of specific terrible things that smell-of-the-sea takes a moment to process as a category. The docks are chaos in the way that healthy things are chaotic: everything moving, everything purposeful, the chaos of capacity rather than collapse. Ministry uniforms are rare here and when they appear they move carefully, because the real authority on these docks is held by dock-masters who have been in this port since before the current Ministry administrators were born and who know exactly which regulations to follow and which ones to lose paperwork for. Ships from nations that Terra does not officially acknowledge are unloading things that Terra does not officially possess. A woman with a clipboard and the expression of someone who has seen every creative accounting method ever attempted is watching you watch the ships. She does not appear to object.",
+  "exits": {
+    "east": { "target_room_id": "greasewater_market", "label": "The Market" },
+    "road": { "target_room_id": "ironhaven", "label": "Road to Ironhaven and the Hive" },
+    "south": { "target_room_id": "southern_shelf", "label": "Coastal Road South" }
+  },
+  "requirements": {}
+}

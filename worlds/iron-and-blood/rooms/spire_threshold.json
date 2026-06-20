@@ -1,0 +1,10 @@
+{
+  "id": "spire_threshold",
+  "name": "The Spire — Threshold",
+  "description": "Here is what you can say about it: the Abominations are not here. The approaches, the bone fields, the perimeter — all of that is guarded, organized, patrolled in a way that suggests intelligence directing the patrol. Here, at the base of the Spire itself, inside the perimeter, there is nothing. The Abominations do not come inside the final ring. You are alone in a silence that has a specific quality — not empty silence, attended silence, the silence of something that knows you are here and has chosen not to act yet. The Spire rises above you: bone and crystal and something else, something that is neither, fused at pressures and temperatures you cannot identify into a structure that has been growing for three hundred years and shows no sign of stopping. The Discarded name for what is at the top of this thing: they have a name. They will not say it outside the circle. You understand now, standing at the base, why the naming is a commitment. To look at what you are looking at and give it a name is to be in relationship with it. That is not a thing to do lightly. The door — there is a door, which is itself the most information you have received since you came here, because things that do not want visitors do not build doors — the door is open.",
+  "exits": {
+    "back": { "target_room_id": "spire_of_bones_approach", "label": "Back to Approach" },
+    "in": { "target_room_id": "spire_interior", "label": "Through the Door" }
+  },
+  "requirements": {}
+}

@@ -1,0 +1,78 @@
+{
+  "id": "gideon_moss",
+  "name": "Gideon \"The Gear\" Moss",
+  "greeting": "Short, wiry, quick movements that cover ground faster than they look like they should. Worker's coat, better quality than it appears. Hands covered in small scars. Smiles before you've said anything — the specific smile of someone who has already assessed the situation and decided you might be useful. 'Moss,' he says, easy and light, like he's told you something. 'I hear you've been doing good work out at the Fort. Effective people are a rare commodity.' He gestures with the confidence of a man who considers this his territory. 'What are you looking for? I generally have it. Or I know who does.'",
+  "dialogue": [
+    {
+      "keyword": "gear",
+      "prompt": "equipment and gear",
+      "response": "'Best selection in the Lower Rigs — which means the best in the Hive, since the official armories don't carry half of what's actually useful out there.' He produces a wrapped package and sets it on the counter. 'Ministry-approved, Ministry-unauthorized, and a few things the Ministry doesn't know exist. The last category is negotiable.' The smile stays precisely calibrated. 'I like to think of myself as solving supply problems the official channels can't admit they have.'"
+    },
+    {
+      "keyword": "scamp",
+      "prompt": "the SCAMP turret",
+      "response": "'The Scrap Autonomous Minigun Platform. My design, technically — or the design of twelve engineers whose names I have carefully preserved and never published.' He sounds entirely untroubled by this. 'The Field Engineers who came to me with the idea had all the theory. I had the fabrication contacts and the Ministry's blind spots. We built the first one in a maintenance tunnel.' He taps the counter. 'The Mark I was a disaster. The Mark II was a catastrophe. The Mark III worked once. The Mark IV is what they're using now. It's mostly reliable.' A pause. 'Mostly.'"
+    },
+    {
+      "keyword": "ministry",
+      "prompt": "the Iron Ministry",
+      "response": "'They tried to recruit me at eighteen. I said no. They tried to kill me at twenty. They were sloppy about it. They tried again at twenty-three.' He shrugs, still smiling. 'Eventually they decided to pretend I didn't exist, which is the best possible outcome for everyone involved.' His quick eyes track something across the market. 'I run this district better than the Ministry does and they know it. Their informants report on me. My informants report on their informants. We have achieved what you might call an understanding.'"
+    },
+    {
+      "keyword": "lower-rigs",
+      "prompt": "the Lower Rigs",
+      "response": "'My kingdom.' Said without irony, which is the most honest thing about him. 'Food, medicine, information, protection. If someone in this district needs something, they come to me. The Ministry provides none of those things adequately. I do.' He meets your eyes directly for the first time. 'The people down here survive because they take care of each other and because I have made it unprofitable to prey on them. The Ministry calls that criminal. The Lower Rigs calls it government.'"
+    },
+    {
+      "keyword": "lazarus",
+      "prompt": "Project Lazarus",
+      "response": "For the first time the smile goes somewhere it keeps going without quite reaching. 'You don't want to know what I know about that project.' He says it flat, and something in the quality of the flatness is not like his other flat statements. 'What I will tell you: they've been pulling components through the Lower Rigs for three years. Neural relays. Preservation compounds. Things you use for one purpose.' He looks at you steadily. 'They're not building weapons. They're building something worse than weapons.'"
+    },
+    {
+      "keyword": "hive",
+      "prompt": "gray market in the Hive",
+      "response": "'Everything the Hive officially forbids, the Hive unofficially needs. Medicine the Ministry rations. Food beyond the standard issue. Tools for work the Ministry doesn't sanction. Information the Ministry doesn't distribute.' He picks up a small device, turns it over, sets it back down. 'I am a public service. The Ministry has just never had the courage to admit it.'"
+    },
+    {
+      "keyword": "engineers",
+      "prompt": "the twelve SCAMP engineers",
+      "response": "'You know about them.' He says it without surprise — he almost never expresses surprise. 'The twelve engineers came to me two years before the Mark IV was deployed. The Ministry was watching them. They needed a buffer.' He pauses. 'After the Mark IV worked, the Ministry got interested in a particular way. The engineers got — cautious. Dispersed.' He leans forward slightly. 'I know where eight of them are. The other four — three went to places I won't say in a market, and one went somewhere he described as not reachable by conventional means, which I thought was him being dramatic until it turned out he meant it literally.' He considers you. 'What do you know about the tunnels under the Bone Fields? Specifically the part the Ministry doesn't map?'",
+      "requires_topic": "scamp",
+      "disposition_delta": 7
+    },
+    {
+      "keyword": "authorization",
+      "prompt": "what Vane said and what the authorization means for the dismantlement",
+      "response": "He takes the document. He reads it standing at his workbench, which is covered in schematics. He reads it the way engineers read authorizations: looking for the gaps, the conditions, the things that aren't said. He finds none. He reads it a second time. 'His own name.' He says it. 'Not a clearance code. Not a ministry designation.' He sets the document down carefully, the way you set something down when you want it to be exactly where you put it. 'Do you know how many authorizations I have received in twenty years of gray-market work?' He doesn't wait for an answer. 'Hundreds. Every one of them signed with a code number or a designation or a proxy. Something deniable.' He picks up the document again. 'Korr Vane signed this with his name.' He looks at it. 'That changes the document from authorization to record. This is now a historical document.' He puts it down again and turns to the schematics. 'The secondary authorization -- the archive transfer -- I would have included that myself if I had thought he would accept it. I didn't think he would.' He picks up a pencil. 'The SCAMP chamber can be dismantled in approximately four months if I have the crew and the equipment. I have the crew. The equipment I can source through channels that Vane just made considerably less complicated.' He starts marking the schematics. 'What the authorization means: I can do the thing I built my career not doing, which is permanently disabling something I helped build.' He marks the first component. 'I find I am not ambivalent about this. That surprises me.'",
+      "requires_quest_complete": "the_scamp_dismantlement",
+      "disposition_delta": 18
+    }
+  ],
+  "vendor": true,
+  "shop": [
+    {
+      "item_id": "scrap_revolver",
+      "price": 30
+    },
+    {
+      "item_id": "iron_bandage",
+      "price": 5
+    },
+    {
+      "item_id": "rage_injector",
+      "price": 18
+    },
+    {
+      "item_id": "salvaged_gauze",
+      "price": 3
+    },
+    {
+      "item_id": "smoke_canister",
+      "price": 12
+    },
+    {
+      "item_id": "scamp_capacitor",
+      "price": 25
+    }
+  ]
+}

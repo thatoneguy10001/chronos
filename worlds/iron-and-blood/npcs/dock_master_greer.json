@@ -1,0 +1,27 @@
+{
+  "id": "dock_master_greer",
+  "name": "Dock-Master Greer",
+  "initial_disposition": 40,
+  "greeting": "The Dock-Master's office is on the upper level of Pier Seven, which puts it above the constant noise of the loading dock below but not above the smell. He doesn't have an opinion about the smell. He has been here for twenty-three years and the smell is part of the texture of the place in the way that a long marriage involves things that stopped being problems and became furniture. He's large, weathered, with the specific bearing of a man whose job is to be the final word on something and who has been the final word long enough that it has become his resting expression. He looks at you. 'Ministry?' His voice doesn't change on the question. 'No.' He looks at your kit. 'Front.' Not a question. 'What do you need.'",
+  "dialogue": [
+    {
+      "keyword": "passage",
+      "prompt": "passage out of Greasewater",
+      "response": "'The price of leaving,' he says, 'is whatever you have and some things you don't know you have yet.' He turns a ledger. 'I have three ships departing in the next forty-eight hours. One is going north along the coast — legitimate cargo, registered route, crew that will not ask questions but also will not discuss what they're carrying if stopped.' He closes the ledger. 'One is going west to a port whose name would mean nothing to you and everything to the right people. One is going south.' He stops there. 'South is expensive. Not because the route is long. Because of what's south. If you need to know what's south, you'll need to explain why first.'",
+      "disposition_delta": 5
+    },
+    {
+      "keyword": "south",
+      "prompt": "what's to the south",
+      "response": "He looks at you for a long time. 'You've been asking about the engineers.' He says it flat. 'One of you is always asking about the engineers. Twice in the last eight months.' He takes out a separate ledger, smaller, without a title on the cover. 'Two of the SCAMP engineers came through Greasewater. One I can account for — he went north, and I've heard enough since to know roughly where he ended up.' He opens the ledger to a specific page. 'The second one. Equipment manifest.' He turns the ledger so you can read it. 'Deep-water crystal-survey gear. Navigation charts for the southern shelf. A specific kind of pressurized case I've only seen used for preserving sensitive crystal formations at depth.' He closes the ledger. 'South is the Southern Shelf. Under the Southern Shelf, if the charts that come through this port are accurate, there is something that officially does not exist.' A pause. 'The second engineer clearly knew it existed. He bought equipment appropriate to finding it and he went south and I have not heard from him since, which either means he's dead or he found what he was looking for and decided to stay.'",
+      "requires_topic": "passage",
+      "disposition_delta": 8
+    },
+    {
+      "keyword": "ministry",
+      "prompt": "the Ministry's relationship with Greasewater",
+      "response": "'We burned the customs office.' He says it pleasantly. 'This was forty years ago. I was not here for it, but I have read the accounts, and I approve of the decision.' He leans back. 'After that the Ministry sent a delegation. After the delegation there was a negotiation. After the negotiation there was a document that I can summarize as follows: the Ministry does not operate in Greasewater, the dock-masters operate Greasewater, the dock-masters pay a percentage of total cargo value to the Ministry annually, and both parties pretend the rest of the arrangement doesn't exist.' He looks at you. 'I'm telling you this because you're not Ministry. I can tell. The Ministry people always look like they think they're in the wrong part of the city. They're right, but they always look like it.'",
+      "disposition_delta": 6
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "id": "captain_bren",
+  "name": "Captain Bren",
+  "greeting": "A lean soldier with close-cropped hair and a permanent scowl looks up from the bounty ledger. 'You look capable. Good — I've got a problem in the Obsidian Dungeon and not enough guards left standing to deal with it. Something's in there, rattling around, killing anything that investigates.'",
+  "dialogue": [
+    {
+      "keyword": "dungeon",
+      "prompt": "the dungeon problem",
+      "response": "'Lost two guards last month. Both came back as stories. Whatever's in there — undead, from the sound of it — it's fortified itself. I need it dealt with before it starts raiding the road. Skeleton warrior by all accounts. Tough, but killable. Take the contract.'"
+    },
+    {
+      "keyword": "guards",
+      "prompt": "the missing guards",
+      "response": "'Two of my best. Went in, didn't come out. I'd go myself but someone has to hold this town together while you lot run about slaying things. Don't make their deaths meaningless.'"
+    },
+    {
+      "keyword": "reward",
+      "prompt": "the reward",
+      "response": "'Thirty-five gold, paid from the town's emergency fund. Hendricks at the guild will vouch for me. It's honest coin for honest work.'"
+    },
+    {
+      "keyword": "training",
+      "prompt": "combat training",
+      "response": "'You want training? Fight something real. That's what I told every recruit and I stand by it. The dungeon will teach you more than I can.'"
+    }
+  ]
+}

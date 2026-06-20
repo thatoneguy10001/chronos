@@ -1,0 +1,16 @@
+{
+  "id": "ah_medic_exchange",
+  "name": "Medic Exchange",
+  "description": "Sister Adra trades bandages with an Aetherian medic during the Armistice. She hasn't seen her in two nights and she's worried — not for herself, but because the medic's been treating some of the returned patrol soldiers on the Aetherian side. During Armistice hours, find her at the ceasefire ground.",
+  "objective": {
+    "type": "talk_to",
+    "npc_id": "lena_voss"
+  },
+  "gold_reward": 45,
+  "xp_reward": 110,
+  "requires_night": true,
+  "giver_npc_id": "sister_adra",
+  "requires_quest_complete": "ah_first_crossing",
+  "accept_text": "Adra waits until the ward is quiet before she speaks. 'Lena. Lena Voss — Aetherian field medic, second line. We've been trading supplies during the Armistice for two years. Bandages, suture material, a particular compound she has access to that I don't.' She stops. 'She's missed two nights in a row. She's never missed a night without sending word.' She looks at her hands. 'She was treating three of the returned patrol soldiers on her side. The ones who came back. She'd been tracking their progression and I think she found something.' She meets your eyes. 'Find her. She'll be at the Armistice ground or not at all. Tell her I sent you. Tell her I'm running low on the compound and that's not actually why I'm asking.'",
+  "complete_text": "She's already there when you arrive, waiting with the patience of someone who was going to wait as long as it took. She looks at you the way someone looks at a mirror held at a slight angle — recognition without identity. 'You're the one she mentioned,' she says. 'Voss. I've been treating three of your soldiers. The returned ones.' She studies you in the way Adra studies things, which is the way of someone who is always running an analysis they don't share unless you ask the right question. 'I have questions. I assume you do too.' She does. You do."
+}

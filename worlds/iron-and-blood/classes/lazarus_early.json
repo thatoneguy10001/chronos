@@ -1,0 +1,31 @@
+{
+  "id": "lazarus_early",
+  "name": "Early-Stage Subject",
+  "description": "Recent. You can tell because it still flinches — not from pain, the compound is past that — but from some residual pattern in the body that hasn't finished converting. The crystal growth is sparse, fingernail-thin, just starting at the clavicle and jaw. It still blinks. It still holds its arms the way the person held their arms. Whatever it was is in there somewhere, increasingly unable to do anything about what it's becoming. Fight it quickly. The longer you look at it the harder this gets.",
+  "base_stats": {
+    "hp": 42,
+    "attack": 7,
+    "defense": 4,
+    "intelligence": 1
+  },
+  "abilities": [],
+  "passives": [],
+  "starting_equipment": [],
+  "xp_reward": 25,
+  "gold_reward": 7,
+  "tactics": [
+    {
+      "condition": { "type": "hp_below", "threshold": 0.3 },
+      "action": {
+        "type": "apply_effect",
+        "kind": "bleed",
+        "damage": 3,
+        "duration": 2
+      }
+    },
+    {
+      "condition": { "type": "always" },
+      "action": { "type": "basic_attack" }
+    }
+  ]
+}

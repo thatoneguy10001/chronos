@@ -1,0 +1,10 @@
+{
+  "id": "sunken_city_plaza",
+  "name": "The Sunken City — Central Plaza",
+  "description": "It is not empty. That's the first thing. You were prepared for an empty city; you get something else. The buildings are intact, the streets are clean in the specific way of something that has maintenance rather than age. The crystal street lamps are on. Not dim — on, full, the way they were before the city went under. The Sunken City has been running for three hundred years without anyone to run it and it has been running itself. You stand in the plaza and the weight of that is considerable. Then you hear footsteps. The footsteps have the cadence of someone who knows exactly where they are going and has been going there for a while. They come around a corner. The engineer — the fourth one, the one the dock-master's records put on a ship three years ago with diving equipment and no return ticket — stops when he sees you. His expression is the expression of a man who has been alone for a very long time and is not entirely certain what to do with not being alone. 'Oh,' he says. He sits down on a very old bench. 'Did Greer send you, or did you find it yourself?'",
+  "exits": {
+    "out": { "target_room_id": "sunken_city_entrance", "label": "Gate" },
+    "north": { "target_room_id": "sunken_city_archive", "label": "City Archive" }
+  },
+  "requirements": {}
+}

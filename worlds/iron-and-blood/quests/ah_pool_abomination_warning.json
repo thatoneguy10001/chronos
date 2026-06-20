@@ -1,0 +1,18 @@
+{
+  "id": "ah_pool_abomination_warning",
+  "name": "New Variant",
+  "description": "A new Abomination variant has been spotted moving through the Armistice ground — one neither side has documented before. Kill it and compare observations with Lena.",
+  "objective": {
+    "type": "kill_count",
+    "class_id": "rock_shell_crab",
+    "count": 1
+  },
+  "gold_reward": 25,
+  "xp_reward": 60,
+  "hope_reward": 1,
+  "requires_night": true,
+  "giver_npc_id": "commander_thorn",
+  "requires_quest_complete": "ah_first_crossing",
+  "accept_text": "Thorn's scouts have reported something in the Armistice ground they can't classify. Not a known variant. Larger. 'It's been there three nights running. Both sides have been avoiding it — nobody wants to be the one who breaks the ceasefire to kill something new.' He looks at you. 'You know Lena. Go together. Document it properly. This is the kind of thing we need both sides' records on.' He pauses. 'If either side just shot it, the other would assume it was a cover for an advance. Do it jointly or don't do it at all.'",
+  "complete_text": "Lena has already found it by the time you arrive — has it tracked, has the behavior pattern noted, is waiting for you before moving. You kill it together, which is faster and cleaner than either of you would have managed alone. Afterward she makes a detailed notation while you describe what you observed from your angle. The combined account is more complete than either half. 'We should send this to both sides' research divisions,' she says. Then she pauses. 'If there were research divisions that talked to each other.' She makes the notation anyway."
+}

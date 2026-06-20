@@ -1,0 +1,9 @@
+{
+  "id": "greasewater_market",
+  "name": "Greasewater — The Free Market",
+  "description": "The Ministry calls this market a controlled trade zone subject to import regulation. The people running it call it something else, in several languages, which is your first indication that goods from outside Terra's borders pass through here regularly. Stalls selling things you don't recognize from countries whose existence the Ministry's educational system handles by omission. Foods with colors that the Hive's food supply doesn't produce. Paper maps of coastlines you've never seen charted. And underneath all of it, the quiet persistent market in passage: ships leave from here to places where the war is a rumor rather than a daily fact. The dock-master's guild controls the rates. The rates are high. The guild does not apologize for this. If you want to leave a country that has been at war for three hundred and thirty years, you will pay what leaving costs, and the guild has correctly calculated that the price of leaving is whatever you have.",
+  "exits": {
+    "west": { "target_room_id": "greasewater_docks", "label": "The Docks" }
+  },
+  "requirements": {}
+}

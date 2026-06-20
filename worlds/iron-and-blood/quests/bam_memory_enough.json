@@ -1,0 +1,15 @@
+{
+  "id": "bam_memory_enough",
+  "name": "Memory Enough",
+  "description": "The diary is almost full. Adra says to take it to the end of things — wherever that ends up being.",
+  "objective": {
+    "type": "reach_room",
+    "room_id": "abomination_lair"
+  },
+  "gold_reward": 60,
+  "xp_reward": 150,
+  "giver_npc_id": "sister_adra",
+  "requires_quest_complete": "bam_arris",
+  "accept_text": "She notices you've been writing in it. Doesn't make it strange. 'When you get to the end of this — whatever the end looks like — it'll have served its purpose.' She looks at the empty cot. 'He put everything he had into that book because there was nowhere else to put it. At least it's somewhere now.' She doesn't say bring it back. She doesn't say keep it. She just says, 'Go.'",
+  "complete_text": "The diary is full. Whatever comes next is yours."
+}

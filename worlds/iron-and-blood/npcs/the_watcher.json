@@ -1,0 +1,59 @@
+{
+  "id": "the_watcher",
+  "name": "The Watcher",
+  "initial_disposition": 60,
+  "greeting": "It turns its head toward you slowly, the way old trees turn toward light — not with urgency, with inevitability. The gray skin is cracked along old lines, deep as fault lines, crystal fragments in the flesh pulsing faint as embers. It has been standing here for three centuries. It has been watching the entrance since the water receded from the threshold. When it speaks, the voice has the quality of something that has been thinking about what to say for a very long time. 'You have come from the surface.' Not a question. 'Others have come. They always leave.' A pause. 'You may stay, if you are willing to know what you are staying in.'",
+  "dialogue": [
+    {
+      "keyword": "waiting",
+      "prompt": "what you were waiting for",
+      "response": "'Someone who remembered.' It tilts its head slightly — that translation gesture. 'When they built this city they did not plan to leave it. The leaving was not planned. The leaving was — very fast.' Its voice carries the specific flatness of someone recounting something that has had three centuries to settle into fact. 'I remained so that the city would not be left without witness. A city that has no witness has not survived.' A pause. 'You are a witness now. You are the reason I was right to stay.' It does not say this with relief. It says it like a calculation that has finally resolved.",
+      "disposition_delta": 8
+    },
+    {
+      "keyword": "cascade",
+      "prompt": "the Resonance Cascade",
+      "response": "'I was in the outer district when the Core shattered.' The crystal in its skin pulses once, irregularly, and steadies. 'The sound was not loud. That is the thing the records do not carry — it was not loud. It was everywhere, which is different. You feel the Cascade in the Core — I have watched people feel it. What you feel there is the echo, reflected back from the crystal the city used to be.' It is quiet for a moment. 'What I remember is quieter than that. And larger.' It does not elaborate. Some things are the size of lived experience and do not fit in language.",
+      "disposition_delta": 7
+    },
+    {
+      "keyword": "rememberers",
+      "prompt": "the Hall of Rememberers",
+      "response": "'They made a choice,' it says. 'A choice I did not make. The Crystalline Ones believed that thought could outlast the body if the body was made of something patient enough.' A long pause. 'They were right. They are still there. I can — sense them, in the way you might sense a room full of sleepers. Very still. Very deep.' It turns toward the hall's direction. 'They chose endurance. I chose witness.' It looks back at you. 'I do not know which choice was correct. I have had three hundred years to consider it and I do not know.'",
+      "disposition_delta": 9
+    },
+    {
+      "keyword": "elder",
+      "prompt": "the Elder People",
+      "response": "'What would you like to know.' Not a question — a door left open. 'I was young when the Cascade came. Young for us was — longer than your word implies. I remember my teachers. I remember the Grid before it was built. I remember the arguments about whether to build it.' It pauses. 'The Elevationists wanted to reach further. The Preservationists wanted to hold what we had. The Cascade settled the argument, though not in anyone's favor.' Something that might be wry humor in a face not built for it. 'History does that.'",
+      "disposition_delta": 6
+    },
+    {
+      "keyword": "hollow",
+      "prompt": "what you are",
+      "response": "It considers the question with evident care. 'Your people have a name for what I am. I have heard it through the stone when the ones who came above walked the city.' It looks at its hands — the crystalline flesh, the cracks, the slow pulse. 'The word you use describes the process. It does not describe — this.' A gesture that takes in the plaza, the preserved city, the centuries. 'I am what remains of a person who chose not to leave. I am not what the compound produces in your soldiers. That process is an imitation of something that was done properly and with consent, and the imitation does not work the same way.' A pause. 'Tell the one who designed it that the original records are in the hall to the west. She will want to see them.'",
+      "disposition_delta": 10,
+      "requires_quest_complete": "stone_investigates"
+    },
+    {
+      "keyword": "night",
+      "prompt": "the nighttime figures in the crater",
+      "response": "'Incomplete integrations.' It says this without judgment. 'The crater was a sky-city, once. The ones who died there — some of them remained. Not as I remain. Differently.' It pauses. 'They are trying to do something that requires coordination and they cannot quite reach it. The three-meter distance — that is a radius of attention. They are trying to share with you what they are experiencing. They do not have the language for it.' It is quiet. 'If you go to the crater again, stop when they stop. Let them look. This is the closest they can get to asking a question.'",
+      "disposition_delta": 8
+    },
+    {
+      "keyword": "stars",
+      "prompt": "the Watcher constellation",
+      "response": "A very long pause. Longer than its other pauses, which are already long. 'You have been watching the sky.' It is not surprised. 'The Elder name for that constellation is not the Watcher. The name means: the one who remains when everyone else has gone.' It is quiet. 'When the Grid was built, the resonance range extended to the upper atmosphere. The stars in that alignment served as — calibration points. The Grid measured itself against them.' A pause. 'The Grid has been dormant for three hundred years. The crystal lattice intact but silent.' Its voice takes on a quality you have not heard in it before — something between the factual and the urgent. 'If the stars in that alignment are moving, they are not moving. The calibration is resuming. The Grid is — testing its own reach.' It looks at the Resonance Core. 'Something is waking the Grid. And I am the only thing left that knows how it was designed to work.'",
+      "requires_quest_complete": "observatory_charts",
+      "disposition_delta": 12
+    },
+    {
+      "keyword": "full",
+      "prompt": "what you felt when it reached full coherence and whether it was what you waited for",
+      "response": "It is very still for a moment that is longer than its usual stillness. The crystal in its skin is doing something different — not the irregular resonance of partial connection, but something steady and even, like a heartbeat that has found its correct rhythm after three hundred years of arrhythmia. 'Yes.' It says it quietly. 'And no.' It looks at the plaza, at the streets of the Foundation Quarter, at the gate that has been open for three centuries waiting. 'I stayed to witness. That was my choice. The others integrated or ascended or fled and I stayed because someone needed to remain.' A pause. 'I thought I was waiting for the healing to complete so that I could confirm it was complete. So that the record would have a witness who had been present at both the breaking and the remaking.' It is quiet for a long time. 'That was accurate as far as it went. But I did not know, before the morning of full coherence, what it would feel like to have the lattice running correctly. I have not known that in three hundred years.' The crystal in its chest settles into a different pattern. 'It felt like hearing a familiar song played correctly for the first time after hearing it broken for three centuries. The melody was the same. The melody had always been the same. What was gone was the resolution, the harmonics, the chord completing.' It looks at you. 'What I waited for: I waited to witness completion. What I did not expect: that completion would feel like this. Like the three hundred years were a rest in the music and the music has continued.' Another pause. 'The offer came. I heard it.' It does not say what it chose. It does not seem to feel it needs to.",
+      "requires_quest_complete": "the_day_arrives",
+      "disposition_delta": 15
+    }
+  ]
+}

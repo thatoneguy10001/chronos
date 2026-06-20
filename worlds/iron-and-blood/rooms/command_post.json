@@ -1,0 +1,12 @@
+{
+  "id": "command_post",
+  "name": "Command Post",
+  "description": "The maps cover every wall, annotated in red ink, revised and re-revised until some sections are more revision than map. Three hundred and thirty years of stalemate, rendered in careful cartography. Someone keeps making new ones. Someone keeps sending them. The telegraph machines clatter with dispatches you've learned to read by the rhythm before you read the words, and the rhythm today is the same as yesterday, which is the same as last year. Thorn is at the central table, looking at something. You can't tell from here if he's reading it or just looking at it.",
+  "exits": {
+    "south": { "target_room_id": "fort_iron_gate", "label": "Fort Gate" },
+    "north": { "target_room_id": "armory", "label": "Armory" },
+    "east": { "target_room_id": "field_mess", "label": "Field Mess" },
+    "west": { "target_room_id": "field_hospital", "label": "Field Hospital" }
+  },
+  "requirements": {}
+}

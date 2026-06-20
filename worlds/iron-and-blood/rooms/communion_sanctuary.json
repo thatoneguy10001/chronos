@@ -1,0 +1,9 @@
+{
+  "id": "communion_sanctuary",
+  "name": "The Inner Room",
+  "description": "The second room is quieter. No calibration tools, no diagrams — a table, two chairs, a narrow window that faces the Hive's interior walls rather than anything outside, and the specific stillness of a space that has absorbed a great many difficult conversations and developed a kind of patience for them. The woman at the table is reading. She closes the book when you enter, with the unhurried care of someone who marks pages with attention rather than paper. Her left hand is organic; her right is not, the mechanical work finer than Zane's — the knuckle-joints articulated in crystal and steel, each finger independent in a way that suggests the craft improved significantly between the two of them. She looks at you without the assessment quality most people lead with. It's something more open than assessment. Like the beginning of a question.",
+  "exits": {
+    "out": { "target_room_id": "communion_workshop", "label": "Workshop" }
+  },
+  "requirements": {}
+}

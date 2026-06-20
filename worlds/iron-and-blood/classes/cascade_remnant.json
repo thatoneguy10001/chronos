@@ -1,0 +1,33 @@
+{
+  "id": "cascade_remnant",
+  "name": "Cascade Remnant",
+  "description": "Three hundred years old. This is not residual energy from the Grid restart eight months ago — this is residual energy from the Cascade itself, still coherent, still present in the lattice substrate. What the Cascade did to the crystal network in the moment of the detonation left impressions that have been maintaining form through sheer accumulated momentum ever since. The Cascade Remnant is barely anything — a smear of force that has refused to dissipate, occupying space it technically no longer has any right to. It hits like the original event and takes almost nothing to disperse. The problem is that the window between 'almost nothing' and 'too late' is very small.",
+  "base_stats": {
+    "hp": 22,
+    "attack": 24,
+    "defense": 0,
+    "intelligence": 2
+  },
+  "abilities": [
+    {
+      "id": "cascade_echo",
+      "name": "Cascade Echo",
+      "description": "Channels the full force of a three-hundred-year-old resonance event into a single discharge. Catastrophically powerful. The Remnant cannot do this twice — the effort frays the coherence that holds it together.",
+      "base_damage": 32
+    }
+  ],
+  "passives": [],
+  "starting_equipment": [],
+  "xp_reward": 55,
+  "gold_reward": 9,
+  "tactics": [
+    {
+      "condition": { "type": "hp_below", "threshold": 0.8 },
+      "action": { "type": "heavy_attack", "multiplier": 1.7 }
+    },
+    {
+      "condition": { "type": "always" },
+      "action": { "type": "basic_attack" }
+    }
+  ]
+}

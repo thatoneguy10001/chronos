@@ -1,0 +1,9 @@
+{
+  "id": "sealed_mines",
+  "name": "Ironhaven — Sealed Lower Works",
+  "description": "The seal is a steel door three meters thick, which is the first thing that tells you the decision to close this was made by someone who was serious. The second thing: the door is open. Has been, for some time — the hinge is corroded in the open position, which means it opened before the corrosion started, which means it's been open for at least several years. Inside: the mine as it was left, twenty years ago, mid-shift. Equipment at stations. Carts loaded and not unloaded. A workbench with tools set out in the specific way of tools used often and placed down in the middle of a task. And on every surface — every flat surface, floor and wall and ceiling as far as you can see — the same marking. Not carved. Not painted. Crystallized: grown into the stone in the same blue-white crystal that grows under the skin of Lazarus Subjects. The same marking, repeated thousands of times in the dark, covering every surface for as far as your light reaches. You have seen this marking before. In the Hollow Vassal's lair. The Elder notation for: Not finished. Still building. Stop them.",
+  "exits": {
+    "up": { "target_room_id": "ironhaven", "label": "Upper Works" }
+  },
+  "requirements": {}
+}

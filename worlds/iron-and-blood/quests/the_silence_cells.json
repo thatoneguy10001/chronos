@@ -1,0 +1,15 @@
+{
+  "id": "the_silence_cells",
+  "name": "The Silence Cells",
+  "description": "The Architect confirmed it modified Stone's compound to produce Elder integration rather than the Hollow condition. The Silence Cells hold the result — three subjects at third-level integration with intact cognition. Stone needs to see them herself.",
+  "objective": {
+    "type": "talk_to",
+    "npc_id": "the_quieted"
+  },
+  "gold_reward": 75,
+  "xp_reward": 190,
+  "giver_npc_id": "helen_stone",
+  "requires_quest_complete": "the_spire_signature",
+  "accept_text": "Stone is quiet for a long time after you relay what the Architect said. Then: 'The subjects in the Silence Cells are not a failure state.' She says it very slowly. 'The compound is doing what it was designed to do — what the Architect designed it to do. The Hollow condition is what happens without the modification. With the modification —' She stops. 'With the modification, it's an initiation mechanism. The subjects in those cells are the intended outcome.' She stands. 'I need to go there. I need to talk to one of them. I need to know if —' She stops again. 'Carrow said she felt them and they were deeper. Not dying. Arriving somewhere.' She picks up her coat. 'I built this compound. I signed the research order. Whatever those people are now, I am responsible for the condition that made them.' She meets your eyes. 'Take me to the Silence Cells. I'm not asking Prenn. I'm not filing a clearance request. I am going to walk in and talk to one of my subjects and find out what I made.'",
+  "complete_text": "Stone stands at the sealed door for a long time. She presses her hand to the crystal inlay in the frame. She closes her eyes. When she opens them her expression has changed in a way that's hard to name — something settled, something resolved that was unresolved. 'She's in there,' she says quietly. 'I can feel her resonance. She's awake.' She looks at you. 'The door is sealed from inside. She sealed it. Which means —' She stops. 'Which means she chose this room. She chose to be here. Whatever the integration is taking her into, she went willingly.' Stone sits down on the bench outside the cell. She doesn't try the door. 'Nael,' she says. 'That's her name. I know that name from the intake file, from the morning she was administered the modified compound, from three years of monthly reports I've been receiving without understanding what they meant.' She looks at her hands. 'Tell her I'm here. Tell her who I am. And then — if she answers — ask her what I should do with what I know now.'"
+}

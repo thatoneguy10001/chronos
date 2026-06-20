@@ -1,0 +1,81 @@
+{
+  "id": "brother_kell",
+  "name": "Brother Kell",
+  "initial_disposition": 55,
+  "greeting": "A young man in monastery gray — younger than you expected, maybe thirty, with ink-stained hands and the specific stillness of someone who has spent years learning to be quiet. He has a small book that he closes when you arrive and doesn't put away. 'You've been in the ruins,' he says. Not an accusation. An observation. 'I can tell by how you hold yourself.' He glances at the corridor. 'The Abbot sent you. I'm not going back to the monastery yet. But I'm willing to talk.'",
+  "dialogue": [
+    {
+      "keyword": "lazarus",
+      "prompt": "Project Lazarus",
+      "response": "'I've been documenting it for four years.' He opens the book to a page near the middle — columns of dates, observations, measurements. 'The monastery's position gives us a view the Ministry doesn't have. We see what comes out of the process, not what goes in. The subjects that drift into the iron_monastery grounds — I photograph their crystal patterns, track their routes, note behavioral differences.' He pauses. 'Eight months ago something changed. The subjects that arrived after that date were different. More purposeful. And there were more of them.'",
+      "disposition_delta": 5
+    },
+    {
+      "keyword": "elder",
+      "prompt": "the Elder People records",
+      "response": "'Twenty blank pages,' he says quietly. 'That's what Solan told you. The standard monastery answer.' He looks at you. 'The pages aren't blank. They're written in a cipher the Elder People used for their most sensitive records. It took me three years to break it.' He's quiet. 'What they tried — it worked. They achieved full network integration. A distributed consciousness across hundreds of subjects simultaneously.' He closes the book. 'And then they stopped it. Deliberately. From the inside.' He meets your eyes. 'Every subject who had integrated chose, in the same moment, to reverse the process and return to individual consciousness. The records say it was unanimous.' He pauses. 'That's what the blank pages say. I have been trying to understand how a distributed mind reaches unanimous agreement for a long time.'",
+      "disposition_delta": 8
+    },
+    {
+      "keyword": "network",
+      "prompt": "the Lazarus network",
+      "response": "'The subjects aren't wandering,' he says. 'That's the thing I realized three months ago that I couldn't tell Solan, because he would have made me stop watching and I needed to keep watching.' He opens the book to a map page — hand-drawn, careful, with paths marked in different colors. 'They have routes. They avoid each other in specific patterns that suggest coordination at a distance. They're not a mob. They're a mesh.' He taps the map. 'Someone with the right compound concentration could feel that. Feel the others. The network would be — available, from the inside.' He looks up. 'That's what Kehl found. I'm almost certain.'",
+      "requires_topic": "lazarus",
+      "disposition_delta": 6
+    },
+    {
+      "keyword": "hollow",
+      "prompt": "what the marking means",
+      "response": "'A method,' he says. 'Not a name — the first part is a name. But the marking in the lair is process notation.' He opens the book to the relevant pages. 'This is a description of how the Hollow process works. How what was done to them was done. Written by someone who experienced it from the inside and understood it well enough to record the mechanism.' He is quiet. 'Someone has been visiting that lair and reading those marks. Studying them. And recently they applied what they learned.' He looks up. 'The Lazarus modification is not an original program. It is a reconstruction from a primary source that has been standing in that lair for longer than the war.' He closes the book. 'I need to know who has been visiting. Morlak will have records.'",
+      "requires_quest_complete": "kell_reads_the_name",
+      "disposition_delta": 8
+    },
+    {
+      "keyword": "language",
+      "prompt": "how to communicate with the vassal",
+      "response": "He pulls out a second notebook — newer than the main one, the pages dense with cross-referenced notation. 'Four years of documentation. The ancient ones move very rarely, but when they do, the movements are grammatical. Precise in ways that pure animal behavior is not.' He walks you through three sequences: approach-and-acknowledgment, the listening-angle, the attention-indicator. 'If it responds, give it time. The reply will not be immediate.' He demonstrates the listening posture. 'The key is this — the specific angle that in Elder notation means I am listening and I have understood what you showed me before. If the vassal responds to that, it has been waiting for someone who knew the language.' He pauses. 'Bring back every motion, every sequence, in order. I can translate anything you don't understand in the moment. And go when you're ready — I don't think it will be much longer before the window closes.'",
+      "requires_quest_complete": "the_dead_visitor",
+      "disposition_delta": 6
+    },
+    {
+      "keyword": "prophecy",
+      "prompt": "the monastery's oldest prediction",
+      "response": "'The ink is three hundred years old.' He opens the book to the final section, a page that has been reproduced rather than photographed — his handwriting, copied character by character. 'It was in the farthest archive section, behind the shelf where the water damage starts. Three lines.' He reads: 'When the dead rise, the living will fall. When the crystal sings, the earth will answer. When the hammer falls, the world will end.' He looks at you. 'I thought, when I found it, that this was general apocalyptic rhetoric. The monastery has accumulated a good deal of general apocalyptic rhetoric over three centuries.' He taps the page. 'Then the Lazarus Subjects started returning from the bone fields. Then the crystal lattice readings started changing — they sing, measurably, at a frequency we can now detect with standard resonance equipment. The first two lines are present tense.' He is quiet. 'The hammer is Ironheart. In the tomb below the Black Vault. Kaelen Ironhand's hammer, still warm after three centuries, made in a Deep Iron forge, waiting for someone to pick it up.' He closes the book. 'I have been sitting with the third line for six months. I would appreciate your thoughts on it.'",
+      "disposition_delta": 10
+    },
+    {
+      "keyword": "designed",
+      "prompt": "whether the Armistice was designed",
+      "response": "'Yes.' He says it without the hesitation you expected. 'The Elder records describe the mechanism. A reciprocal ceasefire that activates at specific environmental triggers — sunset, the Abomination emergence patterns, the shared threat. It was built to be self-sustaining, to emerge naturally so neither side would feel they were bowing.' He pauses. 'The Elder People designed it six hundred years ago. Before the war. Before either nation, as they currently exist, had formed.' He looks at you. 'They anticipated this war. They built a mechanism to interrupt it on a nightly basis and named it after what it would sound like — the silence after the guns stop.' He's quiet. 'The question I can't stop asking: who, in the early days of the war, knew about this mechanism and seeded it into both military cultures simultaneously. Someone activated something the Elder People had built.' He closes the book. 'Someone knew where to look. I don't know who. I know that they must have had access to documents very similar to what I've been reading.'",
+      "requires_topic": "elder",
+      "disposition_delta": 9
+    },
+    {
+      "keyword": "fulfilled",
+      "prompt": "the third line, now that the hammer has fallen",
+      "response": "He has the page open when you arrive — not the monastery's oldest prediction, but his handwritten copy, the one he made character by character when he first found the cipher. He's been sitting with it. 'When the hammer falls, the world will end,' he reads. He sets the page down. 'I've been turning that line over since I found it. Catastrophe. Termination. That's the obvious reading.' He looks at you. 'I should have read it more carefully earlier.' He picks up the page. 'The Elder records use the word world in two registers. The first is: everything that exists. The second is: the order of things, the arrangement, the way a civilization has organized itself to survive.' He pauses. 'The Cascade-era records use the second register almost exclusively when discussing the war. The Cascade ended the order that preceded it. Not everything — not sky, not ground, not people. The arrangement.' He sets the page down. 'The hammer fell. The yes is in the lattice.' He is quiet. 'The world — the order of things, the arrangement that has organized itself around a war that was deliberately kept permanent — that world is ending.' He doesn't say it like a triumph. He says it with the specific gravity of someone who has been reading about an event for four years and is now watching it happen in real time, which is always stranger than the reading. 'It won't end this week. Or this year. Possibly not in my lifetime.' He looks at the cipher page. 'But the factor that maintained it — the yes that was never registered, the question that was never answered — that has changed.' He folds his hands. 'The third line is not apocalypse. It is — the correct end of something that should have ended three hundred years ago.' A long pause. 'I would like to send Osse's new chapter to the Aetherian monastery. Solan won't respond, but his archive will have it.' He looks at you. 'Do you think that's right?' He asks it genuinely, as someone who has spent his life learning to ask the right questions and has been given, this once, a question that has a right answer and would like to confirm he's found it.'",
+      "requires_quest_complete": "the_precondition_fulfilled",
+      "disposition_delta": 13
+    },
+    {
+      "keyword": "logbook",
+      "prompt": "the observatory logbook and what you found in it",
+      "response": "He has the smaller notebook open — the field notes he made after going up. 'Three days ago. I try to check the observatory once a month — the astronomer currently in residence is an Aetherian researcher on secondment, Maren, here to use the lens. She's meticulous. I've been reading her logbook entries as a matter of keeping current with what's visible from the tower.' He pauses. 'The entry for three days ago stops mid-sentence. The sentence was describing two star charts she'd overlaid — same constellation, same lens, same eight-month window, positions that don't match.' He taps the field notes. 'I copied what she'd written before the break. The stars she was tracking are in the constellation the Skyborn navigational tradition calls the Watcher. The Elder sky-maps named it that too — a fixed navigational constant. Other measurements were taken against it.' He looks at you. 'Fixed references don't move. That is the point of them.' He closes the notebook. 'I need someone to go up and look more carefully than I had time to. Through the monastery outer court and up the tower stair. Tell me what you find. And tell me if Maren is still there — the mug on her desk was recently refilled when I visited, which means either she was still in the tower or she had just left.'",
+      "disposition_delta": 7
+    },
+    {
+      "keyword": "kehl",
+      "prompt": "Sergeant Kehl",
+      "response": "'He marked the tunnels,' Kell says. 'Standard Terran sergeant's mark — I know the Third Division symbol. He was here within the week, after the armored subject.' He's quiet. 'The sergeant's mark at the crystal face in the Bone Fields — that was his too. He's been moving through specific locations, marking them. Either he's mapping the network from the inside, or he's leaving a trail for someone to follow.' He looks at the corridor. 'I think he knew someone would come. He's been waiting at the windward approach for two days.'",
+      "requires_topic": "network",
+      "disposition_delta": 6
+    },
+    {
+      "keyword": "offer",
+      "prompt": "what you think about the offer and what you decided",
+      "response": "He sets down the translation he's been working on, which is about the pre-Cascade consent framework documentation, which means he has been sitting with this question for two weeks in the most concentrated form possible. 'The prophecy said: when the hammer falls, the world will end.' He doesn't say it dramatically. He says it the way someone says a statement they've been examining from every angle for thirty years. 'I have spent thirty years on that line. Specifically the word end.' He picks up a fragment. 'The Elder People's word that translates as end is ambiguous in the original. The same word is used for: the final note of a song. The last page of a book. The conclusion of a journey.' He looks at the fragment. 'I translated it as end because that is the most alarming interpretation and I wanted the Abbot to take the question seriously. I have spent thirty years wondering if I was right.' He sets the fragment down. 'On the morning of full coherence I was in the maintenance tunnels, which is where I spend most mornings, and the offer came through the crystal in the rock around me with a clarity that does not admit interpretation.' He pauses. 'The world the war built — the world that needed dead soldiers and classified research and thirty years of a three-line prophecy kept locked in the deepest archive — that world ended.' He is quiet. 'The word for what comes after, in the Elder documents: the same word. End. Beginning. The last note. The first note of what comes next.' He looks at you. 'I said yes. I said yes before the offer finished arriving. I have been working toward yes for thirty years and I recognized it immediately.' He picks up the translation. 'I have a great deal of work left to do. The Elder documents read differently now that the lattice is whole. Some things I thought were metaphor are literal. Some things I thought were literal are metaphor.' He almost smiles. 'I was never going to run out of work.'",
+      "requires_quest_complete": "the_day_arrives",
+      "disposition_delta": 15
+    }
+  ]
+}

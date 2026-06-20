@@ -1,0 +1,11 @@
+{
+  "id": "stonehold",
+  "name": "Stonehold",
+  "description": "The city is lit by Aetherium. Not refined, not shaped — raw crystal formations, ancient as the rock itself, that have been carefully arranged to give light to a community that has lived beneath the surface for three hundred years and developed, in that time, an architecture that is nothing like anything above. Stone carved rather than built. Terraces descending. Markets at different levels connected by hand-cut stairs with no two the same depth, which you understand is deliberate once you see the way the Deep Iron move: unhurried, precise, bodies that have spent generations navigating confined space in complete dark and now navigate anything with the easy confidence of people who know exactly where their feet are. They look at you with calm curiosity. Not hostile. Not welcoming. Assessing. The Deep Iron have interacted with the surface factions enough to know what surface people are. They haven't decided yet what you are specifically.",
+  "exits": {
+    "up": { "target_room_id": "deep_iron_descent", "label": "Surface Passage" },
+    "down": { "target_room_id": "forge_of_stars", "label": "The Forge" },
+    "east": { "target_room_id": "grid_node", "label": "Elder Passages" }
+  },
+  "requirements": {}
+}

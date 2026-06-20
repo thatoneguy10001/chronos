@@ -1,0 +1,15 @@
+{
+  "id": "bam_ministry_canister",
+  "name": "The Ministry Canister",
+  "description": "After clearing the Bone Fields, Solan reported finding a Ministry-stamped preservation canister recently placed among the old dead. Return to the Fields and bring it back to him.",
+  "objective": {
+    "type": "reach_room",
+    "room_id": "bone_fields"
+  },
+  "gold_reward": 40,
+  "xp_reward": 100,
+  "giver_npc_id": "abbot_solan",
+  "requires_quest_complete": "bam_elder_fragment",
+  "accept_text": "He produces a small sealed cylinder — metal, stamped with a Ministry crest, the seal unbroken. 'One of our monks found this three days ago. Placed deliberately, in the center of the oldest section of the Fields. Not buried — set out. Like a gift.' He sets it on the table between you. 'I haven't opened it. I'm — reluctant to open it without knowing what I'm dealing with.' He looks at you. 'Return to where the subjects were and see if there are others. Bring back whatever you find. I want the count before I open the first one.'",
+  "complete_text": "Solan opens the canister with careful hands, removes the contents — a glass vial, viscous, the particular amber of a Lazarus compound variant. He examines it in the light for a very long time. 'This isn't a preservation agent.' He sets it down. 'I've read Stone's published research. This is her carrier formulation, but — amplified. Distributed.' He looks at the Fields through the window. 'Someone placed a compound designed to seed crystal receptivity into a field where three hundred years of chemically preserved dead are lying in the ground.' He is very quiet. 'They are trying to wake all of them.'"
+}

@@ -1,0 +1,40 @@
+{
+  "id": "aetherian_veteran",
+  "name": "Aetherian Veteran",
+  "description": "Twenty years minimum — you can read it in the wear patterns on the crystal-discharge rifle and the way it's held, close to the body, barrel angled slightly down in the ready position that only becomes habit after years of false alarms. The rank insignia at the collar are senior enlisted. It has fought in every major engagement in this pass for two decades and it is still here, which tells you several things about its abilities and one important thing about its disposition toward surrender. It will not stop assessing you. It will not make an unnecessary move. It is the most dangerous thing in this room and it knows that and is not particularly pleased by it.",
+  "base_stats": {
+    "hp": 85,
+    "attack": 14,
+    "defense": 8,
+    "intelligence": 5
+  },
+  "abilities": [
+    {
+      "id": "veterans_burst",
+      "name": "Veteran's Burst",
+      "description": "A controlled three-pulse discharge sequence — the first pulse forces a defensive reaction, the second exploits it, the third lands on the opening created by the second. Twenty years of developing this sequence. It is very smooth.",
+      "base_damage": 8,
+      "hit_count": 3
+    },
+    {
+      "id": "overcharge_shot",
+      "name": "Overcharge Shot",
+      "description": "Channels the crystal to maximum discharge — higher output, shorter recharge window. A single shot that hits like a field cannon.",
+      "base_damage": 24
+    }
+  ],
+  "passives": [],
+  "starting_equipment": [],
+  "xp_reward": 68,
+  "gold_reward": 18,
+  "tactics": [
+    {
+      "condition": { "type": "hp_below", "threshold": 0.4 },
+      "action": { "type": "heavy_attack", "multiplier": 1.4 }
+    },
+    {
+      "condition": { "type": "always" },
+      "action": { "type": "basic_attack" }
+    }
+  ]
+}

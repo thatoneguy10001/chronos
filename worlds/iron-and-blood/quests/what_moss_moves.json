@@ -1,0 +1,16 @@
+{
+  "id": "what_moss_moves",
+  "name": "What Moss Moves",
+  "description": "Gideon Moss has been supplying Project Lazarus through the gray market for three years. He knows the supply chain better than anyone with official clearance. He'll talk — but two Lazarus Subjects have been drifting through his shipping routes, and he wants them cleared first.",
+  "objective": {
+    "type": "kill_count",
+    "class_id": "lazarus_subject",
+    "count": 2
+  },
+  "gold_reward": 55,
+  "xp_reward": 130,
+  "giver_npc_id": "gideon_moss",
+  "requires_quest_complete": "into_the_hive",
+  "accept_text": "Moss doesn't ask how you found him. He just makes room at the table. 'Three years I've been moving preservative compound and neural-relay components through these tunnels. Ministry medical requisitions, technically, but the procurement channels were — unofficial. Which means I know everything about this project except officially.' He leans forward. 'Two of the wanderers got into my eastern supply cache last week. They don't know they did it. They drift through and things get knocked over and sometimes things catch fire. It's not their fault.' He says this without particular emotion, like he's saying the weather is bad. 'Kill them clean. Don't make it ugly — they were people, before. Come back and I'll give you the full three years of supply records. Who ordered what, when, and how the formula changed.'",
+  "complete_text": "Moss counts out payment without looking up. 'Good. My people were nervous.' He puts the money away and pulls out a worn ledger — water-stained, meticulous. 'The components went to a facility in the maintenance tunnels under the Spire. Sub-level access. I never knew exactly what they were building — I'm logistics, not research.' He opens to a flagged page. 'What I do know: eight months ago, the formula changed. New compound, different ratio, quantities tripled. And the authorization signature changed with it — not Stone anymore. Someone I don't recognize.' He closes the ledger. 'Stone's name stopped appearing on anything eight months ago. She didn't retire. She's still in the Spire.' He slides the ledger across. 'I'd go talk to her before someone decides she's a loose end too.'"
+}

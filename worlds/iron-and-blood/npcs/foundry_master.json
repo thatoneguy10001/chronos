@@ -1,0 +1,32 @@
+{
+  "id": "foundry_master",
+  "name": "Foundry Master Orren",
+  "initial_disposition": 55,
+  "greeting": "He has been standing in this spot, watching the primary pour line, for what appears to have been a geological era. He is very old. The kind of very old where the age has stopped being visible in individual features and has become a quality of presence — he simply takes up the space the way the Foundry itself takes up space, like something that was here before the things around it and will be here after. He turns when you approach. He uses the gesture-language of the floor workers without thinking about it, then notices you don't know it, then speaks. 'Visitors to the Foundry,' he says, as if this is a category he's had to think about. 'The Foundry has had visitors.' He pauses. 'Forty-three years ago and then again now. Welcome.'",
+  "dialogue": [
+    {
+      "keyword": "foundry",
+      "prompt": "the Great Foundry",
+      "response": "'One thousand and seven years of continuous operation.' He says it the way a priest says scripture — not with reverence exactly, but with the weight of something that has been said many times, each time meaning it. 'Three Terran dynasties, nine ministry configurations, the Cascade, two plague years, and the war, and the pour has not stopped for longer than sixteen hours.' He watches the metal flow. 'The sixteen hours were in year forty-two. A failure in the primary crystal regulator. I was not here then. But I have been told, and I have read the logs, and the weight of it — the people who worked those sixteen hours to restart it — was enormous.' He's quiet. 'I tell the new workers about the sixteen hours. I want them to understand what this place is. It is not a factory. It is a commitment.'",
+      "disposition_delta": 6
+    },
+    {
+      "keyword": "hive",
+      "prompt": "how the Hive has changed",
+      "response": "'The Foundry built the Hive.' He says it without pride, as fact. 'First the wall. Then the upper levels. Then the Spires, which I have not visited. I understand they are very clean.' He says 'very clean' in the tone one uses for something that has committed an error of priorities. 'When I started, the Foundry provided steel to forty-three civic projects simultaneously. Infrastructure, water lines, schools, the lower hospital.' He's quiet. 'Now it provides steel to the Ministry of Industry and Military Acquisition. That is, as far as I can determine, now the only purpose of the Hive: to provide steel for the war, which provides purpose for the Hive, which produces steel for the war.' He watches the pour. 'The architects who designed this place had a different circle in mind.'",
+      "disposition_delta": 7
+    },
+    {
+      "keyword": "workers",
+      "prompt": "the workers",
+      "response": "'My people.' He says it simply. 'The Foundry has its own culture. We don't use words during the pour — the equipment is too loud — so we have gestures. Four hundred and twelve standard gestures. I know them all. My father's father learned them here.' He watches two workers exchange a rapid sequence. 'What you just saw means: line four is reading high, adjust the flow at the secondary gate, and: how is your daughter.' He pauses. 'The language evolves with the workplace. New gestures get proposed, tested, standardized. The gesture for the secondary gate regulator is thirty years old. The gesture for' — he makes a small motion — 'that one means: the inspector from the ministry is here, look busy. That gesture is twelve years old.' Something quietly dignified in his expression. 'We have opinions about the Ministry, down here. We have a language for them.'",
+      "disposition_delta": 8
+    },
+    {
+      "keyword": "ministry",
+      "prompt": "the Ministry",
+      "response": "'They come down here every quarter with production reports.' He pauses, choosing words. 'The production reports measure tonnage. Tonnes per day. Tonnes per quarter. Tonnes per year.' He is quiet. 'They do not have a category for: how many people was this person before we reclassified them as labor hours. They do not have a category for: how long does a Foundry worker's hearing last, and what does it cost, and who pays it.' He gestures at the workers. 'The Foundry has been here a thousand years. The Ministry as it currently exists has been here twelve. I have noticed that things built on commitment outlast things built on mandate, and I have been watching to see if this holds.' He pauses. 'So far, it holds.'",
+      "disposition_delta": 6
+    }
+  ]
+}

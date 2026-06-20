@@ -1,0 +1,9 @@
+{
+  "id": "armistice_cave",
+  "name": "The Armistice Cave",
+  "description": "What nobody told you about the ceasefire — what couldn't survive the trip from experience to report — is that when the guns stop, you can hear the wind. There is a fire in the center of the cave. Around it: Terran soldiers on one side, Aetherian soldiers on the other, and the sides are not really sides because there is only one fire and only one dark outside. Someone has shared rations. Someone is teaching someone else a card game from the wrong country. In the corner, a Terran and an Aetherian are asleep against the same wall, which is the most subversive act occurring in this theater of operations and nobody will ever put it in a report. The cave has been used like this for as long as anyone currently here has been stationed in this pass. Neither command structure acknowledges its existence. Both command structures know exactly where it is.",
+  "exits": {
+    "out": { "target_room_id": "armistice_ground", "label": "Armistice Ground" }
+  },
+  "requirements": {}
+}

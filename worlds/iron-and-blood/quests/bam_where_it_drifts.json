@@ -1,0 +1,15 @@
+{
+  "id": "bam_where_it_drifts",
+  "name": "Where It Drifts",
+  "description": "Thorn's scouts have spotted the drifting figure — the one from the patrol with crystal through its shoulders — moving through Windward Approach toward the tunnels below. Thorn wants to know what it's doing. He isn't sending soldiers.",
+  "objective": {
+    "type": "reach_room",
+    "room_id": "windward_approach"
+  },
+  "gold_reward": 50,
+  "xp_reward": 125,
+  "giver_npc_id": "commander_thorn",
+  "requires_quest_complete": "bam_ministry_canister",
+  "accept_text": "Thorn doesn't look up from the map when he speaks. 'My people spotted it two nights ago. Moving west along the ridge, heading for the Pass.' He marks the route with one finger. 'It isn't attacking anyone. It isn't hiding. It's moving with purpose, which is different.' He looks up. 'I've had it under watch. It entered Windward Approach last night and didn't come out.' He meets your eyes. 'I'm not sending soldiers into those tunnels after it. Too many variables, and I need to know what comes back as much as what goes in.' He folds the map. 'I'll tell you this. It has crystals growing through its shoulders. In three years I have never seen a subject with crystals through the shoulders. That's not integration. That's architecture.'",
+  "complete_text": "Windward Approach is quiet when you arrive — the particular quiet of something that was just here. Boot prints in the ash, evenly spaced, heading toward the tunnel entrance. And something else: left behind on the ledge, placed carefully, not dropped. A strip of cloth from a Terran infantry uniform, knotted in a pattern you don't recognize. Thorn will know what it means, or he'll pretend he doesn't, which will tell you something too."
+}

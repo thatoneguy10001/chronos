@@ -1,0 +1,10 @@
+{
+  "id": "black_vault",
+  "name": "The Black Vault",
+  "description": "The crystals in here are wrong. Not corrupted — you know what corrupted Aetherium looks like now, the twisted facets, the arrhythmic pulse. These are something else: deep black, which Aetherium is not, with a surface that seems to absorb light rather than reflect it. They don't pulse. They don't react. They sit in their containment cases with the specific stillness of things that are being very careful. The cases are layered: crystal housing, chemical seal, electromagnetic shielding, a handwritten note from Stone dated six months ago that reads 'DO NOT OPEN' and is not addressed to anyone. There are twelve cases. The three nearest the door are empty. You check each label: intake dates, crystal weight, source location. The source locations are not in the Gray Wastes. Two are labeled SUNKEN CITY. One is labeled SPIRE — and the containment case for that one has a lock that none of your keys fit, with no Ministry code on it and no indication of what clearance would.",
+  "exits": {
+    "south": { "target_room_id": "lazarus_chamber", "label": "Lazarus Chamber" },
+    "down": { "target_room_id": "kaelens_tomb", "label": "The Sealed Chamber" }
+  },
+  "requirements": {}
+}

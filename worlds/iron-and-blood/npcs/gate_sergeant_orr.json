@@ -1,0 +1,32 @@
+{
+  "id": "gate_sergeant_orr",
+  "name": "Sergeant Orr",
+  "initial_disposition": 45,
+  "greeting": "He's the one not moving, which is how you find him in the controlled stream of soldiers moving in and out. He has the gate-sergeant's quality of existing as a fixed point — the thing everything else flows around, which gives him a comprehensive view of the flow. Fourteen years at this post, you'd guess from the way he stands, maybe more. He looks at you when you approach with the look that has assessed ten thousand soldiers and found a specific category for each one. 'You're processing through,' he says. It's not a question. 'Or you've already processed through and you're still here, which is a different thing.' He doesn't look away. 'Either way: I have time.'",
+  "dialogue": [
+    {
+      "keyword": "gate",
+      "prompt": "what goes through this gate in a day",
+      "response": "'Everything.' He says it the way a river says water — it just is what it is. 'Reinforcements coming in. Casualties going back. Supply runs. Intel couriers who don't make eye contact. Ministry officials who make too much of it.' He watches the current stream of soldiers moving north toward the command post. 'The ratio that's changed in twenty years: reinforcements to casualties. When I started here it was three to one. It's been running close to two to one for the last four years.' He pauses. 'Not because fewer reinforcements are coming. Because more casualties are going back.' He watches the gate. 'I track these things. Nobody asked me to. Nobody asks me what I find. I track them anyway because you understand a thing by watching it long enough, and twenty years is long enough to understand some things.'",
+      "disposition_delta": 7
+    },
+    {
+      "keyword": "history",
+      "prompt": "how long this fort has stood and what you've seen here",
+      "response": "'Two hundred years of scorches on the stone.' He nods at the gateway arch. 'Each campaign adds a layer. I know which layer is which because I researched it — official histories, regimental records, whatever the monastery archive would loan on request.' He pauses. 'The fort has held for two hundred years. Through four major Aetherian offensives, three changes of Ministry administration, and one period that the official records call the Reorganization and that the soldiers who survived it called the Culling.' He looks at the arch. 'Two hundred years. The shape of the gate has not changed. The faces have changed completely, obviously. But the gate is the same.' He pauses. 'I find that either comforting or troubling, depending on the day. Today I find it troubling. Ask me again in a week.'",
+      "disposition_delta": 6
+    },
+    {
+      "keyword": "soldiers",
+      "prompt": "what you make of the soldiers coming and going",
+      "response": "'They're young.' He says it simply, without complaint. 'They've always been young. The war takes them young and the survivors get older and the young ones replace them and the gate stays the same age.' He watches the stream. 'The thing that changes: the questions they ask when they come through. Twenty years ago they asked about the Aetherians — what are they like, how do they fight. Ten years ago they stopped asking about the Aetherians and started asking about the Abominations — what are they like, what do they do. Five years ago they started asking about the Armistice.' He pauses. 'Not how it works. Not what the rules are. Just: is it real. Do people actually stop.' He looks at you. 'I tell them: yes. People actually stop. Both sides. Every night.' He is quiet. 'The look on their faces when I say that. Like they needed permission to believe in something they already knew was true.'",
+      "disposition_delta": 8
+    },
+    {
+      "keyword": "front",
+      "prompt": "what's happening out there right now",
+      "response": "He's quiet for a moment with the quality of someone translating something large into something sayable. 'The same thing that's been happening for two hundred years.' He looks south toward the trenches. 'But there's something different in the last eight months, and I say that as someone who has been watching this gate for fourteen years and can tell the difference between a seasonal pattern and an actual change.' He pauses. 'The soldiers coming back from the Wastes — from the Armistice patrols specifically — come back different. Not wounded. Different. Like they saw something or understood something.' He looks at you. 'I know that's not a precise observation. But fourteen years of watching faces lets you make imprecise observations with some confidence.' He pauses. 'Something is changing out there. I don't know what it is. The gate sees everyone pass through eventually. I'm waiting to see what passes through next.'",
+      "disposition_delta": 7
+    }
+  ]
+}

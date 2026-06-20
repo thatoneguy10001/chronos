@@ -1,0 +1,16 @@
+{
+  "id": "clear_the_bone_fields",
+  "name": "Clear the Bone Fields",
+  "description": "Abbot Solan reports that something is actively animating the ancient dead of the Bone Fields — three recently risen Lazarus Subjects have been identified moving among the old battlefield remains. The Monastery's supply route through the Fields must be kept open. The Abbot needs the path cleared.",
+  "objective": {
+    "type": "kill_count",
+    "class_id": "lazarus_subject",
+    "count": 3
+  },
+  "gold_reward": 35,
+  "xp_reward": 90,
+  "giver_npc_id": "abbot_solan",
+  "requires_quest_complete": "bam_crystal_structure",
+  "accept_text": "'The Bone Fields have been restless for thirty years,' the Abbot says. 'The corruption stirs the dead, but it does not purpose them. What is moving there now is purposeful.' He unfolds a hand-drawn map — clear lines, careful annotations, the product of a century of monastic cartography. 'Three subjects, confirmed by our scouts. They are moving in a pattern, not wandering. Something is directing them.' He hands you the map. 'Our runners must pass through there twice a week. I would be grateful if you could make it safe to do so.'",
+  "complete_text": "He takes the report and sits with it a moment, his calm undisturbed but attentive. 'Thank you.' Said simply, without formal ceremony — the thanks of someone who means it. 'The routes will be open again. Our runners will know your name.' He pauses. 'Three subjects. Directed movement. The Bone Fields have never produced that before. What is changing in the Wastes concerns me.' He looks toward the east. 'Keep your eyes open.'"
+}

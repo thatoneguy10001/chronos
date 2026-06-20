@@ -1,0 +1,15 @@
+{
+  "id": "bam_coordinates",
+  "name": "The Coordinates in the Orders",
+  "description": "The three-hundred-year-old patrol orders contain coordinates. Bring them to Abbot Solan. The Monastery has records that predate the war.",
+  "objective": {
+    "type": "talk_to",
+    "npc_id": "abbot_solan"
+  },
+  "gold_reward": 60,
+  "xp_reward": 150,
+  "giver_npc_id": "abbot_solan",
+  "requires_quest_complete": "bam_what_thorn_knows",
+  "accept_text": "You return with what the sergeant gave you. Solan is with Kell, the two of them comparing the pages from the tunnel archive against the Monastery's own records, working in silence. When you show them the order, Kell is the one who reaches for it first. He reads the coordinates. He reads them again. He passes it to Solan without speaking. Solan reads. The silence between the brothers is the particular silence of people who have spent forty years looking for something they are now looking at.",
+  "complete_text": "Solan sits. It takes him a moment. 'We have a record of this location.' He sets the order down. 'The chronicle calls it the Sunken City. We assumed it was metaphorical — a place the Elder People used as a symbol for the space between living and dead, the threshold point where the network could receive the dying.' He doesn't look away from the coordinates. 'I assumed it was metaphorical because if it were real, it would be the most significant place in the entire history of two civilizations, and no one had found it.' He looks up. 'The coordinates are approximately four hundred meters below the Maintenance Tunnels. Below the foundation stone. Below where anything should be.' A long pause. 'I don't think it was metaphorical.'"
+}

@@ -1,0 +1,12 @@
+{
+  "id": "crater_of_bones",
+  "name": "Crater of Bones",
+  "description": "Half a mile wide, a hundred feet deep. A sky-city hit this ground a century ago — shot down or accident, nobody agreed, and the people positioned to investigate were standing on opposite sides of the argument. The Aetherians asked for the crater. The Terrans said no. Then everyone got busy with the war and the question stopped being asked, which is not the same as being answered. The wreckage rings the inner slope: crystal and steel that was once architectural and is now geological, if you wait long enough. The bones in the floor are mixed — Aetherian, Terran, older than either — and you do the math anyway even though you already know the answer. The Aetherium crystals here have a purity you won't find on the surface; the fall preserved something in them that everything since has worn out of everything else. At night the figures come. They don't attack, usually. They follow at exactly three meters and they don't speak, and visitors who stay past midnight sometimes carry something back with them they can't point to or explain.",
+  "exits": {
+    "north": { "target_room_id": "bone_fields", "label": "Bone Fields" },
+    "east": { "target_room_id": "spire_of_bones_approach", "label": "Eastern Wastes" },
+    "west": { "target_room_id": "silent_market", "label": "The Silent Market" },
+    "south": { "target_room_id": "discarded_camp", "label": "The Discarded Camp" }
+  },
+  "requirements": {}
+}

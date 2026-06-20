@@ -1,0 +1,11 @@
+{
+  "id": "find_the_lost",
+  "name": "Find the Lost Patrol",
+  "description": "Third Squad hasn't reported in. The Iron-Beak Vultures circling the eastern ruins appeared the same time the patrol went silent. Investigate — and clear the birds.",
+  "objective": { "type": "kill_count", "class_id": "iron_beak_vulture", "count": 2 },
+  "gold_reward": 35,
+  "xp_reward": 100,
+  "giver_npc_id": "commander_thorn",
+  "accept_text": "'Third Squad. Six soldiers. I sent them to investigate strange lights near the eastern ruins two days ago.' He pauses. 'The Iron-Beaks started circling that area at the same time. Draw your own conclusions.' He meets your eyes. 'I need to know what's out there — whatever that means.'",
+  "complete_text": "'So the birds got them.' A long silence. 'I half-expected something worse.' He doesn't explain what 'worse' means. He just files the report and pays you your scraps."
+}

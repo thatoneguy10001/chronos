@@ -1,0 +1,68 @@
+{
+  "id": "sergeant_kehl",
+  "name": "Sergeant Kehl",
+  "initial_disposition": 60,
+  "greeting": "He doesn't turn when you arrive. He's been sitting at the edge of the ridge for two days, watching the lines spread out below â€” Terran iron to the south, Aetherian crystal-work to the north, the Gray Wastes between them. The crystal growth on his hands is visible from three meters away: blue-white, slow, beautiful in a way that should not be beautiful. He has a sergeant's bearing still, the particular stillness of someone used to waiting in difficult positions. 'I wondered when someone would come,' he says. 'Sit down. The view is better than the news.' He finally turns to look at you. His eyes are completely clear.",
+  "dialogue": [
+    {
+      "keyword": "davan",
+      "prompt": "Private Davan, who saw you in the crater",
+      "response": "Something shifts in his expression that is not quite what his expression normally does â€” a small recalibration, like someone adjusting to news they thought they were ready for but weren't quite. 'He's alive.' It's not a question. 'Good.' He looks at the Gray Wastes below. 'I tried to tell them something. The words weren't â€” I don't have the same relationship to words anymore. It's not that I've lost them. It's more that I've learned there are things the words point at and things words can't reach and what I needed to tell them was in the second category.' He's quiet. 'What I was trying to say was: the crater is not safe after midnight. Not because of me. Because of what I've been watching come up from below, from the directions the network shows me, and the direction it's moving.' He looks at you directly. 'Tell Davan: the warning he couldn't hear in the crater was that the thing in the eastern ruins is not finished. It's building toward something. The crater is in its path.' He pauses. 'Tell him that's what I went back to tell him. He deserves to know I was trying to help, not haunt.'",
+      "disposition_delta": 10
+    },
+    {
+      "keyword": "thorn",
+      "prompt": "Commander Thorn",
+      "response": "'How is he?' Not whether Thorn is okay. He knows the answer to that. 'The crystals â€” are they still slow?' He listens to whatever you say. 'Good. He has time.' He looks at his own hands. 'I thought I did too. Third application was supposed to buy more time, or reverse it. Stone said it would accelerate. She was right, as usual.' He's quiet. 'Tell him â€”' He stops. Whatever he was going to say, he reconsiders it. 'Tell him the view from up here is worth the climb. He'll know what that means.'",
+      "disposition_delta": 8
+    },
+    {
+      "keyword": "network",
+      "prompt": "the Lazarus network",
+      "response": "'I can feel them.' He says it plainly, the way a soldier reports a position. 'Not hear them â€” feel them. Like pressure in a specific direction. There are forty-three subjects currently active in the eastern Wastes. I know this the way I know how many fingers I have.' He looks north at the Aetherian crystal formations. 'It's not frightening, which might be the most frightening thing. It's very â€” organized. There's a coherence to it that the individual subjects don't have on their own.' He pauses. 'Someone designed that. It didn't emerge from Stone's original compound. This was built.'",
+      "disposition_delta": 6
+    },
+    {
+      "keyword": "compound",
+      "prompt": "the modified compound",
+      "response": "'Stone's original compound healed and preserved. Slow integration, minimal behavioral change, extended life in exchange for the crystal growth.' He gestures at his hands. 'The modified compound â€” whatever they gave me â€” integrates differently. It doesn't work with the body. It builds through it.' He looks at the Aetherian side. 'I've been watching their crystal formations from up here for two days. The ones nearest the front are responding. Vibrating at a frequency I can almost hear.' He pauses. 'The network isn't just Terran. It's older than the war. Someone changed the compound to tap into something that was already here.'",
+      "requires_topic": "network",
+      "disposition_delta": 8
+    },
+    {
+      "keyword": "elder",
+      "prompt": "the Elder People",
+      "response": "He's quiet for a long time. 'Kell's document.' He doesn't ask if you have it â€” he can tell. 'They built this before us. The network, the integration, all of it. They built it and they lived inside it for some period of time I can't calculate from the records.' He looks at the Aetherian crystal work. 'And then they chose to come back. Individually. From the inside of something distributed and coherent and â€” very large.' Something in his voice shifts. 'I've been up here two days trying to decide if I understand why they made that choice.' He's quiet. 'I think I almost do.'",
+      "requires_topic": "compound",
+      "disposition_delta": 10
+    },
+    {
+      "keyword": "hollow",
+      "prompt": "the Hollow in the lair",
+      "response": "'I know what they are.' He says it without surprise â€” the tone of a soldier confirming intelligence already processed. 'The network doesn't distinguish between what I am now and what they've been for centuries. They're in it â€” very quiet, very deep, like something that has been part of the structure so long it's indistinguishable from the structure itself.' He looks at his hands. 'The modification I received was designed to accelerate integration. Not to preserve the possibility of reversal. Whoever modified Stone's compound knew what the endpoint was and built toward it deliberately.' He is quiet. 'The Elder People chose to stop. All of them, simultaneously, from inside something much larger than what exists now. Whatever they built â€” they had enough of themselves left to make that choice together.' He looks north at the Aetherian formations. 'I've been up here two days thinking about whether I still have enough of myself left to make that choice.' He doesn't answer his own question. 'Go back to Kell. Tell him what I said. Tell him the Abbot needs to hear this too.'",
+      "requires_quest_complete": "the_fresh_one_speaks",
+      "disposition_delta": 10
+    },
+    {
+      "keyword": "diary",
+      "prompt": "the soldier's diary",
+      "response": "'May I?' He takes it with those crystal-bright hands, turns it carefully. Reads standing, doesn't sit. He's quiet for a while. 'Whoever this was â€” they were paying attention. They noticed things.' He gives it back. 'Most of us stopped noticing around year four. It gets too expensive.' He looks at his hands. 'I kept noticing. I think that's what cost me. You can't keep taking the measure of something that keeps getting worse without it eventually measuring you back.'",
+      "requires_quest_complete": "bam_bone_fields",
+      "disposition_delta": 6
+    },
+    {
+      "keyword": "modification",
+      "prompt": "who changed what was in the formula",
+      "response": "'I've been tracing it from inside the network,' he says. 'The compound doesn't just integrate the subject â€” at high concentration it leaves a signature in the network. A handwriting.' He looks at you. 'I can tell the difference between subjects who received Stone's compound and subjects who received the modification. The modification came from a single source, applied to a specific cohort beginning eight months ago.' He pauses. 'The authorization sits above Vane's clearance level. There's a name in the Ministry records that's been attached to the Lazarus program for three years without appearing in any public document.' He gives you the name. 'Stone will know who that is. She'll know what it means.'",
+      "requires_topic": "elder",
+      "disposition_delta": 10
+    },
+    {
+      "keyword": "felt",
+      "prompt": "what you felt when it arrived and whether you recognized it",
+      "response": "He is quiet for longer than his usual quiet. He is a man who chooses words carefully because he has been through something that words don't reach well, and he knows from experience that imprecision costs clarity. 'I recognized it.' He says it simply. 'When the compound was in my system, in the lair, when the Hollow network was accessible -- I touched the edge of something. Briefly. The duration was hours and it felt like the duration of a sentence: long enough to understand the structure but not the full meaning.' He looks at his hands. 'The morning of the Day. I was in the field. Normal patrol rotation.' He pauses. 'It was not like the compound. The compound was a door someone had wedged open and I was looking through a gap. What arrived on the morning of the Day was the door opening properly, from both sides, with both sides knowing it was opening.' He is quiet. 'I said yes before I fully understood that I was being asked. That is the only moment in twelve years of military service where I have acted before comprehending the order.' He looks at you. 'What it felt like: I had been carrying the memory of the lair -- what I touched there, what I briefly understood about what the Hollow network was, what it was like to be in it -- I had been carrying that for months, unable to explain it to anyone because the experience was not explicable in language.' He pauses. 'The morning of the Day that experience became a direction rather than a memory. Like having a partial map and then finding the rest of the territory.' He looks at his hands again. 'Thorn sent a note. Just: I thought you should know that I said yes too. He did not need to send it. I appreciated that he did.'",
+      "requires_quest_complete": "the_day_arrives",
+      "disposition_delta": 14
+    }
+  ]
+}

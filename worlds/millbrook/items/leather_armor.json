@@ -1,0 +1,12 @@
+{
+  "id": "leather_armor",
+  "name": "Leather Armor",
+  "description": "Supple but sturdy hide armor. Wearing it — or even carrying it — provides protection.",
+  "starting_room_id": "guard_house",
+  "takeable": true,
+  "consumable": false,
+  "attributes": {
+    "equip_stat": "defense",
+    "equip_bonus": 3
+  }
+}

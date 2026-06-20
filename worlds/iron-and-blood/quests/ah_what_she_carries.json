@@ -1,0 +1,16 @@
+{
+  "id": "ah_what_she_carries",
+  "name": "What She Carries",
+  "description": "Lena Voss has been treating Aetherian soldiers who came back from wherever they went. She has findings. Return to the Armistice ground after dusk to hear them.",
+  "objective": {
+    "type": "talk_to",
+    "npc_id": "lena_voss"
+  },
+  "gold_reward": 50,
+  "xp_reward": 120,
+  "requires_night": true,
+  "giver_npc_id": "lena_voss",
+  "requires_quest_complete": "ah_medic_exchange",
+  "accept_text": "She doesn't make you wait for it. 'The three soldiers on my side — I've been running the same tests Adra has been running on yours. Same pattern. Motor function intact. Memory mostly intact. The thing that isn't intact is harder to name.' She opens her kit and removes a small notebook. 'They respond to Aetherian commands as readily as Terran ones. They remember both languages with equal fluency. When I asked one of them to recite his unit designation, he gave me both. Terran format, Aetherian format, perfectly, without hesitation.' She looks at you. 'He'd been behind our lines for six years. He had no reason to retain Terran unit notation. He shouldn't know it. But he does.' She closes the notebook. 'Come back tomorrow night. I want to compare notes properly.'",
+  "complete_text": "'They're not confused about what they are,' she says, and this is clearly something she has been thinking about for a long time. 'They know they're soldiers. They know their names and ranks and histories. What they're confused about is who they were — the specific texture of what it meant to be them before.' She pauses. 'Your Stone, my program director — they both used the word retention. Like it's the compound holding something that should have been lost.' She looks at the dark. 'I don't think it's retention. I think something is receiving them. And I think it's been receiving both sides equally for a very long time.'"
+}

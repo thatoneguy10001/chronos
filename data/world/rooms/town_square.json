@@ -1,0 +1,12 @@
+{
+  "id": "town_square",
+  "name": "Town Square",
+  "description": "The heart of Millbrook, a farming village beside a gentle river. A weathered notice board stands at the center, its parchment fluttering with bounties and rumors. Market stalls bustle to the north, the Guild Hall's banners hang to the east, the Copper Mug's warm light spills from the west, and a path south follows the river road.",
+  "exits": {
+    "north": { "target_room_id": "market", "label": "Market Row" },
+    "east": { "target_room_id": "guild_hall", "label": "Guild Hall" },
+    "west": { "target_room_id": "tavern", "label": "The Copper Mug" },
+    "south": { "target_room_id": "river", "label": "River Path" }
+  },
+  "requirements": {}
+}

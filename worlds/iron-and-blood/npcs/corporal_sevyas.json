@@ -1,0 +1,52 @@
+{
+  "id": "corporal_sevyas",
+  "name": "Corporal Sevyas",
+  "initial_disposition": 40,
+  "greeting": "He's sitting on a cot near the window, very still. Not resting — just still. His uniform is wrong somehow, like it was put on by someone who knew what a uniform was supposed to look like but had to think about each piece. He looks up when you enter. The eyes are clear. That's the first thing. Clear and steady and wrong in a way you can't explain. 'Third squad,' he says, like he's checking whether that's still true. 'Yes. That's right.'",
+  "dialogue": [
+    {
+      "keyword": "patrol",
+      "prompt": "the patrol",
+      "response": "'We went east. The lights — there were lights in the ruins, blue, slow. The sergeant said it was equipment malfunction.' He stops. 'Then there was a sound. And then.' He looks at his hands. 'I remember the east end of the ruins. I remember Arris saying something about the ground. Then I'm here. Sister Adra is asking me questions.' He looks up. 'What happened in between?'",
+      "disposition_delta": 3
+    },
+    {
+      "keyword": "memory",
+      "prompt": "your memory",
+      "response": "'Parts of it are fine. Before the ruins — I can tell you the route we took, what we ate, who was walking point. Hessa was. She was always on point.' He pauses. 'After the ruins it's like looking at something through dirty water. I know there should be more. I just can't see it.' He's quiet. 'The sergeant told us once that the worst wounds are the ones that don't hurt. I keep thinking about that.'",
+      "disposition_delta": 4
+    },
+    {
+      "keyword": "arris",
+      "prompt": "Arris and the others",
+      "response": "'Arris was to my left. Hessa on point. Sergeant Kehl behind me.' Something shifts behind his eyes — not emotion exactly, more like the memory of where emotion used to be. 'The others — Davan, Mira, Pol — they were there. I know they were there. I can count them.' He stops. 'I can't see their faces. When I try to remember their faces the water gets darker.' He looks at you. 'Are they dead?'",
+      "disposition_delta": 5
+    },
+    {
+      "keyword": "afraid",
+      "prompt": "whether you're afraid",
+      "response": "He considers this for a long moment, like he's checking the answer rather than feeling it. 'No. That's the strange thing. I should be, shouldn't I? Something happened to me in those ruins and I don't remember it and I'm here and the others aren't.' He looks toward the window. 'Adra says that's a symptom. I don't know what of.' He turns back. 'I know what fear feels like. I've felt it plenty. I just — can't seem to find it right now. Like the cupboard is empty.'",
+      "disposition_delta": 6
+    },
+    {
+      "keyword": "kehl",
+      "prompt": "Sergeant Kehl",
+      "response": "'He was solid. Twenty years in. He knew every trick the Wastes could throw.' He stops. Something flickers across his face — the closest thing to grief you've seen from him. 'He said something. In the ruins. Right before. I can hear his voice but not the words.' He shakes his head once. 'I keep trying to pull them back and they won't come. Just his voice and then the sound and then nothing.' He looks at his hands again. 'I'd like to know what he said.'",
+      "disposition_delta": 6
+    },
+    {
+      "keyword": "arris_diary",
+      "prompt": "who Arris was",
+      "response": "'Arris.' He says the name before you finish the question. 'Arris was...' He stops. Looks at his hands. 'He was the one who talked. In the patrol. When nobody else was talking — between drills, during the long stretches, when it got bad and quiet at the same time — Arris talked.' His expression doesn't change but something behind it shifts. 'I can't see his face.' The same phrase again, exactly the same. 'I knew his face better than my own. But when I try to—' He stops. 'Is his name in the diary?' A pause. 'Don't tell me. I don't think I want to know if it isn't.'",
+      "requires_quest_complete": "bam_high_ground",
+      "disposition_delta": 8
+    },
+    {
+      "keyword": "lazarus",
+      "prompt": "Project Lazarus",
+      "response": "Something happens when you say the word. Not fear — something older than fear, something that predates language. His hands go still. 'Where did you hear that?' His voice is exactly the same. That's what's wrong about it. 'I've heard it. I don't know where. It's in the dark water with the faces.' He looks at you with those clear, steady eyes. 'Don't tell the Commander I said that.'",
+      "requires_topic": "memory",
+      "disposition_delta": 8
+    }
+  ]
+}

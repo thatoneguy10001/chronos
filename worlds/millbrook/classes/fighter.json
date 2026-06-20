@@ -1,0 +1,37 @@
+{
+  "id": "fighter",
+  "name": "Fighter",
+  "description": "A stalwart tank who trades finesse for staying power — high health and defense, shield and sword. Built to hold the line while others fall.",
+  "base_stats": {
+    "hp": 120,
+    "attack": 9,
+    "defense": 8,
+    "intelligence": 2
+  },
+  "abilities": [
+    {
+      "id": "shield_bash",
+      "name": "Shield Bash",
+      "description": "A heavy shield strike that staggers the target.",
+      "base_damage": 6
+    },
+    {
+      "id": "whirlwind_slash",
+      "name": "Whirlwind Slash",
+      "description": "A spinning sword attack that strikes 3 times in rapid succession.",
+      "base_damage": 3,
+      "hit_count": 3
+    },
+    {
+      "id": "shield_fortify",
+      "name": "Shield Fortify",
+      "description": "Brace behind your shield. +5 defense for 3 turns.",
+      "base_damage": 0,
+      "applies_effect": "defense_up",
+      "effect_damage": 5,
+      "effect_duration": 3
+    }
+  ],
+  "passives": ["shield_mastery"],
+  "starting_equipment": ["worn_helm", "padded_vest", "sturdy_boots"]
+}

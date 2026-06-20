@@ -1,0 +1,9 @@
+{
+  "id": "ceasefire_line",
+  "name": "The Ceasefire Line",
+  "description": "The exact midpoint. No marker, no wire, no posted sign — the midpoint is just where the midpoint is, by mutual understanding too old to remember establishing. What Lena Voss has been observing for seven nights and what Vale has been following twice is here: two fixed points, twenty meters apart, connected by the same path worn into the ground by the same feet following the same route. Something has been walking this path for longer than either of them has been stationed in the pass. Longer than anyone currently alive has been stationed anywhere. The earth remembers it. The path is too worn for seven nights and too deliberate for any number of accidents.",
+  "exits": {
+    "south": { "target_room_id": "armistice_ground", "label": "Back to Armistice Ground" }
+  },
+  "requirements": {}
+}

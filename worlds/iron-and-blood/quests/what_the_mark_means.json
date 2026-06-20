@@ -1,0 +1,12 @@
+{
+  "id": "what_the_mark_means",
+  "name": "What the Mark Means",
+  "description": "The marking the Hollow Vassal left on the lair wall looks like writing. Morlak believes the Abbot at the Iron Monastery would recognize it — the monastery keeps records older than the war itself.",
+  "objective": { "type": "talk_to", "npc_id": "abbot_solan" },
+  "gold_reward": 30,
+  "xp_reward": 80,
+  "giver_npc_id": "morlak",
+  "requires_quest_complete": "the_shrine",
+  "accept_text": "'The Abbot,' he says again, as if settling a decision. 'Solan has the oldest records outside the Sunken City. If that marking is what I think it might be, he'll know it on sight.' He looks at his notebook. 'I've been watching that lair for thirty years. I've seen marks like that on the oldest stones in the eastern Wastes — pre-war stonework, maybe older. I always thought they were decorative.' He closes the notebook. 'I don't think they're decorative anymore.' He hands you a sketch he made of the marks as you described them. 'Show him this. Ask him what it is. Don't explain where it came from first — let him tell you what he sees before you color his interpretation.'",
+  "complete_text": "Solan takes the sketch and goes very still. He doesn't speak for almost a minute. Then he crosses to a cabinet you haven't seen him open before, unlocks it with a key from around his neck, and retrieves a flat case — a single aged sheet sealed under glass. He compares the sketch to the sheet carefully. 'Elder People notation,' he says. 'Personal name notation. The formal register used for recording an individual's identity.' He looks up. 'Someone wrote their name on that wall. Someone who learned to write before either nation existed.' He returns the sealed sheet to the cabinet and locks it. He retrieves something else — a small fragment on a separate sheet, not sealed. He holds it out. 'Take this to Brother Kell. He can read the rest of it. I cannot.' Something in his voice is careful. Not frightened. Careful. 'Tell him what you found and where. Tell him I sent you.'"
+}

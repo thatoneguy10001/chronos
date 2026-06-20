@@ -1,0 +1,31 @@
+{
+  "id": "lazarus_subject",
+  "name": "Lazarus Subject",
+  "description": "A soldier preserved by the Gray Wastes' chemical environment and subsequently reanimated by Project Lazarus's animating compound. Still wears the uniform — Terran or Aetherian, depending on which war it died in. Moves in a lurching, purposeful gait. Does not react to pain. Does not stop for wounds that would drop a living soldier. The crystals growing through its flesh glow a dull, sickly green.",
+  "base_stats": {
+    "hp": 55,
+    "attack": 9,
+    "defense": 6,
+    "intelligence": 0
+  },
+  "abilities": [],
+  "passives": ["undead_endurance"],
+  "starting_equipment": [],
+  "xp_reward": 40,
+  "gold_reward": 10,
+  "tactics": [
+    {
+      "condition": { "type": "hp_below", "threshold": 0.3 },
+      "action": {
+        "type": "apply_effect",
+        "kind": "bleed",
+        "damage": 4,
+        "duration": 2
+      }
+    },
+    {
+      "condition": { "type": "always" },
+      "action": { "type": "basic_attack" }
+    }
+  ]
+}

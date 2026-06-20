@@ -1,0 +1,9 @@
+{
+  "id": "crystal_spire_base",
+  "name": "The Crystal Spire — Base",
+  "description": "The light has no source. You've identified this factually and set it aside while you catch up emotionally, a process that is still ongoing. It comes from inside the crystal, slow pulse at a frequency below rhythm — not a heartbeat, something older, something the body recognizes before the mind knows what it's recognizing. The base is wide enough for a hundred people. The floor is unmarked by three centuries of nobody being here, which is its own kind of statement. You look up: a platform halfway up, barely visible, and above that more, and you cannot see the top. The light pulses again, slightly brighter. This may be your eyes adjusting. You are choosing to believe it is your eyes adjusting.",
+  "exits": {
+    "west": { "target_room_id": "aetherion_plaza", "label": "Central Plaza" }
+  },
+  "requirements": {}
+}

@@ -1,0 +1,9 @@
+{
+  "id": "silent_market",
+  "name": "The Silent Market",
+  "description": "You found it the way everyone finds it: following someone who knew where to look, and then arriving at what appeared to be empty Wastes until the tents were already around you. It moves every night. Near the entrance, two figures in unmarked gray have not moved since you arrived and show no intention of doing so — the Merchant Princes' enforcers, ensuring the three rules: no weapons drawn, no questions about origins, no fighting. The market contains people you have only seen as targets or abstractions: a Terran soldier trading field rations for an Aetherian crystal lamp; an Aetherian scholar with shaking hands examining a salvaged Elder text; three Discarded negotiating in rapid gesture-language you can't follow; a Deep Iron woman you didn't know had emerged from the tunnels until she was two stalls ahead of you. Nobody makes eye contact for long. Everyone here is doing something their respective side would have a word for, and the word is not a good one. The Abominations don't come within a kilometer of this place. Nobody knows why. The Merchant Princes, who probably know why, have not explained.",
+  "exits": {
+    "east": { "target_room_id": "crater_of_bones", "label": "Crater of Bones" }
+  },
+  "requirements": {}
+}

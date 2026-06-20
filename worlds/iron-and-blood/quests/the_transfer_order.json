@@ -1,0 +1,15 @@
+{
+  "id": "the_transfer_order",
+  "name": "The Transfer Order",
+  "description": "Thorn needs to know where Sergeant Kehl was reassigned before the patrol left. The official record says Kehl was still with third squad when they went east — but Thorn found a transfer order that was filed three days earlier. Talk to Quartermaster Desh, who processes all personnel movements.",
+  "objective": {
+    "type": "talk_to",
+    "npc_id": "quartermaster_desh"
+  },
+  "gold_reward": 45,
+  "xp_reward": 110,
+  "giver_npc_id": "commander_thorn",
+  "requires_quest_complete": "morlak_intelligence",
+  "accept_text": "Thorn spreads two documents on the map table. 'Kehl's service record shows him with third squad on the day they went east. But this —' he taps the second sheet, '— is a transfer order. Signed three days prior. Sending Kehl to the Under-District for a Ministry consultation. Medical.' He looks up. 'The signatures don't match. One of them is a forgery.' He folds both sheets. 'Desh processes all personnel paperwork. He'll know which one is real. And if someone forged military transfer orders —' He stops. 'That's not a small thing. Find out what Desh knows.'",
+  "complete_text": "Thorn reads the information twice without speaking. Then he sets it down very carefully. 'So Kehl was supposed to be in the Under-District. Ministry medical facility.' He's quiet. 'But he was with the patrol. In person. Which means either the transfer was cancelled — and there's no record of that — or someone sent him east anyway, off the books.' He looks at the crystal beneath his skin. 'Lazarus medical. That's what the Under-District facility does. They've had their hands on him before.' He looks up. 'Someone moved Kehl deliberately. I need to know who gave that order.'"
+}

@@ -1,0 +1,11 @@
+{
+  "id": "ironhaven",
+  "name": "Ironhaven",
+  "description": "The city that built the Hive, in the sense that every iron bar in the Hive came from here first. Ironhaven has been a mining city for eight hundred years, which is older than the war, older than the Ministry, older than the name Terra in its current political usage. The mines go deep — very deep, in the specific way of a place that has been mining for eight centuries and has followed every seam down and then continued following. The upper works are still active: surface operations, sorting yards, the smelters that run a thousand degrees Celsius twenty-four hours a day. The lower works are sealed. Have been sealed for twenty years. The official explanation is a collapse risk assessment that is filed but has never been released. The miners who were down there when the sealing happened — some of them still live here. They don't talk about what they saw, but there is a quality to their not-talking that tells you the silence is maintained deliberately, which is different from forgetting.",
+  "exits": {
+    "east": { "target_room_id": "hive_gate_district", "label": "Road to the Hive" },
+    "west": { "target_room_id": "greasewater_docks", "label": "Road to Greasewater" },
+    "down": { "target_room_id": "sealed_mines", "label": "Lower Works (sealed)" }
+  },
+  "requirements": {}
+}

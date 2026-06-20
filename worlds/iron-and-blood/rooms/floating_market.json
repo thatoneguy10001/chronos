@@ -1,0 +1,9 @@
+{
+  "id": "floating_market",
+  "name": "The Floating Market",
+  "description": "Two hundred meters above the cloud line, which is also two hundred meters above the war, which is the point. The Merchant Prince trade-platform is moored to a series of crystal-lift pylons that the official Aetherian charts mark as navigation hazards and the official Terran charts do not mark at all, which is the other point. Three dirigibles and a Fleet sky-skiff are docked at the platform's edge. The captains from all three are currently at the same table eating the same meal and pointedly not discussing who they work for, a social fiction so complete and practiced that it has achieved a kind of dignity. Beneath the platform, far down through the cloud layer, the war is happening. Shells are being fired. People are dying over territory that neither side needs, in a conflict that has lasted three hundred years for reasons that, at this altitude, are genuinely difficult to remember. The platform has a rule: no politics. It is not an enforced rule. It is a rule the platform enforces on itself, because the people who come here have calculated that what they gain from neutrality exceeds what they gain from position, and the calculation holds, and everyone here has done the calculation, and the result is a small functional utopia two hundred meters above the problem.",
+  "exits": {
+    "east": { "target_room_id": "skyborn_deck", "label": "Aetherian Deck" }
+  },
+  "requirements": {}
+}

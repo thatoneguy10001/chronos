@@ -1,0 +1,11 @@
+{
+  "id": "chemical_rations",
+  "name": "Chemical Rations [T]",
+  "description": "Terran standard field rations — dense gray bricks of compressed nutrient compound and artificial flavoring. Tasteless, shelf-stable for twenty years, and designed to function as both food and mild stimulant. The active compound prevents hunger and provides a modest energy boost for several hours. Soldiers eat them without enthusiasm and without complaint, because complaint doesn't change the menu. Restores 30 HP.",
+  "takeable": true,
+  "attributes": {
+    "use_effect": "heal",
+    "heal_amount": 30
+  },
+  "tags": ["consumable", "food", "terra"]
+}
