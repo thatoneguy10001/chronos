@@ -2,9 +2,60 @@ import { create } from 'zustand';
 import type { CharacterStateDTO, ContextAction, EnemyStateDTO, InputMode } from '@/types/contracts';
 import * as engine from '@/bridge/engine';
 
+// ── Map types ────────────────────────────────────────────────────────────────
+
+export interface MapNode {
+  id: string;
+  name: string;
+  x: number;
+  y: number;
+}
+
+export interface MapEdge {
+  from: string;
+  to: string;
+  dir: string;
+}
+
+const DIR_VECTORS: Record<string, [number, number]> = {
+  north: [0, -1], south: [0, 1], east: [1, 0], west: [-1, 0],
+  up: [0, -2],    down: [0, 2],
+  northeast: [1, -1], northwest: [-1, -1], southeast: [1, 1], southwest: [-1, 1],
+  ne: [1, -1],    nw: [-1, -1], se: [1, 1],  sw: [-1, 1],
+};
+
+const DIRS = new Set(Object.keys(DIR_VECTORS));
+
+function extractDirection(cmd: string): string | null {
+  const parts = cmd.trim().toLowerCase().split(/\s+/);
+  if (parts[0] === 'go' && DIRS.has(parts[1])) return parts[1];
+  if (DIRS.has(parts[0])) return parts[0];
+  return null;
+}
+
+function isMovementCmd(cmd: string): boolean {
+  return extractDirection(cmd) !== null;
+}
+
+const NARRATIVE_VERBS = new Set([
+  'look', 'examine', 'x', 'l', 'inventory', 'inv', 'i', 'wait', 'help', 'stats',
+  'take', 'drop', 'use', 'equip', 'unload', 'accept', 'rest', 'become',
+  'save', 'load', 'buy', 'sell', 'talk', 'ask', 'shop',
+]);
+
+function classifyLine(cmd: string, success: boolean): TerminalLine['type'] {
+  if (!success) return 'error';
+  if (isNpcCmd(cmd)) return 'npc';
+  const verb = cmd.trim().toLowerCase().split(/\s+/)[0];
+  if (DIRS.has(verb) || verb === 'go') return 'movement';
+  if (verb === 'attack' || verb === 'fight') return 'combat';
+  if (!NARRATIVE_VERBS.has(verb)) return 'combat'; // ability command
+  return 'output';
+}
+
 export interface TerminalLine {
   id: number;
-  type: 'input' | 'output' | 'error' | 'system' | 'npc';
+  type: 'input' | 'output' | 'error' | 'system' | 'npc' | 'combat' | 'movement';
   text: string;
   tick?: number;
   speaker?: string;
@@ -71,6 +122,12 @@ interface GameStore {
   lines: TerminalLine[];
   nextLineId: number;
 
+  // Fog-of-war map
+  mapNodes: Record<string, MapNode>;
+  mapEdges: MapEdge[];
+  mapCurrentX: number;
+  mapCurrentY: number;
+
   // Time-travel
   isRewound: boolean;
 
@@ -128,6 +185,10 @@ export const useGameStore = create<GameStore>((set, get) => ({
   inventoryIds: [],
   lines: [],
   nextLineId: 0,
+  mapNodes: {},
+  mapEdges: [],
+  mapCurrentX: 0,
+  mapCurrentY: 0,
   isRewound: false,
   saves: readAllSlots(),
   saveModalMode: null,
@@ -148,6 +209,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
       if (saved) {
         const result = await engine.loadFromSnapshot(saved.snapshot);
         const snap   = await engine.getSnapshot();
+        const startRoomId   = snap.player_room_id;
+        const startRoomName = snap.current_room_name ?? '';
         set({
           ...worldBase,
           initialized: true,
@@ -155,12 +218,16 @@ export const useGameStore = create<GameStore>((set, get) => ({
           maxTick:        result.max_tick,
           gameTime:       result.game_time ?? 360,
           playerCharacter: snap.player_character,
-          currentRoomId:   snap.player_room_id,
-          currentRoomName: snap.current_room_name ?? '',
+          currentRoomId:   startRoomId,
+          currentRoomName: startRoomName,
           enemies:         snap.enemies,
           contextActions:  result.context_actions,
           roomActions:     result.room_actions,
           inventoryIds:    result.inventory_ids,
+          mapNodes: startRoomId ? { [startRoomId]: { id: startRoomId, name: startRoomName, x: 0, y: 0 } } : {},
+          mapEdges: [],
+          mapCurrentX: 0,
+          mapCurrentY: 0,
           isRewound:       false,
           lines: [
             mkLine('system', `=== ${worldMeta?.title?.toUpperCase() ?? 'PROJECT CHRONOS'} ===`),
@@ -174,6 +241,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
     const result = await engine.processCommand('look');
     const snap   = await engine.getSnapshot();
+    const startRoomId = snap.player_room_id;
+    const startRoomName = snap.current_room_name ?? '';
     set({
       ...worldBase,
       initialized: true,
@@ -181,12 +250,16 @@ export const useGameStore = create<GameStore>((set, get) => ({
       maxTick: result.max_tick,
       gameTime: result.game_time ?? 360,
       playerCharacter:  snap.player_character,
-      currentRoomId:    snap.player_room_id,
-      currentRoomName:  snap.current_room_name ?? '',
+      currentRoomId:    startRoomId,
+      currentRoomName:  startRoomName,
       enemies:          snap.enemies,
       contextActions:   result.context_actions,
       roomActions:      result.room_actions,
       inventoryIds:     result.inventory_ids,
+      mapNodes: startRoomId ? { [startRoomId]: { id: startRoomId, name: startRoomName, x: 0, y: 0 } } : {},
+      mapEdges: [],
+      mapCurrentX: 0,
+      mapCurrentY: 0,
       lines: [
         mkLine('system', `=== ${worldMeta?.title?.toUpperCase() ?? 'PROJECT CHRONOS'} ===`),
         mkLine('system', "Type 'help' for commands. Type 'save' to save, 'load' to load."),
@@ -216,14 +289,40 @@ export const useGameStore = create<GameStore>((set, get) => ({
     if (get().isRewound) set({ isRewound: false });
 
     void (async () => {
+      const oldRoomId  = get().currentRoomId;
+      const oldX       = get().mapCurrentX;
+      const oldY       = get().mapCurrentY;
+
       const result = await engine.processCommand(raw);
       const snap   = await engine.getSnapshot();
       const narrative = result.success || !result.narrative
         ? result.narrative
         : `⚠ ${result.narrative}`;
-      const responseLine = result.success && isNpcCmd(cmd)
-        ? { id: lineCounter++, type: 'npc' as const, text: narrative, tick: result.tick, speaker: extractSpeaker(narrative) }
-        : mkLine(result.success ? 'output' : 'error', narrative, result.tick);
+
+      const lineType = classifyLine(cmd, result.success);
+      const responseLine: TerminalLine = lineType === 'npc'
+        ? { id: lineCounter++, type: 'npc', text: narrative, tick: result.tick, speaker: extractSpeaker(narrative) }
+        : mkLine(lineType, narrative, result.tick);
+
+      // Map tracking: update position and record visited room
+      const mapNodes = { ...get().mapNodes };
+      const mapEdges = [...get().mapEdges];
+      const newRoomId = snap.player_room_id;
+      const newRoomName = snap.current_room_name ?? '';
+      let newX = oldX, newY = oldY;
+
+      if (result.success && isMovementCmd(cmd) && newRoomId !== oldRoomId) {
+        const dir = extractDirection(cmd)!;
+        const [dx, dy] = DIR_VECTORS[dir] ?? [0, 0];
+        newX = oldX + dx;
+        newY = oldY + dy;
+        if (!mapEdges.some(e => e.from === oldRoomId && e.dir === dir)) {
+          mapEdges.push({ from: oldRoomId, to: newRoomId, dir });
+        }
+      }
+      if (newRoomId && !mapNodes[newRoomId]) {
+        mapNodes[newRoomId] = { id: newRoomId, name: newRoomName, x: newX, y: newY };
+      }
 
       set(state => ({
         lines: [...state.lines, mkLine('input', `> ${raw}`), responseLine],
@@ -231,12 +330,16 @@ export const useGameStore = create<GameStore>((set, get) => ({
         maxTick:         result.max_tick,
         gameTime:        result.game_time ?? 360,
         playerCharacter: snap.player_character,
-        currentRoomId:   snap.player_room_id,
-        currentRoomName: snap.current_room_name ?? '',
+        currentRoomId:   newRoomId,
+        currentRoomName: newRoomName,
         enemies:         snap.enemies,
         contextActions:  result.context_actions,
         roomActions:     result.room_actions,
         inventoryIds:    result.inventory_ids,
+        mapNodes,
+        mapEdges,
+        mapCurrentX:     newX,
+        mapCurrentY:     newY,
       }));
     })();
   },
@@ -326,6 +429,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
       try {
         const result = await engine.loadFromSnapshot(saved.snapshot);
         const snap   = await engine.getSnapshot();
+        const loadedRoomId   = snap.player_room_id;
+        const loadedRoomName = snap.current_room_name ?? '';
         set(state => ({
           saveModalMode: null,
           lines: [
@@ -337,12 +442,16 @@ export const useGameStore = create<GameStore>((set, get) => ({
           maxTick:         result.max_tick,
           gameTime:        snap.game_time ?? 360,
           playerCharacter: snap.player_character,
-          currentRoomId:   snap.player_room_id,
-          currentRoomName: snap.current_room_name ?? '',
+          currentRoomId:   loadedRoomId,
+          currentRoomName: loadedRoomName,
           enemies:         snap.enemies,
           contextActions:  result.context_actions,
           roomActions:     result.room_actions,
           inventoryIds:    result.inventory_ids,
+          mapNodes: loadedRoomId ? { [loadedRoomId]: { id: loadedRoomId, name: loadedRoomName, x: 0, y: 0 } } : {},
+          mapEdges: [],
+          mapCurrentX: 0,
+          mapCurrentY: 0,
           isRewound:       false,
         }));
       } catch (e) {

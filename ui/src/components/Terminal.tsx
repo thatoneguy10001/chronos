@@ -5,11 +5,13 @@ import type { TerminalLine } from '@/store/gameStore';
 const submitCommand = (cmd: string) => useGameStore.getState().submitCommand(cmd);
 
 const LINE_STYLES: Record<TerminalLine['type'], React.CSSProperties> = {
-  input:  { color: 'var(--text-input)', opacity: 0.85 },
-  output: { color: 'var(--text)', lineHeight: '1.6' },
-  error:  { color: 'var(--error)', lineHeight: '1.6' },
-  system: { color: 'var(--text-muted)', fontStyle: 'italic', fontSize: '0.85em' },
-  npc:    { lineHeight: '1.6' },
+  input:    { color: 'var(--text-input)', opacity: 0.85 },
+  output:   { color: 'var(--text)', lineHeight: '1.6' },
+  error:    { color: 'var(--error)', lineHeight: '1.6' },
+  system:   { color: 'var(--text-muted)', fontStyle: 'italic', fontSize: '0.85em' },
+  npc:      { lineHeight: '1.6' },
+  combat:   { color: 'var(--combat-text, #d4886a)', lineHeight: '1.6' },
+  movement: { color: 'var(--movement-text, #a0b4c8)', lineHeight: '1.6', borderTop: '1px solid var(--border)', paddingTop: '0.5rem', marginTop: '0.25rem' },
 };
 
 export function Terminal() {

@@ -7,6 +7,7 @@ import { WorldSelectionScreen } from '@/components/WorldSelectionScreen';
 import { CharacterCreationScreen } from '@/components/CharacterCreationScreen';
 import { SaveLoadModal } from '@/components/SaveLoadModal';
 import { RoomHeader } from '@/components/RoomHeader';
+import { VitalsBar } from '@/components/VitalsBar';
 import { useGameStore } from '@/store/gameStore';
 
 function GameOverScreen({ worldTitle, onRestart }: { worldTitle: string; onRestart: () => void }) {
@@ -154,6 +155,7 @@ export function App() {
     }}>
       <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column' }}>
         <RoomHeader />
+        <VitalsBar />
         <Terminal />
         <InputManager onCommand={submitCommand} />
         <TimelineDebugPanel />

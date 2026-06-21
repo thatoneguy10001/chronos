@@ -21,6 +21,10 @@
   --text-muted:    #888888;
   --text-ui:       #666666;
 
+  /* Channel colors */
+  --combat-text:   #d4886a;
+  --movement-text: #a0b4c8;
+
   /* Status */
   --error:         #ff6b6b;
   --gold:          #ffdd44;
