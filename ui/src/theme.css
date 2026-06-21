@@ -74,6 +74,22 @@
   --ent-place:  #c89848;
   --ent-item:   #88dd99;
   --ent-enemy:  #cc6666;
+
+  /* ── Journal / panel design system ──
+     Shared visual language: bordered panels with a header strip, left-aligned
+     caps section labels, left-accent boxes, and pill buttons. Used by the
+     journal modal and the main-UI chrome so everything reads as one system. */
+  --j-bg:          #060c06;  /* panel surface */
+  --j-bg-inner:    #080e08;  /* accent / nested surface */
+  --j-bg-active:   #0a160a;  /* active tab / selected row */
+  --j-border:      #2a4a2a;  /* panel border */
+  --j-divider:     #1a2a1a;  /* internal divider */
+  --j-label:       #3a6a3a;  /* section label caps */
+  --j-accent:      #4a8a4a;  /* active underline / left bar */
+  --j-accent-dim:  #2a5a2a;  /* accent-box left bar */
+  --j-text:        #8aaa8a;  /* primary panel text */
+  --j-text-body:   #5a7a5a;  /* body text */
+  --j-text-dim:    #4a6a4a;  /* secondary list text */
 }
 
 /* Inline entity links in terminal narrative */

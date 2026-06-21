@@ -7,8 +7,8 @@ export function RoomHeader() {
 
   return (
     <div style={{
-      padding: '0.4rem 1.5rem',
-      borderBottom: '1px solid var(--border)',
+      padding: '0.5rem 1.5rem',
+      borderBottom: '1px solid var(--j-divider)',
       background: 'var(--bg-panel)',
       display: 'flex',
       alignItems: 'center',

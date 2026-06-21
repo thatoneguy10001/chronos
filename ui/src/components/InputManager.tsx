@@ -1,6 +1,7 @@
 import { useState, useRef, type KeyboardEvent } from 'react';
 import { useGameStore } from '@/store/gameStore';
 import { ActionButtons } from './ActionButtons';
+import { pillButton } from '@/components/Panel';
 import type { InputMode } from '@/types/contracts';
 
 interface Props {
@@ -43,25 +44,22 @@ export function InputManager({ onCommand }: Props) {
 
   return (
     <div style={{
-      borderTop: `1px solid var(--border-input)`,
+      borderTop: `1px solid var(--j-divider)`,
       padding: '0.75rem 1.5rem',
       background: 'var(--bg-input)',
     }}>
       <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.6rem', alignItems: 'center' }}>
-        <span style={{ color: 'var(--text-ui)', fontSize: '0.8em' }}>INPUT:</span>
+        <span style={{ color: 'var(--j-label)', fontSize: '0.62em', letterSpacing: '0.15em' }}>INPUT</span>
         {(['PARSER', 'BUTTONS'] as InputMode[]).map(mode => (
           <button
             key={mode}
             onClick={() => setInputMode(mode)}
             style={{
-              background: inputMode === mode ? 'var(--border)' : 'transparent',
-              border: `1px solid ${inputMode === mode ? 'var(--text)' : 'var(--text-muted)'}`,
-              color: inputMode === mode ? 'var(--text)' : 'var(--text-ui)',
-              fontFamily: 'inherit',
-              fontSize: '0.75em',
-              padding: '0.2rem 0.6rem',
-              cursor: 'pointer',
-              borderRadius: '2px',
+              ...pillButton,
+              background: inputMode === mode ? 'var(--j-bg-active)' : 'transparent',
+              borderColor: inputMode === mode ? 'var(--j-accent)' : 'var(--j-border)',
+              color: inputMode === mode ? 'var(--j-text)' : 'var(--j-text-dim)',
+              fontSize: '0.7em',
             }}
           >
             {mode}
@@ -69,16 +67,7 @@ export function InputManager({ onCommand }: Props) {
         ))}
         <button
           onClick={() => onCommand('journal')}
-          style={{
-            background: 'transparent',
-            border: '1px solid var(--text-muted)',
-            color: 'var(--text-ui)',
-            fontFamily: 'inherit',
-            fontSize: '0.75em',
-            padding: '0.2rem 0.6rem',
-            cursor: 'pointer',
-            borderRadius: '2px',
-          }}
+          style={{ ...pillButton, fontSize: '0.7em' }}
         >
           JOURNAL
         </button>

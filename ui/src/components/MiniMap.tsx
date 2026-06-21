@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useGameStore } from '@/store/gameStore';
+import { Panel } from '@/components/Panel';
 
 const CELL = 28;
 const ROOM = 10;
@@ -32,9 +33,7 @@ export function MiniMap() {
   const hoveredNode = hoveredId ? mapNodes[hoveredId] : null;
 
   return (
-    <div style={{ borderBottom: '1px solid var(--border)', paddingBottom: '0.5rem', marginBottom: '0.5rem' }}>
-      <div style={{ color: 'var(--text-dim)', fontSize: '0.7em', letterSpacing: '0.1em', marginBottom: '0.3rem', paddingTop: '0.25rem' }}>── MAP ──</div>
-
+    <Panel label="Map">
       {/* Room name tooltip above the SVG */}
       <div style={{
         height: '1.1em',
@@ -108,6 +107,6 @@ export function MiniMap() {
           );
         })}
       </svg>
-    </div>
+    </Panel>
   );
 }

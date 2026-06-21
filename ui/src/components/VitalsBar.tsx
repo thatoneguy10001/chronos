@@ -1,16 +1,7 @@
 import { useGameStore } from '@/store/gameStore';
+import { pillButton } from '@/components/Panel';
 
-const utilBtnStyle: React.CSSProperties = {
-  background: 'transparent',
-  border: '1px solid var(--border-input)',
-  color: 'var(--text-muted)',
-  fontFamily: 'inherit',
-  fontSize: '0.65em',
-  padding: '0.15rem 0.5rem',
-  cursor: 'pointer',
-  borderRadius: 2,
-  letterSpacing: '0.06em',
-};
+const utilBtnStyle: React.CSSProperties = pillButton;
 
 export function VitalsBar({ devMode = false }: { devMode?: boolean }) {
   const ch = useGameStore(s => s.playerCharacter);
@@ -30,8 +21,8 @@ export function VitalsBar({ devMode = false }: { devMode?: boolean }) {
       display: 'flex',
       alignItems: 'center',
       gap: '0.75rem',
-      padding: '0.35rem 1.5rem',
-      borderBottom: '1px solid var(--border)',
+      padding: '0.45rem 1.5rem',
+      borderBottom: '1px solid var(--j-divider)',
       background: 'var(--bg-panel)',
       flexShrink: 0,
     }}>
