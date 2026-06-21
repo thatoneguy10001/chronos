@@ -142,6 +142,9 @@ interface GameStore {
   saves: (SaveSlot | null)[];
   saveModalMode: 'save' | 'load' | null;
 
+  // Journal
+  journalOpen: boolean;
+
   // Actions
   init: (worldId: string, loadSlot?: number) => Promise<void>;
   submitCommand: (raw: string) => void;
@@ -153,6 +156,8 @@ interface GameStore {
   closeSaveModal: () => void;
   saveToSlot: (slot: number) => void;
   loadFromSlot: (slot: number) => void;
+  openJournal: () => void;
+  closeJournal: () => void;
 }
 
 let lineCounter = 0;
@@ -200,6 +205,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
   isRewound: false,
   saves: readAllSlots(),
   saveModalMode: null,
+  journalOpen: false,
 
   init: async (worldId: string, loadSlot?: number) => {
     const { worldMeta } = await engine.initEngine(worldId);
@@ -290,6 +296,14 @@ export const useGameStore = create<GameStore>((set, get) => ({
       set(state => ({
         saveModalMode: 'load',
         lines: [...state.lines, mkLine('input', '> load')],
+      }));
+      return;
+    }
+
+    if (cmd === 'journal' || cmd === 'j') {
+      set(state => ({
+        journalOpen: true,
+        lines: [...state.lines, mkLine('input', '> journal')],
       }));
       return;
     }
@@ -409,6 +423,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
   openSaveModal: () => set({ saveModalMode: 'save' }),
   openLoadModal: () => set({ saveModalMode: 'load' }),
   closeSaveModal: () => set({ saveModalMode: null }),
+  openJournal:  () => set({ journalOpen: true }),
+  closeJournal: () => set({ journalOpen: false }),
 
   saveToSlot: (slot: number) => {
     void (async () => {

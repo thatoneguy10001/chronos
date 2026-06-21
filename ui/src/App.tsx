@@ -6,6 +6,7 @@ import { CharacterPanel } from '@/components/CharacterPanel';
 import { WorldSelectionScreen } from '@/components/WorldSelectionScreen';
 import { CharacterCreationScreen } from '@/components/CharacterCreationScreen';
 import { SaveLoadModal } from '@/components/SaveLoadModal';
+import { JournalModal } from '@/components/JournalModal';
 import { RoomHeader } from '@/components/RoomHeader';
 import { VitalsBar } from '@/components/VitalsBar';
 import { useGameStore } from '@/store/gameStore';
@@ -54,6 +55,7 @@ export function App() {
   const submitCommand  = useGameStore(s => s.submitCommand);
   const playerCharacter = useGameStore(s => s.playerCharacter);
 
+  const closeJournal = useGameStore(s => s.closeJournal);
   const devMode = useDevMode();
   const [selectedWorldId, setSelectedWorldId] = useState<string | null>(null);
   const [worldTone,  setWorldTone]  = useState('fantasy');
@@ -76,6 +78,14 @@ export function App() {
     (window as any).__rewindToTick = rewindToTick;
     (window as any).__getState = getSnapshot;
   }, [submitCommand]);
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') closeJournal();
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [closeJournal]);
 
   if (!selectedWorldId) {
     return (
@@ -164,6 +174,7 @@ export function App() {
       </div>
       <CharacterPanel />
       <SaveLoadModal />
+      <JournalModal />
     </div>
   );
 }
