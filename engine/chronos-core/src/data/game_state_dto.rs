@@ -14,6 +14,9 @@ pub struct GameStateDTO {
     pub game_time: u32,
     /// Room ID the player currently occupies.
     pub player_room_id: String,
+    /// Display name of the player's current room, for the UI room header.
+    #[serde(default)]
+    pub current_room_name: String,
     /// Item IDs held in player inventory.
     pub inventory_ids: Vec<String>,
     /// All non-player entities that have moved from their starting positions.

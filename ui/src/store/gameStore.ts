@@ -4,9 +4,10 @@ import * as engine from '@/bridge/engine';
 
 export interface TerminalLine {
   id: number;
-  type: 'input' | 'output' | 'error' | 'system';
+  type: 'input' | 'output' | 'error' | 'system' | 'npc';
   text: string;
   tick?: number;
+  speaker?: string;
 }
 
 export interface SaveSlot {
@@ -57,6 +58,7 @@ interface GameStore {
   // Character state
   playerCharacter: CharacterStateDTO | null;
   currentRoomId: string;
+  currentRoomName: string;
   enemies: EnemyStateDTO[];
 
   // UI state
@@ -97,6 +99,14 @@ const mkLine = (type: TerminalLine['type'], text: string, tick?: number): Termin
   tick,
 });
 
+function extractSpeaker(text: string): string | undefined {
+  const m = text.match(/^\*\*([^*]+)\*\*/);
+  return m ? m[1] : undefined;
+}
+
+const isNpcCmd = (cmd: string) =>
+  cmd.startsWith('talk ') || cmd.startsWith('ask ');
+
 export const useGameStore = create<GameStore>((set, get) => ({
   initialized: false,
   currentTick: 0,
@@ -110,6 +120,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
   gameTime: 360,
   playerCharacter: null,
   currentRoomId: '',
+  currentRoomName: '',
   enemies: [],
   inputMode: 'PARSER',
   contextActions: [],
@@ -144,12 +155,13 @@ export const useGameStore = create<GameStore>((set, get) => ({
           maxTick:        result.max_tick,
           gameTime:       result.game_time ?? 360,
           playerCharacter: snap.player_character,
-          currentRoomId:  snap.player_room_id,
-          enemies:        snap.enemies,
-          contextActions: result.context_actions,
-          roomActions:    result.room_actions,
-          inventoryIds:   result.inventory_ids,
-          isRewound:      false,
+          currentRoomId:   snap.player_room_id,
+          currentRoomName: snap.current_room_name ?? '',
+          enemies:         snap.enemies,
+          contextActions:  result.context_actions,
+          roomActions:     result.room_actions,
+          inventoryIds:    result.inventory_ids,
+          isRewound:       false,
           lines: [
             mkLine('system', `=== ${worldMeta?.title?.toUpperCase() ?? 'PROJECT CHRONOS'} ===`),
             mkLine('system', 'Save loaded.'),
@@ -168,12 +180,13 @@ export const useGameStore = create<GameStore>((set, get) => ({
       currentTick: result.tick,
       maxTick: result.max_tick,
       gameTime: result.game_time ?? 360,
-      playerCharacter: snap.player_character,
-      currentRoomId: snap.player_room_id,
-      enemies: snap.enemies,
-      contextActions: result.context_actions,
-      roomActions: result.room_actions,
-      inventoryIds: result.inventory_ids,
+      playerCharacter:  snap.player_character,
+      currentRoomId:    snap.player_room_id,
+      currentRoomName:  snap.current_room_name ?? '',
+      enemies:          snap.enemies,
+      contextActions:   result.context_actions,
+      roomActions:      result.room_actions,
+      inventoryIds:     result.inventory_ids,
       lines: [
         mkLine('system', `=== ${worldMeta?.title?.toUpperCase() ?? 'PROJECT CHRONOS'} ===`),
         mkLine('system', "Type 'help' for commands. Type 'save' to save, 'load' to load."),
@@ -205,23 +218,25 @@ export const useGameStore = create<GameStore>((set, get) => ({
     void (async () => {
       const result = await engine.processCommand(raw);
       const snap   = await engine.getSnapshot();
+      const narrative = result.success || !result.narrative
+        ? result.narrative
+        : `⚠ ${result.narrative}`;
+      const responseLine = result.success && isNpcCmd(cmd)
+        ? { id: lineCounter++, type: 'npc' as const, text: narrative, tick: result.tick, speaker: extractSpeaker(narrative) }
+        : mkLine(result.success ? 'output' : 'error', narrative, result.tick);
+
       set(state => ({
-        lines: [
-          ...state.lines,
-          mkLine('input', `> ${raw}`),
-          mkLine(result.success ? 'output' : 'error',
-            result.success || !result.narrative ? result.narrative : `⚠ ${result.narrative}`,
-            result.tick),
-        ],
-        currentTick:    result.tick,
-        maxTick:        result.max_tick,
-        gameTime:       result.game_time ?? 360,
+        lines: [...state.lines, mkLine('input', `> ${raw}`), responseLine],
+        currentTick:     result.tick,
+        maxTick:         result.max_tick,
+        gameTime:        result.game_time ?? 360,
         playerCharacter: snap.player_character,
-        currentRoomId:  snap.player_room_id,
-        enemies:        snap.enemies,
-        contextActions: result.context_actions,
-        roomActions:    result.room_actions,
-        inventoryIds:   result.inventory_ids,
+        currentRoomId:   snap.player_room_id,
+        currentRoomName: snap.current_room_name ?? '',
+        enemies:         snap.enemies,
+        contextActions:  result.context_actions,
+        roomActions:     result.room_actions,
+        inventoryIds:    result.inventory_ids,
       }));
     })();
   },
@@ -236,16 +251,17 @@ export const useGameStore = create<GameStore>((set, get) => ({
           mkLine('system', `⏪ Rewound to tick ${tick}`),
           mkLine('output', result.narrative, tick),
         ],
-        currentTick:    tick,
-        maxTick:        result.max_tick,
-        gameTime:       result.game_time ?? 360,
+        currentTick:     tick,
+        maxTick:         result.max_tick,
+        gameTime:        result.game_time ?? 360,
         playerCharacter: snap.player_character,
-        currentRoomId:  snap.player_room_id,
-        enemies:        snap.enemies,
-        contextActions: result.context_actions,
-        roomActions:    result.room_actions,
-        inventoryIds:   result.inventory_ids,
-        isRewound:      tick < result.max_tick,
+        currentRoomId:   snap.player_room_id,
+        currentRoomName: snap.current_room_name ?? '',
+        enemies:         snap.enemies,
+        contextActions:  result.context_actions,
+        roomActions:     result.room_actions,
+        inventoryIds:    result.inventory_ids,
+        isRewound:       tick < result.max_tick,
       }));
     })();
   },
@@ -257,16 +273,17 @@ export const useGameStore = create<GameStore>((set, get) => ({
       const snap   = await engine.getSnapshot();
       set(state => ({
         lines: [...state.lines, mkLine('system', '▶ Resumed at latest tick')],
-        currentTick:    max,
-        maxTick:        result.max_tick,
-        gameTime:       result.game_time ?? 360,
+        currentTick:     max,
+        maxTick:         result.max_tick,
+        gameTime:        result.game_time ?? 360,
         playerCharacter: snap.player_character,
-        currentRoomId:  snap.player_room_id,
-        enemies:        snap.enemies,
-        contextActions: result.context_actions,
-        roomActions:    result.room_actions,
-        inventoryIds:   result.inventory_ids,
-        isRewound:      false,
+        currentRoomId:   snap.player_room_id,
+        currentRoomName: snap.current_room_name ?? '',
+        enemies:         snap.enemies,
+        contextActions:  result.context_actions,
+        roomActions:     result.room_actions,
+        inventoryIds:    result.inventory_ids,
+        isRewound:       false,
       }));
     })();
   },
@@ -316,16 +333,17 @@ export const useGameStore = create<GameStore>((set, get) => ({
             mkLine('system', `Loaded slot ${slot + 1} — ${saved.characterName}.`),
             mkLine('output', result.narrative, result.tick),
           ],
-          currentTick:    result.tick,
-          maxTick:        result.max_tick,
-          gameTime:       snap.game_time ?? 360,
+          currentTick:     result.tick,
+          maxTick:         result.max_tick,
+          gameTime:        snap.game_time ?? 360,
           playerCharacter: snap.player_character,
-          currentRoomId:  snap.player_room_id,
-          enemies:        snap.enemies,
-          contextActions: result.context_actions,
-          roomActions:    result.room_actions,
-          inventoryIds:   result.inventory_ids,
-          isRewound:      false,
+          currentRoomId:   snap.player_room_id,
+          currentRoomName: snap.current_room_name ?? '',
+          enemies:         snap.enemies,
+          contextActions:  result.context_actions,
+          roomActions:     result.room_actions,
+          inventoryIds:    result.inventory_ids,
+          isRewound:       false,
         }));
       } catch (e) {
         set(state => ({

@@ -88,7 +88,7 @@ pub fn process_move(world: &mut World, repo: &StaticRepository, direction: &str)
 
     let items_here = items_in_room(world, &target_room_id, repo);
     let enemies_here = enemies_in_room(world, &target_room_id);
-    let npcs_here = npc_names_in_room(&target_room_id, repo);
+    let npcs_here = npc_ids_in_room(&target_room_id, repo);
     let narrative = format_room_description(target_room, &items_here, &enemies_here, &npcs_here, repo);
     let mut context_actions = build_exit_actions(target_room);
     if !enemies_here.is_empty() {
@@ -115,7 +115,7 @@ pub fn process_look(world: &mut World, repo: &StaticRepository) -> MoveResult {
 
     let items_here = items_in_room(world, &room_id, repo);
     let enemies_here = enemies_in_room(world, &room_id);
-    let npcs_here = npc_names_in_room(&room_id, repo);
+    let npcs_here = npc_ids_in_room(&room_id, repo);
     let narrative = format_room_description(room, &items_here, &enemies_here, &npcs_here, repo);
     let mut context_actions = build_exit_actions(room);
     if !enemies_here.is_empty() {
@@ -142,30 +142,52 @@ fn player_has_item(world: &mut World, player: Entity, item_id: &str) -> bool {
     query.iter(world).any(|(inv, bp)| inv.owner == player && bp.id == item_id)
 }
 
-fn items_in_room(world: &mut World, room_id: &str, repo: &StaticRepository) -> Vec<String> {
+/// Returns (display_name, item_id) pairs for items on the ground in a room.
+fn items_in_room(world: &mut World, room_id: &str, repo: &StaticRepository) -> Vec<(String, String)> {
     let mut query = world.query::<(&Position, &ItemBlueprint)>();
     query
         .iter(world)
         .filter(|(pos, _)| pos.room_id == room_id)
-        .filter_map(|(_, bp)| repo.item(&bp.id).ok().map(|t| t.name.clone()))
+        .filter_map(|(_, bp)| repo.item(&bp.id).ok().map(|t| (t.name.clone(), bp.id.clone())))
         .collect()
 }
 
-fn format_room_description(room: &RoomTemplate, items: &[String], enemies: &[String], npcs: &[String], repo: &StaticRepository) -> String {
+/// Returns (display_name, npc_id) pairs for NPCs in a room.
+fn npc_ids_in_room(room_id: &str, repo: &StaticRepository) -> Vec<(String, String)> {
+    repo.npcs_in_room(room_id)
+        .iter()
+        .filter_map(|id| repo.npc(id).ok().map(|n| (n.name.clone(), id.clone())))
+        .collect()
+}
+
+fn format_room_description(
+    room: &RoomTemplate,
+    items: &[(String, String)],
+    enemies: &[String],
+    npcs: &[(String, String)],
+    repo: &StaticRepository,
+) -> String {
     let mut desc = format!("**{}**\n\n{}", room.name, room.description);
 
     if !npcs.is_empty() {
-        desc.push_str(&format!("\n\n\u{1f4ac} Here: {}.", npcs.join(", ")));
+        let links: Vec<String> = npcs.iter()
+            .map(|(name, id)| format!("[[{name}|talk {id}]]"))
+            .collect();
+        desc.push_str(&format!("\n\n\u{1f4ac} Here: {}.", links.join(", ")));
     }
 
     if !items.is_empty() {
-        desc.push_str("\n\nYou can see: ");
-        desc.push_str(&items.join(", "));
-        desc.push('.');
+        let links: Vec<String> = items.iter()
+            .map(|(name, id)| format!("[[{name}|take {id}]]"))
+            .collect();
+        desc.push_str(&format!("\n\nYou can see: {}.", links.join(", ")));
     }
 
     if !enemies.is_empty() {
-        desc.push_str(&format!("\n\n\u{2694}\u{fe0f} Hostile: {}.", enemies.join(", ")));
+        let links: Vec<String> = enemies.iter()
+            .map(|name| format!("[[{name}|attack]]"))
+            .collect();
+        desc.push_str(&format!("\n\n\u{2694}\u{fe0f} Hostile: {}.", links.join(", ")));
     }
 
     let mut exit_lines: Vec<String> = room.exits.iter()
@@ -173,7 +195,7 @@ fn format_room_description(room: &RoomTemplate, items: &[String], enemies: &[Str
             let dest_name = repo.room(&exit_def.target_room_id)
                 .map(|r| r.name.as_str())
                 .unwrap_or("Unknown");
-            format!("{} → {}", dir, dest_name)
+            format!("[[{} → {}|go {}]]", capitalize(dir), dest_name, dir)
         })
         .collect();
     exit_lines.sort();
@@ -182,13 +204,6 @@ fn format_room_description(room: &RoomTemplate, items: &[String], enemies: &[Str
     }
 
     desc
-}
-
-fn npc_names_in_room(room_id: &str, repo: &StaticRepository) -> Vec<String> {
-    repo.npcs_in_room(room_id)
-        .iter()
-        .filter_map(|id| repo.npc(id).ok().map(|n| n.name.clone()))
-        .collect()
 }
 
 fn talk_npc_actions(room_id: &str, repo: &StaticRepository) -> Vec<ContextAction> {

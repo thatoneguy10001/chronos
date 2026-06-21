@@ -91,19 +91,21 @@ export async function listPlayableClasses(worldId: string): Promise<ClassMeta[]>
     .sort((a, b) => a.name.localeCompare(b.name));
 }
 
+type WasmMod = { default?: (input?: URL | string | Request) => Promise<unknown>; WasmEngine: WasmEngineCtor };
+
 /** Initialize the WASM engine for the given world ID. Safe to call multiple times. */
 export async function initEngine(worldId: string): Promise<{ worldMeta: WorldMeta | null }> {
-  const wasmModule = await import('../wasm/chronos_wasm.js') as unknown as {
-    default?: (input?: URL | string | Request) => Promise<unknown>;
-    WasmEngine: WasmEngineCtor;
-  };
-  // In dev, bypass the browser's fetch cache by appending a build timestamp to the .wasm URL.
-  // In production, Vite content-hashes the asset so caching is safe and this branch is never hit.
+  let wasmModule: WasmMod;
   if (import.meta.env.DEV) {
-    const wasmUrl = new URL('../wasm/chronos_wasm_bg.wasm', import.meta.url);
-    wasmUrl.searchParams.set('t', import.meta.env.VITE_BUILD_TS ?? String(Date.now()));
+    // The browser module cache persists across reloads even for locally-served files.
+    // A unique ?t= suffix forces a fresh module instance so post-rebuild reloads pick
+    // up the new WASM binary rather than the old singleton with wasm !== undefined.
+    wasmModule = await import(/* @vite-ignore */ `/src/wasm/chronos_wasm.js?t=${Date.now()}`) as unknown as WasmMod;
+    const wasmUrl = new URL('/src/wasm/chronos_wasm_bg.wasm', location.origin);
+    wasmUrl.searchParams.set('t', String(Date.now()));
     await wasmModule.default?.(wasmUrl);
   } else {
+    wasmModule = await import('../wasm/chronos_wasm.js') as unknown as WasmMod;
     await wasmModule.default?.();
   }
 

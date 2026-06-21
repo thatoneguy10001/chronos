@@ -41,31 +41,36 @@ fn disposition_label(value: i32) -> &'static str {
     }
 }
 
-/// Strip [[keyword]] markers from `text`, returning clean prose + extracted ContextActions.
-/// `[[word]]` → displays as "word", generates `ask {npc_id} word` action.
+/// Convert `[[keyword]]` markers in dialogue text into `[[display|command]]` inline links.
+///
+/// The original `[[word]]` syntax in world JSON becomes a clickable span on the frontend.
+/// The marker is preserved (not stripped) so the renderer can style it; a matching
+/// `ContextAction` button is still generated for the button-panel fallback.
 fn extract_keywords(npc_id: &str, text: &str) -> (String, Vec<ContextAction>) {
-    let mut clean   = String::new();
+    let mut out     = String::new();
     let mut actions = Vec::new();
     let mut rest    = text;
 
     while let Some(open) = rest.find("[[") {
-        clean.push_str(&rest[..open]);
+        out.push_str(&rest[..open]);
         rest = &rest[open + 2..];
         if let Some(close) = rest.find("]]") {
-            let kw = &rest[..close];
-            let cmd_kw = kw.to_lowercase();
-            clean.push_str(kw);
+            let kw      = &rest[..close];
+            let cmd_kw  = kw.to_lowercase();
+            let command = format!("ask {npc_id} {cmd_kw}");
+            // Embed as [[display|command]] so the frontend renders it as an inline link.
+            out.push_str(&format!("[[{kw}|{command}]]"));
             actions.push(ContextAction {
                 label:   format!("Ask about {kw}"),
-                command: format!("ask {npc_id} {cmd_kw}"),
+                command,
             });
             rest = &rest[close + 2..];
         } else {
-            clean.push_str("[[");
+            out.push_str("[[");
         }
     }
-    clean.push_str(rest);
-    (clean, actions)
+    out.push_str(rest);
+    (out, actions)
 }
 
 /// Read disposition + seen topics for one NPC from the player entity. Read-only.
@@ -201,8 +206,10 @@ pub fn process_talk(world: &mut World, repo: &StaticRepository, npc_id: &str) ->
 
     let mut narrative = format!("**{}** [{disp_label}] — {}", npc.name, npc.greeting);
     if !available.is_empty() {
-        let prompts: Vec<&str> = available.iter().map(|d| d.prompt.as_str()).collect();
-        narrative.push_str(&format!("\n\nYou can ask about: {}.", prompts.join(", ")));
+        let topic_links: Vec<String> = available.iter()
+            .map(|d| format!("[[{}|ask {} {}]]", d.prompt, npc_id, d.keyword))
+            .collect();
+        narrative.push_str(&format!("\n\nYou can ask about: {}.", topic_links.join(", ")));
     }
     if locked_count > 0 {
         narrative.push_str(&format!(

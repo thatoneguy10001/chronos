@@ -261,3 +261,21 @@ fn blood_and_memory_full_chain_diary_expands_at_each_step() {
     assert!(d.narrative.contains("Something happened in the ruins"),  "entry 4 present at end");
     assert!(d.narrative.contains("what's left of me that isn't this war"), "entry 5 present at end");
 }
+
+#[test]
+fn look_output_has_entity_links() {
+    // Verify that room descriptions emit [[display|command]] inline links
+    // for NPCs, items, and exits — this is what the frontend parses for clickable spans.
+    let mut engine = new_game();
+    let look = engine.process_command("look");
+    assert!(
+        look.narrative.contains("[["),
+        "look output should contain [[ entity links; got: {}",
+        &look.narrative[..look.narrative.len().min(400)]
+    );
+    assert!(
+        look.narrative.contains("go "),
+        "look output should contain exit link commands; got: {}",
+        &look.narrative[..look.narrative.len().min(400)]
+    );
+}

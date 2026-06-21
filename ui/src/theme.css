@@ -64,4 +64,26 @@
   /* Payload slots */
   --payload-border: #2a4a3a;
   --payload-text:   #4a7a5a;
+
+  /* Entity link colors */
+  --ent-npc:    #88ccff;
+  --ent-place:  #c89848;
+  --ent-item:   #88dd99;
+  --ent-enemy:  #cc6666;
 }
+
+/* Inline entity links in terminal narrative */
+.ent-link {
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-underline-offset: 2px;
+  border-radius: 2px;
+  padding: 0 1px;
+  transition: background 0.1s;
+}
+.ent-link:hover { filter: brightness(1.25); background: rgba(255,255,255,0.07); }
+.ent-npc   { color: var(--ent-npc); }
+.ent-place { color: var(--ent-place); }
+.ent-item  { color: var(--ent-item); }
+.ent-enemy { color: var(--ent-enemy); }

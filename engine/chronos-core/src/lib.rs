@@ -288,10 +288,15 @@ impl ChronosEngine {
             }).collect()
         };
 
+        let current_room_name = self.repository.room(&player_room_id)
+            .map(|r| r.name.clone())
+            .unwrap_or_default();
+
         GameStateDTO {
             tick: self.tick,
             game_time: self.current_game_time(),
             player_room_id,
+            current_room_name,
             inventory_ids,
             entity_states,
             player_character,

@@ -61,6 +61,7 @@ export interface GameStateDTO {
   tick: number;
   game_time: number;
   player_room_id: string;
+  current_room_name: string;
   inventory_ids: string[];
   entity_states: EntityStateDTO[];
   event_log: LogEntryDTO[];
