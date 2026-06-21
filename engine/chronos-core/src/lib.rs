@@ -172,20 +172,31 @@ impl ChronosEngine {
             r.context_actions
         };
 
-        // Add unlocked class abilities so the BUTTONS panel can show a COMBAT tab.
+        // Determine player class/level and current room for ability filtering.
         let player_info = {
-            let mut q = self.world.query_filtered::<(&Identity, &Experience), With<Controllable>>();
-            q.iter(&self.world).next().map(|(id, exp)| (id.class_id.clone(), exp.level))
+            let mut q = self.world.query_filtered::<(&Identity, &Experience, &Position), With<Controllable>>();
+            q.iter(&self.world).next().map(|(id, exp, pos)| (id.class_id.clone(), exp.level, pos.room_id.clone()))
         };
-        if let Some((class_id, level)) = player_info {
+        if let Some((class_id, level, room_id)) = player_info {
+            // Only show damaging abilities when there's something to hit.
+            let enemies_present = {
+                let mut q = self.world.query_filtered::<(&Position, &Health), With<Enemy>>();
+                q.iter(&self.world).any(|(pos, hp)| pos.room_id == room_id && hp.current > 0)
+            };
+
             if let Ok(class) = self.repository.class(&class_id) {
                 for ability in &class.abilities {
-                    if level >= ability.unlock_level {
-                        actions.push(ContextAction {
-                            label: ability.name.clone(),
-                            command: ability.id.replace('_', " "),
-                        });
-                    }
+                    if level < ability.unlock_level { continue; }
+
+                    // Heals and pure self-buffs (no damage component) are always available.
+                    // Damaging abilities — Single-target or AoE — only appear with live enemies.
+                    let needs_enemy = ability.base_damage > 0 && ability.heal_amount == 0;
+                    if needs_enemy && !enemies_present { continue; }
+
+                    actions.push(ContextAction {
+                        label: ability.name.clone(),
+                        command: ability.id.replace('_', " "),
+                    });
                 }
             }
         }

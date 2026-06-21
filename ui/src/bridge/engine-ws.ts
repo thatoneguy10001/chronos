@@ -26,6 +26,7 @@ let cachedRoomActions: import('@/types/contracts').ContextAction[] = [];
 let cachedMaxTick = 0;
 let currentWorldMeta: WorldMeta | null = null;
 let currentItemNames: Record<string, string> = {};
+let currentItemDescriptions: Record<string, string> = {};
 
 function getSocket(): Promise<WebSocket> {
   if (socket && socket.readyState === WebSocket.OPEN) return Promise.resolve(socket);
@@ -82,9 +83,20 @@ export function getItemName(itemId: string): string {
   return currentItemNames[itemId] ?? itemId;
 }
 
+export function getItemDescription(itemId: string): string {
+  return currentItemDescriptions[itemId] ?? '';
+}
+
 export async function initEngine(worldId: string): Promise<{ worldMeta: WorldMeta | null }> {
   const worlds = await listWorlds();
   currentWorldMeta = worlds.find(w => w.id === worldId) ?? null;
+
+  // Load item metadata so getItemName/getItemDescription work without round-trips.
+  const itemsRes = await fetch(`${API_URL}/api/worlds/${worldId}/items`);
+  const itemList = await itemsRes.json() as { id: string; name: string; description: string }[];
+  currentItemNames = Object.fromEntries(itemList.map(i => [i.id, i.name]));
+  currentItemDescriptions = Object.fromEntries(itemList.map(i => [i.id, i.description ?? '']));
+
   await send({ type: 'init', world_id: worldId });
   return { worldMeta: currentWorldMeta };
 }

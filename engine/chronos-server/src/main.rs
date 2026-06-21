@@ -295,6 +295,23 @@ async fn classes_handler(Path(world_id): Path<String>) -> Json<Vec<Value>> {
     Json(playable)
 }
 
+/// Returns id/name/description for every item in a world.
+async fn items_handler(Path(world_id): Path<String>) -> Json<Vec<Value>> {
+    let dir = worlds_dir().join(&world_id).join("items");
+    let items: Vec<Value> = load_dir(&dir)
+        .into_iter()
+        .filter_map(|(_, content)| {
+            let v: Value = serde_json::from_str(&content).ok()?;
+            Some(serde_json::json!({
+                "id":          v.get("id")?,
+                "name":        v.get("name").cloned().unwrap_or(Value::Null),
+                "description": v.get("description").cloned().unwrap_or(Value::Null),
+            }))
+        })
+        .collect();
+    Json(items)
+}
+
 // ── main ──────────────────────────────────────────────────────────────────────
 
 #[tokio::main]
@@ -313,6 +330,7 @@ async fn main() {
         .route("/ws",                              get(ws_upgrade))
         .route("/api/worlds",                      get(worlds_handler))
         .route("/api/worlds/:world_id/classes",    get(classes_handler))
+        .route("/api/worlds/:world_id/items",      get(items_handler))
         .layer(cors);
 
     let addr = SocketAddr::from(([127, 0, 0, 1], port));

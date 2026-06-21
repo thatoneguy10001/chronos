@@ -45,6 +45,7 @@ export interface ClassMeta {
 let engineInstance: WasmEngineInstance | null = null;
 let currentWorldMeta: WorldMeta | null = null;
 let currentItemNames: Record<string, string> = {};
+let currentItemDescriptions: Record<string, string> = {};
 
 // All world data — eagerly bundled at build time across every world directory.
 const allRoomModules    = import.meta.glob('../../../worlds/*/rooms/*.json',    { as: 'raw', eager: true });
@@ -129,6 +130,12 @@ export async function initEngine(worldId: string): Promise<{ worldMeta: WorldMet
       return [item.id, item.name];
     })
   );
+  currentItemDescriptions = Object.fromEntries(
+    items.map(({ content }) => {
+      const item = JSON.parse(content) as { id: string; description: string };
+      return [item.id, item.description ?? ''];
+    })
+  );
 
   const payload = JSON.stringify({ rooms, items, classes, npcs, quests, manifest });
   engineInstance = new wasmModule.WasmEngine(payload);
@@ -137,6 +144,10 @@ export async function initEngine(worldId: string): Promise<{ worldMeta: WorldMet
 
 export function getItemName(itemId: string): string {
   return currentItemNames[itemId] ?? itemId;
+}
+
+export function getItemDescription(itemId: string): string {
+  return currentItemDescriptions[itemId] ?? '';
 }
 
 // Sync helpers used internally and by the router.

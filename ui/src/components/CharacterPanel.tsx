@@ -1,5 +1,6 @@
+import { useState } from 'react';
 import { useGameStore } from '@/store/gameStore';
-import { getItemName } from '@/bridge/engine';
+import { getItemName, getItemDescription } from '@/bridge/engine';
 import type { CharacterStateDTO, EnemyStateDTO, QuestProgressDTO } from '@/types/contracts';
 
 const XP_THRESHOLDS = [100, 300, 600, 1000, 1500, 2100, 2800, 3600, 4500];
@@ -178,6 +179,75 @@ function EnemyCard({ enemy }: { enemy: EnemyStateDTO }) {
   );
 }
 
+function InventorySection({ inventoryIds, submitCommand }: { inventoryIds: string[]; submitCommand: (cmd: string) => void }) {
+  const [hoveredId, setHoveredId] = useState<string | null>(null);
+  const desc = hoveredId ? getItemDescription(hoveredId) : '';
+
+  return (
+    <div style={{ borderTop: '1px solid var(--border)', paddingTop: '0.5rem', marginBottom: '0.75rem' }}>
+      <div style={{ color: 'var(--text-dim)', fontSize: '0.7em', letterSpacing: '0.1em', marginBottom: '0.4rem' }}>── INVENTORY ──</div>
+      {inventoryIds.map(id => (
+        <div
+          key={id}
+          style={{ position: 'relative' }}
+          onMouseEnter={() => setHoveredId(id)}
+          onMouseLeave={() => setHoveredId(null)}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '0.78em', marginBottom: '0.3rem' }}>
+            <span style={{ color: 'var(--green-bright)', cursor: 'default' }}>{getItemName(id)}</span>
+            <button
+              onClick={() => submitCommand(`use ${getItemName(id).toLowerCase()}`)}
+              style={{
+                background: 'transparent',
+                border: '1px solid var(--border)',
+                color: 'var(--text-label)',
+                fontFamily: 'inherit',
+                fontSize: '0.75em',
+                padding: '0.1rem 0.35rem',
+                cursor: 'pointer',
+                borderRadius: '2px',
+                flexShrink: 0,
+                marginLeft: '0.4rem',
+              }}
+              onMouseEnter={e => {
+                (e.target as HTMLElement).style.borderColor = 'var(--text)';
+                (e.target as HTMLElement).style.color = 'var(--text)';
+              }}
+              onMouseLeave={e => {
+                (e.target as HTMLElement).style.borderColor = 'var(--border)';
+                (e.target as HTMLElement).style.color = 'var(--text-label)';
+              }}
+            >
+              USE
+            </button>
+          </div>
+          {hoveredId === id && desc && (
+            <div style={{
+              position: 'absolute',
+              right: '100%',
+              top: 0,
+              width: 220,
+              marginRight: '0.5rem',
+              background: 'var(--bg-panel)',
+              border: '1px solid var(--border)',
+              borderLeft: '2px solid var(--green-bright)',
+              padding: '0.5rem 0.6rem',
+              fontSize: '0.72em',
+              color: 'var(--text-body)',
+              lineHeight: 1.5,
+              zIndex: 100,
+              pointerEvents: 'none',
+            }}>
+              <div style={{ color: 'var(--green-bright)', fontWeight: 'bold', marginBottom: '0.25rem' }}>{getItemName(id)}</div>
+              {desc}
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+  );
+}
+
 function formatGameTime(minutes: number): { timeStr: string; dayStr: string; isNight: boolean } {
   const h = Math.floor((minutes % 1440) / 60);
   const m = minutes % 60;
@@ -235,39 +305,7 @@ export function CharacterPanel() {
       }
 
       {inventoryIds.length > 0 && (
-        <div style={{ borderTop: '1px solid var(--border)', paddingTop: '0.5rem', marginBottom: '0.75rem' }}>
-          <div style={{ color: 'var(--text-dim)', fontSize: '0.7em', letterSpacing: '0.1em', marginBottom: '0.4rem' }}>── INVENTORY ──</div>
-          {inventoryIds.map(id => (
-            <div key={id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '0.78em', marginBottom: '0.3rem' }}>
-              <span style={{ color: 'var(--green-bright)' }}>{getItemName(id)}</span>
-              <button
-                onClick={() => submitCommand(`use ${getItemName(id).toLowerCase()}`)}
-                style={{
-                  background: 'transparent',
-                  border: '1px solid var(--border)',
-                  color: 'var(--text-label)',
-                  fontFamily: 'inherit',
-                  fontSize: '0.75em',
-                  padding: '0.1rem 0.35rem',
-                  cursor: 'pointer',
-                  borderRadius: '2px',
-                  flexShrink: 0,
-                  marginLeft: '0.4rem',
-                }}
-                onMouseEnter={e => {
-                  (e.target as HTMLElement).style.borderColor = 'var(--text)';
-                  (e.target as HTMLElement).style.color = 'var(--text)';
-                }}
-                onMouseLeave={e => {
-                  (e.target as HTMLElement).style.borderColor = 'var(--border)';
-                  (e.target as HTMLElement).style.color = 'var(--text-label)';
-                }}
-              >
-                USE
-              </button>
-            </div>
-          ))}
-        </div>
+        <InventorySection inventoryIds={inventoryIds} submitCommand={submitCommand} />
       )}
 
       {visibleEnemies.length > 0 && (

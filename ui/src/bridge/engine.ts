@@ -23,6 +23,7 @@ export const listWorlds          = ()                  => b.listWorlds();
 export const getCurrentWorld     = ()                  => b.getCurrentWorld();
 export const listPlayableClasses = (worldId: string)   => b.listPlayableClasses(worldId);
 export const getItemName         = (itemId: string)    => b.getItemName(itemId);
+export const getItemDescription  = (itemId: string)    => b.getItemDescription(itemId);
 export const initEngine          = (worldId: string)   => b.initEngine(worldId);
 export const processCommand      = (raw: string)       => b.processCommand(raw);
 export const rewindToTick        = (tick: number)      => b.rewindToTick(tick);
