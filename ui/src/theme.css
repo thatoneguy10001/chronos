@@ -126,3 +126,6 @@
 .ent-place { color: var(--ent-place); }
 .ent-item  { color: var(--ent-item); }
 .ent-enemy { color: var(--ent-enemy); }
+
+/* Inline spoken dialogue inside flowing room/quest/output text. */
+.speech-inline { color: var(--speech-text); font-weight: 500; }

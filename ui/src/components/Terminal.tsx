@@ -143,8 +143,42 @@ function NpcBody({ sections }: { sections: NpcSection[] }) {
   );
 }
 
+/**
+ * Wrap single-quoted dialogue in an inline speech span so spoken lines pop
+ * inside flowing room/quest/output text — not just the dedicated NPC channel.
+ *
+ * Mirrors the engine's contraction-aware split (systems/dialogue.rs): a quote
+ * flanked by letters on both sides (it's, don't, you'll) is an apostrophe, not
+ * a delimiter, so it's left alone. Paired delimiters become “…” callouts.
+ * Runs on raw text before other HTML is introduced, so the scan only sees the
+ * original narrative quotes.
+ */
+function wrapSpeech(text: string): string {
+  const isAlpha = (c: string) => c >= 'a' && c <= 'z' || c >= 'A' && c <= 'Z';
+  const delims: number[] = [];
+  for (let i = 0; i < text.length; i++) {
+    if (text[i] !== "'") continue;
+    const prev = i > 0 ? text[i - 1] : '';
+    const next = i + 1 < text.length ? text[i + 1] : '';
+    if (!(isAlpha(prev) && isAlpha(next))) delims.push(i);
+  }
+  if (delims.length < 2) return text;
+
+  let out = '';
+  let last = 0;
+  for (let k = 0; k + 1 < delims.length; k += 2) {
+    const open = delims[k], close = delims[k + 1];
+    out += text.slice(last, open);
+    out += `<span class="speech-inline">“${text.slice(open + 1, close)}”</span>`;
+    last = close + 1;
+  }
+  out += text.slice(last);
+  return out;
+}
+
 function renderMarkdown(text: string): string {
-  let out = text.replace(/\[\[([^\]|]+)\|([^\]]+)\]\]/g, (_, display, cmd) => {
+  let out = wrapSpeech(text);
+  out = out.replace(/\[\[([^\]|]+)\|([^\]]+)\]\]/g, (_, display, cmd) => {
     const cls = entityClass(cmd);
     return `<span class="ent-link ${cls}" data-cmd="${escAttr(cmd)}">${escHtml(display)}</span>`;
   });
