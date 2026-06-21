@@ -1,7 +1,23 @@
 import { useGameStore } from '@/store/gameStore';
 
-export function VitalsBar() {
+const utilBtnStyle: React.CSSProperties = {
+  background: 'transparent',
+  border: '1px solid var(--border-input)',
+  color: 'var(--text-muted)',
+  fontFamily: 'inherit',
+  fontSize: '0.65em',
+  padding: '0.15rem 0.5rem',
+  cursor: 'pointer',
+  borderRadius: 2,
+  letterSpacing: '0.06em',
+};
+
+export function VitalsBar({ devMode = false }: { devMode?: boolean }) {
   const ch = useGameStore(s => s.playerCharacter);
+  const openSaveModal = useGameStore(s => s.openSaveModal);
+  const openLoadModal = useGameStore(s => s.openLoadModal);
+  const saves = useGameStore(s => s.saves);
+  const hasSave = saves.some(Boolean);
   if (!ch) return null;
 
   const hpPct = ch.max_hp > 0 ? Math.max(0, Math.min(1, ch.hp / ch.max_hp)) : 0;
@@ -58,6 +74,27 @@ export function VitalsBar() {
             }}>{fx}</span>
           ))}
         </div>
+      )}
+
+      {/* Spacer */}
+      <div style={{ flex: 1 }} />
+
+      {/* Save / Load */}
+      <button onClick={openSaveModal} style={utilBtnStyle}>SAVE</button>
+      <button onClick={openLoadModal} disabled={!hasSave} style={{ ...utilBtnStyle, opacity: hasSave ? 1 : 0.4 }}>LOAD</button>
+
+      {/* Dev mode indicator */}
+      {devMode && (
+        <span title="Dev mode active (Ctrl+D to toggle)" style={{
+          fontSize: '0.6em',
+          padding: '0.15rem 0.45rem',
+          border: '1px solid var(--gold-dim)',
+          color: 'var(--gold)',
+          borderRadius: 2,
+          letterSpacing: '0.1em',
+          textTransform: 'uppercase',
+          cursor: 'default',
+        }}>DEV</span>
       )}
     </div>
   );

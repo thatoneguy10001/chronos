@@ -9,6 +9,7 @@ import { SaveLoadModal } from '@/components/SaveLoadModal';
 import { RoomHeader } from '@/components/RoomHeader';
 import { VitalsBar } from '@/components/VitalsBar';
 import { useGameStore } from '@/store/gameStore';
+import { useDevMode } from '@/hooks/useDevMode';
 
 function GameOverScreen({ worldTitle, onRestart }: { worldTitle: string; onRestart: () => void }) {
   return (
@@ -53,6 +54,7 @@ export function App() {
   const submitCommand  = useGameStore(s => s.submitCommand);
   const playerCharacter = useGameStore(s => s.playerCharacter);
 
+  const devMode = useDevMode();
   const [selectedWorldId, setSelectedWorldId] = useState<string | null>(null);
   const [worldTone,  setWorldTone]  = useState('fantasy');
   const [worldTitle, setWorldTitle] = useState('');
@@ -155,10 +157,10 @@ export function App() {
     }}>
       <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column' }}>
         <RoomHeader />
-        <VitalsBar />
+        <VitalsBar devMode={devMode} />
         <Terminal />
         <InputManager onCommand={submitCommand} />
-        <TimelineDebugPanel />
+        {devMode && <TimelineDebugPanel />}
       </div>
       <CharacterPanel />
       <SaveLoadModal />

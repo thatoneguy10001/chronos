@@ -7,10 +7,6 @@ export function TimelineDebugPanel() {
   const rewindToTick = useGameStore(s => s.rewindToTick);
   const resumeFromRewind = useGameStore(s => s.resumeFromRewind);
   const isRewound = useGameStore(s => s.isRewound);
-  const openSaveModal = useGameStore(s => s.openSaveModal);
-  const openLoadModal = useGameStore(s => s.openLoadModal);
-  const saves = useGameStore(s => s.saves);
-  const hasSave = saves.some(Boolean);
   const [open, setOpen] = useState(false);
 
   return (
@@ -84,12 +80,6 @@ export function TimelineDebugPanel() {
                   </SliderButton>
                 )}
                 <div style={{ flex: 1 }} />
-                <SliderButton onClick={openSaveModal} disabled={maxTick === 0}>
-                  💾 Save
-                </SliderButton>
-                <SliderButton onClick={openLoadModal} disabled={!hasSave}>
-                  📂 Load
-                </SliderButton>
               </div>
             </>
           )}
