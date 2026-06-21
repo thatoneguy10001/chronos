@@ -15,9 +15,9 @@ type BlockCfg = {
 
 const BLOCK: Record<TerminalLine['type'], BlockCfg> = {
   input:    { border: 'transparent',   text: 'var(--text-input)',  labelColor: 'transparent' },
-  system:   { border: 'var(--border)', text: 'var(--text-muted)', labelColor: 'var(--text-dim)', italic: true },
-  output:   { border: 'var(--text-dim)', text: 'var(--text-body)', labelColor: 'var(--text-accent)' },
-  error:    { border: 'var(--error)',  text: 'var(--error)',       labelColor: 'var(--error)' },
+  system:   { border: '#1a2a1a', bg: 'transparent', text: 'var(--text-muted)', labelColor: '#3a5a3a', italic: true },
+  output:   { border: '#2a4a2a', bg: '#080e08', text: '#8aaa8a',  labelColor: '#5a9a5a' },
+  error:    { border: '#6a2020', bg: 'transparent', text: '#c04040', labelColor: '#c04040' },
   movement: { border: '#1a3550', bg: '#050a0f', text: '#4a6a8a',  labelColor: '#3a5a7a', labelUppercase: true },
   combat:   { border: '#501a10', bg: '#0a0603', text: 'var(--combat-text)', labelColor: '#7a3a2a', labelUppercase: true },
   npc:      { border: '#2a4a1a', bg: '#070c05', text: '#7a9a5a',  labelColor: 'var(--green-bright)' },
@@ -49,7 +49,12 @@ export function Terminal() {
 
 function LineBlock({ line }: { line: TerminalLine }) {
   const cfg = BLOCK[line.type];
-  const label = line.label ?? line.speaker;
+  const rawLabel = line.label ?? line.speaker;
+  const label = line.type === 'movement' && rawLabel
+    ? `MOVEMENT · ${rawLabel.toUpperCase()}`
+    : line.type === 'system' && !rawLabel
+    ? 'SYSTEM'
+    : rawLabel;
 
   if (line.type === 'input') {
     return (
