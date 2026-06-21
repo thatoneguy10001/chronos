@@ -1,3 +1,12 @@
+//! Character creation and reclassing.
+//!
+//! The engine uses a single persistent `Controllable` entity (spawned at
+//! bootstrap) as the player body. `process_spawn_character` stamps a class
+//! onto that body — setting `Identity`, `Stats`, `Health`, and
+//! `AbilityCooldowns` — rather than spawning a fresh entity. This means
+//! reclassing (`become hunter` after `become fighter`) just overwrites the
+//! components in place, keeping inventory and position unchanged.
+
 use bevy_ecs::prelude::*;
 use crate::components::{AbilityCooldowns, Controllable, Experience, Health, Identity, InInventory, ItemBlueprint, Stats};
 use crate::data::StaticRepository;

@@ -1,3 +1,12 @@
+//! Input parsing — raw string → `EngineEvent`.
+//!
+//! `parse()` is the single choke-point between the UI and the engine. All text
+//! normalization (direction aliases, verb synonyms, space→underscore for IDs)
+//! happens here. Nothing downstream ever sees a raw string.
+//!
+//! Adding a new command means: add an `EngineEvent` variant, add a match arm
+//! here, and add a handler arm in `lib.rs::apply_event`.
+
 use crate::events::EngineEvent;
 
 /// Aliases for movement directions — normalizes synonyms before routing.

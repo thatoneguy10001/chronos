@@ -1,3 +1,12 @@
+//! Shop system — vendor browsing and item purchase.
+//!
+//! `process_shop` lists a vendor NPC's wares with prices and the player's gold.
+//! `process_buy` validates the purchase (player in room, item in stock, enough
+//! gold) then transfers gold and spawns the item entity in the player's inventory.
+//!
+//! Both use `resolve_npc_in_room` from the dialogue system so players can type
+//! display names ("shop thorn") instead of internal IDs ("shop commander_thorn").
+
 use bevy_ecs::prelude::*;
 use crate::components::{Controllable, ItemBlueprint, Position, Wallet};
 use crate::data::StaticRepository;

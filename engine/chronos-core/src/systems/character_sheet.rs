@@ -1,3 +1,9 @@
+//! Character sheet — read-only stat display for the `sheet` / `stats` command.
+//!
+//! Formats a human-readable block of the player's current stats: level, XP
+//! to next level, HP, attack, defense, hit chance, evasion, luck, and equipped
+//! items. Does not advance the tick or modify any state.
+
 use bevy_ecs::prelude::*;
 use crate::components::{Controllable, Experience, Health, Identity, Stats};
 use crate::data::StaticRepository;

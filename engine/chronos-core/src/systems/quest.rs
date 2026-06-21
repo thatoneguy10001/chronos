@@ -1,3 +1,22 @@
+//! Quest system — accept, track, and turn in quests.
+//!
+//! # Lifecycle
+//!
+//! 1. `process_accept_quest` — player must be in the giver NPC's room.
+//!    Gates: prerequisite quest completion, night-only Armistice quests.
+//! 2. `on_player_entered_room` / `on_npc_talked_to` / `on_enemy_killed` —
+//!    event hooks called from `lib.rs` after the relevant system runs.
+//!    These advance `progress` on active quests and flip `ready_to_turn_in`.
+//! 3. `process_turn_in` — player must be back in the giver's room. On success:
+//!    grants gold + XP, checks level-up, sets a `{quest_id}_turned_in` WorldFlag
+//!    so downstream quests and dialogue gates can unlock.
+//!
+//! # WorldFlags
+//!
+//! Every turned-in quest sets `{id}_turned_in` on the `WorldFlags` resource.
+//! Quest chains use `requires_quest_complete` fields that check these flags.
+//! Dialogue topic gating also reads them via `requires_quest_complete`.
+
 use bevy_ecs::prelude::*;
 use crate::components::{Controllable, Experience, GameTime, Position, QuestEntry, QuestLog, Stats, Wallet, WorldFlags};
 use crate::data::{StaticRepository, schemas::QuestObjective};

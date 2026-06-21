@@ -1,3 +1,23 @@
+//! Dialogue system — NPC conversations, disposition tracking, topic gating.
+//!
+//! # Flow
+//!
+//! `process_talk` greets an NPC and lists unlocked topics.
+//! `process_ask` resolves a topic keyword, returns the NPC's response, and
+//! records the topic so subsequent `is_available` checks can unlock new lines.
+//!
+//! # Disposition
+//!
+//! Each NPC has a per-player disposition score (0–100). Topics have a
+//! `disposition_delta` that shifts it on ask. Lines above `min_disposition`
+//! are visible; locked lines show a count hint ("N topics locked").
+//!
+//! # Name resolution
+//!
+//! Players type display names ("talk thorn"); `resolve_npc_in_room` maps them
+//! to internal IDs via exact → suffix → display-name-word matching. Re-exported
+//! so shop.rs can reuse the same resolver.
+
 use bevy_ecs::prelude::*;
 use crate::components::{Controllable, NpcDispositions, Position, QuestLog, WorldFlags};
 use crate::data::StaticRepository;

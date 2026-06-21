@@ -1,3 +1,27 @@
+//! `chronos-core` — the deterministic game engine.
+//!
+//! # Architecture
+//!
+//! The engine is a thin wrapper around a bevy_ecs `World`. All mutable game
+//! state lives in ECS components; the `StaticRepository` holds read-only world
+//! data loaded from JSON at startup.
+//!
+//! **Replay invariant**: `World state = bootstrap() + apply(events[0..=tick])`.
+//! Every public operation that advances the game appends to an `EventLog`.
+//! Rewinding to tick N means clearing the World, calling `bootstrap_world`, then
+//! replaying the log — no snapshot diffing needed.
+//!
+//! # Module map
+//!
+//! | Module          | Responsibility |
+//! |-----------------|----------------|
+//! | `systems`       | One file per command verb: movement, combat, dialogue, etc. |
+//! | `components`    | ECS component structs (Health, Stats, Position, …) |
+//! | `data`          | `StaticRepository` + JSON schemas + `GameStateDTO` |
+//! | `events`        | `EngineEvent` enum (one variant per command) + `CommandResult` |
+//! | `journal`       | `EventLog` — append-only history for time-travel |
+//! | `rng`           | `DeterministicRng` — seeded PRNG so replays are identical |
+
 pub mod components;
 pub mod data;
 pub mod events;

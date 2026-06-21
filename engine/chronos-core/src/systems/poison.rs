@@ -1,3 +1,19 @@
+//! Poison / DoT (damage-over-time) system.
+//!
+//! `tick_all_effects` is called once per turn before the player's action,
+//! applying damage or stat changes from every active effect and expiring
+//! those whose duration has run out.
+//!
+//! `process_apply_effect` attaches a new `ActiveEffect` to a named entity
+//! (player or enemy). Used directly by the `ApplyEffect` engine event and
+//! also called internally when payload vials or abilities fire on-hit effects.
+//!
+//! # Effect kinds
+//!
+//! Defined in `components::EffectKind`: Poison, Burn, Bleed, Corrode, Blind, Stun.
+//! Each has a `damage_per_turn` and `duration_turns`. Stat debuffs (Blind, Stun)
+//! are modeled as large-magnitude damage so they interact consistently with HP.
+
 use bevy_ecs::prelude::*;
 use crate::components::{ActiveEffect, ActiveEffects, EffectKind, Health, Identity, StatField, Stats};
 use crate::events::ContextAction;

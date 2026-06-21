@@ -1,3 +1,13 @@
+//! Interaction system — item pickup, drop, use, and inventory display.
+//!
+//! Items in the world are ECS entities with a `Position` component.
+//! Picking up an item removes `Position` and inserts `InInventory { owner }`.
+//! Dropping reverses this. Using an item reads its `use_effect` attribute from
+//! the `StaticRepository` and applies it (heal, stat buff, apply DoT, etc.).
+//!
+//! Item matching is fuzzy: the player can type a name fragment ("health pot")
+//! and the system matches against both the template ID and the display name.
+
 use bevy_ecs::prelude::*;
 use crate::components::{ActiveEffects, Controllable, EffectKind, Health, InInventory, ItemBlueprint, Position, Stats};
 use crate::data::StaticRepository;

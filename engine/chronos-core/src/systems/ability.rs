@@ -1,3 +1,25 @@
+//! Ability system — active skill usage, cooldown tracking, and XP/kill rewards.
+//!
+//! # Ability types
+//!
+//! Defined by `TargetingType` in the schema:
+//! - `HealSelf` — restores HP to the caster
+//! - `DamageEnemy` — direct damage to the enemy in the room
+//! - `ApplyEffect` — attaches a status effect (DoT or debuff) to the target
+//! - `BuffSelf` — temporary stat boost with a turn duration
+//!
+//! # Cooldowns
+//!
+//! Each class ability has a `cooldown_turns` value. `AbilityCooldowns` stores
+//! `next_usable_tick` per ability name. `process_ability` gates on the tick
+//! and rejects if the cooldown hasn't expired.
+//!
+//! # XP and kills
+//!
+//! When a `DamageEnemy` or `ApplyEffect` ability kills the target, this system
+//! calls into `quest::on_enemy_killed` and grants XP via the experience
+//! component directly — same logic as the combat system.
+
 use bevy_ecs::prelude::*;
 use crate::components::{AbilityCooldowns, Controllable, EffectKind, Enemy, Experience, Health, Identity, Position, Stats};
 use crate::data::{AbilityTemplate, StaticRepository, schemas::TargetingType};

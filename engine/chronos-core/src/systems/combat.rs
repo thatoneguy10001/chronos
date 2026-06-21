@@ -1,3 +1,19 @@
+//! Combat system — turn-based player-vs-enemy exchanges.
+//!
+//! # Turn order
+//!
+//! 1. Player attacks: hit roll (ATK + d20 vs enemy DEF + evasion).
+//!    Equipped weapon adds ATK bonus; payload vials apply DoT on hit.
+//! 2. If the enemy survives, it retaliates using its class tactic list.
+//!    Each tactic is a condition → action rule evaluated in order; the first
+//!    matching rule fires. Default fallback is `BasicAttack`.
+//!
+//! # Determinism
+//!
+//! All dice are drawn from `DeterministicRng` (seeded per session). The same
+//! seed + event log always produces the same combat outcome, which is what
+//! makes time-travel rewinding work correctly.
+
 use bevy_ecs::prelude::*;
 use crate::components::{ActiveEffects, Controllable, Enemy, Experience, Health, Identity, PayloadSlots, Position, Stats, Wallet};
 use crate::data::{StaticRepository, schemas::{TacticAction, TacticCondition}};

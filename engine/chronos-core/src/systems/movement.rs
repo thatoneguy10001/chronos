@@ -1,3 +1,15 @@
+//! Movement system — room traversal and room description.
+//!
+//! `process_move` validates the requested direction against the room's exit map,
+//! checks any item requirement on the exit, then teleports the player by
+//! replacing their `Position` component.
+//!
+//! `process_look` renders the current room: description, visible items, NPCs,
+//! living enemies, and exits. It also generates the `ContextAction` list that
+//! the UI's button panel uses — one action per exit, item, NPC, and live enemy.
+//!
+//! Neither function touches the tick or event log.
+
 use bevy_ecs::prelude::*;
 use crate::components::{Controllable, Enemy, GameTime, Health, Identity, InInventory, ItemBlueprint, Position};
 use crate::data::{StaticRepository, RoomTemplate};
