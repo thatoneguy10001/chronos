@@ -90,6 +90,19 @@
   --j-text:        #8aaa8a;  /* primary panel text */
   --j-text-body:   #5a7a5a;  /* body text */
   --j-text-dim:    #4a6a4a;  /* secondary list text */
+
+  /* ── Type & spacing scale ──
+     One place to tune "comfortable" density. Sizes are em-relative so they
+     scale with the local context (terminal body, panels, etc.). */
+  --fs-title: 1.0em;   /* world title, room name */
+  --fs-body:  0.95em;  /* terminal body, input */
+  --fs-label: 0.62em;  /* caps section labels */
+  --fs-small: 0.7em;   /* hints, badges */
+
+  --sp-1: 0.35rem;
+  --sp-2: 0.6rem;
+  --sp-3: 1rem;
+  --sp-4: 1.5rem;
 }
 
 /* Inline entity links in terminal narrative */

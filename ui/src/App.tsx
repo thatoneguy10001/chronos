@@ -7,8 +7,8 @@ import { WorldSelectionScreen } from '@/components/WorldSelectionScreen';
 import { CharacterCreationScreen } from '@/components/CharacterCreationScreen';
 import { SaveLoadModal } from '@/components/SaveLoadModal';
 import { JournalModal } from '@/components/JournalModal';
-import { RoomHeader } from '@/components/RoomHeader';
-import { VitalsBar } from '@/components/VitalsBar';
+import { StatusHeader } from '@/components/StatusHeader';
+import { FooterHints } from '@/components/FooterHints';
 import { useGameStore } from '@/store/gameStore';
 import { useDevMode } from '@/hooks/useDevMode';
 
@@ -165,21 +165,41 @@ export function App() {
   }
 
   return (
+    // Dark backdrop — the framed window floats on it, like the journal modal.
     <div style={{
       height: '100vh',
+      background: 'var(--bg)',
       display: 'flex',
-      flexDirection: 'row',
-      maxWidth: '1100px',
-      margin: '0 auto',
+      justifyContent: 'center',
+      alignItems: 'center',
+      padding: '0.75rem',
     }}>
-      <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column' }}>
-        <RoomHeader />
-        <VitalsBar devMode={devMode} />
-        <Terminal />
-        <InputManager onCommand={submitCommand} />
-        {devMode && <TimelineDebugPanel />}
+      {/* The framed window: status header → body → footer hints. */}
+      <div style={{
+        width: 'min(1180px, 100%)',
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        border: '1px solid var(--j-border)',
+        background: 'var(--j-bg)',
+        overflow: 'hidden',
+        fontFamily: 'monospace',
+      }}>
+        <StatusHeader devMode={devMode} />
+
+        {/* Body: narrative column + sidebar rail */}
+        <div style={{ flex: 1, display: 'flex', minHeight: 0 }}>
+          <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column' }}>
+            <Terminal />
+            <InputManager onCommand={submitCommand} />
+            {devMode && <TimelineDebugPanel />}
+          </div>
+          <CharacterPanel />
+        </div>
+
+        <FooterHints />
       </div>
-      <CharacterPanel />
+
       <SaveLoadModal />
       <JournalModal />
     </div>

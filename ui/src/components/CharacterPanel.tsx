@@ -230,29 +230,6 @@ function InventoryList({ inventoryIds, submitCommand }: { inventoryIds: string[]
   );
 }
 
-function formatGameTime(minutes: number): { timeStr: string; dayStr: string; isNight: boolean } {
-  const h = Math.floor((minutes % 1440) / 60);
-  const m = minutes % 60;
-  const day = Math.floor(minutes / 1440) + 1;
-  const isNight = h >= 20 || h < 6;
-  return {
-    timeStr: `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`,
-    dayStr: `Day ${day}`,
-    isNight,
-  };
-}
-
-function TimeBadge({ gameTime }: { gameTime: number }) {
-  const { timeStr, dayStr, isNight } = formatGameTime(gameTime);
-  return (
-    <div style={{ fontSize: '0.68em', color: isNight ? 'var(--time-night)' : 'var(--time-day)', textAlign: 'right', lineHeight: 1.2 }}>
-      <span>{isNight ? '☾' : '☀'}</span>
-      <span style={{ marginLeft: 4 }}>{timeStr}</span>
-      <div style={{ color: 'var(--text-faint)', fontSize: '0.9em' }}>{dayStr}</div>
-    </div>
-  );
-}
-
 export function CharacterPanel() {
   const playerCharacter = useGameStore(s => s.playerCharacter);
   const enemies = useGameStore(s => s.enemies);
@@ -261,7 +238,6 @@ export function CharacterPanel() {
   const currencySymbol = useGameStore(s => s.currencySymbol);
   const secondaryCurrencyName = useGameStore(s => s.secondaryCurrencyName);
   const secondaryCurrencySymbol = useGameStore(s => s.secondaryCurrencySymbol);
-  const gameTime = useGameStore(s => s.gameTime);
   const inventoryIds = useGameStore(s => s.inventoryIds);
   const submitCommand = useGameStore(s => s.submitCommand);
   const visibleEnemies = enemies.filter(e => e.hp > 0 && e.room_id === currentRoomId);
@@ -281,7 +257,7 @@ export function CharacterPanel() {
     }}>
       <MiniMap />
 
-      <Panel label="Character" action={<TimeBadge gameTime={gameTime} />}>
+      <Panel label="Character">
         {playerCharacter
           ? <PlayerCard ch={playerCharacter} currencyName={currencyName} currencySymbol={currencySymbol} secondaryCurrencyName={secondaryCurrencyName} secondaryCurrencySymbol={secondaryCurrencySymbol} submitCommand={submitCommand} />
           : <div style={{ color: 'var(--text-dim)', fontSize: '0.8em' }}>No character yet.<br/>Try: become fighter</div>

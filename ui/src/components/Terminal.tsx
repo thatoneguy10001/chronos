@@ -39,10 +39,14 @@ export function Terminal() {
   return (
     <div
       onClick={handleClick}
-      style={{ flex: 1, overflowY: 'auto', padding: '0.75rem 1rem', display: 'flex', flexDirection: 'column' }}
+      style={{ flex: 1, overflowY: 'auto', padding: 'var(--sp-3) var(--sp-3)', display: 'flex', flexDirection: 'column' }}
     >
-      {lines.map(line => <LineBlock key={line.id} line={line} />)}
-      <div ref={bottomRef} />
+      {/* marginTop:auto bottom-anchors the log so newest content hugs the input
+          when sparse, but collapses to 0 and scrolls normally when it overflows. */}
+      <div style={{ marginTop: 'auto' }}>
+        {lines.map(line => <LineBlock key={line.id} line={line} />)}
+        <div ref={bottomRef} />
+      </div>
     </div>
   );
 }
@@ -58,7 +62,7 @@ function LineBlock({ line }: { line: TerminalLine }) {
 
   if (line.type === 'input') {
     return (
-      <div style={{ color: 'var(--text-input)', opacity: 0.65, margin: '0.55rem 0 0.1rem', fontSize: '0.82em' }}>
+      <div style={{ color: 'var(--text-input)', opacity: 0.65, margin: '0.7rem 0 0.15rem', fontSize: 'var(--fs-body)' }}>
         {line.text}
       </div>
     );
@@ -68,16 +72,16 @@ function LineBlock({ line }: { line: TerminalLine }) {
     <div style={{
       borderLeft: `2px solid ${cfg.border}`,
       background: cfg.bg,
-      padding: '0.45rem 0.75rem',
-      margin: '0.1rem 0',
+      padding: '0.6rem 0.9rem',
+      margin: '0.25rem 0',
     }}>
       {label && (
         <div style={{
-          fontSize: line.type === 'npc' ? '0.8em' : '0.6em',
-          letterSpacing: line.type === 'npc' ? '0.02em' : '0.1em',
+          fontSize: line.type === 'npc' ? '0.85em' : 'var(--fs-label)',
+          letterSpacing: line.type === 'npc' ? '0.02em' : '0.12em',
           textTransform: cfg.labelUppercase ? 'uppercase' : 'none',
           color: cfg.labelColor,
-          marginBottom: '0.25rem',
+          marginBottom: '0.35rem',
           fontWeight: line.type === 'npc' ? 'bold' : 'normal',
         }}>
           {label}
@@ -88,8 +92,8 @@ function LineBlock({ line }: { line: TerminalLine }) {
         : (
           <div style={{
             color: cfg.text,
-            lineHeight: '1.65',
-            fontSize: '0.82em',
+            lineHeight: '1.75',
+            fontSize: 'var(--fs-body)',
             fontStyle: cfg.italic ? 'italic' : 'normal',
           }}>
             {line.text.split('\n').map((part, i) => (
@@ -104,23 +108,23 @@ function LineBlock({ line }: { line: TerminalLine }) {
 
 function NpcBody({ sections }: { sections: NpcSection[] }) {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
       {sections.map((sec, i) =>
         sec.kind === 'speech' ? (
           <div key={i} style={{
             borderLeft: '2px solid #5a8a2a',
-            paddingLeft: '0.55rem',
+            paddingLeft: '0.7rem',
             color: '#c8e87a',
-            fontSize: '0.82em',
-            lineHeight: '1.65',
+            fontSize: 'var(--fs-body)',
+            lineHeight: '1.75',
           }}
             dangerouslySetInnerHTML={{ __html: renderMarkdown(sec.text) }}
           />
         ) : (
           <div key={i} style={{
             color: '#4a6a3a',
-            fontSize: '0.82em',
-            lineHeight: '1.65',
+            fontSize: 'var(--fs-body)',
+            lineHeight: '1.75',
             fontStyle: 'italic',
           }}
             dangerouslySetInnerHTML={{ __html: renderMarkdown(sec.text) }}
