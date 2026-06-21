@@ -9,6 +9,36 @@ export interface TerminalLine {
   tick?: number;
 }
 
+export interface SaveSlot {
+  version: 1;
+  worldId: string;
+  worldTitle: string;
+  characterName: string;
+  classId: string;
+  roomId: string;
+  tick: number;
+  savedAt: string;  // ISO
+  snapshot: string; // engine JSON
+}
+
+const SLOT_KEY = (n: number) => `chronos_slot_${n}`;
+export const NUM_SLOTS = 3;
+
+function readSaveSlot(n: number): SaveSlot | null {
+  try {
+    const raw = localStorage.getItem(SLOT_KEY(n));
+    return raw ? (JSON.parse(raw) as SaveSlot) : null;
+  } catch { return null; }
+}
+
+function writeSaveSlot(n: number, slot: SaveSlot): void {
+  localStorage.setItem(SLOT_KEY(n), JSON.stringify(slot));
+}
+
+export function readAllSlots(): (SaveSlot | null)[] {
+  return Array.from({ length: NUM_SLOTS }, (_, i) => readSaveSlot(i));
+}
+
 interface GameStore {
   // Engine state
   initialized: boolean;
@@ -16,6 +46,8 @@ interface GameStore {
   maxTick: number;
 
   // World
+  worldId: string;
+  worldTitle: string;
   currencyName: string;
   currencySymbol: string;
   secondaryCurrencyName: string;
@@ -40,17 +72,21 @@ interface GameStore {
   // Time-travel
   isRewound: boolean;
 
-  // Save/load
-  hasSave: boolean;
+  // Save slots
+  saves: (SaveSlot | null)[];
+  saveModalMode: 'save' | 'load' | null;
 
   // Actions
-  init: (worldId: string) => Promise<void>;
+  init: (worldId: string, loadSlot?: number) => Promise<void>;
   submitCommand: (raw: string) => void;
   rewindToTick: (tick: number) => void;
   resumeFromRewind: () => void;
   setInputMode: (mode: InputMode) => void;
-  saveGame: () => void;
-  loadGame: () => void;
+  openSaveModal: () => void;
+  openLoadModal: () => void;
+  closeSaveModal: () => void;
+  saveToSlot: (slot: number) => void;
+  loadFromSlot: (slot: number) => void;
 }
 
 let lineCounter = 0;
@@ -65,6 +101,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
   initialized: false,
   currentTick: 0,
   maxTick: 0,
+  worldId: '',
+  worldTitle: '',
   currencyName: 'gold',
   currencySymbol: '⬡',
   secondaryCurrencyName: '',
@@ -80,20 +118,55 @@ export const useGameStore = create<GameStore>((set, get) => ({
   lines: [],
   nextLineId: 0,
   isRewound: false,
-  hasSave: !!localStorage.getItem('chronos_save'),
+  saves: readAllSlots(),
+  saveModalMode: null,
 
-  init: async (worldId: string) => {
+  init: async (worldId: string, loadSlot?: number) => {
     const { worldMeta } = await engine.initEngine(worldId);
-    const result = await engine.processCommand('look');
-    const snap   = await engine.getSnapshot();
-    set({
-      initialized: true,
-      currentTick: result.tick,
-      maxTick: result.max_tick,
+    const worldBase = {
+      worldId,
+      worldTitle: worldMeta?.title ?? '',
       currencyName: worldMeta?.currency ?? 'gold',
       currencySymbol: worldMeta?.currency_symbol ?? '⬡',
       secondaryCurrencyName: worldMeta?.secondary_currency ?? '',
       secondaryCurrencySymbol: worldMeta?.secondary_currency_symbol ?? '',
+    };
+
+    if (loadSlot !== undefined) {
+      const saved = readSaveSlot(loadSlot);
+      if (saved) {
+        const result = await engine.loadFromSnapshot(saved.snapshot);
+        const snap   = await engine.getSnapshot();
+        set({
+          ...worldBase,
+          initialized: true,
+          currentTick:    result.tick,
+          maxTick:        result.max_tick,
+          gameTime:       result.game_time ?? 360,
+          playerCharacter: snap.player_character,
+          currentRoomId:  snap.player_room_id,
+          enemies:        snap.enemies,
+          contextActions: result.context_actions,
+          roomActions:    result.room_actions,
+          inventoryIds:   result.inventory_ids,
+          isRewound:      false,
+          lines: [
+            mkLine('system', `=== ${worldMeta?.title?.toUpperCase() ?? 'PROJECT CHRONOS'} ===`),
+            mkLine('system', 'Save loaded.'),
+            mkLine('output', result.narrative, result.tick),
+          ],
+        });
+        return;
+      }
+    }
+
+    const result = await engine.processCommand('look');
+    const snap   = await engine.getSnapshot();
+    set({
+      ...worldBase,
+      initialized: true,
+      currentTick: result.tick,
+      maxTick: result.max_tick,
       gameTime: result.game_time ?? 360,
       playerCharacter: snap.player_character,
       currentRoomId: snap.player_room_id,
@@ -103,13 +176,30 @@ export const useGameStore = create<GameStore>((set, get) => ({
       inventoryIds: result.inventory_ids,
       lines: [
         mkLine('system', `=== ${worldMeta?.title?.toUpperCase() ?? 'PROJECT CHRONOS'} ===`),
-        mkLine('system', "Type 'help' for commands"),
+        mkLine('system', "Type 'help' for commands. Type 'save' to save, 'load' to load."),
         mkLine('output', result.narrative, result.tick),
       ],
     });
   },
 
   submitCommand: (raw: string) => {
+    const cmd = raw.trim().toLowerCase();
+
+    if (cmd === 'save') {
+      set(state => ({
+        saveModalMode: 'save',
+        lines: [...state.lines, mkLine('input', '> save')],
+      }));
+      return;
+    }
+    if (cmd === 'load') {
+      set(state => ({
+        saveModalMode: 'load',
+        lines: [...state.lines, mkLine('input', '> load')],
+      }));
+      return;
+    }
+
     if (get().isRewound) set({ isRewound: false });
 
     void (async () => {
@@ -183,28 +273,47 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
   setInputMode: (mode: InputMode) => set({ inputMode: mode }),
 
-  saveGame: () => {
+  openSaveModal: () => set({ saveModalMode: 'save' }),
+  openLoadModal: () => set({ saveModalMode: 'load' }),
+  closeSaveModal: () => set({ saveModalMode: null }),
+
+  saveToSlot: (slot: number) => {
     void (async () => {
+      const { worldId, worldTitle, playerCharacter, currentRoomId, currentTick } = get();
       const snap = await engine.getSnapshot();
-      localStorage.setItem('chronos_save', JSON.stringify(snap));
+      const entry: SaveSlot = {
+        version: 1,
+        worldId,
+        worldTitle,
+        characterName: playerCharacter?.name ?? 'Unknown',
+        classId: playerCharacter?.class_id ?? '',
+        roomId: currentRoomId,
+        tick: currentTick,
+        savedAt: new Date().toISOString(),
+        snapshot: JSON.stringify(snap),
+      };
+      writeSaveSlot(slot, entry);
+      const saves = readAllSlots();
       set(state => ({
-        hasSave: true,
-        lines: [...state.lines, mkLine('system', '💾 Game saved.')],
+        saves,
+        saveModalMode: null,
+        lines: [...state.lines, mkLine('system', `Game saved to slot ${slot + 1}.`)],
       }));
     })();
   },
 
-  loadGame: () => {
-    const json = localStorage.getItem('chronos_save');
-    if (!json) return;
+  loadFromSlot: (slot: number) => {
+    const saved = readSaveSlot(slot);
+    if (!saved) return;
     void (async () => {
       try {
-        const result = await engine.loadFromSnapshot(json);
+        const result = await engine.loadFromSnapshot(saved.snapshot);
         const snap   = await engine.getSnapshot();
         set(state => ({
+          saveModalMode: null,
           lines: [
             ...state.lines,
-            mkLine('system', '📂 Game loaded.'),
+            mkLine('system', `Loaded slot ${slot + 1} — ${saved.characterName}.`),
             mkLine('output', result.narrative, result.tick),
           ],
           currentTick:    result.tick,
@@ -220,6 +329,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
         }));
       } catch (e) {
         set(state => ({
+          saveModalMode: null,
           lines: [...state.lines, mkLine('error', `Load failed: ${e}`)],
         }));
       }

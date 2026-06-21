@@ -1,16 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Terminal } from '@/components/Terminal';
 import { InputManager } from '@/components/InputManager';
 import { TimelineDebugPanel } from '@/components/TimelineDebugPanel';
 import { CharacterPanel } from '@/components/CharacterPanel';
 import { WorldSelectionScreen } from '@/components/WorldSelectionScreen';
 import { CharacterCreationScreen } from '@/components/CharacterCreationScreen';
+import { SaveLoadModal } from '@/components/SaveLoadModal';
 import { useGameStore } from '@/store/gameStore';
 
-// TODO: Add "Restart fight" button to GameOverScreen using time travel.
-// The store already has rewindToTick(). Find the tick just before the fight room was entered
-// (first tick where currentRoomId changed to the death room) and offer a one-click rewind to it.
-// This lets the player retry the fight without losing all progress before it.
 function GameOverScreen({ worldTitle, onRestart }: { worldTitle: string; onRestart: () => void }) {
   return (
     <div style={{
@@ -49,19 +46,24 @@ function GameOverScreen({ worldTitle, onRestart }: { worldTitle: string; onResta
 }
 
 export function App() {
-  const init = useGameStore(s => s.init);
-  const initialized = useGameStore(s => s.initialized);
-  const submitCommand = useGameStore(s => s.submitCommand);
+  const init           = useGameStore(s => s.init);
+  const initialized    = useGameStore(s => s.initialized);
+  const submitCommand  = useGameStore(s => s.submitCommand);
   const playerCharacter = useGameStore(s => s.playerCharacter);
 
   const [selectedWorldId, setSelectedWorldId] = useState<string | null>(null);
-  const [worldTone, setWorldTone] = useState('fantasy');
+  const [worldTone,  setWorldTone]  = useState('fantasy');
   const [worldTitle, setWorldTitle] = useState('');
-  const [initError, setInitError] = useState<string | null>(null);
+  const [initError,  setInitError]  = useState<string | null>(null);
+
+  // Slot to load immediately after init (set by Continue, consumed once).
+  const pendingSlotRef = useRef<number | undefined>(undefined);
 
   useEffect(() => {
     if (!selectedWorldId) return;
-    init(selectedWorldId).catch(err => setInitError(String(err)));
+    const slot = pendingSlotRef.current;
+    pendingSlotRef.current = undefined;
+    init(selectedWorldId, slot).catch(err => setInitError(String(err)));
   }, [selectedWorldId, init]);
 
   useEffect(() => {
@@ -74,11 +76,19 @@ export function App() {
 
   if (!selectedWorldId) {
     return (
-      <WorldSelectionScreen onSelect={(id, tone, title) => {
-        setSelectedWorldId(id);
-        setWorldTone(tone);
-        setWorldTitle(title);
-      }} />
+      <WorldSelectionScreen
+        onSelect={(id, tone, title) => {
+          setSelectedWorldId(id);
+          setWorldTone(tone);
+          setWorldTitle(title);
+        }}
+        onContinue={(slotIndex, worldId, tone, title) => {
+          pendingSlotRef.current = slotIndex;
+          setSelectedWorldId(worldId);
+          setWorldTone(tone);
+          setWorldTitle(title);
+        }}
+      />
     );
   }
 
@@ -142,14 +152,13 @@ export function App() {
       maxWidth: '1100px',
       margin: '0 auto',
     }}>
-      {/* Main terminal column */}
       <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column' }}>
         <Terminal />
         <InputManager onCommand={submitCommand} />
         <TimelineDebugPanel />
       </div>
-      {/* Character sidebar */}
       <CharacterPanel />
+      <SaveLoadModal />
     </div>
   );
 }

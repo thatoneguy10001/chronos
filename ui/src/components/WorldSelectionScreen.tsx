@@ -1,11 +1,82 @@
 import { useState, useEffect } from 'react';
 import { listWorlds } from '@/bridge/engine';
 import type { WorldMeta } from '@/bridge/engine';
+import { readAllSlots } from '@/store/gameStore';
+import type { SaveSlot } from '@/store/gameStore';
 
 const TONE_COLORS: Record<string, { accent: string; dim: string }> = {
   fantasy:    { accent: '#4a9a4a', dim: '#2a5a2a' },
   dieselpunk: { accent: '#9a7a2a', dim: '#5a4a1a' },
 };
+
+function formatSavedAt(iso: string): string {
+  const diff = Date.now() - new Date(iso).getTime();
+  const mins = Math.floor(diff / 60000);
+  if (mins < 2)  return 'just now';
+  if (mins < 60) return `${mins}m ago`;
+  const hrs = Math.floor(mins / 60);
+  if (hrs < 24)  return `${hrs}h ago`;
+  const days = Math.floor(hrs / 24);
+  if (days < 7)  return `${days}d ago`;
+  return new Date(iso).toLocaleDateString();
+}
+
+function humanizeRoomId(id: string): string {
+  return id.replace(/_/g, ' ');
+}
+
+function ContinueCard({
+  slotIndex,
+  slot,
+  tone,
+  onClick,
+}: {
+  slotIndex: number;
+  slot: SaveSlot;
+  tone: string;
+  onClick: () => void;
+}) {
+  const [hovered, setHovered] = useState(false);
+  const colors = TONE_COLORS[tone] ?? TONE_COLORS['fantasy'];
+
+  return (
+    <div
+      onClick={onClick}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        border: `1px solid ${hovered ? colors.accent : colors.dim}`,
+        borderRadius: 4,
+        padding: '0.75rem 1.2rem',
+        marginBottom: '0.5rem',
+        cursor: 'pointer',
+        background: hovered ? '#0d0d0d' : 'transparent',
+        transition: 'all 0.15s',
+        maxWidth: 560,
+        width: '100%',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+      }}
+    >
+      <div>
+        <div style={{ color: colors.accent, fontWeight: 'bold', fontSize: '0.9em' }}>
+          {slot.characterName}
+          <span style={{ color: colors.dim, fontWeight: 'normal', fontSize: '0.85em' }}> · {slot.classId}</span>
+        </div>
+        <div style={{ color: '#6a6a4a', fontSize: '0.72em', marginTop: '0.1rem' }}>
+          {slot.worldTitle} · {humanizeRoomId(slot.roomId)} · tick {slot.tick}
+        </div>
+      </div>
+      <div style={{ textAlign: 'right', flexShrink: 0, marginLeft: '1rem' }}>
+        <div style={{ color: hovered ? colors.accent : colors.dim, fontSize: '0.85em' }}>CONTINUE ▸</div>
+        <div style={{ color: '#3a3a2a', fontSize: '0.65em', marginTop: '0.1rem' }}>
+          slot {slotIndex + 1} · {formatSavedAt(slot.savedAt)}
+        </div>
+      </div>
+    </div>
+  );
+}
 
 function WorldCard({
   world,
@@ -55,15 +126,22 @@ function WorldCard({
 
 interface WorldSelectionScreenProps {
   onSelect: (worldId: string, tone: string, title: string) => void;
+  onContinue: (slotIndex: number, worldId: string, tone: string, title: string) => void;
 }
 
-export function WorldSelectionScreen({ onSelect }: WorldSelectionScreenProps) {
-  const [worlds, setWorlds] = useState<WorldMeta[]>([]);
+export function WorldSelectionScreen({ onSelect, onContinue }: WorldSelectionScreenProps) {
+  const [worlds, setWorlds]   = useState<WorldMeta[]>([]);
   const [hovered, setHovered] = useState<string | null>(null);
+  const [saves]               = useState(() => readAllSlots());
 
   useEffect(() => {
     void listWorlds().then(setWorlds);
   }, []);
+
+  const worldToneMap = Object.fromEntries(worlds.map(w => [w.id, w.tone]));
+  const populatedSaves = saves
+    .map((s, i) => s ? { slot: s, index: i } : null)
+    .filter((x): x is { slot: SaveSlot; index: number } => x !== null);
 
   return (
     <div style={{
@@ -79,12 +157,44 @@ export function WorldSelectionScreen({ onSelect }: WorldSelectionScreenProps) {
       <div style={{ color: '#2a5a2a', fontSize: '0.72em', letterSpacing: '0.15em', marginBottom: '0.5rem' }}>
         ── PROJECT CHRONOS ──
       </div>
-      <div style={{ color: '#4a9a4a', fontSize: '1.4em', fontWeight: 'bold', marginBottom: '0.4rem' }}>
-        Choose Your World
-      </div>
-      <div style={{ color: '#4a6a4a', fontSize: '0.8em', marginBottom: '2rem' }}>
-        Each world is a complete adventure with its own rules and lore.
-      </div>
+
+      {populatedSaves.length > 0 && (
+        <>
+          <div style={{ color: '#4a9a4a', fontSize: '1.4em', fontWeight: 'bold', marginBottom: '0.4rem' }}>
+            Continue
+          </div>
+          <div style={{ color: '#4a6a4a', fontSize: '0.8em', marginBottom: '1.2rem' }}>
+            Pick up where you left off.
+          </div>
+          {populatedSaves.map(({ slot, index }) => (
+            <ContinueCard
+              key={index}
+              slotIndex={index}
+              slot={slot}
+              tone={worldToneMap[slot.worldId] ?? 'fantasy'}
+              onClick={() => {
+                const w = worlds.find(w => w.id === slot.worldId);
+                onContinue(index, slot.worldId, w?.tone ?? 'fantasy', slot.worldTitle);
+              }}
+            />
+          ))}
+          <div style={{ color: '#2a4a2a', fontSize: '0.72em', letterSpacing: '0.1em', margin: '1.2rem 0 0.8rem', maxWidth: 560, width: '100%' }}>
+            ── OR START A NEW GAME ──
+          </div>
+        </>
+      )}
+
+      {!populatedSaves.length && (
+        <div style={{ color: '#4a9a4a', fontSize: '1.4em', fontWeight: 'bold', marginBottom: '0.4rem' }}>
+          Choose Your World
+        </div>
+      )}
+
+      {!populatedSaves.length && (
+        <div style={{ color: '#4a6a4a', fontSize: '0.8em', marginBottom: '2rem' }}>
+          Each world is a complete adventure with its own rules and lore.
+        </div>
+      )}
 
       {worlds.map(w => (
         <WorldCard
