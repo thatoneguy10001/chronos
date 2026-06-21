@@ -55,7 +55,9 @@ export function App() {
   const submitCommand  = useGameStore(s => s.submitCommand);
   const playerCharacter = useGameStore(s => s.playerCharacter);
 
-  const closeJournal = useGameStore(s => s.closeJournal);
+  const closeJournal  = useGameStore(s => s.closeJournal);
+  const openJournal   = useGameStore(s => s.openJournal);
+  const journalOpen   = useGameStore(s => s.journalOpen);
   const devMode = useDevMode();
   const [selectedWorldId, setSelectedWorldId] = useState<string | null>(null);
   const [worldTone,  setWorldTone]  = useState('fantasy');
@@ -82,10 +84,15 @@ export function App() {
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') closeJournal();
+      if (e.key === 'j' || e.key === 'J') {
+        const active = document.activeElement;
+        const isTyping = active instanceof HTMLInputElement || active instanceof HTMLTextAreaElement;
+        if (!isTyping) journalOpen ? closeJournal() : openJournal();
+      }
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [closeJournal]);
+  }, [closeJournal, openJournal, journalOpen]);
 
   if (!selectedWorldId) {
     return (

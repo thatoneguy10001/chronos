@@ -24,9 +24,12 @@ export interface CommandResult {
 export interface QuestProgressDTO {
   quest_id: string;
   name: string;
+  description: string;
+  objective_hint: string;
   progress: number;
   target: number;
   completed: boolean;
+  ready_to_turn_in?: boolean;
 }
 
 export interface CharacterStateDTO {

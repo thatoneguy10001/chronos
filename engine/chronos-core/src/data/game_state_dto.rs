@@ -47,6 +47,8 @@ pub struct EnemyStateDTO {
 pub struct QuestProgressDTO {
     pub quest_id: String,
     pub name: String,
+    pub description: String,
+    pub objective_hint: String,
     pub progress: i32,
     pub target: i32,
     pub completed: bool,

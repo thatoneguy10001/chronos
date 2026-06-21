@@ -224,14 +224,27 @@ impl ChronosEngine {
                 ql.entries.iter().filter_map(|e| {
                     self.repository.quest(&e.quest_id).map(|t| {
                         use data::schemas::QuestObjective;
-                        let target = match &t.objective {
-                            QuestObjective::KillCount { count, .. } => *count,
-                            QuestObjective::ReachRoom { .. } => 1,
-                            QuestObjective::TalkTo { .. } => 1,
+                        let (target, objective_hint) = match &t.objective {
+                            QuestObjective::KillCount { count, class_id } => {
+                                let label = class_id.replace('_', " ");
+                                (*count, format!("Slay {} {} ({}/{})", count, label, e.progress, count))
+                            }
+                            QuestObjective::ReachRoom { room_id } => {
+                                let label = room_id.replace('_', " ");
+                                (1, format!("Reach {}", label))
+                            }
+                            QuestObjective::TalkTo { npc_id } => {
+                                let name = self.repository.npc(npc_id)
+                                    .map(|n| n.name.clone())
+                                    .unwrap_or_else(|_| npc_id.replace('_', " "));
+                                (1, format!("Talk to {}", name))
+                            }
                         };
                         QuestProgressDTO {
                             quest_id: e.quest_id.clone(),
                             name: t.name.clone(),
+                            description: t.description.clone(),
+                            objective_hint,
                             progress: e.progress,
                             target,
                             completed: e.completed,
