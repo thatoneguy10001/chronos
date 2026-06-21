@@ -2,5 +2,6 @@
 members = [
     "chronos-core",
     "chronos-wasm",
+    "chronos-server",
 ]
 resolver = "2"

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { listPlayableClasses } from '@/bridge/engine';
 import type { ClassMeta } from '@/bridge/engine';
 
@@ -85,9 +85,13 @@ interface CharacterCreationScreenProps {
 }
 
 export function CharacterCreationScreen({ worldId, tone, worldTitle, onSelect }: CharacterCreationScreenProps) {
-  const classes = listPlayableClasses(worldId);
+  const [classes, setClasses] = useState<ClassMeta[]>([]);
   const colors = TONE_COLORS[tone] ?? DEFAULT_COLORS;
   const [hovered, setHovered] = useState<string | null>(null);
+
+  useEffect(() => {
+    void listPlayableClasses(worldId).then(setClasses);
+  }, [worldId]);
 
   return (
     <div style={{

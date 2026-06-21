@@ -80,12 +80,14 @@ export function ActionButtons({ onCommand }: Props) {
 
   const grouped = categorize(roomActions, contextActions);
 
-  const tabs: Tab[] = [
-    { id: 'MOVE',   label: 'Move',   actions: grouped.MOVE },
-    { id: 'COMBAT', label: 'Combat', actions: grouped.COMBAT },
-    { id: 'ITEMS',  label: 'Items',  actions: grouped.ITEMS },
-    { id: 'TALK',   label: 'Talk',   actions: grouped.TALK },
-  ].filter(t => t.actions.length > 0);
+  const tabs: Tab[] = (
+    [
+      { id: 'MOVE'   as TabId, label: 'Move',   actions: grouped.MOVE },
+      { id: 'COMBAT' as TabId, label: 'Combat', actions: grouped.COMBAT },
+      { id: 'ITEMS'  as TabId, label: 'Items',  actions: grouped.ITEMS },
+      { id: 'TALK'   as TabId, label: 'Talk',   actions: grouped.TALK },
+    ] satisfies Tab[]
+  ).filter(t => t.actions.length > 0);
 
   if (tabs.length === 0) {
     return (

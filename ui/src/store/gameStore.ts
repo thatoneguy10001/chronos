@@ -2,10 +2,6 @@ import { create } from 'zustand';
 import type { CharacterStateDTO, ContextAction, EnemyStateDTO, InputMode } from '@/types/contracts';
 import * as engine from '@/bridge/engine';
 
-function getRoomActions(): ContextAction[] {
-  try { return engine.peekRoomActions(); } catch { return []; }
-}
-
 export interface TerminalLine {
   id: number;
   type: 'input' | 'output' | 'error' | 'system';
@@ -24,9 +20,9 @@ interface GameStore {
   currencySymbol: string;
   secondaryCurrencyName: string;
   secondaryCurrencySymbol: string;
-  gameTime: number; // in-game minutes since start (360 = 06:00 Day 1)
+  gameTime: number;
 
-  // Character state (refreshed from snapshot after every command)
+  // Character state
   playerCharacter: CharacterStateDTO | null;
   currentRoomId: string;
   enemies: EnemyStateDTO[];
@@ -87,27 +83,26 @@ export const useGameStore = create<GameStore>((set, get) => ({
   hasSave: !!localStorage.getItem('chronos_save'),
 
   init: async (worldId: string) => {
-    await engine.initEngine(worldId);
-    const world = engine.getCurrentWorld();
-    const result = engine.processCommand('look');
-    const snap = engine.getSnapshot();
+    const { worldMeta } = await engine.initEngine(worldId);
+    const result = await engine.processCommand('look');
+    const snap   = await engine.getSnapshot();
     set({
       initialized: true,
       currentTick: result.tick,
-      maxTick: engine.getMaxTick(),
-      currencyName: world?.currency ?? 'gold',
-      currencySymbol: world?.currency_symbol ?? '⬡',
-      secondaryCurrencyName: world?.secondary_currency ?? '',
-      secondaryCurrencySymbol: world?.secondary_currency_symbol ?? '',
+      maxTick: result.max_tick,
+      currencyName: worldMeta?.currency ?? 'gold',
+      currencySymbol: worldMeta?.currency_symbol ?? '⬡',
+      secondaryCurrencyName: worldMeta?.secondary_currency ?? '',
+      secondaryCurrencySymbol: worldMeta?.secondary_currency_symbol ?? '',
       gameTime: result.game_time ?? 360,
       playerCharacter: snap.player_character,
       currentRoomId: snap.player_room_id,
       enemies: snap.enemies,
       contextActions: result.context_actions,
-      roomActions: getRoomActions(),
+      roomActions: result.room_actions,
       inventoryIds: result.inventory_ids,
       lines: [
-        mkLine('system', `=== ${world?.title?.toUpperCase() ?? 'PROJECT CHRONOS'} ===`),
+        mkLine('system', `=== ${worldMeta?.title?.toUpperCase() ?? 'PROJECT CHRONOS'} ===`),
         mkLine('system', "Type 'help' for commands"),
         mkLine('output', result.narrative, result.tick),
       ],
@@ -115,98 +110,119 @@ export const useGameStore = create<GameStore>((set, get) => ({
   },
 
   submitCommand: (raw: string) => {
-    const { isRewound } = get();
-    if (isRewound) set({ isRewound: false });
+    if (get().isRewound) set({ isRewound: false });
 
-    const result = engine.processCommand(raw);
-    const snap = engine.getSnapshot();
-    const roomActions = getRoomActions();
-
-    set(state => ({
-      lines: [...state.lines, mkLine('input', `> ${raw}`), mkLine(result.success ? 'output' : 'error', result.success || !result.narrative ? result.narrative : `⚠ ${result.narrative}`, result.tick)],
-      currentTick: result.tick,
-      maxTick: engine.getMaxTick(),
-      gameTime: result.game_time ?? 360,
-      playerCharacter: snap.player_character,
-      currentRoomId: snap.player_room_id,
-      enemies: snap.enemies,
-      contextActions: result.context_actions,
-      roomActions,
-      inventoryIds: result.inventory_ids,
-    }));
+    void (async () => {
+      const result = await engine.processCommand(raw);
+      const snap   = await engine.getSnapshot();
+      set(state => ({
+        lines: [
+          ...state.lines,
+          mkLine('input', `> ${raw}`),
+          mkLine(result.success ? 'output' : 'error',
+            result.success || !result.narrative ? result.narrative : `⚠ ${result.narrative}`,
+            result.tick),
+        ],
+        currentTick:    result.tick,
+        maxTick:        result.max_tick,
+        gameTime:       result.game_time ?? 360,
+        playerCharacter: snap.player_character,
+        currentRoomId:  snap.player_room_id,
+        enemies:        snap.enemies,
+        contextActions: result.context_actions,
+        roomActions:    result.room_actions,
+        inventoryIds:   result.inventory_ids,
+      }));
+    })();
   },
 
   rewindToTick: (tick: number) => {
-    const result = engine.rewindToTick(tick);
-    const snap = engine.getSnapshot();
-
-    set(state => ({
-      lines: [...state.lines, mkLine('system', `⏪ Rewound to tick ${tick}`), mkLine('output', result.narrative, tick)],
-      currentTick: tick,
-      gameTime: result.game_time ?? 360,
-      playerCharacter: snap.player_character,
-      currentRoomId: snap.player_room_id,
-      enemies: snap.enemies,
-      contextActions: result.context_actions,
-      roomActions: getRoomActions(),
-      inventoryIds: result.inventory_ids,
-      isRewound: tick < engine.getMaxTick(),
-    }));
+    void (async () => {
+      const result = await engine.rewindToTick(tick);
+      const snap   = await engine.getSnapshot();
+      set(state => ({
+        lines: [
+          ...state.lines,
+          mkLine('system', `⏪ Rewound to tick ${tick}`),
+          mkLine('output', result.narrative, tick),
+        ],
+        currentTick:    tick,
+        maxTick:        result.max_tick,
+        gameTime:       result.game_time ?? 360,
+        playerCharacter: snap.player_character,
+        currentRoomId:  snap.player_room_id,
+        enemies:        snap.enemies,
+        contextActions: result.context_actions,
+        roomActions:    result.room_actions,
+        inventoryIds:   result.inventory_ids,
+        isRewound:      tick < result.max_tick,
+      }));
+    })();
   },
 
   resumeFromRewind: () => {
-    const max = engine.getMaxTick();
-    const result = engine.rewindToTick(max);
-    const snap = engine.getSnapshot();
-    set(state => ({
-      lines: [...state.lines, mkLine('system', '▶ Resumed at latest tick')],
-      currentTick: max,
-      gameTime: result.game_time ?? 360,
-      playerCharacter: snap.player_character,
-      currentRoomId: snap.player_room_id,
-      enemies: snap.enemies,
-      contextActions: result.context_actions,
-      roomActions: getRoomActions(),
-      inventoryIds: result.inventory_ids,
-      isRewound: false,
-    }));
+    void (async () => {
+      const max    = await engine.getMaxTick();
+      const result = await engine.rewindToTick(max);
+      const snap   = await engine.getSnapshot();
+      set(state => ({
+        lines: [...state.lines, mkLine('system', '▶ Resumed at latest tick')],
+        currentTick:    max,
+        maxTick:        result.max_tick,
+        gameTime:       result.game_time ?? 360,
+        playerCharacter: snap.player_character,
+        currentRoomId:  snap.player_room_id,
+        enemies:        snap.enemies,
+        contextActions: result.context_actions,
+        roomActions:    result.room_actions,
+        inventoryIds:   result.inventory_ids,
+        isRewound:      false,
+      }));
+    })();
   },
 
   setInputMode: (mode: InputMode) => set({ inputMode: mode }),
 
   saveGame: () => {
-    const snap = engine.getSnapshot();
-    const json = JSON.stringify(snap);
-    localStorage.setItem('chronos_save', json);
-    set(state => ({
-      hasSave: true,
-      lines: [...state.lines, mkLine('system', '💾 Game saved.')],
-    }));
+    void (async () => {
+      const snap = await engine.getSnapshot();
+      localStorage.setItem('chronos_save', JSON.stringify(snap));
+      set(state => ({
+        hasSave: true,
+        lines: [...state.lines, mkLine('system', '💾 Game saved.')],
+      }));
+    })();
   },
 
   loadGame: () => {
     const json = localStorage.getItem('chronos_save');
     if (!json) return;
-    try {
-      const result = engine.loadFromSnapshot(json);
-      const snap = engine.getSnapshot();
-      set(state => ({
-        lines: [...state.lines, mkLine('system', '📂 Game loaded.'), mkLine('output', result.narrative, result.tick)],
-        currentTick: result.tick,
-        maxTick: engine.getMaxTick(),
-        gameTime: snap.game_time ?? 360,
-        playerCharacter: snap.player_character,
-        currentRoomId: snap.player_room_id,
-        enemies: snap.enemies,
-        contextActions: result.context_actions,
-        roomActions: getRoomActions(),
-        inventoryIds: result.inventory_ids,
-        isRewound: false,
-      }));
-    } catch (e) {
-      set(state => ({
-        lines: [...state.lines, mkLine('error', `Load failed: ${e}`)],
-      }));
-    }
+    void (async () => {
+      try {
+        const result = await engine.loadFromSnapshot(json);
+        const snap   = await engine.getSnapshot();
+        set(state => ({
+          lines: [
+            ...state.lines,
+            mkLine('system', '📂 Game loaded.'),
+            mkLine('output', result.narrative, result.tick),
+          ],
+          currentTick:    result.tick,
+          maxTick:        result.max_tick,
+          gameTime:       snap.game_time ?? 360,
+          playerCharacter: snap.player_character,
+          currentRoomId:  snap.player_room_id,
+          enemies:        snap.enemies,
+          contextActions: result.context_actions,
+          roomActions:    result.room_actions,
+          inventoryIds:   result.inventory_ids,
+          isRewound:      false,
+        }));
+      } catch (e) {
+        set(state => ({
+          lines: [...state.lines, mkLine('error', `Load failed: ${e}`)],
+        }));
+      }
+    })();
   },
 }));

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { listWorlds } from '@/bridge/engine';
 import type { WorldMeta } from '@/bridge/engine';
 
@@ -58,8 +58,12 @@ interface WorldSelectionScreenProps {
 }
 
 export function WorldSelectionScreen({ onSelect }: WorldSelectionScreenProps) {
-  const worlds = listWorlds();
+  const [worlds, setWorlds] = useState<WorldMeta[]>([]);
   const [hovered, setHovered] = useState<string | null>(null);
+
+  useEffect(() => {
+    void listWorlds().then(setWorlds);
+  }, []);
 
   return (
     <div style={{
