@@ -108,24 +108,32 @@ function LineBlock({ line }: { line: TerminalLine }) {
 
 function NpcBody({ sections }: { sections: NpcSection[] }) {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.45rem' }}>
       {sections.map((sec, i) =>
         sec.kind === 'speech' ? (
+          // Spoken dialogue — a quoted callout so it reads as "someone is
+          // speaking to you": tinted box, bright thick accent bar, quote marks.
           <div key={i} style={{
-            borderLeft: '2px solid #5a8a2a',
-            paddingLeft: '0.7rem',
-            color: '#c8e87a',
+            borderLeft: '3px solid var(--speech-accent)',
+            background: 'var(--speech-bg)',
+            padding: '0.4rem 0.7rem',
+            color: 'var(--speech-text)',
             fontSize: 'var(--fs-body)',
             lineHeight: '1.75',
-          }}
-            dangerouslySetInnerHTML={{ __html: renderMarkdown(sec.text) }}
-          />
+            fontWeight: 500,
+          }}>
+            <span style={{ color: 'var(--speech-accent)', fontWeight: 'bold' }}>“</span>
+            <span dangerouslySetInnerHTML={{ __html: renderMarkdown(sec.text) }} />
+            <span style={{ color: 'var(--speech-accent)', fontWeight: 'bold' }}>”</span>
+          </div>
         ) : (
+          // Narration / stage directions — pushed back so speech dominates.
           <div key={i} style={{
-            color: '#4a6a3a',
+            color: 'var(--text-dim)',
             fontSize: 'var(--fs-body)',
             lineHeight: '1.75',
             fontStyle: 'italic',
+            paddingLeft: '0.1rem',
           }}
             dangerouslySetInnerHTML={{ __html: renderMarkdown(sec.text) }}
           />
