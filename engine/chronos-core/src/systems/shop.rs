@@ -2,6 +2,7 @@ use bevy_ecs::prelude::*;
 use crate::components::{Controllable, ItemBlueprint, Position, Wallet};
 use crate::data::StaticRepository;
 use crate::events::{CommandResult, ContextAction};
+use crate::systems::dialogue::resolve_npc_in_room;
 
 pub struct ShopResult {
     pub success: bool,
@@ -16,6 +17,23 @@ fn err(msg: &str, inventory_ids: Vec<String>) -> ShopResult {
 
 /// List what a vendor NPC is selling and the player's current gold balance.
 pub fn process_shop(world: &mut World, repo: &StaticRepository, npc_id: &str) -> ShopResult {
+    let player_room = {
+        let mut q = world.query_filtered::<&Position, With<Controllable>>();
+        q.iter(world).next().map(|p| p.room_id.clone())
+    };
+
+    // Resolve player-typed fragment to actual NPC ID present in the room.
+    let npc_id: String = if let Some(room_id) = &player_room {
+        let npcs_here = repo.npcs_in_room(room_id);
+        match resolve_npc_in_room(npc_id, &npcs_here, repo) {
+            Some(id) => id.to_string(),
+            None => return err(&format!("There is no '{npc_id}' here."), vec![]),
+        }
+    } else {
+        npc_id.to_string()
+    };
+    let npc_id = npc_id.as_str();
+
     let npc = match repo.npc(npc_id) {
         Ok(n) => n,
         Err(_) => return err(&format!("There is no '{npc_id}' here."), vec![]),
@@ -24,11 +42,6 @@ pub fn process_shop(world: &mut World, repo: &StaticRepository, npc_id: &str) ->
     if !npc.vendor {
         return err(&format!("{} doesn't seem to be selling anything.", npc.name), vec![]);
     }
-
-    let player_room = {
-        let mut q = world.query_filtered::<&Position, With<Controllable>>();
-        q.iter(world).next().map(|p| p.room_id.clone())
-    };
 
     let npc_room = repo.npc_room(npc_id);
     if player_room.as_deref() != npc_room {
@@ -86,6 +99,22 @@ pub fn process_shop(world: &mut World, repo: &StaticRepository, npc_id: &str) ->
 
 /// Purchase one item from a vendor NPC. Deducts gold and spawns the item into inventory.
 pub fn process_buy(world: &mut World, repo: &StaticRepository, npc_id: &str, item_id: &str) -> ShopResult {
+    let player_room = {
+        let mut q = world.query_filtered::<&Position, With<Controllable>>();
+        q.iter(world).next().map(|p| p.room_id.clone())
+    };
+
+    let npc_id: String = if let Some(room_id) = &player_room {
+        let npcs_here = repo.npcs_in_room(room_id);
+        match resolve_npc_in_room(npc_id, &npcs_here, repo) {
+            Some(id) => id.to_string(),
+            None => return err(&format!("There is no '{npc_id}' here."), player_inventory_ids(world)),
+        }
+    } else {
+        npc_id.to_string()
+    };
+    let npc_id = npc_id.as_str();
+
     let npc = match repo.npc(npc_id) {
         Ok(n) => n.clone(),
         Err(_) => return err(&format!("There is no '{npc_id}' here."), player_inventory_ids(world)),
@@ -96,10 +125,6 @@ pub fn process_buy(world: &mut World, repo: &StaticRepository, npc_id: &str, ite
     }
 
     let npc_room = repo.npc_room(npc_id).map(|r| r.to_string());
-    let player_room = {
-        let mut q = world.query_filtered::<&Position, With<Controllable>>();
-        q.iter(world).next().map(|p| p.room_id.clone())
-    };
     if player_room != npc_room {
         return err(&format!("{} is not here.", npc.name), player_inventory_ids(world));
     }

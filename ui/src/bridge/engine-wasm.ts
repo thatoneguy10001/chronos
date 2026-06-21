@@ -94,10 +94,18 @@ export async function listPlayableClasses(worldId: string): Promise<ClassMeta[]>
 /** Initialize the WASM engine for the given world ID. Safe to call multiple times. */
 export async function initEngine(worldId: string): Promise<{ worldMeta: WorldMeta | null }> {
   const wasmModule = await import('../wasm/chronos_wasm.js') as unknown as {
-    default?: () => Promise<unknown>;
+    default?: (input?: URL | string | Request) => Promise<unknown>;
     WasmEngine: WasmEngineCtor;
   };
-  await wasmModule.default?.();
+  // In dev, bypass the browser's fetch cache by appending a build timestamp to the .wasm URL.
+  // In production, Vite content-hashes the asset so caching is safe and this branch is never hit.
+  if (import.meta.env.DEV) {
+    const wasmUrl = new URL('../wasm/chronos_wasm_bg.wasm', import.meta.url);
+    wasmUrl.searchParams.set('t', import.meta.env.VITE_BUILD_TS ?? String(Date.now()));
+    await wasmModule.default?.(wasmUrl);
+  } else {
+    await wasmModule.default?.();
+  }
 
   const rooms    = filterByWorld(allRoomModules,    worldId);
   const items    = filterByWorld(allItemModules,    worldId);

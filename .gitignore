@@ -20,3 +20,10 @@ Thumbs.db
 .vscode/
 .idea/
 *.swp
+
+# Local env overrides — not for version control
+ui/.env.development.local
+ui/.env.local
+
+# Compiled JS artifacts emitted alongside .ts sources (tsc side-effects)
+ui/src/**/*.js

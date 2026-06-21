@@ -100,19 +100,70 @@ fn get_world_flags(world: &World) -> std::collections::HashMap<String, bool> {
         .unwrap_or_default()
 }
 
+/// Resolve a player-typed name fragment to the best-matching NPC ID present in `npcs_here`.
+/// Exported so other systems (shop, quest) can reuse the same logic.
+///
+/// Resolution order (first match wins):
+///   1. Exact ID match              — "commander_thorn" → "commander_thorn"
+///   2. ID suffix match             — "thorn"           → "commander_thorn"
+///   3. Display name word match     — "thorn" or "commander thorn" against NPC name field
+pub(crate) fn resolve_npc_in_room<'a>(
+    fragment: &str,
+    npcs_here: &'a [String],
+    repo: &StaticRepository,
+) -> Option<&'a str> {
+    let frag = fragment.to_lowercase();
+
+    // 1. Exact ID
+    if let Some(id) = npcs_here.iter().find(|id| id.to_lowercase() == frag) {
+        return Some(id.as_str());
+    }
+
+    // 2. ID ends with "_<fragment>" — handles "thorn" → "commander_thorn"
+    let suffix = format!("_{frag}");
+    if let Some(id) = npcs_here.iter().find(|id| id.to_lowercase().ends_with(&suffix)) {
+        return Some(id.as_str());
+    }
+
+    // 3. All words of the fragment appear in the NPC's display name
+    let words: Vec<&str> = frag.split_whitespace().collect();
+    for id in npcs_here {
+        if let Ok(npc) = repo.npc(id) {
+            let name_lower = npc.name.to_lowercase();
+            if words.iter().all(|w| name_lower.contains(w)) {
+                return Some(id.as_str());
+            }
+        }
+    }
+
+    None
+}
+
 /// Greet the player with the NPC's opening line and list unlocked topics.
 pub fn process_talk(world: &mut World, repo: &StaticRepository, npc_id: &str) -> DialogueResult {
     let room_id = player_room(world);
     let Some(room_id) = room_id else { return error("No player found."); };
 
     let npcs_here = repo.npcs_in_room(&room_id);
-    if !npcs_here.iter().any(|id| id == npc_id) {
-        return DialogueResult {
+
+    // Resolve the player's input to a real NPC ID present in this room.
+    let npc_id = match resolve_npc_in_room(npc_id, &npcs_here, repo) {
+        Some(id) => id.to_string(),
+        None => return DialogueResult {
             success: false,
-            narrative: format!("There's no '{npc_id}' here to talk to."),
+            narrative: format!(
+                "There's no '{npc_id}' here to talk to.{}",
+                if npcs_here.is_empty() { String::new() } else {
+                    let names: Vec<String> = npcs_here.iter()
+                        .filter_map(|id| repo.npc(id).ok().map(|n| n.name.clone()))
+                        .collect();
+                    format!(" (You can see: {}.)", names.join(", "))
+                }
+            ),
             context_actions: vec![],
-        };
-    }
+        },
+    };
+    let npc_id = npc_id.as_str();
 
     let npc = match repo.npc(npc_id) {
         Ok(n)  => n,
@@ -212,13 +263,15 @@ pub fn process_ask(world: &mut World, repo: &StaticRepository, npc_id: &str, top
     let Some(room_id) = room_id else { return error("No player found."); };
 
     let npcs_here = repo.npcs_in_room(&room_id);
-    if !npcs_here.iter().any(|id| id == npc_id) {
-        return DialogueResult {
+    let npc_id = match resolve_npc_in_room(npc_id, &npcs_here, repo) {
+        Some(id) => id.to_string(),
+        None => return DialogueResult {
             success: false,
             narrative: format!("There's no '{npc_id}' here to talk to."),
             context_actions: vec![],
-        };
-    }
+        },
+    };
+    let npc_id = npc_id.as_str();
 
     let npc = match repo.npc(npc_id) {
         Ok(n)  => n,
@@ -302,4 +355,66 @@ fn player_room(world: &mut World) -> Option<String> {
 
 fn error(msg: &str) -> DialogueResult {
     DialogueResult { success: false, narrative: msg.to_string(), context_actions: vec![] }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::resolve_npc_in_room;
+    use crate::data::StaticRepository;
+
+    fn make_ids(ids: &[&str]) -> Vec<String> {
+        ids.iter().map(|s| s.to_string()).collect()
+    }
+
+    // A minimal repo stub that only answers npc() with a name.
+    // We build one real NPC JSON per call to avoid a full world load.
+    fn repo_with_npcs(npcs: &[(&str, &str)]) -> StaticRepository {
+        let npc_jsons: Vec<(String, String)> = npcs.iter()
+            .map(|(id, name)| (
+                id.to_string(),
+                format!(r#"{{"id":"{id}","name":"{name}","initial_disposition":50,"greeting":"Hi.","dialogue":[]}}"#),
+            ))
+            .collect();
+        let npc_pairs: Vec<(&str, &str)> = npc_jsons.iter().map(|(k,v)| (k.as_str(), v.as_str())).collect();
+        let manifest   = r#"{"start_room_id":"stub","npc_placements":[]}"#;
+        let stub_room  = r#"{"id":"stub","name":"Stub","description":".","exits":{}}"#;
+        let room_pairs = &[("stub", stub_room)];
+        StaticRepository::from_json_pairs_full(room_pairs, &[], &[], &npc_pairs, &[], Some(manifest)).unwrap()
+    }
+
+    #[test]
+    fn exact_id_resolves() {
+        let repo = repo_with_npcs(&[("commander_thorn", "Commander Thorn")]);
+        let ids  = make_ids(&["commander_thorn"]);
+        assert_eq!(resolve_npc_in_room("commander_thorn", &ids, &repo), Some("commander_thorn"));
+    }
+
+    #[test]
+    fn suffix_resolves() {
+        let repo = repo_with_npcs(&[("commander_thorn", "Commander Thorn")]);
+        let ids  = make_ids(&["commander_thorn"]);
+        assert_eq!(resolve_npc_in_room("thorn", &ids, &repo), Some("commander_thorn"));
+    }
+
+    #[test]
+    fn display_name_word_resolves() {
+        let repo = repo_with_npcs(&[("gate_sergeant_orr", "Sergeant Orr")]);
+        let ids  = make_ids(&["gate_sergeant_orr"]);
+        // "sergeant orr" → both words in "Sergeant Orr" → match
+        assert_eq!(resolve_npc_in_room("sergeant orr", &ids, &repo), Some("gate_sergeant_orr"));
+    }
+
+    #[test]
+    fn partial_display_name_resolves() {
+        let repo = repo_with_npcs(&[("gate_sergeant_orr", "Sergeant Orr")]);
+        let ids  = make_ids(&["gate_sergeant_orr"]);
+        assert_eq!(resolve_npc_in_room("orr", &ids, &repo), Some("gate_sergeant_orr"));
+    }
+
+    #[test]
+    fn wrong_room_returns_none() {
+        let repo = repo_with_npcs(&[("commander_thorn", "Commander Thorn")]);
+        let ids  = make_ids(&[]);  // empty: Thorn is not in this room
+        assert_eq!(resolve_npc_in_room("thorn", &ids, &repo), None);
+    }
 }
