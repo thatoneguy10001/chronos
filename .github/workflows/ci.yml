@@ -1,0 +1,52 @@
+name: CI
+
+# Validate every push to master and every PR: the engine must build + pass its
+# tests, and the UI (including the WASM build it depends on) must type-check and
+# build. These checks already exist locally — this runs them automatically.
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+jobs:
+  engine:
+    name: Engine — build + test
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: engine
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: engine
+      # chronos-wasm is built via wasm-pack in the `ui` job; here we build/test
+      # the host-native crates where the real test suites live.
+      - run: cargo build -p chronos-core -p chronos-server --locked
+      - run: cargo test -p chronos-core --locked
+
+  ui:
+    name: UI — wasm + typecheck + build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-unknown
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: engine
+      - uses: jetli/wasm-pack-action@v0.4.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: ui/package-lock.json
+      - run: npm ci
+        working-directory: ui
+      - run: npm run build:wasm
+        working-directory: ui
+      # `npm run build` is `tsc && vite build` — type-check + production bundle.
+      - run: npm run build
+        working-directory: ui
