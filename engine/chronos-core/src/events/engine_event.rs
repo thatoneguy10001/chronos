@@ -74,6 +74,14 @@ pub enum EngineEvent {
     Unknown { raw: String },
 }
 
+/// One segment of an NPC response, split by the dialogue system.
+/// `kind` is "action" (narration/stage direction) or "speech" (spoken dialogue).
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct NpcSection {
+    pub kind: String,
+    pub text: String,
+}
+
 /// Structured output from the engine after processing one event.
 /// The UI renders `narrative` and uses `context_actions` to build BUTTONS mode entries.
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -90,6 +98,10 @@ pub struct CommandResult {
     /// Day 1 begins at 360 (06:00). Separate from tick — one tick is not one minute.
     #[serde(default)]
     pub game_time: u32,
+    /// NPC response split into action/speech segments. Populated only for Talk/Ask.
+    /// Empty for all other command types.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub npc_sections: Vec<NpcSection>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]

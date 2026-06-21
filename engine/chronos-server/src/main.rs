@@ -198,6 +198,7 @@ fn dispatch(engine: &mut Option<ChronosEngine>, msg: ClientMsg) -> String {
                 "inventory_ids": result.inventory_ids,
                 "tick": result.tick,
                 "game_time": result.game_time,
+                "npc_sections": result.npc_sections,
                 "room_actions": room_actions,
                 "max_tick": max_tick,
             })).unwrap()

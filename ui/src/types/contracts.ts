@@ -4,6 +4,12 @@ export interface ContextAction {
   command: string;
 }
 
+/** Mirror of Rust NpcSection */
+export interface NpcSectionDTO {
+  kind: 'action' | 'speech';
+  text: string;
+}
+
 /** Mirror of Rust CommandResult */
 export interface CommandResult {
   success: boolean;
@@ -12,6 +18,7 @@ export interface CommandResult {
   inventory_ids: string[];
   tick: number;
   game_time: number;
+  npc_sections?: NpcSectionDTO[];
 }
 
 export interface QuestProgressDTO {

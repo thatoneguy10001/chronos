@@ -1,19 +1,19 @@
-{
+﻿{
   "id": "commander_thorn",
   "name": "Commander Thorn",
   "initial_disposition": 50,
-  "greeting": "Commander Marcus Thorn looks up from a map covered in red ink. Two fingers on his left hand are missing \u00e2\u20ac\u201d frostbite, the Trenches, twenty years ago. 'Another volunteer. Good. We need bodies \u00e2\u20ac\u201d and I mean that figuratively, for once.' He taps the map. 'Something's wrong out there. The Abominations are moving differently. And the patrol I sent east two days ago hasn't reported in.'",
+  "greeting": "Commander Marcus Thorn looks up from a map covered in red ink. Two fingers on his left hand are missing — frostbite, the Trenches, twenty years ago. 'Another volunteer. Good. We need bodies — and I mean that figuratively, for once.' He taps the map. 'Something's wrong out there. The Abominations are moving differently. And the patrol I sent east two days ago hasn't reported in.'",
   "dialogue": [
     {
       "keyword": "wastes",
       "prompt": "the Wastes",
-      "response": "'330 years of war and the Wastes keep getting worse. The crystal corruption doesn't stop \u00e2\u20ac\u201d it just... waits. Like it has patience.' He pauses. 'The things out there didn't used to coordinate. Now they do. Something changed.'",
+      "response": "'330 years of war and the Wastes keep getting worse. The crystal corruption doesn't stop — it just... waits. Like it has patience.' He pauses. 'The things out there didn't used to coordinate. Now they do. Something changed.'",
       "disposition_delta": 4
     },
     {
       "keyword": "abominations",
       "prompt": "the Abominations",
-      "response": "'Rock-Shell Crabs are the worst \u00e2\u20ac\u201d armor like tank plate, hit like siege weapons. Iron-Beak Vultures are faster but fragile. Kill the crabs first, always. And don't get sentimental. Whatever they were before, they're not that anymore.'",
+      "response": "'Rock-Shell Crabs are the worst — armor like tank plate, hit like siege weapons. Iron-Beak Vultures are faster but fragile. Kill the crabs first, always. And don't get sentimental. Whatever they were before, they're not that anymore.'",
       "disposition_delta": 4
     },
     {
@@ -25,13 +25,13 @@
     {
       "keyword": "war",
       "prompt": "the war",
-      "response": "'330 years. I wasn't there for most of it.' He almost smiles. 'Neither side wins. Neither side stops. The [[armistice]] lets us both fight the Abominations at night \u00e2\u20ac\u201d which makes you wonder if the Abominations are actually winning.' He looks back at the map. 'Don't repeat that.'",
+      "response": "'330 years. I wasn't there for most of it.' He almost smiles. 'Neither side wins. Neither side stops. The [[armistice]] lets us both fight the Abominations at night — which makes you wonder if the Abominations are actually winning.' He looks back at the map. 'Don't repeat that.'",
       "disposition_delta": 4
     },
     {
       "keyword": "lazarus",
       "prompt": "Project Lazarus",
-      "response": "His expression doesn't change, but something behind his eyes does. 'It's a military resurrection program. Classified above my clearance \u00e2\u20ac\u201d or it was, before the patrol mentioned it.' He turns back to the map. 'If you're serious about helping, come back and ask me about [[past]] when you've earned it.'",
+      "response": "His expression doesn't change, but something behind his eyes does. 'It's a military resurrection program. Classified above my clearance — or it was, before the patrol mentioned it.' He turns back to the map. 'If you're serious about helping, come back and ask me about [[past]] when you've earned it.'",
       "requires_topic": "patrol",
       "disposition_delta": 4
     },
@@ -44,7 +44,7 @@
     {
       "keyword": "past",
       "prompt": "your past",
-      "response": "He's quiet for a long moment. '...The Lazarus subjects. I was part of the first test cohort. They brought us back from the edge twice. The third time, they didn't bring us back all the way.' He pulls up his sleeve \u00e2\u20ac\u201d crystals growing just under the skin, slow and blue. 'I have maybe two years before it reaches my heart. So yes. I'd like to know what's out there as much as anyone.' He looks at you steadily. 'Don't pity me. Just fight.'",
+      "response": "He's quiet for a long moment. '...The Lazarus subjects. I was part of the first test cohort. They brought us back from the edge twice. The third time, they didn't bring us back all the way.' He pulls up his sleeve — crystals growing just under the skin, slow and blue. 'I have maybe two years before it reaches my heart. So yes. I'd like to know what's out there as much as anyone.' He looks at you steadily. 'Don't pity me. Just fight.'",
       "requires_topic": "lazarus",
       "min_disposition": 65,
       "disposition_delta": 10
@@ -52,14 +52,14 @@
     {
       "keyword": "diary",
       "prompt": "the soldier's diary",
-      "response": "'Let me see that.' He takes it carefully \u00e2\u20ac\u201d more carefully than he handles maps or orders. Studies the cover for a long time before opening it. He reads slowly. You watch his eyes track and stop and track again. He hands it back without finishing it. 'I signed the orders for a hundred people who wrote things like that. Maybe a thousand.' He looks at the map. 'I don't remember any of them as clearly as I should.' He's quiet. 'Thank you for showing me.'",
+      "response": "'Let me see that.' He takes it carefully — more carefully than he handles maps or orders. Studies the cover for a long time before opening it. He reads slowly. You watch his eyes track and stop and track again. He hands it back without finishing it. 'I signed the orders for a hundred people who wrote things like that. Maybe a thousand.' He looks at the map. 'I don't remember any of them as clearly as I should.' He's quiet. 'Thank you for showing me.'",
       "requires_quest_complete": "diary_found",
       "disposition_delta": 5
     },
     {
       "keyword": "third_squad",
       "prompt": "what became of third squad",
-      "response": "'They're listed as missing. Officially.' He puts a cigarette out against the map table. 'Unofficially \u00e2\u20ac\u201d three of them showed up at Aetherian lines two nights after you found that site. Confused. Asking for people they shouldn't have known by name. The Aetherians sent them back.' He glances at the crystal beneath his skin. 'The Lazarus process leaves marks. I know what the ones that came back were \u00e2\u20ac\u201d and they weren't the squad anymore. Not entirely.' He meets your eyes. 'Don't repeat that. Especially not to anyone who'd find it encouraging.'",
+      "response": "'They're listed as missing. Officially.' He puts a cigarette out against the map table. 'Unofficially — three of them showed up at Aetherian lines two nights after you found that site. Confused. Asking for people they shouldn't have known by name. The Aetherians sent them back.' He glances at the crystal beneath his skin. 'The Lazarus process leaves marks. I know what the ones that came back were — and they weren't the squad anymore. Not entirely.' He meets your eyes. 'Don't repeat that. Especially not to anyone who'd find it encouraging.'",
       "requires_quest_complete": "find_the_patrol",
       "disposition_delta": 8
     },
@@ -73,21 +73,21 @@
     {
       "keyword": "serel",
       "prompt": "Commander Serel and the letters",
-      "response": "He looks at you for a moment that is not quite still \u00e2\u20ac\u201d something moves through it. 'She told you.' He says it quietly. 'Or you found the drop.' He sets down his pen. 'Seven years,' he says. Just the number. Then: 'The first letter was intelligence \u00e2\u20ac\u201d she was right about the Lazarus-adjacent behavior I was seeing and I needed someone outside the chain of command to think about it with me.' He looks at the map. 'She writes in a different way than I do. I write in lists. She writes in \u00e2\u20ac\u201d paragraphs that turn corners. The first time I found a letter with corners in it I sat in the command post for an hour reading it.' He pauses. 'I asked her, in the third year, whether it was strange \u00e2\u20ac\u201d that we were doing this. Writing things to each other that we couldn't say in the armistice operations. She replied that it was the least strange thing either of us did, and that the strange thing was the six hours every night where we stopped shooting and then remembered we were supposed to be enemies again at dawn.' He looks at the crystal under his skin. 'Four months ago I told her I was dying. I told her because she would know anyway \u00e2\u20ac\u201d she sees my hand during the joint operations and she is too professional to say it out loud, which is exactly the kind of professional she is.' He's quiet. 'She told me it mattered. What I'd spent my life doing.' He looks at the map. 'I read that letter twelve times. I've been trying to decide whether I believe her.' A pause. 'I think I do.'",
+      "response": "He looks at you for a moment that is not quite still — something moves through it. 'She told you.' He says it quietly. 'Or you found the drop.' He sets down his pen. 'Seven years,' he says. Just the number. Then: 'The first letter was intelligence — she was right about the Lazarus-adjacent behavior I was seeing and I needed someone outside the chain of command to think about it with me.' He looks at the map. 'She writes in a different way than I do. I write in lists. She writes in — paragraphs that turn corners. The first time I found a letter with corners in it I sat in the command post for an hour reading it.' He pauses. 'I asked her, in the third year, whether it was strange — that we were doing this. Writing things to each other that we couldn't say in the armistice operations. She replied that it was the least strange thing either of us did, and that the strange thing was the six hours every night where we stopped shooting and then remembered we were supposed to be enemies again at dawn.' He looks at the crystal under his skin. 'Four months ago I told her I was dying. I told her because she would know anyway — she sees my hand during the joint operations and she is too professional to say it out loud, which is exactly the kind of professional she is.' He's quiet. 'She told me it mattered. What I'd spent my life doing.' He looks at the map. 'I read that letter twelve times. I've been trying to decide whether I believe her.' A pause. 'I think I do.'",
       "requires_topic": "remaining",
       "disposition_delta": 14
     },
     {
       "keyword": "receding",
       "prompt": "the crystal receding now",
-      "response": "He looks at his forearms. He does this sometimes when he thinks you're not watching \u00e2\u20ac\u201d a quick inventory, the soldier's assessment of available resources and current status. Now he does it directly, in front of you, which is itself new. 'Six months, Stone says.' He pulls down his sleeve. 'Four years of growth, six months of recession. She says the rate is consistent with the Watcher's historical records. She's been in contact with the Hall through Kell.' He sits back. 'I find I don't know what to do with six months in the forward direction. I've been thinking in terms of two years backward for long enough that the planning apparatus doesn't quite know how to run the other way.' He picks up the pen he always picks up when he's thinking. 'I wrote to Serel this morning. Told her about the Hall, about Stone, about what happened.' He pauses. 'I told her I'd been wrong about the thing I said in the letter about wanting to know whether what I'd spent my life doing was worth doing. I told her I've decided the question doesn't resolve \u00e2\u20ac\u201d not in the way I wanted it to, not with a clean answer. It just becomes \u00e2\u20ac\u201d less urgent. When you're not looking at an ending anymore, the question stops pressing so hard.' He looks at the maps. The red ink on them. Twenty years of red ink. 'She replied in four hours. Personal dispatch, not duty-routed.' He doesn't say what it said. He doesn't need to. The set of his shoulders says something about it that words would only reduce. 'There are five things on my command desk that have needed attending to for two weeks that I have been deferring because I thought I didn't have time.' He picks up the first one. 'I have time. I'm going to start on them now.'",
+      "response": "He looks at his forearms. He does this sometimes when he thinks you're not watching — a quick inventory, the soldier's assessment of available resources and current status. Now he does it directly, in front of you, which is itself new. 'Six months, Stone says.' He pulls down his sleeve. 'Four years of growth, six months of recession. She says the rate is consistent with the Watcher's historical records. She's been in contact with the Hall through Kell.' He sits back. 'I find I don't know what to do with six months in the forward direction. I've been thinking in terms of two years backward for long enough that the planning apparatus doesn't quite know how to run the other way.' He picks up the pen he always picks up when he's thinking. 'I wrote to Serel this morning. Told her about the Hall, about Stone, about what happened.' He pauses. 'I told her I'd been wrong about the thing I said in the letter about wanting to know whether what I'd spent my life doing was worth doing. I told her I've decided the question doesn't resolve — not in the way I wanted it to, not with a clean answer. It just becomes — less urgent. When you're not looking at an ending anymore, the question stops pressing so hard.' He looks at the maps. The red ink on them. Twenty years of red ink. 'She replied in four hours. Personal dispatch, not duty-routed.' He doesn't say what it said. He doesn't need to. The set of his shoulders says something about it that words would only reduce. 'There are five things on my command desk that have needed attending to for two weeks that I have been deferring because I thought I didn't have time.' He picks up the first one. 'I have time. I'm going to start on them now.'",
       "requires_quest_complete": "thorns_reversal",
       "disposition_delta": 14
     },
     {
       "keyword": "noss",
       "prompt": "what Investigator Noss's report said and what it means for the three soldiers listed as missing",
-      "response": "He takes the summary from you and reads it. He reads it a second time. He sets it down and looks at the map \u00e2\u20ac\u201d at the fallen patrol marker specifically, at the lair to its south. 'She found them.' He says it in a specific way, neither as surprise nor as relief, but as something between. 'Three soldiers. In the lair perimeter. Whole.' He is quiet. 'I've had that patrol listed as missing in action for seven months. Missing in action has a meaning in military records \u00e2\u20ac\u201d it means unaccounted for, which means presumed dead, which means there are three families who have received the letter.' He looks at the map. 'I need to recall those letters. There is a process for recalling a next-of-kin notification, it exists because this happens, and I have never had cause to use it.' He is quiet for a long time. 'The memorial formation.' He says it. 'A triangle of helmets.' He traces the patrol marker. 'That formation is from the Third Regimental standard \u00e2\u20ac\u201d it dates from the war's fourth year. The Hollow haven't integrated new material in three hundred years.' He looks at the southern lair marker. 'One of them was recent enough to know that formation. Recently enough to remember what it meant.' He picks up the summary. 'Noss filed this directly to me.' He is quiet. 'She was right to. The standard chain would have filed it under: anomalous, inconclusive, refer for further review. That means archived.' He sets it down. 'I'm writing the recall letters today. And I'm writing a supplemental command assessment: the Hollow are not the Abominations. We have been treating them as the same thing for three hundred years and we have been wrong.'",
+      "response": "He takes the summary from you and reads it. He reads it a second time. He sets it down and looks at the map — at the fallen patrol marker specifically, at the lair to its south. 'She found them.' He says it in a specific way, neither as surprise nor as relief, but as something between. 'Three soldiers. In the lair perimeter. Whole.' He is quiet. 'I've had that patrol listed as missing in action for seven months. Missing in action has a meaning in military records — it means unaccounted for, which means presumed dead, which means there are three families who have received the letter.' He looks at the map. 'I need to recall those letters. There is a process for recalling a next-of-kin notification, it exists because this happens, and I have never had cause to use it.' He is quiet for a long time. 'The memorial formation.' He says it. 'A triangle of helmets.' He traces the patrol marker. 'That formation is from the Third Regimental standard — it dates from the war's fourth year. The Hollow haven't integrated new material in three hundred years.' He looks at the southern lair marker. 'One of them was recent enough to know that formation. Recently enough to remember what it meant.' He picks up the summary. 'Noss filed this directly to me.' He is quiet. 'She was right to. The standard chain would have filed it under: anomalous, inconclusive, refer for further review. That means archived.' He sets it down. 'I'm writing the recall letters today. And I'm writing a supplemental command assessment: the Hollow are not the Abominations. We have been treating them as the same thing for three hundred years and we have been wrong.'",
       "requires_quest_complete": "noss_goes_to_the_lair",
       "disposition_delta": 14
     },

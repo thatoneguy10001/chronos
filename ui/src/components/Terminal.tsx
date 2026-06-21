@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { useGameStore } from '@/store/gameStore';
-import type { TerminalLine } from '@/store/gameStore';
+import type { TerminalLine, NpcSection } from '@/store/gameStore';
 
 const submitCommand = (cmd: string) => useGameStore.getState().submitCommand(cmd);
 
@@ -83,16 +83,50 @@ function LineBlock({ line }: { line: TerminalLine }) {
           {label}
         </div>
       )}
-      <div style={{
-        color: cfg.text,
-        lineHeight: '1.65',
-        fontSize: '0.82em',
-        fontStyle: cfg.italic ? 'italic' : 'normal',
-      }}>
-        {line.text.split('\n').map((part, i) => (
-          <div key={i} dangerouslySetInnerHTML={{ __html: renderMarkdown(part) }} />
-        ))}
-      </div>
+      {line.type === 'npc' && line.npcSections?.length
+        ? <NpcBody sections={line.npcSections} />
+        : (
+          <div style={{
+            color: cfg.text,
+            lineHeight: '1.65',
+            fontSize: '0.82em',
+            fontStyle: cfg.italic ? 'italic' : 'normal',
+          }}>
+            {line.text.split('\n').map((part, i) => (
+              <div key={i} dangerouslySetInnerHTML={{ __html: renderMarkdown(part) }} />
+            ))}
+          </div>
+        )
+      }
+    </div>
+  );
+}
+
+function NpcBody({ sections }: { sections: NpcSection[] }) {
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+      {sections.map((sec, i) =>
+        sec.kind === 'speech' ? (
+          <div key={i} style={{
+            borderLeft: '2px solid #5a8a2a',
+            paddingLeft: '0.55rem',
+            color: '#c8e87a',
+            fontSize: '0.82em',
+            lineHeight: '1.65',
+          }}
+            dangerouslySetInnerHTML={{ __html: renderMarkdown(sec.text) }}
+          />
+        ) : (
+          <div key={i} style={{
+            color: '#4a6a3a',
+            fontSize: '0.82em',
+            lineHeight: '1.65',
+            fontStyle: 'italic',
+          }}
+            dangerouslySetInnerHTML={{ __html: renderMarkdown(sec.text) }}
+          />
+        )
+      )}
     </div>
   );
 }

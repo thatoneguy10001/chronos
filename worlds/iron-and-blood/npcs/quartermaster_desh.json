@@ -1,4 +1,4 @@
-{
+﻿{
   "id": "quartermaster_desh",
   "name": "Quartermaster Desh",
   "greeting": "A compact woman with ink-stained fingers and a ledger that never leaves her hands. 'Quartermaster Desh. I track every bolt, every bandage, every scrap of metal that moves through this fort. You need something, you buy it. You break something, you pay for it. Simple.'",
@@ -11,7 +11,7 @@
     {
       "keyword": "scraps",
       "prompt": "Iron Scraps",
-      "response": "'Standard Terran currency \u00e2\u20ac\u201d Iron Scraps. Fragments of refined metal, weight-verified. One Scrap buys a bandage. Five gets you a meal. Everything has a price out here. That's the only Terran philosophy that actually works.'"
+      "response": "'Standard Terran currency — Iron Scraps. Fragments of refined metal, weight-verified. One Scrap buys a bandage. Five gets you a meal. Everything has a price out here. That's the only Terran philosophy that actually works.'"
     },
     {
       "keyword": "lazarus",
@@ -35,7 +35,7 @@
     {
       "keyword": "arris",
       "prompt": "Arris, the missing soldier",
-      "response": "She sets down her pen. For Desh, this is the equivalent of a double-take. 'Where did you hear that name.' Not suspicious \u00e2\u20ac\u201d careful. 'Third squad, Third Division.' She opens the ledger to a section you haven't seen. 'Corporal Arris Venn. Assigned to third squad, standard rotation.' She runs her finger down the column and stops. 'Reassigned.' She turns the page. 'Three days before the eastern patrol. Removed from the roster and assigned to \u00e2\u20ac\u201d ' She reads again. 'Garrison support, non-front assignment.' She looks up. 'The authorization signature on this. It's not Thorn's.' She compares it to another page. 'It's not any signature I have on file.' She turns the ledger to show you. 'The same format as Kehl's cancellation instruction. The same non-existent authorization.' She looks at you and then at the ledger. 'Arris Venn is not in garrison support. I have the garrison support files. He's not there.' She taps the authorization. 'Someone pulled a soldier from a specific patrol three days before the patrol was ambushed. And used an authorization code that doesn't exist.'",
+      "response": "She sets down her pen. For Desh, this is the equivalent of a double-take. 'Where did you hear that name.' Not suspicious — careful. 'Third squad, Third Division.' She opens the ledger to a section you haven't seen. 'Corporal Arris Venn. Assigned to third squad, standard rotation.' She runs her finger down the column and stops. 'Reassigned.' She turns the page. 'Three days before the eastern patrol. Removed from the roster and assigned to — ' She reads again. 'Garrison support, non-front assignment.' She looks up. 'The authorization signature on this. It's not Thorn's.' She compares it to another page. 'It's not any signature I have on file.' She turns the ledger to show you. 'The same format as Kehl's cancellation instruction. The same non-existent authorization.' She looks at you and then at the ledger. 'Arris Venn is not in garrison support. I have the garrison support files. He's not there.' She taps the authorization. 'Someone pulled a soldier from a specific patrol three days before the patrol was ambushed. And used an authorization code that doesn't exist.'",
       "disposition_delta": 10
     }
   ],

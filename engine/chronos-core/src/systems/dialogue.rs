@@ -22,12 +22,88 @@ use bevy_ecs::prelude::*;
 use crate::components::{Controllable, NpcDispositions, Position, QuestLog, WorldFlags};
 use crate::data::StaticRepository;
 use crate::data::schemas::DialogueLine;
-use crate::events::ContextAction;
+use crate::events::{ContextAction, NpcSection};
 
 pub struct DialogueResult {
     pub success: bool,
     pub narrative: String,
     pub context_actions: Vec<ContextAction>,
+    pub npc_sections: Vec<NpcSection>,
+}
+
+/// Find the next single quote that is a speech delimiter, not a contraction apostrophe.
+/// An apostrophe flanked by two ASCII letters on both sides (e.g. "it's", "don't") is skipped.
+fn find_speech_delimiter(s: &str) -> Option<usize> {
+    let bytes = s.as_bytes();
+    for (i, &b) in bytes.iter().enumerate() {
+        if b == b'\'' {
+            let prev_alpha = i > 0 && bytes[i - 1].is_ascii_alphabetic();
+            let next_alpha = i + 1 < bytes.len() && bytes[i + 1].is_ascii_alphabetic();
+            if !(prev_alpha && next_alpha) {
+                return Some(i);
+            }
+        }
+    }
+    None
+}
+
+/// Split a body of NPC text into alternating action/speech sections.
+/// Text between single quotes is "speech"; everything outside is "action".
+/// Apostrophes in contractions (e.g. "it's", "don't") are not treated as delimiters.
+fn split_by_single_quotes(body: &str) -> Vec<NpcSection> {
+    let mut sections = Vec::new();
+    let mut rest = body;
+
+    while !rest.is_empty() {
+        match find_speech_delimiter(rest) {
+            None => {
+                let t = rest.trim();
+                if !t.is_empty() {
+                    sections.push(NpcSection { kind: "action".into(), text: t.into() });
+                }
+                break;
+            }
+            Some(open) => {
+                let before = rest[..open].trim();
+                if !before.is_empty() {
+                    sections.push(NpcSection { kind: "action".into(), text: before.into() });
+                }
+                rest = &rest[open + 1..];
+                match find_speech_delimiter(rest) {
+                    None => {
+                        let t = rest.trim();
+                        if !t.is_empty() {
+                            sections.push(NpcSection { kind: "speech".into(), text: t.into() });
+                        }
+                        break;
+                    }
+                    Some(close) => {
+                        let speech = rest[..close].trim();
+                        if !speech.is_empty() {
+                            sections.push(NpcSection { kind: "speech".into(), text: speech.into() });
+                        }
+                        rest = &rest[close + 1..];
+                    }
+                }
+            }
+        }
+    }
+
+    sections
+}
+
+/// Strip the "**Name** [Mood] — " prefix, take only the first paragraph (greeting body),
+/// then split into action/speech sections by single-quote delimiters.
+fn split_npc_narrative(full_narrative: &str) -> Vec<NpcSection> {
+    let separator = " \u{2014} "; // " — "
+    let body = if let Some(idx) = full_narrative.find(separator) {
+        &full_narrative[idx + separator.len()..]
+    } else {
+        full_narrative
+    };
+    // Only process the greeting paragraph — stop before "You can ask about:" meta lines
+    let greeting = body.split("\n\n").next().unwrap_or(body);
+    split_by_single_quotes(greeting)
 }
 
 /// Human-readable disposition tier label.
@@ -186,6 +262,7 @@ pub fn process_talk(world: &mut World, repo: &StaticRepository, npc_id: &str) ->
                 }
             ),
             context_actions: vec![],
+            npc_sections: vec![],
         },
     };
     let npc_id = npc_id.as_str();
@@ -281,7 +358,8 @@ pub fn process_talk(world: &mut World, repo: &StaticRepository, npc_id: &str) ->
         });
     }
 
-    DialogueResult { success: true, narrative, context_actions }
+    let npc_sections = split_npc_narrative(&narrative);
+    DialogueResult { success: true, narrative, context_actions, npc_sections }
 }
 
 /// Ask an NPC about a topic keyword. Records the topic, shifts disposition, extracts [[links]].
@@ -296,6 +374,7 @@ pub fn process_ask(world: &mut World, repo: &StaticRepository, npc_id: &str, top
             success: false,
             narrative: format!("There's no '{npc_id}' here to talk to."),
             context_actions: vec![],
+            npc_sections: vec![],
         },
     };
     let npc_id = npc_id.as_str();
@@ -346,11 +425,11 @@ pub fn process_ask(world: &mut World, repo: &StaticRepository, npc_id: &str, top
             let narrative = format!("**{}** [{disp_label}] — {clean_response}", npc.name);
 
             let mut context_actions = topic_actions(npc_id, &npc.dialogue, new_disp, &new_seen, &world_flags);
-            // Prepend keyword-extracted actions (most relevant to this response).
             let mut all_actions = kw_actions;
             all_actions.append(&mut context_actions);
 
-            DialogueResult { success: true, narrative, context_actions: all_actions }
+            let npc_sections = split_npc_narrative(&narrative);
+            DialogueResult { success: true, narrative, context_actions: all_actions, npc_sections }
         }
 
         None => {
@@ -362,14 +441,16 @@ pub fn process_ask(world: &mut World, repo: &StaticRepository, npc_id: &str, top
                     topic,
                 );
                 let context_actions = topic_actions(npc_id, &npc.dialogue, player_disp, &seen, &world_flags);
-                DialogueResult { success: false, narrative, context_actions }
+                let npc_sections = split_npc_narrative(&narrative);
+                DialogueResult { success: false, narrative, context_actions, npc_sections }
             } else {
                 let narrative = format!(
                     "**{}** shrugs. \"I don't know anything about that.\"",
                     npc.name,
                 );
                 let context_actions = topic_actions(npc_id, &npc.dialogue, player_disp, &seen, &world_flags);
-                DialogueResult { success: true, narrative, context_actions }
+                let npc_sections = split_npc_narrative(&narrative);
+                DialogueResult { success: true, narrative, context_actions, npc_sections }
             }
         }
     }
@@ -381,7 +462,7 @@ fn player_room(world: &mut World) -> Option<String> {
 }
 
 fn error(msg: &str) -> DialogueResult {
-    DialogueResult { success: false, narrative: msg.to_string(), context_actions: vec![] }
+    DialogueResult { success: false, narrative: msg.to_string(), context_actions: vec![], npc_sections: vec![] }
 }
 
 #[cfg(test)]

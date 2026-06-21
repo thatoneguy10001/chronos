@@ -53,6 +53,11 @@ function classifyLine(cmd: string, success: boolean): TerminalLine['type'] {
   return 'output';
 }
 
+export interface NpcSection {
+  kind: 'action' | 'speech';
+  text: string;
+}
+
 export interface TerminalLine {
   id: number;
   type: 'input' | 'output' | 'error' | 'system' | 'npc' | 'combat' | 'movement';
@@ -60,6 +65,7 @@ export interface TerminalLine {
   tick?: number;
   speaker?: string;
   label?: string;
+  npcSections?: NpcSection[];
 }
 
 export interface SaveSlot {
@@ -310,7 +316,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
         : lineType === 'combat' ? 'Combat'
         : undefined;
       const responseLine: TerminalLine = lineType === 'npc'
-        ? { id: lineCounter++, type: 'npc', text: narrative, tick: result.tick, speaker: extractSpeaker(narrative) }
+        ? { id: lineCounter++, type: 'npc', text: narrative, tick: result.tick, speaker: extractSpeaker(narrative), npcSections: result.npc_sections?.length ? result.npc_sections as NpcSection[] : undefined }
         : mkLine(lineType, narrative, result.tick, lineLabel);
 
       // Map tracking: update position and record visited room
