@@ -59,6 +59,7 @@ export interface TerminalLine {
   text: string;
   tick?: number;
   speaker?: string;
+  label?: string;
 }
 
 export interface SaveSlot {
@@ -149,11 +150,12 @@ interface GameStore {
 }
 
 let lineCounter = 0;
-const mkLine = (type: TerminalLine['type'], text: string, tick?: number): TerminalLine => ({
+const mkLine = (type: TerminalLine['type'], text: string, tick?: number, label?: string): TerminalLine => ({
   id: lineCounter++,
   type,
   text,
   tick,
+  label,
 });
 
 function extractSpeaker(text: string): string | undefined {
@@ -232,7 +234,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
           lines: [
             mkLine('system', `=== ${worldMeta?.title?.toUpperCase() ?? 'PROJECT CHRONOS'} ===`),
             mkLine('system', 'Save loaded.'),
-            mkLine('output', result.narrative, result.tick),
+            mkLine('output', result.narrative, result.tick, startRoomName),
           ],
         });
         return;
@@ -263,7 +265,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
       lines: [
         mkLine('system', `=== ${worldMeta?.title?.toUpperCase() ?? 'PROJECT CHRONOS'} ===`),
         mkLine('system', "Type 'help' for commands. Type 'save' to save, 'load' to load."),
-        mkLine('output', result.narrative, result.tick),
+        mkLine('output', result.narrative, result.tick, startRoomName),
       ],
     });
   },
@@ -299,16 +301,21 @@ export const useGameStore = create<GameStore>((set, get) => ({
         ? result.narrative
         : `⚠ ${result.narrative}`;
 
+      // Declare room info before using in lineLabel
+      const newRoomId   = snap.player_room_id;
+      const newRoomName = snap.current_room_name ?? '';
+
       const lineType = classifyLine(cmd, result.success);
+      const lineLabel = lineType === 'movement' ? newRoomName
+        : lineType === 'combat' ? 'Combat'
+        : undefined;
       const responseLine: TerminalLine = lineType === 'npc'
         ? { id: lineCounter++, type: 'npc', text: narrative, tick: result.tick, speaker: extractSpeaker(narrative) }
-        : mkLine(lineType, narrative, result.tick);
+        : mkLine(lineType, narrative, result.tick, lineLabel);
 
       // Map tracking: update position and record visited room
       const mapNodes = { ...get().mapNodes };
       const mapEdges = [...get().mapEdges];
-      const newRoomId = snap.player_room_id;
-      const newRoomName = snap.current_room_name ?? '';
       let newX = oldX, newY = oldY;
 
       if (result.success && isMovementCmd(cmd) && newRoomId !== oldRoomId) {

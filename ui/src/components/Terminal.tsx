@@ -4,75 +4,86 @@ import type { TerminalLine } from '@/store/gameStore';
 
 const submitCommand = (cmd: string) => useGameStore.getState().submitCommand(cmd);
 
-const LINE_STYLES: Record<TerminalLine['type'], React.CSSProperties> = {
-  input:    { color: 'var(--text-input)', opacity: 0.85 },
-  output:   { color: 'var(--text)', lineHeight: '1.6' },
-  error:    { color: 'var(--error)', lineHeight: '1.6' },
-  system:   { color: 'var(--text-muted)', fontStyle: 'italic', fontSize: '0.85em' },
-  npc:      { lineHeight: '1.6' },
-  combat:   { color: 'var(--combat-text, #d4886a)', lineHeight: '1.6' },
-  movement: { color: 'var(--movement-text, #a0b4c8)', lineHeight: '1.6', borderTop: '1px solid var(--border)', paddingTop: '0.5rem', marginTop: '0.25rem' },
+type BlockCfg = {
+  border: string;
+  bg?: string;
+  text: string;
+  labelColor: string;
+  labelUppercase?: boolean;
+  italic?: boolean;
+};
+
+const BLOCK: Record<TerminalLine['type'], BlockCfg> = {
+  input:    { border: 'transparent',   text: 'var(--text-input)',  labelColor: 'transparent' },
+  system:   { border: 'var(--border)', text: 'var(--text-muted)', labelColor: 'var(--text-dim)', italic: true },
+  output:   { border: 'var(--text-dim)', text: 'var(--text-body)', labelColor: 'var(--text-accent)' },
+  error:    { border: 'var(--error)',  text: 'var(--error)',       labelColor: 'var(--error)' },
+  movement: { border: '#1a3550', bg: '#050a0f', text: '#4a6a8a',  labelColor: '#3a5a7a', labelUppercase: true },
+  combat:   { border: '#501a10', bg: '#0a0603', text: 'var(--combat-text)', labelColor: '#7a3a2a', labelUppercase: true },
+  npc:      { border: '#2a4a1a', bg: '#070c05', text: '#7a9a5a',  labelColor: 'var(--green-bright)' },
 };
 
 export function Terminal() {
   const lines = useGameStore(s => s.lines);
   const bottomRef = useRef<HTMLDivElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [lines]);
 
-  // Event delegation — catches data-cmd clicks on any child span.
   function handleClick(e: React.MouseEvent<HTMLDivElement>) {
-    const target = e.target as HTMLElement;
-    const cmd = target.closest('[data-cmd]')?.getAttribute('data-cmd');
+    const cmd = (e.target as HTMLElement).closest('[data-cmd]')?.getAttribute('data-cmd');
     if (cmd) submitCommand(cmd);
   }
 
   return (
     <div
-      ref={containerRef}
       onClick={handleClick}
-      style={{
-        flex: 1,
-        overflowY: 'auto',
-        padding: '1rem 1.5rem',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '0.35rem',
-      }}
+      style={{ flex: 1, overflowY: 'auto', padding: '0.75rem 1rem', display: 'flex', flexDirection: 'column' }}
     >
-      {lines.map(line => (
-        line.type === 'npc'
-          ? <NpcLine key={line.id} line={line} />
-          : (
-            <div key={line.id} style={LINE_STYLES[line.type]}>
-              {line.text.split('\n').map((part, i) => (
-                <div key={i} dangerouslySetInnerHTML={{ __html: renderMarkdown(part) }} />
-              ))}
-            </div>
-          )
-      ))}
+      {lines.map(line => <LineBlock key={line.id} line={line} />)}
       <div ref={bottomRef} />
     </div>
   );
 }
 
-function NpcLine({ line }: { line: TerminalLine }) {
-  const speakerName = line.speaker;
+function LineBlock({ line }: { line: TerminalLine }) {
+  const cfg = BLOCK[line.type];
+  const label = line.label ?? line.speaker;
+
+  if (line.type === 'input') {
+    return (
+      <div style={{ color: 'var(--text-input)', opacity: 0.65, margin: '0.55rem 0 0.1rem', fontSize: '0.82em' }}>
+        {line.text}
+      </div>
+    );
+  }
+
   return (
     <div style={{
-      borderLeft: '2px solid var(--blue)',
-      paddingLeft: '0.75rem',
-      margin: '0.15rem 0',
+      borderLeft: `2px solid ${cfg.border}`,
+      background: cfg.bg,
+      padding: '0.45rem 0.75rem',
+      margin: '0.1rem 0',
     }}>
-      {speakerName && (
-        <div style={{ color: 'var(--blue)', fontWeight: 'bold', fontSize: '0.85em', marginBottom: '0.15rem' }}>
-          {speakerName}
+      {label && (
+        <div style={{
+          fontSize: line.type === 'npc' ? '0.8em' : '0.6em',
+          letterSpacing: line.type === 'npc' ? '0.02em' : '0.1em',
+          textTransform: cfg.labelUppercase ? 'uppercase' : 'none',
+          color: cfg.labelColor,
+          marginBottom: '0.25rem',
+          fontWeight: line.type === 'npc' ? 'bold' : 'normal',
+        }}>
+          {label}
         </div>
       )}
-      <div style={{ color: 'var(--text)', lineHeight: '1.6' }}>
+      <div style={{
+        color: cfg.text,
+        lineHeight: '1.65',
+        fontSize: '0.82em',
+        fontStyle: cfg.italic ? 'italic' : 'normal',
+      }}>
         {line.text.split('\n').map((part, i) => (
           <div key={i} dangerouslySetInnerHTML={{ __html: renderMarkdown(part) }} />
         ))}
@@ -81,14 +92,11 @@ function NpcLine({ line }: { line: TerminalLine }) {
   );
 }
 
-/** Renders **bold**, and [[display|command]] as clickable entity links. Content is from Rust. */
 function renderMarkdown(text: string): string {
-  // Replace [[display|command]] with colored clickable spans.
   let out = text.replace(/\[\[([^\]|]+)\|([^\]]+)\]\]/g, (_, display, cmd) => {
     const cls = entityClass(cmd);
     return `<span class="ent-link ${cls}" data-cmd="${escAttr(cmd)}">${escHtml(display)}</span>`;
   });
-  // Bold remaining **...**
   out = out.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
   return out;
 }

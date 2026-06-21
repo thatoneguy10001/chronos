@@ -67,6 +67,21 @@ export function InputManager({ onCommand }: Props) {
             {mode}
           </button>
         ))}
+        <button
+          onClick={() => onCommand('journal')}
+          style={{
+            background: 'transparent',
+            border: '1px solid var(--text-muted)',
+            color: 'var(--text-ui)',
+            fontFamily: 'inherit',
+            fontSize: '0.75em',
+            padding: '0.2rem 0.6rem',
+            cursor: 'pointer',
+            borderRadius: '2px',
+          }}
+        >
+          JOURNAL
+        </button>
         {isRewound && (
           <span style={{ color: 'var(--warn)', fontSize: '0.8em', marginLeft: 'auto' }}>
             ⏪ REWOUND — next command discards future history
