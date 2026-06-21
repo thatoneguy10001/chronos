@@ -43,21 +43,20 @@ export function InputManager({ onCommand }: Props) {
 
   return (
     <div style={{
-      borderTop: '1px solid #2a4a2a',
+      borderTop: `1px solid var(--border-input)`,
       padding: '0.75rem 1.5rem',
-      background: '#050505',
+      background: 'var(--bg-input)',
     }}>
-      {/* Mode toggle */}
       <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.6rem', alignItems: 'center' }}>
-        <span style={{ color: '#666', fontSize: '0.8em' }}>INPUT:</span>
+        <span style={{ color: 'var(--text-ui)', fontSize: '0.8em' }}>INPUT:</span>
         {(['PARSER', 'BUTTONS'] as InputMode[]).map(mode => (
           <button
             key={mode}
             onClick={() => setInputMode(mode)}
             style={{
-              background: inputMode === mode ? '#1a3a1a' : 'transparent',
-              border: `1px solid ${inputMode === mode ? '#c8ffb0' : '#444'}`,
-              color: inputMode === mode ? '#c8ffb0' : '#666',
+              background: inputMode === mode ? 'var(--border)' : 'transparent',
+              border: `1px solid ${inputMode === mode ? 'var(--text)' : 'var(--text-muted)'}`,
+              color: inputMode === mode ? 'var(--text)' : 'var(--text-ui)',
               fontFamily: 'inherit',
               fontSize: '0.75em',
               padding: '0.2rem 0.6rem',
@@ -69,16 +68,15 @@ export function InputManager({ onCommand }: Props) {
           </button>
         ))}
         {isRewound && (
-          <span style={{ color: '#ffaa00', fontSize: '0.8em', marginLeft: 'auto' }}>
+          <span style={{ color: 'var(--warn)', fontSize: '0.8em', marginLeft: 'auto' }}>
             ⏪ REWOUND — next command discards future history
           </span>
         )}
       </div>
 
-      {/* Input area */}
       {inputMode === 'PARSER' ? (
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-          <span style={{ color: '#4a7a4a', userSelect: 'none' }}>&gt;</span>
+          <span style={{ color: 'var(--text-label)', userSelect: 'none' }}>&gt;</span>
           <input
             ref={inputRef}
             value={draft}
@@ -91,10 +89,10 @@ export function InputManager({ onCommand }: Props) {
               background: 'transparent',
               border: 'none',
               outline: 'none',
-              color: '#ffffff',
+              color: 'var(--text-input)',
               fontFamily: 'inherit',
               fontSize: '1em',
-              caretColor: '#c8ffb0',
+              caretColor: 'var(--text)',
             }}
           />
         </div>

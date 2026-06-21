@@ -15,18 +15,17 @@ export function TimelineDebugPanel() {
 
   return (
     <div style={{
-      borderTop: '1px solid #1a2a1a',
-      background: '#030303',
+      borderTop: '1px solid var(--border)',
+      background: 'var(--bg-panel)',
       fontSize: '0.8em',
     }}>
-      {/* Collapse toggle */}
       <button
         onClick={() => setOpen(o => !o)}
         style={{
           width: '100%',
           background: 'transparent',
           border: 'none',
-          color: '#555',
+          color: 'var(--text-ui)',
           fontFamily: 'inherit',
           fontSize: 'inherit',
           padding: '0.4rem 1.5rem',
@@ -43,12 +42,11 @@ export function TimelineDebugPanel() {
       {open && (
         <div style={{ padding: '0.5rem 1.5rem 0.75rem' }}>
           {maxTick === 0 ? (
-            <span style={{ color: '#444' }}>No history yet.</span>
+            <span style={{ color: 'var(--disabled)' }}>No history yet.</span>
           ) : (
             <>
-              {/* Timeline slider */}
               <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '0.5rem' }}>
-                <span style={{ color: '#555', minWidth: '3ch' }}>0</span>
+                <span style={{ color: 'var(--text-ui)', minWidth: '3ch' }}>0</span>
                 <input
                   type="range"
                   min={0}
@@ -57,14 +55,13 @@ export function TimelineDebugPanel() {
                   onChange={e => rewindToTick(Number(e.target.value))}
                   style={{
                     flex: 1,
-                    accentColor: '#c8ffb0',
+                    accentColor: 'var(--text)',
                     cursor: 'pointer',
                   }}
                 />
-                <span style={{ color: '#555', minWidth: `${String(maxTick).length}ch` }}>{maxTick}</span>
+                <span style={{ color: 'var(--text-ui)', minWidth: `${String(maxTick).length}ch` }}>{maxTick}</span>
               </div>
 
-              {/* Controls */}
               <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
                 <SliderButton onClick={() => rewindToTick(0)} disabled={currentTick === 0}>
                   ⏮ Start
@@ -117,8 +114,8 @@ function SliderButton({
       disabled={disabled}
       style={{
         background: 'transparent',
-        border: '1px solid #2a4a2a',
-        color: disabled ? '#333' : '#888',
+        border: '1px solid var(--border-input)',
+        color: disabled ? 'var(--disabled)' : 'var(--text-muted)',
         fontFamily: 'inherit',
         fontSize: 'inherit',
         padding: '0.25rem 0.6rem',

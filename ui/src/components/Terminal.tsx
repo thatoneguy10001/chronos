@@ -2,10 +2,10 @@ import { useEffect, useRef } from 'react';
 import { useGameStore, type TerminalLine } from '@/store/gameStore';
 
 const LINE_STYLES: Record<TerminalLine['type'], React.CSSProperties> = {
-  input:  { color: '#ffffff', opacity: 0.85 },
-  output: { color: '#c8ffb0', lineHeight: '1.6' },
-  error:  { color: '#ff6b6b', lineHeight: '1.6' },
-  system: { color: '#888', fontStyle: 'italic', fontSize: '0.85em' },
+  input:  { color: 'var(--text-input)', opacity: 0.85 },
+  output: { color: 'var(--text)', lineHeight: '1.6' },
+  error:  { color: 'var(--error)', lineHeight: '1.6' },
+  system: { color: 'var(--text-muted)', fontStyle: 'italic', fontSize: '0.85em' },
 };
 
 export function Terminal() {

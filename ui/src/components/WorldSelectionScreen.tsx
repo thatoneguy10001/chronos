@@ -50,7 +50,7 @@ function ContinueCard({
         padding: '0.75rem 1.2rem',
         marginBottom: '0.5rem',
         cursor: 'pointer',
-        background: hovered ? '#0d0d0d' : 'transparent',
+        background: hovered ? 'var(--bg-hover)' : 'transparent',
         transition: 'all 0.15s',
         maxWidth: 560,
         width: '100%',
@@ -64,13 +64,13 @@ function ContinueCard({
           {slot.characterName}
           <span style={{ color: colors.dim, fontWeight: 'normal', fontSize: '0.85em' }}> · {slot.classId}</span>
         </div>
-        <div style={{ color: '#6a6a4a', fontSize: '0.72em', marginTop: '0.1rem' }}>
+        <div style={{ color: 'var(--xp-text)', fontSize: '0.72em', marginTop: '0.1rem' }}>
           {slot.worldTitle} · {humanizeRoomId(slot.roomId)} · tick {slot.tick}
         </div>
       </div>
       <div style={{ textAlign: 'right', flexShrink: 0, marginLeft: '1rem' }}>
         <div style={{ color: hovered ? colors.accent : colors.dim, fontSize: '0.85em' }}>CONTINUE ▸</div>
-        <div style={{ color: '#3a3a2a', fontSize: '0.65em', marginTop: '0.1rem' }}>
+        <div style={{ color: 'var(--text-faint)', fontSize: '0.65em', marginTop: '0.1rem' }}>
           slot {slotIndex + 1} · {formatSavedAt(slot.savedAt)}
         </div>
       </div>
@@ -102,7 +102,7 @@ function WorldCard({
         padding: '1.2rem 1.4rem',
         marginBottom: '1rem',
         cursor: 'pointer',
-        background: hovered ? '#0d0d0d' : 'transparent',
+        background: hovered ? 'var(--bg-hover)' : 'transparent',
         transition: 'all 0.15s',
         maxWidth: 560,
         width: '100%',
@@ -111,10 +111,10 @@ function WorldCard({
       <div style={{ color: colors.accent, fontWeight: 'bold', fontSize: '1.05em', marginBottom: '0.25rem' }}>
         {world.title}
       </div>
-      <div style={{ color: '#8a8a6a', fontSize: '0.8em', fontStyle: 'italic', marginBottom: '0.6rem' }}>
+      <div style={{ color: 'var(--xp-text)', fontSize: '0.8em', fontStyle: 'italic', marginBottom: '0.6rem' }}>
         {world.tagline}
       </div>
-      <div style={{ color: '#6a8a6a', fontSize: '0.78em', lineHeight: 1.5 }}>
+      <div style={{ color: 'var(--text-body)', fontSize: '0.78em', lineHeight: 1.5 }}>
         {world.description}
       </div>
       <div style={{ marginTop: '0.6rem', fontSize: '0.72em', color: colors.dim }}>
@@ -151,19 +151,19 @@ export function WorldSelectionScreen({ onSelect, onContinue }: WorldSelectionScr
       alignItems: 'center',
       justifyContent: 'center',
       fontFamily: 'monospace',
-      background: '#030303',
+      background: 'var(--bg-panel)',
       padding: '2rem',
     }}>
-      <div style={{ color: '#2a5a2a', fontSize: '0.72em', letterSpacing: '0.15em', marginBottom: '0.5rem' }}>
+      <div style={{ color: 'var(--text-dim)', fontSize: '0.72em', letterSpacing: '0.15em', marginBottom: '0.5rem' }}>
         ── PROJECT CHRONOS ──
       </div>
 
       {populatedSaves.length > 0 && (
         <>
-          <div style={{ color: '#4a9a4a', fontSize: '1.4em', fontWeight: 'bold', marginBottom: '0.4rem' }}>
+          <div style={{ color: 'var(--text-accent)', fontSize: '1.4em', fontWeight: 'bold', marginBottom: '0.4rem' }}>
             Continue
           </div>
-          <div style={{ color: '#4a6a4a', fontSize: '0.8em', marginBottom: '1.2rem' }}>
+          <div style={{ color: 'var(--text-body)', fontSize: '0.8em', marginBottom: '1.2rem' }}>
             Pick up where you left off.
           </div>
           {populatedSaves.map(({ slot, index }) => (
@@ -178,20 +178,20 @@ export function WorldSelectionScreen({ onSelect, onContinue }: WorldSelectionScr
               }}
             />
           ))}
-          <div style={{ color: '#2a4a2a', fontSize: '0.72em', letterSpacing: '0.1em', margin: '1.2rem 0 0.8rem', maxWidth: 560, width: '100%' }}>
+          <div style={{ color: 'var(--text-dim)', fontSize: '0.72em', letterSpacing: '0.1em', margin: '1.2rem 0 0.8rem', maxWidth: 560, width: '100%' }}>
             ── OR START A NEW GAME ──
           </div>
         </>
       )}
 
       {!populatedSaves.length && (
-        <div style={{ color: '#4a9a4a', fontSize: '1.4em', fontWeight: 'bold', marginBottom: '0.4rem' }}>
+        <div style={{ color: 'var(--text-accent)', fontSize: '1.4em', fontWeight: 'bold', marginBottom: '0.4rem' }}>
           Choose Your World
         </div>
       )}
 
       {!populatedSaves.length && (
-        <div style={{ color: '#4a6a4a', fontSize: '0.8em', marginBottom: '2rem' }}>
+        <div style={{ color: 'var(--text-body)', fontSize: '0.8em', marginBottom: '2rem' }}>
           Each world is a complete adventure with its own rules and lore.
         </div>
       )}
@@ -207,7 +207,7 @@ export function WorldSelectionScreen({ onSelect, onContinue }: WorldSelectionScr
       ))}
 
       {worlds.length === 0 && (
-        <div style={{ color: '#cc4444', fontSize: '0.85em' }}>
+        <div style={{ color: 'var(--error)', fontSize: '0.85em' }}>
           No worlds found. Check that the worlds/ directory is correctly bundled.
         </div>
       )}

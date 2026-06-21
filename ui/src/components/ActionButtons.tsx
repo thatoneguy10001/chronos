@@ -6,9 +6,7 @@ const DIRECTIONS = new Set(['north', 'south', 'east', 'west', 'up', 'down', 'nor
 
 function isMovement(cmd: string): boolean {
   const tokens = cmd.trim().toLowerCase().split(/\s+/);
-  // "go north" / "go up" etc.
   if (tokens[0] === 'go' && tokens[1] && DIRECTIONS.has(tokens[1])) return true;
-  // bare direction word fallback
   if (DIRECTIONS.has(tokens[0])) return true;
   return false;
 }
@@ -21,9 +19,6 @@ interface Tab {
   actions: ContextAction[];
 }
 
-// Categorize room-level actions. contextActions supplies the dialogue follow-ups
-// (ask / shop commands) that appear after the last talk/ask response — those get
-// merged into TALK so the conversation can continue without switching to the parser.
 function categorize(
   roomActions: ContextAction[],
   contextActions: ContextAction[],
@@ -55,8 +50,6 @@ function categorize(
     }
   }
 
-  // Merge dialogue follow-ups from the last command response into TALK.
-  // These are the per-topic and [[keyword]] buttons that process_ask returns.
   for (const action of contextActions) {
     if (seen.has(action.command)) continue;
     seen.add(action.command);
@@ -91,20 +84,18 @@ export function ActionButtons({ onCommand }: Props) {
 
   if (tabs.length === 0) {
     return (
-      <div style={{ color: '#555', fontStyle: 'italic', fontSize: '0.85em', padding: '0.5rem 0' }}>
+      <div style={{ color: 'var(--text-ui)', fontStyle: 'italic', fontSize: '0.85em', padding: '0.5rem 0' }}>
         No actions available — try typing a command.
       </div>
     );
   }
 
-  // If current tab has no actions (e.g. enemies died), fall back to first available tab.
   const visibleTab = tabs.find(t => t.id === activeTab) ?? tabs[0];
   const currentActions = visibleTab.actions;
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-      {/* Tab bar */}
-      <div style={{ display: 'flex', gap: '0', borderBottom: '1px solid #2a4a2a' }}>
+      <div style={{ display: 'flex', gap: '0', borderBottom: '1px solid var(--border-input)' }}>
         {tabs.map(tab => {
           const isActive = tab.id === visibleTab.id;
           return (
@@ -112,10 +103,10 @@ export function ActionButtons({ onCommand }: Props) {
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
               style={{
-                background: isActive ? '#1a3a1a' : 'transparent',
-                border: '1px solid #2a4a2a',
-                borderBottom: isActive ? '1px solid #1a3a1a' : '1px solid #2a4a2a',
-                color: isActive ? '#c8ffb0' : '#4a7a4a',
+                background: isActive ? 'var(--border)' : 'transparent',
+                border: '1px solid var(--border-input)',
+                borderBottom: isActive ? '1px solid var(--border)' : '1px solid var(--border-input)',
+                color: isActive ? 'var(--text)' : 'var(--text-label)',
                 fontFamily: 'inherit',
                 fontSize: '0.8em',
                 padding: '0.3rem 0.75rem',
@@ -134,7 +125,6 @@ export function ActionButtons({ onCommand }: Props) {
         })}
       </div>
 
-      {/* Action grid */}
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem', paddingTop: '0.25rem' }}>
         {currentActions.map(action => (
           <ActionButton key={action.command} action={action} onCommand={onCommand} tabId={visibleTab.id} />
@@ -161,7 +151,7 @@ function ActionButton({ action, onCommand, tabId }: { action: ContextAction; onC
       style={{
         background: 'transparent',
         border: `1px solid ${accent}`,
-        color: '#c8ffb0',
+        color: 'var(--text)',
         fontFamily: 'inherit',
         fontSize: '0.88em',
         padding: '0.3rem 0.7rem',
@@ -173,7 +163,7 @@ function ActionButton({ action, onCommand, tabId }: { action: ContextAction; onC
       onMouseEnter={e => {
         const el = e.target as HTMLElement;
         el.style.background = accent + '33';
-        el.style.borderColor = '#c8ffb0';
+        el.style.borderColor = 'var(--text)';
       }}
       onMouseLeave={e => {
         const el = e.target as HTMLElement;

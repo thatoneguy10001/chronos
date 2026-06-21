@@ -17,19 +17,19 @@ function GameOverScreen({ worldTitle, onRestart }: { worldTitle: string; onResta
       alignItems: 'center',
       justifyContent: 'center',
       fontFamily: 'monospace',
-      background: '#030303',
+      background: 'var(--bg-panel)',
       gap: '1.5rem',
     }}>
-      <div style={{ color: '#2a2a2a', fontSize: '0.8em', letterSpacing: '0.2em' }}>── {worldTitle.toUpperCase()} ──</div>
-      <div style={{ color: '#993333', fontSize: '2em', fontWeight: 'bold', letterSpacing: '0.1em' }}>YOU DIED</div>
-      <div style={{ color: '#553333', fontSize: '0.85em' }}>Your story ends here.</div>
+      <div style={{ color: 'var(--text-dim)', fontSize: '0.8em', letterSpacing: '0.2em' }}>── {worldTitle.toUpperCase()} ──</div>
+      <div style={{ color: 'var(--danger)', fontSize: '2em', fontWeight: 'bold', letterSpacing: '0.1em' }}>YOU DIED</div>
+      <div style={{ color: 'var(--danger-border)', fontSize: '0.85em' }}>Your story ends here.</div>
       <button
         onClick={onRestart}
         style={{
           marginTop: '1rem',
           background: 'transparent',
-          border: '1px solid #993333',
-          color: '#cc6666',
+          border: '1px solid var(--danger)',
+          color: 'var(--danger-text)',
           fontFamily: 'monospace',
           fontSize: '0.9em',
           padding: '0.5rem 2rem',
@@ -56,7 +56,6 @@ export function App() {
   const [worldTitle, setWorldTitle] = useState('');
   const [initError,  setInitError]  = useState<string | null>(null);
 
-  // Slot to load immediately after init (set by Continue, consumed once).
   const pendingSlotRef = useRef<number | undefined>(undefined);
 
   useEffect(() => {
@@ -99,7 +98,7 @@ export function App() {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        color: '#cc4444',
+        color: 'var(--error)',
         fontFamily: 'monospace',
         padding: '2rem',
         whiteSpace: 'pre-wrap',
@@ -116,7 +115,7 @@ export function App() {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        color: '#4a7a4a',
+        color: 'var(--text-label)',
         fontFamily: 'monospace',
       }}>
         Loading engine...
