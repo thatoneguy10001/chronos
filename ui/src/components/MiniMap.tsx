@@ -48,9 +48,9 @@ export function MiniMap() {
       </div>
 
       <svg
-        width={MAP_W}
-        height={MAP_H}
-        style={{ display: 'block', overflow: 'hidden', background: 'var(--bg)', border: '1px solid var(--border)', borderRadius: 2 }}
+        viewBox={`0 0 ${MAP_W} ${MAP_H}`}
+        preserveAspectRatio="xMidYMid meet"
+        style={{ display: 'block', width: '100%', height: 'auto', overflow: 'hidden', background: 'var(--bg)', border: '1px solid var(--border)', borderRadius: 2 }}
         onMouseLeave={() => setHoveredId(null)}
       >
         {/* Edges + direction labels */}
