@@ -1,0 +1,65 @@
+name: Deploy to GitHub Pages
+
+# Builds the standalone WASM app (no dev WebSocket server) and publishes it to
+# GitHub Pages on every push to master, giving an always-current playable URL.
+#
+# NOTE: Pages on a PRIVATE repo requires a paid GitHub plan (Pro/Team/Enterprise).
+# On a free plan this job will fail at publish — make the repo public or deploy
+# elsewhere (Netlify/Cloudflare Pages). Enable once at: Settings → Pages →
+# Build and deployment → Source: GitHub Actions.
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Only one Pages deploy at a time; cancel in-progress runs on new pushes.
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build site
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-unknown
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: engine
+      - uses: jetli/wasm-pack-action@v0.4.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: ui/package-lock.json
+      - run: npm ci
+        working-directory: ui
+      - run: npm run build:wasm
+        working-directory: ui
+      - run: npm run build
+        working-directory: ui
+        env:
+          VITE_BASE: /chronos/
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: ui/dist
+
+  deploy:
+    name: Deploy site
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

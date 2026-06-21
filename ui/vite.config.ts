@@ -28,6 +28,9 @@ function noCacheWasm() {
 }
 
 export default defineConfig({
+  // Dev and most builds serve from root. The GitHub Pages deploy sets
+  // VITE_BASE=/chronos/ so asset URLs resolve under the project subpath.
+  base: process.env.VITE_BASE || '/',
   plugins: [react(), wasm(), topLevelAwait(), noCacheWasm()],
   resolve: {
     alias: { '@': path.resolve(__dirname, 'src') },
