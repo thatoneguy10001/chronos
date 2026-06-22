@@ -8,6 +8,11 @@ on:
     branches: [master]
   pull_request:
 
+# Restrict the GITHUB_TOKEN to the minimum required.
+# All jobs here only read code and run tests — no writes needed.
+permissions:
+  contents: read
+
 jobs:
   engine:
     name: Engine — build + test
@@ -27,6 +32,7 @@ jobs:
       - run: cargo clippy -p chronos-core -p chronos-server --locked -- -D warnings
       - run: cargo build -p chronos-core -p chronos-server --locked
       - run: cargo test -p chronos-core --locked
+      - run: cargo test -p chronos-server --locked
 
   world-data:
     name: World data — schema validation
@@ -51,7 +57,7 @@ jobs:
         with:
           workspaces: engine
       - uses: jetli/wasm-pack-action@v0.4.0
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version: 20
           cache: npm
@@ -60,6 +66,7 @@ jobs:
         working-directory: ui
       - run: npm run build:wasm
         working-directory: ui
+      - run: wasm-pack test --node engine/chronos-wasm
       # `npm run build` is `tsc && vite build` — type-check + production bundle.
       - run: npm run build
         working-directory: ui
