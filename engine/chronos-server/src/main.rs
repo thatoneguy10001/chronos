@@ -307,6 +307,112 @@ async fn items_handler(Path(world_id): Path<String>) -> Json<Vec<Value>> {
     Json(items)
 }
 
+// ── tests ────────────────────────────────────────────────────────────────────
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    // ── message formatting ────────────────────────────────────────────────────
+
+    #[test]
+    fn ok_msg_format() {
+        let v: serde_json::Value = serde_json::from_str(&ok_msg(42)).unwrap();
+        assert_eq!(v["seq"], 42);
+        assert_eq!(v["type"], "ok");
+    }
+
+    #[test]
+    fn err_msg_format() {
+        let v: serde_json::Value = serde_json::from_str(&err_msg(7, "something broke")).unwrap();
+        assert_eq!(v["seq"], 7);
+        assert_eq!(v["type"], "error");
+        assert_eq!(v["message"], "something broke");
+    }
+
+    // ── dispatch: engine-required commands return error when not initialised ──
+
+    fn assert_error(response: &str, expected_seq: u64) {
+        let v: serde_json::Value = serde_json::from_str(response).unwrap();
+        assert_eq!(v["type"], "error", "expected error type, got: {response}");
+        assert_eq!(v["seq"], expected_seq);
+    }
+
+    #[test]
+    fn dispatch_command_requires_init() {
+        let mut engine = None;
+        let r = dispatch(
+            &mut engine,
+            ClientMsg::Command {
+                seq: 1,
+                input: "look".into(),
+            },
+        );
+        assert_error(&r, 1);
+    }
+
+    #[test]
+    fn dispatch_rewind_requires_init() {
+        let mut engine = None;
+        let r = dispatch(&mut engine, ClientMsg::Rewind { seq: 2, tick: 0 });
+        assert_error(&r, 2);
+    }
+
+    #[test]
+    fn dispatch_snapshot_requires_init() {
+        let mut engine = None;
+        let r = dispatch(&mut engine, ClientMsg::Snapshot { seq: 3 });
+        assert_error(&r, 3);
+    }
+
+    #[test]
+    fn dispatch_room_actions_requires_init() {
+        let mut engine = None;
+        let r = dispatch(&mut engine, ClientMsg::RoomActions { seq: 4 });
+        assert_error(&r, 4);
+    }
+
+    #[test]
+    fn dispatch_load_snapshot_requires_init() {
+        let mut engine = None;
+        let r = dispatch(
+            &mut engine,
+            ClientMsg::LoadSnapshot {
+                seq: 5,
+                snapshot_json: "{}".into(),
+            },
+        );
+        assert_error(&r, 5);
+    }
+
+    #[test]
+    fn dispatch_world_list_returns_array() {
+        let mut engine = None;
+        let r = dispatch(&mut engine, ClientMsg::WorldList { seq: 6 });
+        let v: serde_json::Value = serde_json::from_str(&r).unwrap();
+        assert_eq!(v["seq"], 6);
+        assert_eq!(v["type"], "world_list");
+        assert!(v["worlds"].is_array());
+    }
+
+    // ── filesystem helpers ───────────────────────────────────────────────────
+
+    #[test]
+    fn load_dir_returns_empty_for_missing_path() {
+        let result = load_dir(&PathBuf::from("/nonexistent/path/xyz_chronos_test"));
+        assert!(result.is_empty());
+    }
+
+    #[test]
+    fn list_worlds_returns_empty_for_missing_dir() {
+        // Override WORLDS_DIR to a path that doesn't exist.
+        std::env::set_var("WORLDS_DIR", "/nonexistent/worlds_xyz_chronos_test");
+        let result = list_worlds();
+        std::env::remove_var("WORLDS_DIR");
+        assert!(result.is_empty());
+    }
+}
+
 // ── main ──────────────────────────────────────────────────────────────────────
 
 #[tokio::main]
