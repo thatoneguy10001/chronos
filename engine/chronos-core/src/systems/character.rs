@@ -88,10 +88,21 @@ pub fn process_spawn_character(
         AbilityCooldowns::new(),
     ));
 
+    let secondary: Vec<String> = [
+        ("HIT", bs.hit), ("TECH ATK", bs.tech_attack), ("EVA", bs.evasion),
+        ("TECH DEF", bs.endurance), ("LCK", bs.luck), ("AGI", bs.agility),
+    ].iter().filter(|(_, v)| *v != 0)
+        .map(|(l, v)| format!("{} {}", l, v))
+        .collect();
+    let secondary_line = if secondary.is_empty() {
+        String::new()
+    } else {
+        format!("\n{}", secondary.join("  \u{2022}  "))
+    };
     let narrative = format!(
-        "**{name}** the {} stands ready.\n\nHP {}/{}  \u{2022}  ATK {}  \u{2022}  DEF {}  \u{2022}  INT {}  \u{2022}  LVL 1\nHIT {}  \u{2022}  TECH ATK {}  \u{2022}  EVA {}  \u{2022}  TECH DEF {}  \u{2022}  LCK {}  \u{2022}  AGI {}",
+        "**{name}** the {} stands ready.\n\nHP {}/{}  \u{2022}  ATK {}  \u{2022}  DEF {}  \u{2022}  INT {}  \u{2022}  LVL 1{}",
         class.name, bs.hp, bs.hp, bs.attack, bs.defense, bs.intelligence,
-        bs.hit, bs.tech_attack, bs.evasion, bs.endurance, bs.luck, bs.agility
+        secondary_line
     );
 
     // Auto-equip starting items that have no starting_room_id (they're personal kit,
