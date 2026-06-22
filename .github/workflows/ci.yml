@@ -27,6 +27,7 @@ jobs:
       - run: cargo clippy -p chronos-core -p chronos-server --locked -- -D warnings
       - run: cargo build -p chronos-core -p chronos-server --locked
       - run: cargo test -p chronos-core --locked
+      - run: cargo test -p chronos-server --locked
 
   world-data:
     name: World data — schema validation
@@ -60,6 +61,7 @@ jobs:
         working-directory: ui
       - run: npm run build:wasm
         working-directory: ui
+      - run: wasm-pack test --node engine/chronos-wasm
       # `npm run build` is `tsc && vite build` — type-check + production bundle.
       - run: npm run build
         working-directory: ui
