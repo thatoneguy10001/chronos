@@ -52,8 +52,7 @@
       "keyword": "watcher",
       "prompt": "the figure in Aetherion",
       "response": "Her expression does not change but something behind it does — the shift of someone receiving information they already held in partial form. 'We knew it remained.' She says it quietly. 'The tunnels under the sunken city showed signs of habitation — the pattern of movement you find only with conscious repeated action, not with decay. We did not descend to verify it because the tunnel leads through the resonance zone and we have not developed a reliable protection for the resonant emissions.' She pauses. 'What is it like.' It's not quite a question. 'I have wondered for a long time what a person looks like after three hundred years of waiting.'",
-      "disposition_delta": 10,
-      "requires_quest_complete": "visit_aetherion"
+      "disposition_delta": 10
     },
     {
       "keyword": "lattice",
