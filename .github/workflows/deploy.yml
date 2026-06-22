@@ -1,13 +1,12 @@
 name: Deploy to GitHub Pages
 
-# Builds the standalone WASM app and publishes it to GitHub Pages.
-#
-# DISABLED on push: Pages requires the repo to be public (free plan) or a paid
-# plan. Until then this is manual-only via workflow_dispatch. To activate:
-#   1. Make the repo public (Settings → General → Danger Zone → Change visibility)
-#   2. Ensure Pages is enabled: Settings → Pages → Build and deployment → Source: GitHub Actions
-#   3. Re-add `push: branches: [master]` to the `on:` block below.
+# Builds the standalone WASM app (no dev WebSocket server) and publishes it to
+# GitHub Pages on every push to master, giving an always-current playable URL.
+# Requires the repo to be public (free plan) or a paid GitHub plan.
+# Enable Pages at: Settings → Pages → Build and deployment → Source: GitHub Actions
 on:
+  push:
+    branches: [master]
   workflow_dispatch:
 
 permissions:
