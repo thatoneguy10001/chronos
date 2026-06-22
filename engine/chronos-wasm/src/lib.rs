@@ -195,9 +195,16 @@ mod tests {
     fn process_command_returns_valid_json() {
         let mut engine = WasmEngine::new(minimal_payload()).unwrap();
         let result = engine.process_command("look");
-        let v: serde_json::Value = serde_json::from_str(&result).expect("process_command should return JSON");
-        assert!(v.get("success").is_some(), "result must have 'success' field");
-        assert!(v.get("narrative").is_some(), "result must have 'narrative' field");
+        let v: serde_json::Value =
+            serde_json::from_str(&result).expect("process_command should return JSON");
+        assert!(
+            v.get("success").is_some(),
+            "result must have 'success' field"
+        );
+        assert!(
+            v.get("narrative").is_some(),
+            "result must have 'narrative' field"
+        );
     }
 
     #[wasm_bindgen_test]
@@ -205,7 +212,8 @@ mod tests {
         let mut engine = WasmEngine::new(minimal_payload()).unwrap();
         engine.process_command("look"); // advance at least one tick
         let result = engine.rewind_to_tick(0);
-        let v: serde_json::Value = serde_json::from_str(&result).expect("rewind should return JSON");
+        let v: serde_json::Value =
+            serde_json::from_str(&result).expect("rewind should return JSON");
         assert!(v.get("success").is_some());
     }
 
@@ -217,7 +225,9 @@ mod tests {
         // snapshot must be valid JSON
         let _: serde_json::Value = serde_json::from_str(&snap).expect("snapshot should be JSON");
         // loading that snapshot back must succeed
-        engine.load_from_snapshot(&snap).expect("load_from_snapshot should succeed with own snapshot");
+        engine
+            .load_from_snapshot(&snap)
+            .expect("load_from_snapshot should succeed with own snapshot");
     }
 
     #[wasm_bindgen_test]

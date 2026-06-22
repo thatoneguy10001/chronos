@@ -341,7 +341,13 @@ mod tests {
     #[test]
     fn dispatch_command_requires_init() {
         let mut engine = None;
-        let r = dispatch(&mut engine, ClientMsg::Command { seq: 1, input: "look".into() });
+        let r = dispatch(
+            &mut engine,
+            ClientMsg::Command {
+                seq: 1,
+                input: "look".into(),
+            },
+        );
         assert_error(&r, 1);
     }
 
@@ -369,7 +375,13 @@ mod tests {
     #[test]
     fn dispatch_load_snapshot_requires_init() {
         let mut engine = None;
-        let r = dispatch(&mut engine, ClientMsg::LoadSnapshot { seq: 5, snapshot_json: "{}".into() });
+        let r = dispatch(
+            &mut engine,
+            ClientMsg::LoadSnapshot {
+                seq: 5,
+                snapshot_json: "{}".into(),
+            },
+        );
         assert_error(&r, 5);
     }
 
