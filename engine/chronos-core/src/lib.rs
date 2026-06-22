@@ -104,7 +104,7 @@ impl ChronosEngine {
         // Restart is special: it resets everything including the event log, so it
         // gets its own path that bypasses normal tick/log machinery.
         if event == EngineEvent::Restart {
-            self.world.clear_entities();
+            Self::reset_world(&mut self.world);
             self.tick = 0;
             self.event_log = journal::EventLog::new();
             Self::bootstrap_world(&mut self.world, &self.repository);
@@ -158,11 +158,13 @@ impl ChronosEngine {
     pub fn rewind_to_tick(&mut self, target_tick: u64) {
         let entries = self.event_log.entries_up_to(target_tick);
 
-        // Reset by despawning all entities in place rather than dropping and
-        // recreating the World. bevy_ecs's `World::drop` traps on wasm32 once the
-        // world has gone through archetype moves (e.g. an item pickup), so we
-        // never drop it mid-session — we reuse it and clear its entities instead.
-        self.world.clear_entities();
+        // Reset by clearing entities in place rather than dropping and recreating
+        // the World. In bevy_ecs 0.19 resources are stored as entities. clear_entities()
+        // resets the entity allocator but does NOT update the ResourceCache (the
+        // component-id → entity-id map), so any subsequent insert_resource() would
+        // panic with "ResourceCache is in sync" when it tries to access the now-invalid
+        // entity IDs. We remove resources first so the cache is clean before the clear.
+        Self::reset_world(&mut self.world);
         self.tick = 0;
         Self::bootstrap_world(&mut self.world, &self.repository);
 
@@ -371,7 +373,7 @@ impl ChronosEngine {
                 .map(|(pos, inv, bp)| EntityStateDTO {
                     blueprint_id: bp.id.clone(),
                     room_id: pos.map(|p| p.room_id.clone()),
-                    owner_index: inv.map(|i| i.owner.index()),
+                    owner_index: inv.map(|i| i.owner.index_u32()),
                 })
                 .collect()
         };
@@ -435,7 +437,7 @@ impl ChronosEngine {
         self.event_log = journal::EventLog::from_entries(snapshot.event_log);
         let max = self.event_log.current_tick();
 
-        self.world.clear_entities();
+        Self::reset_world(&mut self.world);
         self.tick = 0;
         Self::bootstrap_world(&mut self.world, &self.repository);
 
@@ -510,14 +512,44 @@ impl ChronosEngine {
         }
     }
 
+    /// Reset the world without dropping it — safe on wasm32.
+    ///
+    /// In bevy_ecs 0.19, `despawn()` calls `flush()` *after* `mark_free()` bumps
+    /// the entity's generation. For resource entities the `IsResource::on_discard`
+    /// hook queues a command referencing the entity just freed; that flush panics
+    /// with "entity 0v0 is invalid; its index now has generation 1".
+    ///
+    /// Fix: despawn only game entities (player, items, NPCs) and leave resource
+    /// entities alive. Resource values are reset in place by `bootstrap_world`.
+    fn reset_world(world: &mut World) {
+        let resource_entity_ids: std::collections::HashSet<Entity> =
+            world.resource_entities().iter().map(|(_, e)| e).collect();
+
+        let game_entities: Vec<Entity> = world
+            .iter_entities()
+            .map(|e| e.id())
+            .filter(|e| !resource_entity_ids.contains(e))
+            .collect();
+        for entity in game_entities {
+            world.despawn(entity);
+        }
+    }
+
     /// Spawn baseline entities. Called at startup and before any replay.
     fn bootstrap_world(world: &mut World, repo: &StaticRepository) {
-        // Re-seed the RNG to the fixed seed. `clear_entities()` keeps resources,
-        // so inserting here OVERWRITES the prior generator — guaranteeing replay
-        // starts the dice stream from the same place every time.
-        world.insert_resource(DeterministicRng::new(WORLD_SEED));
-        world.insert_resource(GameTime::starting());
-        world.insert_resource(WorldFlags::default());
+        // Resources are created on first call; reset_world() keeps them alive so
+        // subsequent calls update the values in place via resource_mut() to avoid
+        // spawning duplicate resource entities (which on_insert would remove with
+        // a warning, leaving the old value unchanged anyway).
+        if world.contains_resource::<DeterministicRng>() {
+            *world.resource_mut::<DeterministicRng>() = DeterministicRng::new(WORLD_SEED);
+            *world.resource_mut::<GameTime>() = GameTime::starting();
+            *world.resource_mut::<WorldFlags>() = WorldFlags::default();
+        } else {
+            world.insert_resource(DeterministicRng::new(WORLD_SEED));
+            world.insert_resource(GameTime::starting());
+            world.insert_resource(WorldFlags::default());
+        }
 
         world.spawn((
             Position {
