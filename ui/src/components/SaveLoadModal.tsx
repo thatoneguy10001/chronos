@@ -2,6 +2,12 @@ import { useEffect } from 'react';
 import { useGameStore } from '@/store/gameStore';
 import type { SaveSlot } from '@/store/gameStore';
 import { NUM_SLOTS } from '@/store/gameStore';
+import { formatGameTime } from '@/components/StatusHeader';
+
+function formatSlotTime(tick: number): string {
+  const { timeStr, dayStr } = formatGameTime(tick);
+  return `${timeStr} · ${dayStr}`;
+}
 
 function formatSavedAt(iso: string): string {
   const diff = Date.now() - new Date(iso).getTime();
@@ -81,7 +87,7 @@ function SlotCard({
             <span style={{ color: 'var(--ink-movement)', fontWeight: 'normal', fontSize: '0.85em', fontFamily: 'var(--font-dossier)' }}> · {slot.classId}</span>
           </div>
           <div style={{ color: 'var(--ink-faint)', fontSize: '0.72em', marginTop: '0.15rem' }}>
-            {slot.worldTitle} · {humanizeRoomId(slot.roomId)} · tick {slot.tick}
+            {slot.worldTitle} · {slot.roomName ?? humanizeRoomId(slot.roomId)} · {formatSlotTime(slot.tick)}
           </div>
         </>
       )}

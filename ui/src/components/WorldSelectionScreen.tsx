@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { listWorlds } from '@/bridge/engine';
 import type { WorldMeta } from '@/bridge/engine';
-import { readAllSlots } from '@/store/gameStore';
+import { readWorldSlots } from '@/store/gameStore';
 import type { SaveSlot } from '@/store/gameStore';
+import { formatGameTime } from '@/components/StatusHeader';
 
 const TONE_COLORS: Record<string, { accent: string; dim: string }> = {
   fantasy:    { accent: '#1a4a1a', dim: 'rgba(26,74,26,0.55)' },
@@ -25,19 +26,23 @@ function humanizeRoomId(id: string): string {
   return id.replace(/_/g, ' ');
 }
 
-function ContinueCard({
-  slotIndex,
+function formatSlotTime(slot: SaveSlot): string {
+  const { timeStr, dayStr } = formatGameTime(slot.tick);
+  return `${timeStr} · ${dayStr}`;
+}
+
+function SaveRow({
   slot,
-  tone,
+  index,
+  colors,
   onClick,
 }: {
-  slotIndex: number;
   slot: SaveSlot;
-  tone: string;
+  index: number;
+  colors: { accent: string; dim: string };
   onClick: () => void;
 }) {
   const [hovered, setHovered] = useState(false);
-  const colors = TONE_COLORS[tone] ?? TONE_COLORS['fantasy'];
 
   return (
     <div
@@ -45,63 +50,96 @@ function ContinueCard({
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
-        border: `1px solid ${hovered ? colors.accent : colors.dim}`,
-        borderRadius: 4,
-        padding: '0.75rem 1.2rem',
-        marginBottom: '0.5rem',
-        cursor: 'pointer',
-        background: hovered ? 'rgba(46,26,8,0.07)' : 'rgba(46,26,8,0.03)',
-        transition: 'all 0.15s',
-        maxWidth: 560,
-        width: '100%',
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
+        padding: '0.4rem 0.7rem',
+        borderRadius: 3,
+        cursor: 'pointer',
+        border: `1px solid ${hovered ? colors.accent : colors.dim}`,
+        background: hovered ? 'rgba(46,26,8,0.08)' : 'rgba(46,26,8,0.03)',
+        transition: 'all 0.12s',
       }}
     >
       <div>
-        <div style={{ color: colors.accent, fontWeight: 'bold', fontSize: '0.9em' }}>
+        <span style={{ color: colors.accent, fontSize: '0.82em', fontWeight: 600, fontFamily: 'var(--font-journal)' }}>
           {slot.characterName}
-          <span style={{ color: colors.dim, fontWeight: 'normal', fontSize: '0.85em' }}> · {slot.classId}</span>
-        </div>
-        <div style={{ color: 'var(--xp-text)', fontSize: '0.72em', marginTop: '0.1rem' }}>
-          {slot.worldTitle} · {humanizeRoomId(slot.roomId)} · tick {slot.tick}
+        </span>
+        <span style={{ color: 'var(--ink-faint)', fontSize: '0.75em', fontFamily: 'var(--font-dossier)' }}> · {slot.classId}</span>
+        <div style={{ color: 'var(--ink-faint)', fontSize: '0.68em', marginTop: '0.1rem', fontFamily: 'var(--font-dossier)' }}>
+          {slot.roomName ?? humanizeRoomId(slot.roomId)} · {formatSlotTime(slot)}
         </div>
       </div>
       <div style={{ textAlign: 'right', flexShrink: 0, marginLeft: '1rem' }}>
-        <div style={{ color: hovered ? colors.accent : colors.dim, fontSize: '0.85em' }}>CONTINUE ▸</div>
-        <div style={{ color: 'var(--text-faint)', fontSize: '0.65em', marginTop: '0.1rem' }}>
-          slot {slotIndex + 1} · {formatSavedAt(slot.savedAt)}
+        <div style={{ color: hovered ? colors.accent : colors.dim, fontSize: '0.72em', fontFamily: 'var(--font-dossier)', letterSpacing: '0.06em' }}>
+          CONTINUE ▸
+        </div>
+        <div style={{ color: 'var(--ink-faint)', fontSize: '0.62em', fontFamily: 'var(--font-dossier)', marginTop: '0.1rem' }}>
+          slot {index + 1} · {formatSavedAt(slot.savedAt)}
         </div>
       </div>
     </div>
   );
 }
 
+function NewGameButton({
+  colors,
+  onClick,
+}: {
+  colors: { accent: string; dim: string };
+  onClick: () => void;
+}) {
+  const [hovered, setHovered] = useState(false);
+
+  return (
+    <button
+      onClick={onClick}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        background: hovered ? 'rgba(46,26,8,0.07)' : 'transparent',
+        border: `1px solid ${hovered ? colors.accent : colors.dim}`,
+        color: colors.accent,
+        fontFamily: 'var(--font-dossier)',
+        fontSize: '0.72em',
+        padding: '0.35rem 1rem',
+        cursor: 'pointer',
+        borderRadius: 3,
+        letterSpacing: '0.08em',
+        transition: 'all 0.12s',
+      }}
+    >
+      NEW GAME ▸
+    </button>
+  );
+}
+
 function WorldCard({
   world,
-  hovered,
-  onHover,
   onSelect,
+  onContinue,
 }: {
   world: WorldMeta;
-  hovered: boolean;
-  onHover: (id: string | null) => void;
-  onSelect: (id: string) => void;
+  onSelect: () => void;
+  onContinue: (slotIndex: number) => void;
 }) {
+  const [hovered, setHovered] = useState(false);
+  const [saves] = useState(() => readWorldSlots(world.id));
   const colors = TONE_COLORS[world.tone] ?? TONE_COLORS['fantasy'];
+
+  const populatedSaves = saves
+    .map((s, i) => s ? { slot: s, index: i } : null)
+    .filter((x): x is { slot: SaveSlot; index: number } => x !== null);
 
   return (
     <div
-      onClick={() => onSelect(world.id)}
-      onMouseEnter={() => onHover(world.id)}
-      onMouseLeave={() => onHover(null)}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
       style={{
         border: `1px solid ${hovered ? colors.accent : colors.dim}`,
         borderRadius: 4,
         padding: '1.2rem 1.4rem',
         marginBottom: '1rem',
-        cursor: 'pointer',
         background: hovered ? 'rgba(46,26,8,0.07)' : 'rgba(46,26,8,0.03)',
         transition: 'all 0.15s',
         maxWidth: 560,
@@ -120,6 +158,24 @@ function WorldCard({
       <div style={{ marginTop: '0.6rem', fontSize: '0.72em', color: colors.dim }}>
         {world.currency_symbol} currency: {world.currency}
       </div>
+
+      {populatedSaves.length > 0 && (
+        <div style={{ marginTop: '1rem', borderTop: `1px solid ${colors.dim}`, paddingTop: '0.75rem', display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
+          {populatedSaves.map(({ slot, index }) => (
+            <SaveRow
+              key={index}
+              slot={slot}
+              index={index}
+              colors={colors}
+              onClick={() => onContinue(index)}
+            />
+          ))}
+        </div>
+      )}
+
+      <div style={{ marginTop: '0.9rem', display: 'flex', justifyContent: 'flex-end' }}>
+        <NewGameButton colors={colors} onClick={onSelect} />
+      </div>
     </div>
   );
 }
@@ -130,18 +186,11 @@ interface WorldSelectionScreenProps {
 }
 
 export function WorldSelectionScreen({ onSelect, onContinue }: WorldSelectionScreenProps) {
-  const [worlds, setWorlds]   = useState<WorldMeta[]>([]);
-  const [hovered, setHovered] = useState<string | null>(null);
-  const [saves]               = useState(() => readAllSlots());
+  const [worlds, setWorlds] = useState<WorldMeta[]>([]);
 
   useEffect(() => {
     void listWorlds().then(setWorlds);
   }, []);
-
-  const worldToneMap = Object.fromEntries(worlds.map(w => [w.id, w.tone]));
-  const populatedSaves = saves
-    .map((s, i) => s ? { slot: s, index: i } : null)
-    .filter((x): x is { slot: SaveSlot; index: number } => x !== null);
 
   return (
     <div style={{
@@ -159,51 +208,19 @@ export function WorldSelectionScreen({ onSelect, onContinue }: WorldSelectionScr
         ── PROJECT CHRONOS ──
       </div>
 
-      {populatedSaves.length > 0 && (
-        <>
-          <div style={{ color: 'var(--text-accent)', fontSize: '1.4em', fontWeight: 'bold', marginBottom: '0.4rem' }}>
-            Continue
-          </div>
-          <div style={{ color: 'var(--text-body)', fontSize: '0.8em', marginBottom: '1.2rem' }}>
-            Pick up where you left off.
-          </div>
-          {populatedSaves.map(({ slot, index }) => (
-            <ContinueCard
-              key={index}
-              slotIndex={index}
-              slot={slot}
-              tone={worldToneMap[slot.worldId] ?? 'fantasy'}
-              onClick={() => {
-                const w = worlds.find(w => w.id === slot.worldId);
-                onContinue(index, slot.worldId, w?.tone ?? 'fantasy', slot.worldTitle);
-              }}
-            />
-          ))}
-          <div style={{ color: 'var(--text-dim)', fontSize: '0.72em', letterSpacing: '0.1em', margin: '1.2rem 0 0.8rem', maxWidth: 560, width: '100%' }}>
-            ── OR START A NEW GAME ──
-          </div>
-        </>
-      )}
-
-      {!populatedSaves.length && (
-        <div style={{ color: 'var(--ink-narrative)', fontSize: '1.6em', fontWeight: '600', marginBottom: '0.4rem' }}>
-          Choose Your World
-        </div>
-      )}
-
-      {!populatedSaves.length && (
-        <div style={{ color: 'var(--ink-movement)', fontSize: '0.9em', marginBottom: '2rem', fontFamily: 'var(--font-dossier)' }}>
-          Each world is a complete adventure with its own rules and lore.
-        </div>
-      )}
+      <div style={{ color: 'var(--ink-narrative)', fontSize: '1.6em', fontWeight: '600', marginBottom: '0.4rem' }}>
+        Choose Your World
+      </div>
+      <div style={{ color: 'var(--ink-movement)', fontSize: '0.9em', marginBottom: '2rem', fontFamily: 'var(--font-dossier)' }}>
+        Each world is a complete adventure with its own rules and lore.
+      </div>
 
       {worlds.map(w => (
         <WorldCard
           key={w.id}
           world={w}
-          hovered={hovered === w.id}
-          onHover={setHovered}
-          onSelect={id => onSelect(id, w.tone, w.title)}
+          onSelect={() => onSelect(w.id, w.tone, w.title)}
+          onContinue={slotIndex => onContinue(slotIndex, w.id, w.tone, w.title)}
         />
       ))}
 
