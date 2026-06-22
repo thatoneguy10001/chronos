@@ -11,6 +11,9 @@ pub struct PayloadSlots {
 
 impl PayloadSlots {
     pub fn new(capacity: usize) -> Self {
-        Self { loaded: Vec::new(), capacity }
+        Self {
+            loaded: Vec::new(),
+            capacity,
+        }
     }
 }

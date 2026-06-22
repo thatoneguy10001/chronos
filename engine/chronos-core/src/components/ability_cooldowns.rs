@@ -15,7 +15,9 @@ impl AbilityCooldowns {
 
     /// Returns true if the ability is off cooldown (or has no cooldown).
     pub fn is_ready(&self, ability_id: &str, cooldown: u32, current_tick: u64) -> bool {
-        if cooldown == 0 { return true; }
+        if cooldown == 0 {
+            return true;
+        }
         match self.last_used.get(ability_id) {
             None => true,
             Some(&last) => current_tick.saturating_sub(last) >= cooldown as u64,
@@ -24,12 +26,14 @@ impl AbilityCooldowns {
 
     /// Returns how many ticks remain before the ability is ready. 0 means ready.
     pub fn turns_remaining(&self, ability_id: &str, cooldown: u32, current_tick: u64) -> u64 {
-        if cooldown == 0 { return 0; }
+        if cooldown == 0 {
+            return 0;
+        }
         match self.last_used.get(ability_id) {
             None => 0,
             Some(&last) => {
                 let elapsed = current_tick.saturating_sub(last);
-                if elapsed >= cooldown as u64 { 0 } else { cooldown as u64 - elapsed }
+                (cooldown as u64).saturating_sub(elapsed)
             }
         }
     }

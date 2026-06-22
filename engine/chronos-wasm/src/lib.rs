@@ -1,4 +1,4 @@
-use chronos_core::{ChronosEngine, data::repository::StaticRepository};
+use chronos_core::{data::repository::StaticRepository, ChronosEngine};
 use serde::Deserialize;
 use wasm_bindgen::prelude::*;
 
@@ -63,35 +63,49 @@ impl WasmEngine {
         let payload: WorldPayload = serde_json::from_str(world_payload_json)
             .map_err(|e| JsValue::from_str(&e.to_string()))?;
 
-        let room_pairs: Vec<(&str, &str)> = payload.rooms
+        let room_pairs: Vec<(&str, &str)> = payload
+            .rooms
             .iter()
             .map(|e| (e.filename.as_str(), e.content.as_str()))
             .collect();
 
-        let item_pairs: Vec<(&str, &str)> = payload.items
+        let item_pairs: Vec<(&str, &str)> = payload
+            .items
             .iter()
             .map(|e| (e.filename.as_str(), e.content.as_str()))
             .collect();
 
-        let class_pairs: Vec<(&str, &str)> = payload.classes
+        let class_pairs: Vec<(&str, &str)> = payload
+            .classes
             .iter()
             .map(|e| (e.filename.as_str(), e.content.as_str()))
             .collect();
 
-        let npc_pairs: Vec<(&str, &str)> = payload.npcs
+        let npc_pairs: Vec<(&str, &str)> = payload
+            .npcs
             .iter()
             .map(|e| (e.filename.as_str(), e.content.as_str()))
             .collect();
 
-        let quest_pairs: Vec<(&str, &str)> = payload.quests
+        let quest_pairs: Vec<(&str, &str)> = payload
+            .quests
             .iter()
             .map(|e| (e.filename.as_str(), e.content.as_str()))
             .collect();
 
-        let repo = StaticRepository::from_json_pairs_full(&room_pairs, &item_pairs, &class_pairs, &npc_pairs, &quest_pairs, payload.manifest.as_deref())
-            .map_err(|e| JsValue::from_str(&e.to_string()))?;
+        let repo = StaticRepository::from_json_pairs_full(
+            &room_pairs,
+            &item_pairs,
+            &class_pairs,
+            &npc_pairs,
+            &quest_pairs,
+            payload.manifest.as_deref(),
+        )
+        .map_err(|e| JsValue::from_str(&e.to_string()))?;
 
-        Ok(WasmEngine { inner: ChronosEngine::new(repo) })
+        Ok(WasmEngine {
+            inner: ChronosEngine::new(repo),
+        })
     }
 
     /// Process one command string. Returns a JSON-serialized CommandResult.
@@ -123,7 +137,8 @@ impl WasmEngine {
     /// CommandResult of the restored state (same as describe_current after rewind).
     #[wasm_bindgen]
     pub fn load_from_snapshot(&mut self, snapshot_json: &str) -> Result<String, JsValue> {
-        self.inner.load_from_snapshot(snapshot_json)
+        self.inner
+            .load_from_snapshot(snapshot_json)
             .map_err(|e| JsValue::from_str(&e))?;
         let result = self.inner.describe_current();
         Ok(serde_json::to_string(&result).unwrap())

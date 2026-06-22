@@ -1,7 +1,9 @@
-use serde::{Deserialize, Serialize};
 use crate::journal::event_log::LogEntryDTO;
+use serde::{Deserialize, Serialize};
 
-fn default_game_time() -> u32 { 360 } // 06:00 Day 1 — fallback for old saves
+fn default_game_time() -> u32 {
+    360
+} // 06:00 Day 1 — fallback for old saves
 
 /// Complete serializable snapshot of engine state.
 /// On WASM this round-trips through JS as JSON; on native it maps to SQLite rows.
@@ -116,7 +118,7 @@ pub struct EntityStateDTO {
 #[cfg(not(target_arch = "wasm32"))]
 pub mod sqlite {
     use super::GameStateDTO;
-    use rusqlite::{Connection, params};
+    use rusqlite::{params, Connection};
 
     pub fn save(conn: &Connection, slot: &str, state: &GameStateDTO) -> rusqlite::Result<()> {
         conn.execute(

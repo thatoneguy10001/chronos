@@ -22,13 +22,19 @@ impl GameTime {
         Self { minutes: 360 } // 06:00 Day 1
     }
 
-    pub fn hour(&self) -> u32 { (self.minutes % 1440) / 60 }
-    pub fn minute_of_hour(&self) -> u32 { self.minutes % 60 }
-    pub fn day(&self) -> u32 { self.minutes / 1440 + 1 }
+    pub fn hour(&self) -> u32 {
+        (self.minutes % 1440) / 60
+    }
+    pub fn minute_of_hour(&self) -> u32 {
+        self.minutes % 60
+    }
+    pub fn day(&self) -> u32 {
+        self.minutes / 1440 + 1
+    }
 
     pub fn is_night(&self) -> bool {
         let h = self.hour();
-        h >= 20 || h < 6
+        !(6..20).contains(&h)
     }
 
     pub fn advance(&mut self, mins: u32) {
@@ -61,11 +67,11 @@ impl GameTime {
     pub fn time_of_day_label(&self) -> &'static str {
         let h = self.hour();
         match h {
-            6..=11  => "morning",
+            6..=11 => "morning",
             12..=17 => "afternoon",
             18..=19 => "evening",
             20..=23 => "night",
-            _       => "before dawn",
+            _ => "before dawn",
         }
     }
 }

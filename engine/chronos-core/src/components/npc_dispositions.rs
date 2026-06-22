@@ -18,7 +18,8 @@ impl NpcDispositions {
     }
 
     pub fn has_seen_topic(&self, npc_id: &str, keyword: &str) -> bool {
-        self.topics_seen.get(npc_id)
+        self.topics_seen
+            .get(npc_id)
             .map(|v| v.iter().any(|t| t == keyword))
             .unwrap_or(false)
     }

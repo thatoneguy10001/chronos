@@ -1,15 +1,14 @@
 use axum::{
-    extract::{ws::{Message, WebSocket, WebSocketUpgrade}, Path},
+    extract::{
+        ws::{Message, WebSocket, WebSocketUpgrade},
+        Path,
+    },
     response::{Json, Response},
     routing::get,
     Router,
 };
-use chronos_core::{
-    data::{game_state_dto::GameStateDTO, repository::StaticRepository},
-    events::{CommandResult, ContextAction},
-    ChronosEngine,
-};
-use serde::{Deserialize, Serialize};
+use chronos_core::{data::repository::StaticRepository, ChronosEngine};
+use serde::Deserialize;
 use serde_json::Value;
 use std::{fs, net::SocketAddr, path::PathBuf};
 use tower_http::cors::{Any, CorsLayer};
@@ -20,42 +19,13 @@ use tower_http::cors::{Any, CorsLayer};
 #[derive(Deserialize)]
 #[serde(tag = "type", rename_all = "snake_case")]
 enum ClientMsg {
-    WorldList    { seq: u64 },
-    Init         { seq: u64, world_id: String },
-    Command      { seq: u64, input: String },
-    Rewind       { seq: u64, tick: u32 },
-    Snapshot     { seq: u64 },
-    RoomActions  { seq: u64 },
+    WorldList { seq: u64 },
+    Init { seq: u64, world_id: String },
+    Command { seq: u64, input: String },
+    Rewind { seq: u64, tick: u32 },
+    Snapshot { seq: u64 },
+    RoomActions { seq: u64 },
     LoadSnapshot { seq: u64, snapshot_json: String },
-}
-
-/// Flatten CommandResult into the Result variant so the browser sees a single flat object.
-#[derive(Serialize)]
-struct ResultMsg {
-    seq: u64,
-    #[serde(rename = "type")]
-    msg_type: &'static str,
-    #[serde(flatten)]
-    result: CommandResult,
-    room_actions: Vec<ContextAction>,
-}
-
-#[derive(Serialize)]
-struct SnapshotMsg {
-    seq: u64,
-    #[serde(rename = "type")]
-    msg_type: &'static str,
-    #[serde(flatten)]
-    state: GameStateDTO,
-}
-
-#[derive(Serialize)]
-struct SimpleMsg<T: Serialize> {
-    seq: u64,
-    #[serde(rename = "type")]
-    msg_type: &'static str,
-    #[serde(flatten)]
-    payload: T,
 }
 
 fn ok_msg(seq: u64) -> String {
@@ -76,7 +46,9 @@ fn worlds_dir() -> PathBuf {
 
 /// Read all `*.json` files from a directory into (filename, content) pairs.
 fn load_dir(dir: &PathBuf) -> Vec<(String, String)> {
-    let Ok(entries) = fs::read_dir(dir) else { return vec![] };
+    let Ok(entries) = fs::read_dir(dir) else {
+        return vec![];
+    };
     entries
         .filter_map(|e| e.ok())
         .filter(|e| e.path().extension().map(|x| x == "json").unwrap_or(false))
@@ -95,22 +67,38 @@ fn load_file_opt(path: &PathBuf) -> Option<String> {
 fn build_repo(world_id: &str) -> Result<StaticRepository, String> {
     let base = worlds_dir().join(world_id);
     if !base.exists() {
-        return Err(format!("World '{}' not found in {}", world_id, worlds_dir().display()));
+        return Err(format!(
+            "World '{}' not found in {}",
+            world_id,
+            worlds_dir().display()
+        ));
     }
 
-    let rooms   = load_dir(&base.join("rooms"));
-    let items   = load_dir(&base.join("items"));
+    let rooms = load_dir(&base.join("rooms"));
+    let items = load_dir(&base.join("items"));
     let classes = load_dir(&base.join("classes"));
-    let npcs    = load_dir(&base.join("npcs"));
-    let quests  = load_dir(&base.join("quests"));
+    let npcs = load_dir(&base.join("npcs"));
+    let quests = load_dir(&base.join("quests"));
     let manifest = load_file_opt(&base.join("manifest.json"));
 
     // StaticRepository wants &[(&str, &str)] — borrow from our owned Vecs.
-    let room_pairs:   Vec<(&str, &str)> = rooms.iter().map(|(k,v)| (k.as_str(), v.as_str())).collect();
-    let item_pairs:   Vec<(&str, &str)> = items.iter().map(|(k,v)| (k.as_str(), v.as_str())).collect();
-    let class_pairs:  Vec<(&str, &str)> = classes.iter().map(|(k,v)| (k.as_str(), v.as_str())).collect();
-    let npc_pairs:    Vec<(&str, &str)> = npcs.iter().map(|(k,v)| (k.as_str(), v.as_str())).collect();
-    let quest_pairs:  Vec<(&str, &str)> = quests.iter().map(|(k,v)| (k.as_str(), v.as_str())).collect();
+    let room_pairs: Vec<(&str, &str)> = rooms
+        .iter()
+        .map(|(k, v)| (k.as_str(), v.as_str()))
+        .collect();
+    let item_pairs: Vec<(&str, &str)> = items
+        .iter()
+        .map(|(k, v)| (k.as_str(), v.as_str()))
+        .collect();
+    let class_pairs: Vec<(&str, &str)> = classes
+        .iter()
+        .map(|(k, v)| (k.as_str(), v.as_str()))
+        .collect();
+    let npc_pairs: Vec<(&str, &str)> = npcs.iter().map(|(k, v)| (k.as_str(), v.as_str())).collect();
+    let quest_pairs: Vec<(&str, &str)> = quests
+        .iter()
+        .map(|(k, v)| (k.as_str(), v.as_str()))
+        .collect();
 
     StaticRepository::from_json_pairs_full(
         &room_pairs,
@@ -126,7 +114,9 @@ fn build_repo(world_id: &str) -> Result<StaticRepository, String> {
 /// List all available worlds by scanning for world.json files.
 fn list_worlds() -> Vec<Value> {
     let base = worlds_dir();
-    let Ok(entries) = fs::read_dir(&base) else { return vec![] };
+    let Ok(entries) = fs::read_dir(&base) else {
+        return vec![];
+    };
     entries
         .filter_map(|e| e.ok())
         .filter(|e| e.file_type().map(|t| t.is_dir()).unwrap_or(false))
@@ -149,9 +139,9 @@ async fn handle_socket(mut socket: WebSocket) {
 
     while let Some(Ok(msg)) = socket.recv().await {
         let text = match msg {
-            Message::Text(t)  => t,
+            Message::Text(t) => t,
             Message::Close(_) => break,
-            _                 => continue,
+            _ => continue,
         };
 
         let response = match serde_json::from_str::<ClientMsg>(&text) {
@@ -172,23 +162,21 @@ fn dispatch(engine: &mut Option<ChronosEngine>, msg: ClientMsg) -> String {
             serde_json::json!({ "seq": seq, "type": "world_list", "worlds": worlds }).to_string()
         }
 
-        ClientMsg::Init { seq, world_id } => {
-            match build_repo(&world_id) {
-                Err(e) => err_msg(seq, e),
-                Ok(repo) => {
-                    *engine = Some(ChronosEngine::new(repo));
-                    ok_msg(seq)
-                }
+        ClientMsg::Init { seq, world_id } => match build_repo(&world_id) {
+            Err(e) => err_msg(seq, e),
+            Ok(repo) => {
+                *engine = Some(ChronosEngine::new(repo));
+                ok_msg(seq)
             }
-        }
+        },
 
         ClientMsg::Command { seq, input } => {
             let Some(eng) = engine.as_mut() else {
                 return err_msg(seq, "engine not initialized — send Init first");
             };
-            let result      = eng.process_command(&input);
+            let result = eng.process_command(&input);
             let room_actions = eng.peek_room_actions();
-            let max_tick    = eng.max_tick();
+            let max_tick = eng.max_tick();
             serde_json::to_string(&serde_json::json!({
                 "seq": seq,
                 "type": "result",
@@ -201,7 +189,8 @@ fn dispatch(engine: &mut Option<ChronosEngine>, msg: ClientMsg) -> String {
                 "npc_sections": result.npc_sections,
                 "room_actions": room_actions,
                 "max_tick": max_tick,
-            })).unwrap()
+            }))
+            .unwrap()
         }
 
         ClientMsg::Rewind { seq, tick } => {
@@ -209,9 +198,9 @@ fn dispatch(engine: &mut Option<ChronosEngine>, msg: ClientMsg) -> String {
                 return err_msg(seq, "engine not initialized");
             };
             eng.rewind_to_tick(tick as u64);
-            let result      = eng.describe_current();
+            let result = eng.describe_current();
             let room_actions = eng.peek_room_actions();
-            let max_tick    = eng.max_tick();
+            let max_tick = eng.max_tick();
             serde_json::to_string(&serde_json::json!({
                 "seq": seq,
                 "type": "result",
@@ -223,7 +212,8 @@ fn dispatch(engine: &mut Option<ChronosEngine>, msg: ClientMsg) -> String {
                 "game_time": result.game_time,
                 "room_actions": room_actions,
                 "max_tick": max_tick,
-            })).unwrap()
+            }))
+            .unwrap()
         }
 
         ClientMsg::Snapshot { seq } => {
@@ -232,7 +222,7 @@ fn dispatch(engine: &mut Option<ChronosEngine>, msg: ClientMsg) -> String {
             };
             let snap = eng.snapshot();
             let mut val = serde_json::to_value(&snap).unwrap();
-            val["seq"]  = serde_json::json!(seq);
+            val["seq"] = serde_json::json!(seq);
             val["type"] = serde_json::json!("snapshot");
             val.to_string()
         }
@@ -242,7 +232,8 @@ fn dispatch(engine: &mut Option<ChronosEngine>, msg: ClientMsg) -> String {
                 return err_msg(seq, "engine not initialized");
             };
             let actions = eng.peek_room_actions();
-            serde_json::json!({ "seq": seq, "type": "room_actions", "actions": actions }).to_string()
+            serde_json::json!({ "seq": seq, "type": "room_actions", "actions": actions })
+                .to_string()
         }
 
         ClientMsg::LoadSnapshot { seq, snapshot_json } => {
@@ -252,9 +243,9 @@ fn dispatch(engine: &mut Option<ChronosEngine>, msg: ClientMsg) -> String {
             match eng.load_from_snapshot(&snapshot_json) {
                 Err(e) => err_msg(seq, e),
                 Ok(()) => {
-                    let result      = eng.describe_current();
+                    let result = eng.describe_current();
                     let room_actions = eng.peek_room_actions();
-                    let max_tick    = eng.max_tick();
+                    let max_tick = eng.max_tick();
                     serde_json::to_string(&serde_json::json!({
                         "seq": seq,
                         "type": "result",
@@ -266,7 +257,8 @@ fn dispatch(engine: &mut Option<ChronosEngine>, msg: ClientMsg) -> String {
                         "game_time": result.game_time,
                         "room_actions": room_actions,
                         "max_tick": max_tick,
-                    })).unwrap()
+                    }))
+                    .unwrap()
                 }
             }
         }
@@ -287,9 +279,11 @@ async fn classes_handler(Path(world_id): Path<String>) -> Json<Vec<Value>> {
         .filter_map(|(_, content)| {
             let v: Value = serde_json::from_str(&content).ok()?;
             // Enemy classes have xp_reward or gold_reward; player classes don't.
-            let xp   = v.get("xp_reward").and_then(|x| x.as_i64()).unwrap_or(0);
+            let xp = v.get("xp_reward").and_then(|x| x.as_i64()).unwrap_or(0);
             let gold = v.get("gold_reward").and_then(|x| x.as_i64()).unwrap_or(0);
-            if xp > 0 || gold > 0 { return None; }
+            if xp > 0 || gold > 0 {
+                return None;
+            }
             Some(v)
         })
         .collect();
@@ -328,10 +322,10 @@ async fn main() {
         .allow_headers(Any);
 
     let app = Router::new()
-        .route("/ws",                              get(ws_upgrade))
-        .route("/api/worlds",                      get(worlds_handler))
-        .route("/api/worlds/:world_id/classes",    get(classes_handler))
-        .route("/api/worlds/:world_id/items",      get(items_handler))
+        .route("/ws", get(ws_upgrade))
+        .route("/api/worlds", get(worlds_handler))
+        .route("/api/worlds/:world_id/classes", get(classes_handler))
+        .route("/api/worlds/:world_id/items", get(items_handler))
         .layer(cors);
 
     let addr = SocketAddr::from(([127, 0, 0, 1], port));

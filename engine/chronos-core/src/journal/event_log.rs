@@ -1,5 +1,5 @@
-use serde::{Deserialize, Serialize};
 use crate::events::EngineEvent;
+use serde::{Deserialize, Serialize};
 
 /// One entry in the deterministic event history.
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -20,7 +20,9 @@ pub struct EventLog {
 
 impl EventLog {
     pub fn new() -> Self {
-        Self { entries: Vec::new() }
+        Self {
+            entries: Vec::new(),
+        }
     }
 
     /// Restore an EventLog from a saved list of entries (used by save/load).
@@ -53,6 +55,10 @@ impl EventLog {
 
     pub fn len(&self) -> usize {
         self.entries.len()
+    }
+
+    pub fn is_empty(&self) -> bool {
+        self.entries.is_empty()
     }
 }
 

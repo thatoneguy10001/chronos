@@ -9,6 +9,12 @@ pub struct Wallet {
     pub shards: i32,
 }
 
+impl Default for Wallet {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl Wallet {
     pub fn new() -> Self {
         Self { gold: 0, shards: 0 }

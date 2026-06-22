@@ -30,13 +30,22 @@ pub mod rng;
 pub mod systems;
 
 use bevy_ecs::prelude::*;
-use components::{AbilityCooldowns, ActiveEffects, AssembledWeapon, Controllable, Enemy, EquipmentSlots, Experience, GameTime, Health, Identity, InInventory, ItemBlueprint, NpcDispositions, PayloadSlots, Position, QuestLog, Stats, Victory, Wallet, WorldFlags};
-use data::game_state_dto::{CharacterStateDTO, EnemyStateDTO, EntityStateDTO, GameStateDTO, QuestProgressDTO};
+use components::{
+    AbilityCooldowns, ActiveEffects, AssembledWeapon, Controllable, Enemy, EquipmentSlots,
+    Experience, GameTime, Health, Identity, InInventory, ItemBlueprint, NpcDispositions,
+    PayloadSlots, Position, QuestLog, Stats, Victory, Wallet, WorldFlags,
+};
+use data::game_state_dto::{
+    CharacterStateDTO, EnemyStateDTO, EntityStateDTO, GameStateDTO, QuestProgressDTO,
+};
 use data::StaticRepository;
 use events::{CommandResult, ContextAction, EngineEvent};
 use journal::EventLog;
 use rng::DeterministicRng;
-use systems::{ability, character, character_sheet, combat, dialogue, input_parsing, interaction, movement, poison, quest, shop};
+use systems::{
+    ability, character, character_sheet, combat, dialogue, input_parsing, interaction, movement,
+    poison, quest, shop,
+};
 
 /// Fixed RNG seed for the session. Re-applied at every bootstrap so combat dice
 /// are a pure function of (seed, event log) — the basis for replayable fights.
@@ -63,7 +72,12 @@ impl ChronosEngine {
     pub fn new(repository: StaticRepository) -> Self {
         let mut world = World::new();
         Self::bootstrap_world(&mut world, &repository);
-        Self { world, repository, event_log: EventLog::new(), tick: 0 }
+        Self {
+            world,
+            repository,
+            event_log: EventLog::new(),
+            tick: 0,
+        }
     }
 
     /// Parse a raw string command and execute it, advancing the engine by one tick.
@@ -73,13 +87,17 @@ impl ChronosEngine {
         if let EngineEvent::Unknown { ref raw } = event {
             return CommandResult {
                 success: false,
-                narrative: format!("I don't understand '{raw}'. Type 'help' for available commands."),
-                context_actions: vec![
-                    ContextAction { label: "Help".into(), command: "help".into() },
-                ],
+                narrative: format!(
+                    "I don't understand '{raw}'. Type 'help' for available commands."
+                ),
+                context_actions: vec![ContextAction {
+                    label: "Help".into(),
+                    command: "help".into(),
+                }],
                 inventory_ids: self.player_inventory_ids(),
                 tick: self.tick,
-                game_time: self.current_game_time(), npc_sections: vec![],
+                game_time: self.current_game_time(),
+                npc_sections: vec![],
             };
         }
 
@@ -97,7 +115,8 @@ impl ChronosEngine {
                 context_actions: result.context_actions,
                 inventory_ids: vec![],
                 tick: 0,
-                game_time: self.current_game_time(), npc_sections: vec![],
+                game_time: self.current_game_time(),
+                npc_sections: vec![],
             };
         }
 
@@ -106,12 +125,14 @@ impl ChronosEngine {
             return CommandResult {
                 success: false,
                 narrative: "You have fallen. Type 'restart' to begin a new game.".to_string(),
-                context_actions: vec![
-                    ContextAction { label: "Restart".into(), command: "restart".into() },
-                ],
+                context_actions: vec![ContextAction {
+                    label: "Restart".into(),
+                    command: "restart".into(),
+                }],
                 inventory_ids: self.player_inventory_ids(),
                 tick: self.tick,
-                game_time: self.current_game_time(), npc_sections: vec![],
+                game_time: self.current_game_time(),
+                npc_sections: vec![],
             };
         }
 
@@ -174,24 +195,35 @@ impl ChronosEngine {
 
         // Determine player class/level and current room for ability filtering.
         let player_info = {
-            let mut q = self.world.query_filtered::<(&Identity, &Experience, &Position), With<Controllable>>();
-            q.iter(&self.world).next().map(|(id, exp, pos)| (id.class_id.clone(), exp.level, pos.room_id.clone()))
+            let mut q = self
+                .world
+                .query_filtered::<(&Identity, &Experience, &Position), With<Controllable>>();
+            q.iter(&self.world)
+                .next()
+                .map(|(id, exp, pos)| (id.class_id.clone(), exp.level, pos.room_id.clone()))
         };
         if let Some((class_id, level, room_id)) = player_info {
             // Only show damaging abilities when there's something to hit.
             let enemies_present = {
-                let mut q = self.world.query_filtered::<(&Position, &Health), With<Enemy>>();
-                q.iter(&self.world).any(|(pos, hp)| pos.room_id == room_id && hp.current > 0)
+                let mut q = self
+                    .world
+                    .query_filtered::<(&Position, &Health), With<Enemy>>();
+                q.iter(&self.world)
+                    .any(|(pos, hp)| pos.room_id == room_id && hp.current > 0)
             };
 
             if let Ok(class) = self.repository.class(&class_id) {
                 for ability in &class.abilities {
-                    if level < ability.unlock_level { continue; }
+                    if level < ability.unlock_level {
+                        continue;
+                    }
 
                     // Heals and pure self-buffs (no damage component) are always available.
                     // Damaging abilities — Single-target or AoE — only appear with live enemies.
                     let needs_enemy = ability.base_damage > 0 && ability.heal_amount == 0;
-                    if needs_enemy && !enemies_present { continue; }
+                    if needs_enemy && !enemies_present {
+                        continue;
+                    }
 
                     actions.push(ContextAction {
                         label: ability.name.clone(),
@@ -208,7 +240,10 @@ impl ChronosEngine {
     pub fn snapshot(&mut self) -> GameStateDTO {
         let player_room_id = {
             let mut q = self.world.query_filtered::<&Position, With<Controllable>>();
-            q.iter(&self.world).next().map(|p| p.room_id.clone()).unwrap_or_default()
+            q.iter(&self.world)
+                .next()
+                .map(|p| p.room_id.clone())
+                .unwrap_or_default()
         };
 
         let inventory_ids = self.player_inventory_ids();
@@ -216,103 +251,156 @@ impl ChronosEngine {
         // Player character sheet — present only once a class has been imprinted.
         let (player_gold, player_shards) = {
             let mut q = self.world.query_filtered::<&Wallet, With<Controllable>>();
-            q.iter(&self.world).next().map(|w| (w.gold, w.shards)).unwrap_or((0, 0))
+            q.iter(&self.world)
+                .next()
+                .map(|w| (w.gold, w.shards))
+                .unwrap_or((0, 0))
         };
         let active_quests: Vec<QuestProgressDTO> = {
             let mut q = self.world.query_filtered::<&QuestLog, With<Controllable>>();
-            q.iter(&self.world).next().map(|ql| {
-                ql.entries.iter().filter_map(|e| {
-                    self.repository.quest(&e.quest_id).map(|t| {
-                        use data::schemas::QuestObjective;
-                        let (target, objective_hint) = match &t.objective {
-                            QuestObjective::KillCount { count, class_id } => {
-                                let label = class_id.replace('_', " ");
-                                (*count, format!("Slay {} {} ({}/{})", count, label, e.progress, count))
-                            }
-                            QuestObjective::ReachRoom { room_id } => {
-                                let label = room_id.replace('_', " ");
-                                (1, format!("Reach {}", label))
-                            }
-                            QuestObjective::TalkTo { npc_id } => {
-                                let name = self.repository.npc(npc_id)
-                                    .map(|n| n.name.clone())
-                                    .unwrap_or_else(|_| npc_id.replace('_', " "));
-                                (1, format!("Talk to {}", name))
-                            }
-                        };
-                        QuestProgressDTO {
-                            quest_id: e.quest_id.clone(),
-                            name: t.name.clone(),
-                            description: t.description.clone(),
-                            objective_hint,
-                            progress: e.progress,
-                            target,
-                            completed: e.completed,
-                            ready_to_turn_in: e.ready_to_turn_in,
-                        }
-                    })
-                }).collect()
-            }).unwrap_or_default()
+            q.iter(&self.world)
+                .next()
+                .map(|ql| {
+                    ql.entries
+                        .iter()
+                        .filter_map(|e| {
+                            self.repository.quest(&e.quest_id).map(|t| {
+                                use data::schemas::QuestObjective;
+                                let (target, objective_hint) = match &t.objective {
+                                    QuestObjective::KillCount { count, class_id } => {
+                                        let label = class_id.replace('_', " ");
+                                        (
+                                            *count,
+                                            format!(
+                                                "Slay {} {} ({}/{})",
+                                                count, label, e.progress, count
+                                            ),
+                                        )
+                                    }
+                                    QuestObjective::ReachRoom { room_id } => {
+                                        let label = room_id.replace('_', " ");
+                                        (1, format!("Reach {}", label))
+                                    }
+                                    QuestObjective::TalkTo { npc_id } => {
+                                        let name = self
+                                            .repository
+                                            .npc(npc_id)
+                                            .map(|n| n.name.clone())
+                                            .unwrap_or_else(|_| npc_id.replace('_', " "));
+                                        (1, format!("Talk to {}", name))
+                                    }
+                                };
+                                QuestProgressDTO {
+                                    quest_id: e.quest_id.clone(),
+                                    name: t.name.clone(),
+                                    description: t.description.clone(),
+                                    objective_hint,
+                                    progress: e.progress,
+                                    target,
+                                    completed: e.completed,
+                                    ready_to_turn_in: e.ready_to_turn_in,
+                                }
+                            })
+                        })
+                        .collect()
+                })
+                .unwrap_or_default()
         };
         let player_character: Option<CharacterStateDTO> = {
-            let mut q = self.world
-                .query_filtered::<(&Identity, &Stats, &Health, &Experience, Option<&ActiveEffects>, Option<&EquipmentSlots>, Option<&PayloadSlots>), With<Controllable>>();
-            q.iter(&self.world).next().map(|(id, stats, hp, exp, ae, eq, ps)| CharacterStateDTO {
-                name: id.name.clone(),
-                class_id: id.class_id.clone(),
-                hp: hp.current,
-                max_hp: hp.max,
-                attack: stats.attack,
-                defense: stats.defense,
-                intelligence: stats.intelligence,
-                hit: stats.hit,
-                tech_attack: stats.tech_attack,
-                evasion: stats.evasion,
-                endurance: stats.endurance,
-                luck: stats.luck,
-                agility: stats.agility,
-                xp: exp.xp,
-                level: exp.level,
-                gold: player_gold,
-                shards: player_shards,
-                equipped_weapon: eq.and_then(|e| e.weapon.as_deref().map(|id| {
-                    if id.starts_with("assembled:") { id["assembled:".len()..].to_string() }
-                    else { self.repository.item(id).ok().map(|t| t.name.clone()).unwrap_or_else(|| id.to_string()) }
-                })),
-                payload_slots: ps.map(|p| p.loaded.clone()).unwrap_or_default(),
-                payload_capacity: ps.map(|p| p.capacity as u32).unwrap_or(0),
-                active_effects: ae.map(|a| {
-                    a.effects.iter().map(|e| e.kind.label().to_string()).collect()
-                }).unwrap_or_default(),
-                active_quests: active_quests.clone(),
-            })
+            let mut q = self.world.query_filtered::<(
+                &Identity,
+                &Stats,
+                &Health,
+                &Experience,
+                Option<&ActiveEffects>,
+                Option<&EquipmentSlots>,
+                Option<&PayloadSlots>,
+            ), With<Controllable>>();
+            q.iter(&self.world)
+                .next()
+                .map(|(id, stats, hp, exp, ae, eq, ps)| CharacterStateDTO {
+                    name: id.name.clone(),
+                    class_id: id.class_id.clone(),
+                    hp: hp.current,
+                    max_hp: hp.max,
+                    attack: stats.attack,
+                    defense: stats.defense,
+                    intelligence: stats.intelligence,
+                    hit: stats.hit,
+                    tech_attack: stats.tech_attack,
+                    evasion: stats.evasion,
+                    endurance: stats.endurance,
+                    luck: stats.luck,
+                    agility: stats.agility,
+                    xp: exp.xp,
+                    level: exp.level,
+                    gold: player_gold,
+                    shards: player_shards,
+                    equipped_weapon: eq.and_then(|e| {
+                        e.weapon.as_deref().map(|id| {
+                            if let Some(rest) = id.strip_prefix("assembled:") {
+                                rest.to_string()
+                            } else {
+                                self.repository
+                                    .item(id)
+                                    .ok()
+                                    .map(|t| t.name.clone())
+                                    .unwrap_or_else(|| id.to_string())
+                            }
+                        })
+                    }),
+                    payload_slots: ps.map(|p| p.loaded.clone()).unwrap_or_default(),
+                    payload_capacity: ps.map(|p| p.capacity as u32).unwrap_or(0),
+                    active_effects: ae
+                        .map(|a| {
+                            a.effects
+                                .iter()
+                                .map(|e| e.kind.label().to_string())
+                                .collect()
+                        })
+                        .unwrap_or_default(),
+                    active_quests: active_quests.clone(),
+                })
         };
 
         let entity_states: Vec<EntityStateDTO> = {
-            let mut q = self.world.query::<(Option<&Position>, Option<&InInventory>, &ItemBlueprint)>();
-            q.iter(&self.world).map(|(pos, inv, bp)| EntityStateDTO {
-                blueprint_id: bp.id.clone(),
-                room_id: pos.map(|p| p.room_id.clone()),
-                owner_index: inv.map(|i| i.owner.index()),
-            }).collect()
+            let mut q = self
+                .world
+                .query::<(Option<&Position>, Option<&InInventory>, &ItemBlueprint)>();
+            q.iter(&self.world)
+                .map(|(pos, inv, bp)| EntityStateDTO {
+                    blueprint_id: bp.id.clone(),
+                    room_id: pos.map(|p| p.room_id.clone()),
+                    owner_index: inv.map(|i| i.owner.index()),
+                })
+                .collect()
         };
 
         let enemies: Vec<EnemyStateDTO> = {
             let mut q = self.world
                 .query_filtered::<(&Identity, &Position, &Health, Option<&ActiveEffects>), With<Enemy>>();
-            q.iter(&self.world).map(|(id, pos, hp, ae)| EnemyStateDTO {
-                name: id.name.clone(),
-                class_id: id.class_id.clone(),
-                room_id: pos.room_id.clone(),
-                hp: hp.current,
-                max_hp: hp.max,
-                active_effects: ae.map(|a| {
-                    a.effects.iter().map(|e| e.kind.label().to_string()).collect()
-                }).unwrap_or_default(),
-            }).collect()
+            q.iter(&self.world)
+                .map(|(id, pos, hp, ae)| EnemyStateDTO {
+                    name: id.name.clone(),
+                    class_id: id.class_id.clone(),
+                    room_id: pos.room_id.clone(),
+                    hp: hp.current,
+                    max_hp: hp.max,
+                    active_effects: ae
+                        .map(|a| {
+                            a.effects
+                                .iter()
+                                .map(|e| e.kind.label().to_string())
+                                .collect()
+                        })
+                        .unwrap_or_default(),
+                })
+                .collect()
         };
 
-        let current_room_name = self.repository.room(&player_room_id)
+        let current_room_name = self
+            .repository
+            .room(&player_room_id)
             .map(|r| r.name.clone())
             .unwrap_or_default();
 
@@ -341,8 +429,8 @@ impl ChronosEngine {
     /// Extracts the event log from the snapshot and replays it from a clean bootstrap,
     /// maintaining the time-travel invariant: State = bootstrap + replay(events).
     pub fn load_from_snapshot(&mut self, snapshot_json: &str) -> Result<(), String> {
-        let snapshot: data::game_state_dto::GameStateDTO = serde_json::from_str(snapshot_json)
-            .map_err(|e| format!("Invalid save data: {e}"))?;
+        let snapshot: data::game_state_dto::GameStateDTO =
+            serde_json::from_str(snapshot_json).map_err(|e| format!("Invalid save data: {e}"))?;
 
         self.event_log = journal::EventLog::from_entries(snapshot.event_log);
         let max = self.event_log.current_tick();
@@ -365,30 +453,33 @@ impl ChronosEngine {
 
     /// Minutes of in-game time in the current world state.
     fn current_game_time(&self) -> u32 {
-        self.world.get_resource::<GameTime>().map(|gt| gt.minutes).unwrap_or(360)
+        self.world
+            .get_resource::<GameTime>()
+            .map(|gt| gt.minutes)
+            .unwrap_or(360)
     }
 
     /// How many in-game minutes a given event costs. Read-only events cost 0.
     fn time_cost(event: &EngineEvent) -> u32 {
         match event {
-            EngineEvent::Move { .. }        => 15,
-            EngineEvent::Attack             => 1,
-            EngineEvent::UseAbility { .. }  => 1,
+            EngineEvent::Move { .. } => 15,
+            EngineEvent::Attack => 1,
+            EngineEvent::UseAbility { .. } => 1,
             EngineEvent::ApplyEffect { .. } => 1,
-            EngineEvent::UseItem { .. }     => 2,
-            EngineEvent::PickUp { .. }      => 1,
-            EngineEvent::Drop { .. }        => 1,
-            EngineEvent::Buy { .. }         => 5,
-            EngineEvent::Talk { .. }        => 5,
-            EngineEvent::Ask { .. }         => 5,
+            EngineEvent::UseItem { .. } => 2,
+            EngineEvent::PickUp { .. } => 1,
+            EngineEvent::Drop { .. } => 1,
+            EngineEvent::Buy { .. } => 5,
+            EngineEvent::Talk { .. } => 5,
+            EngineEvent::Ask { .. } => 5,
             EngineEvent::AcceptQuest { .. } => 2,
             EngineEvent::TurnIn { .. } => 5,
             EngineEvent::SpawnCharacter { .. } => 0,
-            EngineEvent::Rest               => 0, // handled separately: skip to dawn
-            EngineEvent::Wait               => 0, // handled separately: skip to dusk or dawn
-            EngineEvent::Load { .. }        => 1,
-            EngineEvent::Unload { .. }      => 1,
-            _                               => 0, // Look, Inventory, CharacterSheet, Help, etc.
+            EngineEvent::Rest => 0, // handled separately: skip to dawn
+            EngineEvent::Wait => 0, // handled separately: skip to dusk or dawn
+            EngineEvent::Load { .. } => 1,
+            EngineEvent::Unload { .. } => 1,
+            _ => 0, // Look, Inventory, CharacterSheet, Help, etc.
         }
     }
 
@@ -400,7 +491,10 @@ impl ChronosEngine {
             }
             EngineEvent::Rest => {} // failed rest: no time passes
             EngineEvent::Wait => {
-                let is_night = world.get_resource::<GameTime>().map(|gt| gt.is_night()).unwrap_or(false);
+                let is_night = world
+                    .get_resource::<GameTime>()
+                    .map(|gt| gt.is_night())
+                    .unwrap_or(false);
                 if is_night {
                     world.resource_mut::<GameTime>().skip_to_dawn();
                 } else {
@@ -426,7 +520,9 @@ impl ChronosEngine {
         world.insert_resource(WorldFlags::default());
 
         world.spawn((
-            Position { room_id: repo.start_room_id().to_string() },
+            Position {
+                room_id: repo.start_room_id().to_string(),
+            },
             Controllable,
             Health::full(100),
             ActiveEffects::default(),
@@ -440,8 +536,12 @@ impl ChronosEngine {
         for template in repo.all_items() {
             if let Some(room_id) = &template.starting_room_id {
                 world.spawn((
-                    Position { room_id: room_id.clone() },
-                    ItemBlueprint { id: template.id.clone() },
+                    Position {
+                        room_id: room_id.clone(),
+                    },
+                    ItemBlueprint {
+                        id: template.id.clone(),
+                    },
                 ));
             }
         }
@@ -454,9 +554,14 @@ impl ChronosEngine {
             if let Ok(class) = repo.class(&enc.class_id) {
                 let bs = &class.base_stats;
                 world.spawn((
-                    Position { room_id: enc.room_id.clone() },
+                    Position {
+                        room_id: enc.room_id.clone(),
+                    },
                     Enemy,
-                    Identity { name: class.name.clone(), class_id: class.id.clone() },
+                    Identity {
+                        name: class.name.clone(),
+                        class_id: class.id.clone(),
+                    },
                     Stats {
                         attack: bs.attack,
                         defense: bs.defense,
@@ -492,9 +597,14 @@ impl ChronosEngine {
                     };
                     if let (Some(pe), Some(room_id)) = (player_e, new_room) {
                         let notices = quest::on_player_entered_room(
-                            &mut self.world, &self.repository, pe, &room_id,
+                            &mut self.world,
+                            &self.repository,
+                            pe,
+                            &room_id,
                         );
-                        for n in notices { narrative.push_str(&n); }
+                        for n in notices {
+                            narrative.push_str(&n);
+                        }
                     }
                 }
                 CommandResult {
@@ -503,7 +613,8 @@ impl ChronosEngine {
                     context_actions: r.context_actions,
                     inventory_ids: self.player_inventory_ids(),
                     tick: self.tick,
-                    game_time: self.current_game_time(), npc_sections: vec![],
+                    game_time: self.current_game_time(),
+                    npc_sections: vec![],
                 }
             }
 
@@ -515,14 +626,17 @@ impl ChronosEngine {
                     context_actions: r.context_actions,
                     inventory_ids: self.player_inventory_ids(),
                     tick: self.tick,
-                    game_time: self.current_game_time(), npc_sections: vec![],
+                    game_time: self.current_game_time(),
+                    npc_sections: vec![],
                 }
             }
 
             EngineEvent::PickUp { item_id } => {
                 let r = interaction::process_pick_up(&mut self.world, &self.repository, item_id);
                 if r.success {
-                    let resolved = self.repository.item(item_id)
+                    let resolved = self
+                        .repository
+                        .item(item_id)
                         .ok()
                         .map(|t| t.id.clone())
                         .unwrap_or_default();
@@ -538,7 +652,8 @@ impl ChronosEngine {
                     context_actions: r.context_actions,
                     inventory_ids: r.inventory_ids,
                     tick: self.tick,
-                    game_time: self.current_game_time(), npc_sections: vec![],
+                    game_time: self.current_game_time(),
+                    npc_sections: vec![],
                 }
             }
 
@@ -550,7 +665,8 @@ impl ChronosEngine {
                     context_actions: r.context_actions,
                     inventory_ids: r.inventory_ids,
                     tick: self.tick,
-                    game_time: self.current_game_time(), npc_sections: vec![],
+                    game_time: self.current_game_time(),
+                    npc_sections: vec![],
                 }
             }
 
@@ -562,12 +678,18 @@ impl ChronosEngine {
                     context_actions: r.context_actions,
                     inventory_ids: r.inventory_ids,
                     tick: self.tick,
-                    game_time: self.current_game_time(), npc_sections: vec![],
+                    game_time: self.current_game_time(),
+                    npc_sections: vec![],
                 }
             }
 
             EngineEvent::SpawnCharacter { class_id, name } => {
-                let r = character::process_spawn_character(&mut self.world, &self.repository, class_id, name);
+                let r = character::process_spawn_character(
+                    &mut self.world,
+                    &self.repository,
+                    class_id,
+                    name,
+                );
                 if r.success && class_id == "iron_apothecary" {
                     let player_e = {
                         let mut q = self.world.query_filtered::<Entity, With<Controllable>>();
@@ -583,7 +705,8 @@ impl ChronosEngine {
                     context_actions: r.context_actions,
                     inventory_ids: self.player_inventory_ids(),
                     tick: self.tick,
-                    game_time: self.current_game_time(), npc_sections: vec![],
+                    game_time: self.current_game_time(),
+                    npc_sections: vec![],
                 }
             }
 
@@ -595,11 +718,17 @@ impl ChronosEngine {
                     context_actions: r.context_actions,
                     inventory_ids: self.player_inventory_ids(),
                     tick: self.tick,
-                    game_time: self.current_game_time(), npc_sections: vec![],
+                    game_time: self.current_game_time(),
+                    npc_sections: vec![],
                 }
             }
 
-            EngineEvent::ApplyEffect { kind, target_name, damage_per_turn, duration_turns } => {
+            EngineEvent::ApplyEffect {
+                kind,
+                target_name,
+                damage_per_turn,
+                duration_turns,
+            } => {
                 use components::EffectKind;
                 let effect_kind = EffectKind::from_str(kind).unwrap_or(EffectKind::Poison);
                 let r = poison::process_apply_effect(
@@ -616,11 +745,15 @@ impl ChronosEngine {
                     context_actions: r.context_actions,
                     inventory_ids: self.player_inventory_ids(),
                     tick: self.tick,
-                    game_time: self.current_game_time(), npc_sections: vec![],
+                    game_time: self.current_game_time(),
+                    npc_sections: vec![],
                 }
             }
 
-            EngineEvent::UseAbility { ability_name, target_name } => {
+            EngineEvent::UseAbility {
+                ability_name,
+                target_name,
+            } => {
                 let r = ability::process_use_ability(
                     &mut self.world,
                     &self.repository,
@@ -634,7 +767,8 @@ impl ChronosEngine {
                     context_actions: r.context_actions,
                     inventory_ids: self.player_inventory_ids(),
                     tick: self.tick,
-                    game_time: self.current_game_time(), npc_sections: vec![],
+                    game_time: self.current_game_time(),
+                    npc_sections: vec![],
                 }
             }
 
@@ -646,7 +780,8 @@ impl ChronosEngine {
                     context_actions: r.context_actions,
                     inventory_ids: self.player_inventory_ids(),
                     tick: self.tick,
-                    game_time: self.current_game_time(), npc_sections: vec![],
+                    game_time: self.current_game_time(),
+                    npc_sections: vec![],
                 }
             }
 
@@ -658,7 +793,8 @@ impl ChronosEngine {
                     context_actions: r.context_actions,
                     inventory_ids: r.inventory_ids,
                     tick: self.tick,
-                    game_time: self.current_game_time(), npc_sections: vec![],
+                    game_time: self.current_game_time(),
+                    npc_sections: vec![],
                 }
             }
 
@@ -671,10 +807,11 @@ impl ChronosEngine {
                         q.iter(&self.world).next()
                     };
                     if let Some(pe) = player_e {
-                        let notices = quest::on_npc_talked_to(
-                            &mut self.world, &self.repository, pe, npc_id,
-                        );
-                        for n in notices { narrative.push_str(&n); }
+                        let notices =
+                            quest::on_npc_talked_to(&mut self.world, &self.repository, pe, npc_id);
+                        for n in notices {
+                            narrative.push_str(&n);
+                        }
                     }
                 }
                 CommandResult {
@@ -683,7 +820,8 @@ impl ChronosEngine {
                     context_actions: r.context_actions,
                     inventory_ids: self.player_inventory_ids(),
                     tick: self.tick,
-                    game_time: self.current_game_time(), npc_sections: r.npc_sections,
+                    game_time: self.current_game_time(),
+                    npc_sections: r.npc_sections,
                 }
             }
 
@@ -695,7 +833,8 @@ impl ChronosEngine {
                     context_actions: r.context_actions,
                     inventory_ids: self.player_inventory_ids(),
                     tick: self.tick,
-                    game_time: self.current_game_time(), npc_sections: r.npc_sections,
+                    game_time: self.current_game_time(),
+                    npc_sections: r.npc_sections,
                 }
             }
 
@@ -707,7 +846,8 @@ impl ChronosEngine {
                     context_actions: r.context_actions,
                     inventory_ids: self.player_inventory_ids(),
                     tick: self.tick,
-                    game_time: self.current_game_time(), npc_sections: vec![],
+                    game_time: self.current_game_time(),
+                    npc_sections: vec![],
                 }
             }
 
@@ -719,7 +859,8 @@ impl ChronosEngine {
                     context_actions: r.context_actions,
                     inventory_ids: self.player_inventory_ids(),
                     tick: self.tick,
-                    game_time: self.current_game_time(), npc_sections: vec![],
+                    game_time: self.current_game_time(),
+                    npc_sections: vec![],
                 }
             }
 
@@ -727,12 +868,19 @@ impl ChronosEngine {
                 const REST_COST: i32 = 5;
                 let room_id = {
                     let mut q = self.world.query_filtered::<&Position, With<Controllable>>();
-                    q.iter(&self.world).next().map(|p| p.room_id.clone()).unwrap_or_default()
+                    q.iter(&self.world)
+                        .next()
+                        .map(|p| p.room_id.clone())
+                        .unwrap_or_default()
                 };
-                let rest_npc_name: Option<String> = self.repository.npcs_in_room(&room_id)
+                let rest_npc_name: Option<String> = self
+                    .repository
+                    .npcs_in_room(&room_id)
                     .iter()
                     .find_map(|id| {
-                        self.repository.npc(id).ok()
+                        self.repository
+                            .npc(id)
+                            .ok()
                             .filter(|n| n.rest_provider)
                             .map(|n| n.name.clone())
                     });
@@ -743,22 +891,28 @@ impl ChronosEngine {
                         context_actions: vec![],
                         inventory_ids: self.player_inventory_ids(),
                         tick: self.tick,
-                        game_time: self.current_game_time(), npc_sections: vec![],
+                        game_time: self.current_game_time(),
+                        npc_sections: vec![],
                     };
                 }
                 let npc_name = rest_npc_name.unwrap();
                 let (player_e, gold, hp_cur, hp_max) = {
-                    let mut q = self.world.query_filtered::<(Entity, &Wallet, &Health), With<Controllable>>();
+                    let mut q = self
+                        .world
+                        .query_filtered::<(Entity, &Wallet, &Health), With<Controllable>>();
                     match q.iter(&self.world).next() {
                         Some((e, w, h)) => (e, w.gold, h.current, h.max),
-                        None => return CommandResult {
-                            success: false,
-                            narrative: "No character to rest.".to_string(),
-                            context_actions: vec![],
-                            inventory_ids: self.player_inventory_ids(),
-                            tick: self.tick,
-                            game_time: self.current_game_time(), npc_sections: vec![],
-                        },
+                        None => {
+                            return CommandResult {
+                                success: false,
+                                narrative: "No character to rest.".to_string(),
+                                context_actions: vec![],
+                                inventory_ids: self.player_inventory_ids(),
+                                tick: self.tick,
+                                game_time: self.current_game_time(),
+                                npc_sections: vec![],
+                            }
+                        }
                     }
                 };
                 if gold < REST_COST {
@@ -771,8 +925,12 @@ impl ChronosEngine {
                         game_time: self.current_game_time(), npc_sections: vec![],
                     };
                 }
-                self.world.entity_mut(player_e).get_mut::<Wallet>().map(|mut w| w.gold -= REST_COST);
-                self.world.entity_mut(player_e).get_mut::<Health>().map(|mut h| h.current = h.max);
+                if let Some(mut w) = self.world.entity_mut(player_e).get_mut::<Wallet>() {
+                    w.gold -= REST_COST;
+                }
+                if let Some(mut h) = self.world.entity_mut(player_e).get_mut::<Health>() {
+                    h.current = h.max;
+                }
                 let healed = hp_max - hp_cur;
                 CommandResult {
                     success: true,
@@ -788,7 +946,11 @@ impl ChronosEngine {
             }
 
             EngineEvent::Wait => {
-                let is_night = self.world.get_resource::<GameTime>().map(|gt| gt.is_night()).unwrap_or(false);
+                let is_night = self
+                    .world
+                    .get_resource::<GameTime>()
+                    .map(|gt| gt.is_night())
+                    .unwrap_or(false);
                 let narrative = if is_night {
                     "Hours pass. The Armistice fires die down. Dawn breaks over the Wastes, pale and cold. The ceasefire is over."
                 } else {
@@ -797,12 +959,14 @@ impl ChronosEngine {
                 CommandResult {
                     success: true,
                     narrative: narrative.to_string(),
-                    context_actions: vec![
-                        ContextAction { label: "Look around".into(), command: "look".into() },
-                    ],
+                    context_actions: vec![ContextAction {
+                        label: "Look around".into(),
+                        command: "look".into(),
+                    }],
                     inventory_ids: self.player_inventory_ids(),
                     tick: self.tick,
-                    game_time: self.current_game_time(), npc_sections: vec![],
+                    game_time: self.current_game_time(),
+                    npc_sections: vec![],
                 }
             }
 
@@ -810,24 +974,34 @@ impl ChronosEngine {
                 let item_id_lower = item_id.to_lowercase();
                 let room_id = {
                     let mut q = self.world.query_filtered::<&Position, With<Controllable>>();
-                    q.iter(&self.world).next().map(|p| p.room_id.clone()).unwrap_or_default()
+                    q.iter(&self.world)
+                        .next()
+                        .map(|p| p.room_id.clone())
+                        .unwrap_or_default()
                 };
                 // Collect (id, in_room) for items in this room or in inventory.
                 let candidates: Vec<(String, bool)> = {
-                    let mut q = self.world.query::<(Option<&Position>, Option<&InInventory>, &ItemBlueprint)>();
+                    let mut q = self
+                        .world
+                        .query::<(Option<&Position>, Option<&InInventory>, &ItemBlueprint)>();
                     q.iter(&self.world)
                         .filter(|(pos, inv, _)| {
-                            pos.as_ref().map(|p| p.room_id == room_id).unwrap_or(false) || inv.is_some()
+                            pos.as_ref().map(|p| p.room_id == room_id).unwrap_or(false)
+                                || inv.is_some()
                         })
                         .map(|(pos, _, bp)| {
-                            let in_room = pos.as_ref().map(|p| p.room_id == room_id).unwrap_or(false);
+                            let in_room =
+                                pos.as_ref().map(|p| p.room_id == room_id).unwrap_or(false);
                             (bp.id.clone(), in_room)
                         })
                         .collect()
                 };
                 let found = candidates.iter().find(|(id, _)| {
                     id.to_lowercase().contains(&item_id_lower)
-                        || self.repository.item(id).ok()
+                        || self
+                            .repository
+                            .item(id)
+                            .ok()
                             .map(|t| t.name.to_lowercase().contains(&item_id_lower))
                             .unwrap_or(false)
                 });
@@ -836,7 +1010,9 @@ impl ChronosEngine {
                         let t = self.repository.item(found_id).unwrap();
                         // Special rendering for the diary: build contents from WorldFlags.
                         if t.id == "ren_diary" {
-                            let flags = self.world.get_resource::<WorldFlags>()
+                            let flags = self
+                                .world
+                                .get_resource::<WorldFlags>()
                                 .map(|f| f.flags.clone())
                                 .unwrap_or_default();
                             let narrative = build_diary_narrative(&flags);
@@ -850,7 +1026,8 @@ impl ChronosEngine {
                                 context_actions,
                                 inventory_ids: self.player_inventory_ids(),
                                 tick: self.tick,
-                                game_time: self.current_game_time(), npc_sections: vec![],
+                                game_time: self.current_game_time(),
+                                npc_sections: vec![],
                             };
                         }
                         let context_actions = if *in_room {
@@ -860,7 +1037,7 @@ impl ChronosEngine {
                             }]
                         } else {
                             let mut acts = vec![];
-                            if t.attributes.get("use_effect").is_some() {
+                            if t.attributes.contains_key("use_effect") {
                                 acts.push(ContextAction {
                                     label: format!("Use {}", t.name),
                                     command: format!("use {}", t.id),
@@ -878,7 +1055,8 @@ impl ChronosEngine {
                             context_actions,
                             inventory_ids: self.player_inventory_ids(),
                             tick: self.tick,
-                            game_time: self.current_game_time(), npc_sections: vec![],
+                            game_time: self.current_game_time(),
+                            npc_sections: vec![],
                         }
                     }
                     None => CommandResult {
@@ -887,14 +1065,15 @@ impl ChronosEngine {
                         context_actions: vec![],
                         inventory_ids: self.player_inventory_ids(),
                         tick: self.tick,
-                        game_time: self.current_game_time(), npc_sections: vec![],
+                        game_time: self.current_game_time(),
+                        npc_sections: vec![],
                     },
                 }
             }
 
             EngineEvent::Help => {
                 let w = 54usize; // inner width between ║ delimiters
-                let hr  = format!("╠{}╣", "═".repeat(w));
+                let hr = format!("╠{}╣", "═".repeat(w));
                 let top = format!("╔{}╗", "═".repeat(w));
                 let bot = format!("╚{}╝", "═".repeat(w));
                 let row = |s: &str| format!("║ {:<width$} ║", s, width = w - 2);
@@ -902,22 +1081,27 @@ impl ChronosEngine {
                 let mut lines = vec![
                     top.clone(),
                     row("             CHRONOS — COMMANDS"),
-                    hr.clone(), row("MOVEMENT"),
+                    hr.clone(),
+                    row("MOVEMENT"),
                     row("  n/s/e/w   — move (or: go north/south/east/west)"),
-                    hr.clone(), row("EXPLORATION"),
+                    hr.clone(),
+                    row("EXPLORATION"),
                     row("  look (l)          — describe current room"),
                     row("  examine <item>    — read an item's description"),
                     row("  inventory (i)     — list carried items"),
                     row("  stats             — character sheet & abilities"),
                     row("  quests            — quest log"),
-                    hr.clone(), row("ITEMS"),
+                    hr.clone(),
+                    row("ITEMS"),
                     row("  take <item>   — pick up an item"),
                     row("  drop <item>   — drop a carried item"),
                     row("  use <item>    — use or drink an item"),
-                    hr.clone(), row("COMBAT"),
+                    hr.clone(),
+                    row("COMBAT"),
                     row("  attack        — fight the enemy in this room"),
                     row("  <ability name> — use a class ability (see 'stats' for list)"),
-                    hr.clone(), row("NPCS & SHOPS"),
+                    hr.clone(),
+                    row("NPCS & SHOPS"),
                     row("  talk <npc>          — greet an NPC"),
                     row("  ask <npc> <topic>   — ask about a topic"),
                     row("  shop <npc>          — browse a vendor's wares"),
@@ -925,9 +1109,14 @@ impl ChronosEngine {
                     row("  accept <quest_id>        — accept a quest"),
                     row("  turn in <quest_id>   — turn in a completed quest"),
                     row("  rest               — sleep at an inn (5 gold, full HP)"),
-                    hr.clone(), row("CLASSES  (type to start playing)"),
+                    hr.clone(),
+                    row("CLASSES  (type to start playing)"),
                 ];
-                for c in self.repository.all_classes().filter(|c| c.tactics.is_empty()) {
+                for c in self
+                    .repository
+                    .all_classes()
+                    .filter(|c| c.tactics.is_empty())
+                {
                     lines.push(row(&format!("  become {:<12} — {}", c.id, c.name)));
                 }
                 lines.push(hr.clone());
@@ -938,12 +1127,14 @@ impl ChronosEngine {
                 CommandResult {
                     success: true,
                     narrative: lines.join("\n"),
-                    context_actions: vec![
-                        ContextAction { label: "Look around".into(), command: "look".into() },
-                    ],
+                    context_actions: vec![ContextAction {
+                        label: "Look around".into(),
+                        command: "look".into(),
+                    }],
                     inventory_ids: self.player_inventory_ids(),
                     tick: self.tick,
-                    game_time: self.current_game_time(), npc_sections: vec![],
+                    game_time: self.current_game_time(),
+                    npc_sections: vec![],
                 }
             }
 
@@ -957,26 +1148,59 @@ impl ChronosEngine {
                 shop::shop_result_to_command(r, self.tick, self.current_game_time())
             }
 
-            EngineEvent::Assemble { frame_id, mechanism_id, enhancement_id } => {
+            EngineEvent::Assemble {
+                frame_id,
+                mechanism_id,
+                enhancement_id,
+            } => {
                 let player_e = {
                     let mut q = self.world.query_filtered::<Entity, With<Controllable>>();
                     q.iter(&self.world).next()
                 };
                 let Some(player_e) = player_e else {
-                    return CommandResult { success: false, narrative: "No character.".into(), context_actions: vec![], inventory_ids: vec![], tick: self.tick, game_time: self.current_game_time(), npc_sections: vec![] };
+                    return CommandResult {
+                        success: false,
+                        narrative: "No character.".into(),
+                        context_actions: vec![],
+                        inventory_ids: vec![],
+                        tick: self.tick,
+                        game_time: self.current_game_time(),
+                        npc_sections: vec![],
+                    };
                 };
 
                 // Validate all 3 parts are templates with weapon_part type.
                 let parts: Vec<(String, String, i32, Option<String>)> = [
-                    (&frame_id, "frame"), (&mechanism_id, "mechanism"), (&enhancement_id, "enhancement")
-                ].iter().filter_map(|(id, slot)| {
-                    self.repository.item(id).ok().map(|t| {
-                        let part_slot = t.attributes.get("part_slot").and_then(|v| v.as_str()).unwrap_or("");
-                        let atk = t.attributes.get("part_attack").and_then(|v| v.as_i64()).unwrap_or(0) as i32;
-                        let fx = t.attributes.get("part_effect").and_then(|v| v.as_str()).map(|s| s.to_string());
-                        (part_slot.to_string(), t.name.clone(), atk, fx)
-                    }).filter(|(ps, _, _, _)| ps == *slot)
-                }).collect();
+                    (&frame_id, "frame"),
+                    (&mechanism_id, "mechanism"),
+                    (&enhancement_id, "enhancement"),
+                ]
+                .iter()
+                .filter_map(|(id, slot)| {
+                    self.repository
+                        .item(id)
+                        .ok()
+                        .map(|t| {
+                            let part_slot = t
+                                .attributes
+                                .get("part_slot")
+                                .and_then(|v| v.as_str())
+                                .unwrap_or("");
+                            let atk = t
+                                .attributes
+                                .get("part_attack")
+                                .and_then(|v| v.as_i64())
+                                .unwrap_or(0) as i32;
+                            let fx = t
+                                .attributes
+                                .get("part_effect")
+                                .and_then(|v| v.as_str())
+                                .map(|s| s.to_string());
+                            (part_slot.to_string(), t.name.clone(), atk, fx)
+                        })
+                        .filter(|(ps, _, _, _)| ps == *slot)
+                })
+                .collect();
 
                 if parts.len() < 3 {
                     return CommandResult {
@@ -990,36 +1214,51 @@ impl ChronosEngine {
                 }
 
                 // Check all 3 parts are in player inventory.
-                let part_ids = [frame_id.as_str(), mechanism_id.as_str(), enhancement_id.as_str()];
+                let part_ids = [
+                    frame_id.as_str(),
+                    mechanism_id.as_str(),
+                    enhancement_id.as_str(),
+                ];
                 let mut entities_to_despawn = Vec::new();
                 for pid in part_ids.iter() {
                     let found = {
                         let mut q = self.world.query::<(Entity, &InInventory, &ItemBlueprint)>();
                         q.iter(&self.world).find_map(|(e, inv, bp)| {
-                            if inv.owner == player_e && bp.id == *pid { Some(e) } else { None }
+                            if inv.owner == player_e && bp.id == *pid {
+                                Some(e)
+                            } else {
+                                None
+                            }
                         })
                     };
                     match found {
                         Some(e) => entities_to_despawn.push(e),
-                        None => return CommandResult {
-                            success: false,
-                            narrative: format!("You don't have '{}' in your inventory.", pid),
-                            context_actions: vec![],
-                            inventory_ids: self.player_inventory_ids(),
-                            tick: self.tick,
-                            game_time: self.current_game_time(), npc_sections: vec![],
-                        },
+                        None => {
+                            return CommandResult {
+                                success: false,
+                                narrative: format!("You don't have '{}' in your inventory.", pid),
+                                context_actions: vec![],
+                                inventory_ids: self.player_inventory_ids(),
+                                tick: self.tick,
+                                game_time: self.current_game_time(),
+                                npc_sections: vec![],
+                            }
+                        }
                     }
                 }
 
                 // Despawn parts.
-                for e in entities_to_despawn { self.world.despawn(e); }
+                for e in entities_to_despawn {
+                    self.world.despawn(e);
+                }
 
                 // Compute combined stats.
                 let total_atk: i32 = parts.iter().map(|(_, _, a, _)| a).sum();
                 let on_hit = parts.iter().find_map(|(_, _, _, fx)| fx.clone());
-                let part_names: Vec<&str> = parts.iter().map(|(_, name, _, _)| name.as_str()).collect();
-                let display_name = format!("{} + {} + {}", part_names[0], part_names[1], part_names[2]);
+                let part_names: Vec<&str> =
+                    parts.iter().map(|(_, name, _, _)| name.as_str()).collect();
+                let display_name =
+                    format!("{} + {} + {}", part_names[0], part_names[1], part_names[2]);
 
                 // Spawn the assembled weapon entity.
                 self.world.spawn((
@@ -1028,19 +1267,25 @@ impl ChronosEngine {
                         display_name: display_name.clone(),
                         attack_bonus: total_atk,
                         on_hit_effect: on_hit,
-                        part_ids: [frame_id.clone(), mechanism_id.clone(), enhancement_id.clone()],
+                        part_ids: [
+                            frame_id.clone(),
+                            mechanism_id.clone(),
+                            enhancement_id.clone(),
+                        ],
                     },
                 ));
 
                 CommandResult {
                     success: true,
                     narrative: format!("You assemble: {}. (+{} ATK)", display_name, total_atk),
-                    context_actions: vec![
-                        ContextAction { label: format!("Equip {display_name}"), command: format!("equip assembled:{}", display_name) },
-                    ],
+                    context_actions: vec![ContextAction {
+                        label: format!("Equip {display_name}"),
+                        command: format!("equip assembled:{}", display_name),
+                    }],
                     inventory_ids: self.player_inventory_ids(),
                     tick: self.tick,
-                    game_time: self.current_game_time(), npc_sections: vec![],
+                    game_time: self.current_game_time(),
+                    npc_sections: vec![],
                 }
             }
 
@@ -1051,46 +1296,83 @@ impl ChronosEngine {
                     q.iter(&self.world).next()
                 };
                 let Some(player_e) = player_e else {
-                    return CommandResult { success: false, narrative: "No character.".into(), context_actions: vec![], inventory_ids: vec![], tick: self.tick, game_time: self.current_game_time(), npc_sections: vec![] };
+                    return CommandResult {
+                        success: false,
+                        narrative: "No character.".into(),
+                        context_actions: vec![],
+                        inventory_ids: vec![],
+                        tick: self.tick,
+                        game_time: self.current_game_time(),
+                        npc_sections: vec![],
+                    };
                 };
                 // Handle assembled weapons (assembled:<display_name>).
-                let (narrative, success) = if item_id.starts_with("assembled:") {
-                    let name_part = &item_id["assembled:".len()..];
+                let (narrative, success) = if let Some(name_part) =
+                    item_id.strip_prefix("assembled:")
+                {
                     // Find assembled weapon in inventory by display_name.
                     let found = {
                         let name_lower = name_part.to_lowercase();
-                        let mut q = self.world.query::<(Entity, &InInventory, &AssembledWeapon)>();
+                        let mut q = self
+                            .world
+                            .query::<(Entity, &InInventory, &AssembledWeapon)>();
                         q.iter(&self.world).find_map(|(e, inv, aw)| {
-                            if inv.owner == player_e && aw.display_name.to_lowercase() == name_lower {
+                            if inv.owner == player_e && aw.display_name.to_lowercase() == name_lower
+                            {
                                 Some((e, aw.display_name.clone(), aw.attack_bonus))
-                            } else { None }
+                            } else {
+                                None
+                            }
                         })
                     };
                     if let Some((_e, dname, atk)) = found {
-                        if let Some(mut eq) = self.world.entity_mut(player_e).get_mut::<EquipmentSlots>() {
+                        if let Some(mut eq) =
+                            self.world.entity_mut(player_e).get_mut::<EquipmentSlots>()
+                        {
                             let slot_id = format!("assembled:{}", dname);
                             let prev = eq.weapon.replace(slot_id);
                             if let Some(old) = prev {
-                                (format!("You swap out {} and equip {} (+{} ATK).", old, dname, atk), true)
+                                (
+                                    format!(
+                                        "You swap out {} and equip {} (+{} ATK).",
+                                        old, dname, atk
+                                    ),
+                                    true,
+                                )
                             } else {
                                 (format!("You equip {} (+{} ATK).", dname, atk), true)
                             }
-                        } else { ("No equipment slots.".into(), false) }
+                        } else {
+                            ("No equipment slots.".into(), false)
+                        }
                     } else {
-                        (format!("No assembled weapon '{}' in inventory.", name_part), false)
+                        (
+                            format!("No assembled weapon '{}' in inventory.", name_part),
+                            false,
+                        )
                     }
                 } else {
                     // Check item exists in the template repository.
                     let item = self.repository.item(item_id);
                     if let Ok(tmpl) = item {
-                        if let Some(mut eq) = self.world.entity_mut(player_e).get_mut::<EquipmentSlots>() {
+                        if let Some(mut eq) =
+                            self.world.entity_mut(player_e).get_mut::<EquipmentSlots>()
+                        {
                             let prev = eq.weapon.replace(tmpl.id.clone());
                             if let Some(old) = prev {
-                                (format!("You swap out the {} and equip the {}.", old, tmpl.name), true)
+                                (
+                                    format!(
+                                        "You swap out the {} and equip the {}.",
+                                        old, tmpl.name
+                                    ),
+                                    true,
+                                )
                             } else {
                                 (format!("You equip the {}.", tmpl.name), true)
                             }
-                        } else { ("No equipment slots.".into(), false) }
+                        } else {
+                            ("No equipment slots.".into(), false)
+                        }
                     } else {
                         (format!("No item '{}' found.", item_id), false)
                     }
@@ -1098,10 +1380,14 @@ impl ChronosEngine {
                 CommandResult {
                     success,
                     narrative,
-                    context_actions: vec![ContextAction { label: "Unequip".into(), command: "unequip".into() }],
+                    context_actions: vec![ContextAction {
+                        label: "Unequip".into(),
+                        command: "unequip".into(),
+                    }],
                     inventory_ids: self.player_inventory_ids(),
                     tick: self.tick,
-                    game_time: self.current_game_time(), npc_sections: vec![],
+                    game_time: self.current_game_time(),
+                    npc_sections: vec![],
                 }
             }
 
@@ -1111,11 +1397,26 @@ impl ChronosEngine {
                     q.iter(&self.world).next()
                 };
                 let Some(player_e) = player_e else {
-                    return CommandResult { success: false, narrative: "No character.".into(), context_actions: vec![], inventory_ids: vec![], tick: self.tick, game_time: self.current_game_time(), npc_sections: vec![] };
+                    return CommandResult {
+                        success: false,
+                        narrative: "No character.".into(),
+                        context_actions: vec![],
+                        inventory_ids: vec![],
+                        tick: self.tick,
+                        game_time: self.current_game_time(),
+                        npc_sections: vec![],
+                    };
                 };
-                let (narrative, success) = if let Some(mut eq) = self.world.entity_mut(player_e).get_mut::<EquipmentSlots>() {
+                let (narrative, success) = if let Some(mut eq) =
+                    self.world.entity_mut(player_e).get_mut::<EquipmentSlots>()
+                {
                     if let Some(old_id) = eq.weapon.take() {
-                        let display = self.repository.item(&old_id).ok().map(|t| t.name.clone()).unwrap_or_else(|| old_id.clone());
+                        let display = self
+                            .repository
+                            .item(&old_id)
+                            .ok()
+                            .map(|t| t.name.clone())
+                            .unwrap_or_else(|| old_id.clone());
                         (format!("You unequip the {}.", display), true)
                     } else {
                         ("Nothing is equipped.".into(), false)
@@ -1129,7 +1430,8 @@ impl ChronosEngine {
                     context_actions: vec![],
                     inventory_ids: self.player_inventory_ids(),
                     tick: self.tick,
-                    game_time: self.current_game_time(), npc_sections: vec![],
+                    game_time: self.current_game_time(),
+                    npc_sections: vec![],
                 }
             }
 
@@ -1139,7 +1441,15 @@ impl ChronosEngine {
                     q.iter(&self.world).next()
                 };
                 let Some(player_e) = player_e else {
-                    return CommandResult { success: false, narrative: "No character.".into(), context_actions: vec![], inventory_ids: vec![], tick: self.tick, game_time: self.current_game_time(), npc_sections: vec![] };
+                    return CommandResult {
+                        success: false,
+                        narrative: "No character.".into(),
+                        context_actions: vec![],
+                        inventory_ids: vec![],
+                        tick: self.tick,
+                        game_time: self.current_game_time(),
+                        npc_sections: vec![],
+                    };
                 };
 
                 let (current_loaded, capacity) = match self.world.entity(player_e).get::<PayloadSlots>() {
@@ -1148,7 +1458,18 @@ impl ChronosEngine {
                 };
 
                 if current_loaded.len() >= capacity {
-                    return CommandResult { success: false, narrative: format!("All {} payload slots are occupied. Unload a vial first.", capacity), context_actions: vec![], inventory_ids: self.player_inventory_ids(), tick: self.tick, game_time: self.current_game_time(), npc_sections: vec![] };
+                    return CommandResult {
+                        success: false,
+                        narrative: format!(
+                            "All {} payload slots are occupied. Unload a vial first.",
+                            capacity
+                        ),
+                        context_actions: vec![],
+                        inventory_ids: self.player_inventory_ids(),
+                        tick: self.tick,
+                        game_time: self.current_game_time(),
+                        npc_sections: vec![],
+                    };
                 }
 
                 // Resolve item by ID (try with underscores too for "venom vial" → "venom_vial").
@@ -1159,22 +1480,60 @@ impl ChronosEngine {
                 };
 
                 let (payload_name, is_payload) = match self.repository.item(&resolved_id) {
-                    Ok(t) => (t.name.clone(), t.attributes.get("item_type").and_then(|v| v.as_str()) == Some("payload")),
-                    Err(_) => return CommandResult { success: false, narrative: format!("Unknown item '{payload_id}'."), context_actions: vec![], inventory_ids: self.player_inventory_ids(), tick: self.tick, game_time: self.current_game_time(), npc_sections: vec![] },
+                    Ok(t) => (
+                        t.name.clone(),
+                        t.attributes.get("item_type").and_then(|v| v.as_str()) == Some("payload"),
+                    ),
+                    Err(_) => {
+                        return CommandResult {
+                            success: false,
+                            narrative: format!("Unknown item '{payload_id}'."),
+                            context_actions: vec![],
+                            inventory_ids: self.player_inventory_ids(),
+                            tick: self.tick,
+                            game_time: self.current_game_time(),
+                            npc_sections: vec![],
+                        }
+                    }
                 };
                 if !is_payload {
-                    return CommandResult { success: false, narrative: format!("{payload_name} is not a payload vial."), context_actions: vec![], inventory_ids: self.player_inventory_ids(), tick: self.tick, game_time: self.current_game_time(), npc_sections: vec![] };
+                    return CommandResult {
+                        success: false,
+                        narrative: format!("{payload_name} is not a payload vial."),
+                        context_actions: vec![],
+                        inventory_ids: self.player_inventory_ids(),
+                        tick: self.tick,
+                        game_time: self.current_game_time(),
+                        npc_sections: vec![],
+                    };
                 }
                 if current_loaded.contains(&resolved_id) {
-                    return CommandResult { success: false, narrative: format!("{payload_name} is already loaded."), context_actions: vec![], inventory_ids: self.player_inventory_ids(), tick: self.tick, game_time: self.current_game_time(), npc_sections: vec![] };
+                    return CommandResult {
+                        success: false,
+                        narrative: format!("{payload_name} is already loaded."),
+                        context_actions: vec![],
+                        inventory_ids: self.player_inventory_ids(),
+                        tick: self.tick,
+                        game_time: self.current_game_time(),
+                        npc_sections: vec![],
+                    };
                 }
 
                 let has_item = {
                     let mut q = self.world.query::<(&InInventory, &ItemBlueprint)>();
-                    q.iter(&self.world).any(|(inv, bp)| inv.owner == player_e && bp.id == resolved_id)
+                    q.iter(&self.world)
+                        .any(|(inv, bp)| inv.owner == player_e && bp.id == resolved_id)
                 };
                 if !has_item {
-                    return CommandResult { success: false, narrative: format!("You don't have a {payload_name} in your inventory."), context_actions: vec![], inventory_ids: self.player_inventory_ids(), tick: self.tick, game_time: self.current_game_time(), npc_sections: vec![] };
+                    return CommandResult {
+                        success: false,
+                        narrative: format!("You don't have a {payload_name} in your inventory."),
+                        context_actions: vec![],
+                        inventory_ids: self.player_inventory_ids(),
+                        tick: self.tick,
+                        game_time: self.current_game_time(),
+                        npc_sections: vec![],
+                    };
                 }
 
                 if let Some(mut ps) = self.world.entity_mut(player_e).get_mut::<PayloadSlots>() {
@@ -1197,48 +1556,91 @@ impl ChronosEngine {
                     q.iter(&self.world).next()
                 };
                 let Some(player_e) = player_e else {
-                    return CommandResult { success: false, narrative: "No character.".into(), context_actions: vec![], inventory_ids: vec![], tick: self.tick, game_time: self.current_game_time(), npc_sections: vec![] };
+                    return CommandResult {
+                        success: false,
+                        narrative: "No character.".into(),
+                        context_actions: vec![],
+                        inventory_ids: vec![],
+                        tick: self.tick,
+                        game_time: self.current_game_time(),
+                        npc_sections: vec![],
+                    };
                 };
 
                 let current_loaded = match self.world.entity(player_e).get::<PayloadSlots>() {
                     Some(ps) => ps.loaded.clone(),
-                    None => return CommandResult { success: false, narrative: "Your class doesn't have payload slots.".into(), context_actions: vec![], inventory_ids: self.player_inventory_ids(), tick: self.tick, game_time: self.current_game_time(), npc_sections: vec![] },
+                    None => {
+                        return CommandResult {
+                            success: false,
+                            narrative: "Your class doesn't have payload slots.".into(),
+                            context_actions: vec![],
+                            inventory_ids: self.player_inventory_ids(),
+                            tick: self.tick,
+                            game_time: self.current_game_time(),
+                            npc_sections: vec![],
+                        }
+                    }
                 };
 
                 // Find the payload by exact ID or partial name match.
                 let payload_id_lower = payload_id.to_lowercase().replace(' ', "_");
-                let matched = current_loaded.iter().find(|id| {
-                    let id_str = id.as_str();
-                    id_str == payload_id.as_str()
-                        || id_str == payload_id_lower.as_str()
-                        || self.repository.item(id_str).ok()
-                            .map(|t| t.name.to_lowercase().contains(payload_id.to_lowercase().as_str()))
-                            .unwrap_or(false)
-                }).cloned();
+                let matched = current_loaded
+                    .iter()
+                    .find(|id| {
+                        let id_str = id.as_str();
+                        id_str == payload_id.as_str()
+                            || id_str == payload_id_lower.as_str()
+                            || self
+                                .repository
+                                .item(id_str)
+                                .ok()
+                                .map(|t| {
+                                    t.name
+                                        .to_lowercase()
+                                        .contains(payload_id.to_lowercase().as_str())
+                                })
+                                .unwrap_or(false)
+                    })
+                    .cloned();
 
                 match matched {
                     Some(matched_id) => {
-                        let name = self.repository.item(&matched_id).ok().map(|t| t.name.clone()).unwrap_or_else(|| matched_id.clone());
-                        if let Some(mut ps) = self.world.entity_mut(player_e).get_mut::<PayloadSlots>() {
+                        let name = self
+                            .repository
+                            .item(&matched_id)
+                            .ok()
+                            .map(|t| t.name.clone())
+                            .unwrap_or_else(|| matched_id.clone());
+                        if let Some(mut ps) =
+                            self.world.entity_mut(player_e).get_mut::<PayloadSlots>()
+                        {
                             ps.loaded.retain(|i| i != &matched_id);
                         }
                         CommandResult {
                             success: true,
                             narrative: format!("You eject the {name} from your syringe spear."),
-                            context_actions: vec![ContextAction { label: format!("Load {name}"), command: format!("load {matched_id}") }],
+                            context_actions: vec![ContextAction {
+                                label: format!("Load {name}"),
+                                command: format!("load {matched_id}"),
+                            }],
                             inventory_ids: self.player_inventory_ids(),
                             tick: self.tick,
-                            game_time: self.current_game_time(), npc_sections: vec![],
+                            game_time: self.current_game_time(),
+                            npc_sections: vec![],
                         }
                     }
                     None => CommandResult {
                         success: false,
-                        narrative: format!("No payload matching '{}' is currently loaded.", payload_id),
+                        narrative: format!(
+                            "No payload matching '{}' is currently loaded.",
+                            payload_id
+                        ),
                         context_actions: vec![],
                         inventory_ids: self.player_inventory_ids(),
                         tick: self.tick,
-                        game_time: self.current_game_time(), npc_sections: vec![],
-                    }
+                        game_time: self.current_game_time(),
+                        npc_sections: vec![],
+                    },
                 }
             }
 
@@ -1250,7 +1652,8 @@ impl ChronosEngine {
                     context_actions: vec![],
                     inventory_ids: vec![],
                     tick: self.tick,
-                    game_time: self.current_game_time(), npc_sections: vec![],
+                    game_time: self.current_game_time(),
+                    npc_sections: vec![],
                 }
             }
 
@@ -1262,7 +1665,8 @@ impl ChronosEngine {
                     context_actions: r.context_actions,
                     inventory_ids: self.player_inventory_ids(),
                     tick: self.tick,
-                    game_time: self.current_game_time(), npc_sections: vec![],
+                    game_time: self.current_game_time(),
+                    npc_sections: vec![],
                 }
             }
 
@@ -1279,29 +1683,41 @@ impl ChronosEngine {
                 }
                 // Scoped query releases the borrow before entity_mut + process_look.
                 let player_entity = {
-                    let mut q = self.world.query_filtered::<Entity, With<crate::components::Controllable>>();
+                    let mut q = self
+                        .world
+                        .query_filtered::<Entity, With<crate::components::Controllable>>();
                     q.iter(&self.world).next()
                 };
                 if let Some(e) = player_entity {
-                    self.world.entity_mut(e).insert(crate::components::Position { room_id: room_id.clone() });
+                    self.world
+                        .entity_mut(e)
+                        .insert(crate::components::Position {
+                            room_id: room_id.clone(),
+                        });
                 }
                 // Fire room-entry hooks so ReachRoom quest objectives are detected on teleport.
                 let mut quest_notices = vec![];
                 if let Some(pe) = player_entity {
                     quest_notices = quest::on_player_entered_room(
-                        &mut self.world, &self.repository, pe, room_id,
+                        &mut self.world,
+                        &self.repository,
+                        pe,
+                        room_id,
                     );
                 }
                 let r = movement::process_look(&mut self.world, &self.repository);
                 let mut narrative = format!("[DEV] Teleported to '{room_id}'.\n{}", r.narrative);
-                for n in quest_notices { narrative.push_str(&n); }
+                for n in quest_notices {
+                    narrative.push_str(&n);
+                }
                 CommandResult {
                     success: true,
                     narrative,
                     context_actions: r.context_actions,
                     inventory_ids: self.player_inventory_ids(),
                     tick: self.tick,
-                    game_time: self.current_game_time(), npc_sections: vec![],
+                    game_time: self.current_game_time(),
+                    npc_sections: vec![],
                 }
             }
 
@@ -1329,7 +1745,9 @@ impl ChronosEngine {
                                 ready_to_turn_in: false,
                                 completed: true,
                             });
-                        } else if let Some(entry) = log.entries.iter_mut().find(|e| e.quest_id == *quest_id) {
+                        } else if let Some(entry) =
+                            log.entries.iter_mut().find(|e| e.quest_id == *quest_id)
+                        {
                             entry.completed = true;
                             entry.ready_to_turn_in = false;
                         }
@@ -1338,60 +1756,86 @@ impl ChronosEngine {
                 if let Some(mut flags) = self.world.get_resource_mut::<WorldFlags>() {
                     flags.set(&format!("{quest_id}_turned_in"));
                 }
-                let quest_name = self.repository.quest(quest_id)
+                let quest_name = self
+                    .repository
+                    .quest(quest_id)
                     .map(|q| q.name.clone())
                     .unwrap_or_else(|| quest_id.to_string());
                 CommandResult {
                     success: true,
-                    narrative: format!("[DEV] Quest '{}' marked complete. Chain gates unlocked.", quest_name),
+                    narrative: format!(
+                        "[DEV] Quest '{}' marked complete. Chain gates unlocked.",
+                        quest_name
+                    ),
                     context_actions: vec![],
                     inventory_ids: self.player_inventory_ids(),
                     tick: self.tick,
-                    game_time: self.current_game_time(), npc_sections: vec![],
+                    game_time: self.current_game_time(),
+                    npc_sections: vec![],
                 }
             }
 
             EngineEvent::Unknown { raw } => CommandResult {
                 success: false,
-                narrative: format!("I don't understand '{raw}'. Type 'help' for available commands."),
-                context_actions: vec![
-                    ContextAction { label: "Help".into(), command: "help".into() },
-                ],
+                narrative: format!(
+                    "I don't understand '{raw}'. Type 'help' for available commands."
+                ),
+                context_actions: vec![ContextAction {
+                    label: "Help".into(),
+                    command: "help".into(),
+                }],
                 inventory_ids: self.player_inventory_ids(),
                 tick: self.tick,
-                game_time: self.current_game_time(), npc_sections: vec![],
+                game_time: self.current_game_time(),
+                npc_sections: vec![],
             },
         }
     }
 
     fn player_is_dead(&mut self) -> bool {
-        let mut q = self.world.query_filtered::<&Health, (With<Controllable>, With<Identity>)>();
-        q.iter(&self.world).next().map(|hp| hp.current <= 0).unwrap_or(false)
+        let mut q = self
+            .world
+            .query_filtered::<&Health, (With<Controllable>, With<Identity>)>();
+        q.iter(&self.world)
+            .next()
+            .map(|hp| hp.current <= 0)
+            .unwrap_or(false)
     }
 
     /// Returns Some(victory_text) if all quests just completed and Victory not yet marked.
     /// Adds the Victory component to the player so this only fires once per session.
     fn check_victory(&mut self) -> Option<String> {
         // No quests in this repo → nothing to win
-        if self.repository.all_quests().next().is_none() {
-            return None;
-        }
+        self.repository.all_quests().next()?;
 
         // Already won
         let already_won = {
-            let mut q = self.world.query_filtered::<Entity, (With<Controllable>, With<Victory>)>();
+            let mut q = self
+                .world
+                .query_filtered::<Entity, (With<Controllable>, With<Victory>)>();
             q.iter(&self.world).next().is_some()
         };
-        if already_won { return None; }
+        if already_won {
+            return None;
+        }
 
         // Check if all quests are complete
         let all_done = {
             let mut q = self.world.query_filtered::<&QuestLog, With<Controllable>>();
-            q.iter(&self.world).next().map(|ql| {
-                let quest_ids: Vec<_> = self.repository.all_quests().map(|t| t.id.as_str()).collect();
-                if quest_ids.is_empty() { return false; }
-                quest_ids.iter().all(|id| ql.is_completed(id))
-            }).unwrap_or(false)
+            q.iter(&self.world)
+                .next()
+                .map(|ql| {
+                    let quest_ids: Vec<_> = self
+                        .repository
+                        .all_quests()
+                        .map(|t| t.id.as_str())
+                        .collect();
+                    if quest_ids.is_empty() {
+                        return false;
+                    }
+                    quest_ids.iter().all(|id| ql.is_completed(id))
+                })
+                .unwrap_or(false)
         };
 
         if all_done {
@@ -1403,13 +1847,16 @@ impl ChronosEngine {
             if let Some(e) = player_e {
                 self.world.entity_mut(e).insert(Victory);
             }
-            Some("\n\n\
+            Some(
+                "\n\n\
                 ╔══════════════════════════════════════╗\n\
                 ║           ✦ VICTORY ✦               ║\n\
                 ║  You have cleared Millbrook's        ║\n\
                 ║  threats. The town is safe.          ║\n\
                 ║  Type 'restart' for a new game.      ║\n\
-                ╚══════════════════════════════════════╝".to_string())
+                ╚══════════════════════════════════════╝"
+                    .to_string(),
+            )
         } else {
             None
         }

@@ -18,11 +18,11 @@
 //! to internal IDs via exact → suffix → display-name-word matching. Re-exported
 //! so shop.rs can reuse the same resolver.
 
-use bevy_ecs::prelude::*;
 use crate::components::{Controllable, NpcDispositions, Position, QuestLog, WorldFlags};
-use crate::data::StaticRepository;
 use crate::data::schemas::DialogueLine;
+use crate::data::StaticRepository;
 use crate::events::{ContextAction, NpcSection};
+use bevy_ecs::prelude::*;
 
 pub struct DialogueResult {
     pub success: bool,
@@ -59,28 +59,40 @@ fn split_by_single_quotes(body: &str) -> Vec<NpcSection> {
             None => {
                 let t = rest.trim();
                 if !t.is_empty() {
-                    sections.push(NpcSection { kind: "action".into(), text: t.into() });
+                    sections.push(NpcSection {
+                        kind: "action".into(),
+                        text: t.into(),
+                    });
                 }
                 break;
             }
             Some(open) => {
                 let before = rest[..open].trim();
                 if !before.is_empty() {
-                    sections.push(NpcSection { kind: "action".into(), text: before.into() });
+                    sections.push(NpcSection {
+                        kind: "action".into(),
+                        text: before.into(),
+                    });
                 }
                 rest = &rest[open + 1..];
                 match find_speech_delimiter(rest) {
                     None => {
                         let t = rest.trim();
                         if !t.is_empty() {
-                            sections.push(NpcSection { kind: "speech".into(), text: t.into() });
+                            sections.push(NpcSection {
+                                kind: "speech".into(),
+                                text: t.into(),
+                            });
                         }
                         break;
                     }
                     Some(close) => {
                         let speech = rest[..close].trim();
                         if !speech.is_empty() {
-                            sections.push(NpcSection { kind: "speech".into(), text: speech.into() });
+                            sections.push(NpcSection {
+                                kind: "speech".into(),
+                                text: speech.into(),
+                            });
                         }
                         rest = &rest[close + 1..];
                     }
@@ -109,11 +121,11 @@ fn split_npc_narrative(full_narrative: &str) -> Vec<NpcSection> {
 /// Human-readable disposition tier label.
 fn disposition_label(value: i32) -> &'static str {
     match value {
-        0..=20  => "Hostile",
+        0..=20 => "Hostile",
         21..=40 => "Wary",
         41..=60 => "Neutral",
         61..=80 => "Friendly",
-        _       => "Trusted",
+        _ => "Trusted",
     }
 }
 
@@ -123,21 +135,21 @@ fn disposition_label(value: i32) -> &'static str {
 /// The marker is preserved (not stripped) so the renderer can style it; a matching
 /// `ContextAction` button is still generated for the button-panel fallback.
 fn extract_keywords(npc_id: &str, text: &str) -> (String, Vec<ContextAction>) {
-    let mut out     = String::new();
+    let mut out = String::new();
     let mut actions = Vec::new();
-    let mut rest    = text;
+    let mut rest = text;
 
     while let Some(open) = rest.find("[[") {
         out.push_str(&rest[..open]);
         rest = &rest[open + 2..];
         if let Some(close) = rest.find("]]") {
-            let kw      = &rest[..close];
-            let cmd_kw  = kw.to_lowercase();
+            let kw = &rest[..close];
+            let cmd_kw = kw.to_lowercase();
             let command = format!("ask {npc_id} {cmd_kw}");
             // Embed as [[display|command]] so the frontend renders it as an inline link.
             out.push_str(&format!("[[{kw}|{command}]]"));
             actions.push(ContextAction {
-                label:   format!("Ask about {kw}"),
+                label: format!("Ask about {kw}"),
                 command,
             });
             rest = &rest[close + 2..];
@@ -152,11 +164,14 @@ fn extract_keywords(npc_id: &str, text: &str) -> (String, Vec<ContextAction>) {
 /// Read disposition + seen topics for one NPC from the player entity. Read-only.
 fn get_npc_state(world: &mut World, npc_id: &str, initial: i32) -> (i32, Vec<String>) {
     let mut q = world.query_filtered::<&NpcDispositions, With<Controllable>>();
-    q.iter(world).next().map(|nd| {
-        let disp  = nd.disposition(npc_id, initial);
-        let seen  = nd.topics_seen.get(npc_id).cloned().unwrap_or_default();
-        (disp, seen)
-    }).unwrap_or((initial, vec![]))
+    q.iter(world)
+        .next()
+        .map(|nd| {
+            let disp = nd.disposition(npc_id, initial);
+            let seen = nd.topics_seen.get(npc_id).cloned().unwrap_or_default();
+            (disp, seen)
+        })
+        .unwrap_or((initial, vec![]))
 }
 
 /// Returns true if this dialogue line is currently accessible to the player.
@@ -166,13 +181,18 @@ fn is_available(
     seen: &[String],
     world_flags: &std::collections::HashMap<String, bool>,
 ) -> bool {
-    let disp_ok  = line.min_disposition <= player_disp;
-    let topic_ok = line.requires_topic.as_ref()
+    let disp_ok = line.min_disposition <= player_disp;
+    let topic_ok = line
+        .requires_topic
+        .as_ref()
         .map(|req| seen.iter().any(|s| s == req))
         .unwrap_or(true);
     let quest_ok = line.requires_quest_complete.is_empty()
         || line.requires_quest_complete.iter().all(|qid| {
-            world_flags.get(&format!("{qid}_turned_in")).copied().unwrap_or(false)
+            world_flags
+                .get(&format!("{qid}_turned_in"))
+                .copied()
+                .unwrap_or(false)
         });
     disp_ok && topic_ok && quest_ok
 }
@@ -185,10 +205,11 @@ fn topic_actions(
     seen: &[String],
     world_flags: &std::collections::HashMap<String, bool>,
 ) -> Vec<ContextAction> {
-    lines.iter()
+    lines
+        .iter()
         .filter(|d| is_available(d, disp, seen, world_flags))
         .map(|d| ContextAction {
-            label:   format!("Ask about {}", d.prompt),
+            label: format!("Ask about {}", d.prompt),
             command: format!("ask {} {}", npc_id, d.keyword),
         })
         .collect()
@@ -196,7 +217,8 @@ fn topic_actions(
 
 /// Read the current world flags from the World resource (cloned so the borrow is released).
 fn get_world_flags(world: &World) -> std::collections::HashMap<String, bool> {
-    world.get_resource::<WorldFlags>()
+    world
+        .get_resource::<WorldFlags>()
         .map(|wf| wf.flags.clone())
         .unwrap_or_default()
 }
@@ -222,7 +244,10 @@ pub(crate) fn resolve_npc_in_room<'a>(
 
     // 2. ID ends with "_<fragment>" — handles "thorn" → "commander_thorn"
     let suffix = format!("_{frag}");
-    if let Some(id) = npcs_here.iter().find(|id| id.to_lowercase().ends_with(&suffix)) {
+    if let Some(id) = npcs_here
+        .iter()
+        .find(|id| id.to_lowercase().ends_with(&suffix))
+    {
         return Some(id.as_str());
     }
 
@@ -243,32 +268,39 @@ pub(crate) fn resolve_npc_in_room<'a>(
 /// Greet the player with the NPC's opening line and list unlocked topics.
 pub fn process_talk(world: &mut World, repo: &StaticRepository, npc_id: &str) -> DialogueResult {
     let room_id = player_room(world);
-    let Some(room_id) = room_id else { return error("No player found."); };
+    let Some(room_id) = room_id else {
+        return error("No player found.");
+    };
 
     let npcs_here = repo.npcs_in_room(&room_id);
 
     // Resolve the player's input to a real NPC ID present in this room.
-    let npc_id = match resolve_npc_in_room(npc_id, &npcs_here, repo) {
+    let npc_id = match resolve_npc_in_room(npc_id, npcs_here, repo) {
         Some(id) => id.to_string(),
-        None => return DialogueResult {
-            success: false,
-            narrative: format!(
-                "There's no '{npc_id}' here to talk to.{}",
-                if npcs_here.is_empty() { String::new() } else {
-                    let names: Vec<String> = npcs_here.iter()
-                        .filter_map(|id| repo.npc(id).ok().map(|n| n.name.clone()))
-                        .collect();
-                    format!(" (You can see: {}.)", names.join(", "))
-                }
-            ),
-            context_actions: vec![],
-            npc_sections: vec![],
-        },
+        None => {
+            return DialogueResult {
+                success: false,
+                narrative: format!(
+                    "There's no '{npc_id}' here to talk to.{}",
+                    if npcs_here.is_empty() {
+                        String::new()
+                    } else {
+                        let names: Vec<String> = npcs_here
+                            .iter()
+                            .filter_map(|id| repo.npc(id).ok().map(|n| n.name.clone()))
+                            .collect();
+                        format!(" (You can see: {}.)", names.join(", "))
+                    }
+                ),
+                context_actions: vec![],
+                npc_sections: vec![],
+            }
+        }
     };
     let npc_id = npc_id.as_str();
 
     let npc = match repo.npc(npc_id) {
-        Ok(n)  => n,
+        Ok(n) => n,
         Err(_) => return error(&format!("Unknown NPC '{npc_id}'.")),
     };
 
@@ -276,17 +308,23 @@ pub fn process_talk(world: &mut World, repo: &StaticRepository, npc_id: &str) ->
     let (player_disp, seen) = get_npc_state(world, npc_id, npc.initial_disposition);
     let disp_label = disposition_label(player_disp);
 
-    let available: Vec<&DialogueLine> = npc.dialogue.iter()
+    let available: Vec<&DialogueLine> = npc
+        .dialogue
+        .iter()
         .filter(|d| is_available(d, player_disp, &seen, &world_flags))
         .collect();
     let locked_count = npc.dialogue.len() - available.len();
 
     let mut narrative = format!("**{}** [{disp_label}] — {}", npc.name, npc.greeting);
     if !available.is_empty() {
-        let topic_links: Vec<String> = available.iter()
+        let topic_links: Vec<String> = available
+            .iter()
             .map(|d| format!("[[{}|ask {} {}]]", d.prompt, npc_id, d.keyword))
             .collect();
-        narrative.push_str(&format!("\n\nYou can ask about: {}.", topic_links.join(", ")));
+        narrative.push_str(&format!(
+            "\n\nYou can ask about: {}.",
+            topic_links.join(", ")
+        ));
     }
     if locked_count > 0 {
         narrative.push_str(&format!(
@@ -294,47 +332,60 @@ pub fn process_talk(world: &mut World, repo: &StaticRepository, npc_id: &str) ->
         ));
     }
     if npc.vendor {
-        narrative.push_str(&format!("\n\nThis merchant sells wares. Type 'shop {npc_id}' to browse."));
+        narrative.push_str(&format!(
+            "\n\nThis merchant sells wares. Type 'shop {npc_id}' to browse."
+        ));
     }
 
     // Available quests
     let available_quests = repo.quests_for_npc(npc_id);
     let accepted_ids: std::collections::HashSet<String> = {
         let mut q = world.query_filtered::<&QuestLog, With<Controllable>>();
-        q.iter(world).next()
+        q.iter(world)
+            .next()
             .map(|ql| ql.entries.iter().map(|e| e.quest_id.clone()).collect())
             .unwrap_or_default()
     };
-    let new_quests: Vec<_> = available_quests.iter()
+    let new_quests: Vec<_> = available_quests
+        .iter()
         .filter(|q| !accepted_ids.contains(&q.id))
-        .filter(|q| q.requires_quest_complete.is_empty()
-            || q.requires_quest_complete.iter().all(|req| {
-                world_flags.get(&format!("{req}_turned_in")).copied().unwrap_or(false)
-            }))
+        .filter(|q| {
+            q.requires_quest_complete.is_empty()
+                || q.requires_quest_complete.iter().all(|req| {
+                    world_flags
+                        .get(&format!("{req}_turned_in"))
+                        .copied()
+                        .unwrap_or(false)
+                })
+        })
         .collect();
     if !new_quests.is_empty() {
         narrative.push_str("\n\nAvailable quests:");
         for q in &new_quests {
-            narrative.push_str(&format!("\n  [{}] — {} scraps, {} XP", q.name, q.gold_reward, q.xp_reward));
+            narrative.push_str(&format!(
+                "\n  [{}] — {} scraps, {} XP",
+                q.name, q.gold_reward, q.xp_reward
+            ));
         }
     }
 
-    let mut context_actions = topic_actions(npc_id, &npc.dialogue, player_disp, &seen, &world_flags);
+    let mut context_actions =
+        topic_actions(npc_id, &npc.dialogue, player_disp, &seen, &world_flags);
     if npc.vendor {
         context_actions.push(ContextAction {
-            label:   format!("Browse {}'s wares", npc.name),
+            label: format!("Browse {}'s wares", npc.name),
             command: format!("shop {}", npc.name.to_lowercase()),
         });
     }
     if npc.rest_provider {
         context_actions.push(ContextAction {
-            label:   "Rest here (5 gold, full HP)".to_string(),
+            label: "Rest here (5 gold, full HP)".to_string(),
             command: "rest".to_string(),
         });
     }
     for q in &new_quests {
         context_actions.push(ContextAction {
-            label:   format!("Accept quest: {}", q.name),
+            label: format!("Accept quest: {}", q.name),
             command: format!("accept {}", q.id.replace('_', " ")),
         });
     }
@@ -342,45 +393,67 @@ pub fn process_talk(world: &mut World, repo: &StaticRepository, npc_id: &str) ->
     // Offer turn-in button for any quests with this NPC that are ready
     let ready_quests: Vec<_> = {
         let mut qlog_q = world.query_filtered::<&QuestLog, With<Controllable>>();
-        qlog_q.iter(world).next()
-            .map(|ql| ql.entries.iter()
-                .filter(|e| e.ready_to_turn_in && !e.completed)
-                .filter_map(|e| repo.quests_for_npc(npc_id).into_iter()
-                    .find(|qt| qt.id == e.quest_id)
-                    .map(|qt| (qt.id.clone(), qt.name.clone())))
-                .collect::<Vec<_>>()
-            ).unwrap_or_default()
+        qlog_q
+            .iter(world)
+            .next()
+            .map(|ql| {
+                ql.entries
+                    .iter()
+                    .filter(|e| e.ready_to_turn_in && !e.completed)
+                    .filter_map(|e| {
+                        repo.quests_for_npc(npc_id)
+                            .into_iter()
+                            .find(|qt| qt.id == e.quest_id)
+                            .map(|qt| (qt.id.clone(), qt.name.clone()))
+                    })
+                    .collect::<Vec<_>>()
+            })
+            .unwrap_or_default()
     };
     for (quest_id, quest_name) in ready_quests {
         context_actions.push(ContextAction {
-            label:   format!("Turn in: {}", quest_name),
+            label: format!("Turn in: {}", quest_name),
             command: format!("turn in {}", quest_id.replace('_', " ")),
         });
     }
 
     let npc_sections = split_npc_narrative(&narrative);
-    DialogueResult { success: true, narrative, context_actions, npc_sections }
+    DialogueResult {
+        success: true,
+        narrative,
+        context_actions,
+        npc_sections,
+    }
 }
 
 /// Ask an NPC about a topic keyword. Records the topic, shifts disposition, extracts [[links]].
-pub fn process_ask(world: &mut World, repo: &StaticRepository, npc_id: &str, topic: &str) -> DialogueResult {
+pub fn process_ask(
+    world: &mut World,
+    repo: &StaticRepository,
+    npc_id: &str,
+    topic: &str,
+) -> DialogueResult {
     let room_id = player_room(world);
-    let Some(room_id) = room_id else { return error("No player found."); };
+    let Some(room_id) = room_id else {
+        return error("No player found.");
+    };
 
     let npcs_here = repo.npcs_in_room(&room_id);
-    let npc_id = match resolve_npc_in_room(npc_id, &npcs_here, repo) {
+    let npc_id = match resolve_npc_in_room(npc_id, npcs_here, repo) {
         Some(id) => id.to_string(),
-        None => return DialogueResult {
-            success: false,
-            narrative: format!("There's no '{npc_id}' here to talk to."),
-            context_actions: vec![],
-            npc_sections: vec![],
-        },
+        None => {
+            return DialogueResult {
+                success: false,
+                narrative: format!("There's no '{npc_id}' here to talk to."),
+                context_actions: vec![],
+                npc_sections: vec![],
+            }
+        }
     };
     let npc_id = npc_id.as_str();
 
     let npc = match repo.npc(npc_id) {
-        Ok(n)  => n,
+        Ok(n) => n,
         Err(_) => return error(&format!("Unknown NPC '{npc_id}'.")),
     };
 
@@ -396,17 +469,18 @@ pub fn process_ask(world: &mut World, repo: &StaticRepository, npc_id: &str, top
     });
 
     // Check for a line that matches keyword but is locked (to give a better error).
-    let is_locked = matched.is_none() && npc.dialogue.iter().any(|d| {
-        let matches = d.keyword.to_lowercase() == topic_lower
-            || d.prompt.to_lowercase().contains(&topic_lower);
-        matches && !is_available(d, player_disp, &seen, &world_flags)
-    });
+    let is_locked = matched.is_none()
+        && npc.dialogue.iter().any(|d| {
+            let matches = d.keyword.to_lowercase() == topic_lower
+                || d.prompt.to_lowercase().contains(&topic_lower);
+            matches && !is_available(d, player_disp, &seen, &world_flags)
+        });
 
     match matched {
         Some(d) => {
-            let keyword  = d.keyword.clone();
-            let delta    = d.disposition_delta;
-            let initial  = npc.initial_disposition;
+            let keyword = d.keyword.clone();
+            let delta = d.disposition_delta;
+            let initial = npc.initial_disposition;
 
             // Mutate NpcDispositions: record topic + adjust disposition.
             {
@@ -424,12 +498,18 @@ pub fn process_ask(world: &mut World, repo: &StaticRepository, npc_id: &str, top
             let (clean_response, kw_actions) = extract_keywords(npc_id, &d.response);
             let narrative = format!("**{}** [{disp_label}] — {clean_response}", npc.name);
 
-            let mut context_actions = topic_actions(npc_id, &npc.dialogue, new_disp, &new_seen, &world_flags);
+            let mut context_actions =
+                topic_actions(npc_id, &npc.dialogue, new_disp, &new_seen, &world_flags);
             let mut all_actions = kw_actions;
             all_actions.append(&mut context_actions);
 
             let npc_sections = split_npc_narrative(&narrative);
-            DialogueResult { success: true, narrative, context_actions: all_actions, npc_sections }
+            DialogueResult {
+                success: true,
+                narrative,
+                context_actions: all_actions,
+                npc_sections,
+            }
         }
 
         None => {
@@ -440,17 +520,29 @@ pub fn process_ask(world: &mut World, repo: &StaticRepository, npc_id: &str, top
                     disposition_label(player_disp),
                     topic,
                 );
-                let context_actions = topic_actions(npc_id, &npc.dialogue, player_disp, &seen, &world_flags);
+                let context_actions =
+                    topic_actions(npc_id, &npc.dialogue, player_disp, &seen, &world_flags);
                 let npc_sections = split_npc_narrative(&narrative);
-                DialogueResult { success: false, narrative, context_actions, npc_sections }
+                DialogueResult {
+                    success: false,
+                    narrative,
+                    context_actions,
+                    npc_sections,
+                }
             } else {
                 let narrative = format!(
                     "**{}** shrugs. \"I don't know anything about that.\"",
                     npc.name,
                 );
-                let context_actions = topic_actions(npc_id, &npc.dialogue, player_disp, &seen, &world_flags);
+                let context_actions =
+                    topic_actions(npc_id, &npc.dialogue, player_disp, &seen, &world_flags);
                 let npc_sections = split_npc_narrative(&narrative);
-                DialogueResult { success: true, narrative, context_actions, npc_sections }
+                DialogueResult {
+                    success: true,
+                    narrative,
+                    context_actions,
+                    npc_sections,
+                }
             }
         }
     }
@@ -462,7 +554,12 @@ fn player_room(world: &mut World) -> Option<String> {
 }
 
 fn error(msg: &str) -> DialogueResult {
-    DialogueResult { success: false, narrative: msg.to_string(), context_actions: vec![], npc_sections: vec![] }
+    DialogueResult {
+        success: false,
+        narrative: msg.to_string(),
+        context_actions: vec![],
+        npc_sections: vec![],
+    }
 }
 
 #[cfg(test)]
@@ -483,46 +580,69 @@ mod tests {
                 format!(r#"{{"id":"{id}","name":"{name}","initial_disposition":50,"greeting":"Hi.","dialogue":[]}}"#),
             ))
             .collect();
-        let npc_pairs: Vec<(&str, &str)> = npc_jsons.iter().map(|(k,v)| (k.as_str(), v.as_str())).collect();
-        let manifest   = r#"{"start_room_id":"stub","npc_placements":[]}"#;
-        let stub_room  = r#"{"id":"stub","name":"Stub","description":".","exits":{}}"#;
+        let npc_pairs: Vec<(&str, &str)> = npc_jsons
+            .iter()
+            .map(|(k, v)| (k.as_str(), v.as_str()))
+            .collect();
+        let manifest = r#"{"start_room_id":"stub","npc_placements":[]}"#;
+        let stub_room = r#"{"id":"stub","name":"Stub","description":".","exits":{}}"#;
         let room_pairs = &[("stub", stub_room)];
-        StaticRepository::from_json_pairs_full(room_pairs, &[], &[], &npc_pairs, &[], Some(manifest)).unwrap()
+        StaticRepository::from_json_pairs_full(
+            room_pairs,
+            &[],
+            &[],
+            &npc_pairs,
+            &[],
+            Some(manifest),
+        )
+        .unwrap()
     }
 
     #[test]
     fn exact_id_resolves() {
         let repo = repo_with_npcs(&[("commander_thorn", "Commander Thorn")]);
-        let ids  = make_ids(&["commander_thorn"]);
-        assert_eq!(resolve_npc_in_room("commander_thorn", &ids, &repo), Some("commander_thorn"));
+        let ids = make_ids(&["commander_thorn"]);
+        assert_eq!(
+            resolve_npc_in_room("commander_thorn", &ids, &repo),
+            Some("commander_thorn")
+        );
     }
 
     #[test]
     fn suffix_resolves() {
         let repo = repo_with_npcs(&[("commander_thorn", "Commander Thorn")]);
-        let ids  = make_ids(&["commander_thorn"]);
-        assert_eq!(resolve_npc_in_room("thorn", &ids, &repo), Some("commander_thorn"));
+        let ids = make_ids(&["commander_thorn"]);
+        assert_eq!(
+            resolve_npc_in_room("thorn", &ids, &repo),
+            Some("commander_thorn")
+        );
     }
 
     #[test]
     fn display_name_word_resolves() {
         let repo = repo_with_npcs(&[("gate_sergeant_orr", "Sergeant Orr")]);
-        let ids  = make_ids(&["gate_sergeant_orr"]);
+        let ids = make_ids(&["gate_sergeant_orr"]);
         // "sergeant orr" → both words in "Sergeant Orr" → match
-        assert_eq!(resolve_npc_in_room("sergeant orr", &ids, &repo), Some("gate_sergeant_orr"));
+        assert_eq!(
+            resolve_npc_in_room("sergeant orr", &ids, &repo),
+            Some("gate_sergeant_orr")
+        );
     }
 
     #[test]
     fn partial_display_name_resolves() {
         let repo = repo_with_npcs(&[("gate_sergeant_orr", "Sergeant Orr")]);
-        let ids  = make_ids(&["gate_sergeant_orr"]);
-        assert_eq!(resolve_npc_in_room("orr", &ids, &repo), Some("gate_sergeant_orr"));
+        let ids = make_ids(&["gate_sergeant_orr"]);
+        assert_eq!(
+            resolve_npc_in_room("orr", &ids, &repo),
+            Some("gate_sergeant_orr")
+        );
     }
 
     #[test]
     fn wrong_room_returns_none() {
         let repo = repo_with_npcs(&[("commander_thorn", "Commander Thorn")]);
-        let ids  = make_ids(&[]);  // empty: Thorn is not in this room
+        let ids = make_ids(&[]); // empty: Thorn is not in this room
         assert_eq!(resolve_npc_in_room("thorn", &ids, &repo), None);
     }
 }

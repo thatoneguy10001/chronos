@@ -1,0 +1,55 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "chronos/quest-template",
+  "title": "QuestTemplate",
+  "type": "object",
+  "required": ["id", "name", "description", "objective", "gold_reward", "xp_reward", "giver_npc_id", "accept_text", "complete_text"],
+  "additionalProperties": false,
+  "properties": {
+    "id":   { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+    "name": { "type": "string" },
+    "description":  { "type": "string" },
+    "accept_text":  { "type": "string" },
+    "complete_text": { "type": "string" },
+    "giver_npc_id": { "type": "string" },
+    "gold_reward":  { "type": "integer", "minimum": 0 },
+    "xp_reward":    { "type": "integer", "minimum": 0 },
+    "hope_reward":  { "type": "integer", "minimum": 0 },
+    "requires_quest_complete": { "type": "string" },
+    "requires_night": { "type": "boolean" },
+    "objective": {
+      "type": "object",
+      "required": ["type"],
+      "properties": {
+        "type": { "type": "string", "enum": ["kill_count", "reach_room", "talk_to"] }
+      },
+      "oneOf": [
+        {
+          "properties": {
+            "type":     { "const": "kill_count" },
+            "class_id": { "type": "string" },
+            "count":    { "type": "integer", "minimum": 1 }
+          },
+          "required": ["type", "class_id", "count"],
+          "additionalProperties": false
+        },
+        {
+          "properties": {
+            "type":    { "const": "reach_room" },
+            "room_id": { "type": "string" }
+          },
+          "required": ["type", "room_id"],
+          "additionalProperties": false
+        },
+        {
+          "properties": {
+            "type":   { "const": "talk_to" },
+            "npc_id": { "type": "string" }
+          },
+          "required": ["type", "npc_id"],
+          "additionalProperties": false
+        }
+      ]
+    }
+  }
+}

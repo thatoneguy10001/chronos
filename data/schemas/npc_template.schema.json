@@ -1,0 +1,45 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "chronos/npc-template",
+  "title": "NpcTemplate",
+  "type": "object",
+  "required": ["id", "name", "greeting", "dialogue"],
+  "additionalProperties": false,
+  "properties": {
+    "id":   { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+    "name": { "type": "string" },
+    "greeting": { "type": "string" },
+    "initial_disposition": { "type": "integer" },
+    "dialogue": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["keyword", "prompt", "response"],
+        "properties": {
+          "keyword":               { "type": "string" },
+          "prompt":                { "type": "string" },
+          "response":              { "type": "string" },
+          "requires_quest_complete": { "type": "string" },
+          "requires_topic":        { "type": "string" },
+          "disposition_delta":     { "type": "integer" },
+          "min_disposition":       { "type": "integer" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "rest_provider": { "type": "boolean" },
+    "vendor": { "type": "boolean" },
+    "shop": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["item_id", "price"],
+        "properties": {
+          "item_id": { "type": "string" },
+          "price":   { "type": "integer", "minimum": 0 }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}

@@ -12,6 +12,12 @@ pub struct Experience {
     pub level: u32,
 }
 
+impl Default for Experience {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl Experience {
     pub fn new() -> Self {
         Self { xp: 0, level: 1 }
@@ -29,11 +35,17 @@ impl Experience {
                 break;
             }
         }
-        if self.level > old_level { Some(self.level) } else { None }
+        if self.level > old_level {
+            Some(self.level)
+        } else {
+            None
+        }
     }
 
     /// XP remaining until next level, or None if already at max.
     pub fn xp_to_next(&self) -> Option<i32> {
-        XP_THRESHOLDS.get((self.level - 1) as usize).map(|&t| t - self.xp)
+        XP_THRESHOLDS
+            .get((self.level - 1) as usize)
+            .map(|&t| t - self.xp)
     }
 }

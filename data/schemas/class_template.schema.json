@@ -1,0 +1,93 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "chronos/class-template",
+  "title": "ClassTemplate",
+  "description": "Shared schema for both player classes and enemy classes.",
+  "type": "object",
+  "required": ["id", "name", "description", "base_stats", "abilities", "passives", "starting_equipment", "xp_reward"],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$"
+    },
+    "name": { "type": "string" },
+    "description": { "type": "string" },
+    "base_stats": {
+      "type": "object",
+      "required": ["hp", "attack", "defense", "intelligence"],
+      "additionalProperties": false,
+      "properties": {
+        "hp":           { "type": "integer", "minimum": 1 },
+        "attack":       { "type": "integer", "minimum": 0 },
+        "defense":      { "type": "integer", "minimum": 0 },
+        "intelligence": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "abilities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "description", "base_damage"],
+        "properties": {
+          "id":              { "type": "string" },
+          "name":            { "type": "string" },
+          "description":     { "type": "string" },
+          "base_damage":     { "type": "integer", "minimum": 0 },
+          "hit_count":       { "type": "integer", "minimum": 1 },
+          "applies_effect":  { "type": "string" },
+          "effect_damage":   { "type": "integer", "minimum": 0 },
+          "effect_duration": { "type": "integer", "minimum": 1 },
+          "heal_amount":     { "type": "integer", "minimum": 0 },
+          "heal_percent":    { "type": "number", "minimum": 0 },
+          "cooldown":        { "type": "integer", "minimum": 1 },
+          "targeting":       { "type": "string", "enum": ["caster", "target", "aoe"] }
+        },
+        "additionalProperties": false
+      }
+    },
+    "passives": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "starting_equipment": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "xp_reward":   { "type": "integer", "minimum": 0 },
+    "gold_reward": { "type": "integer", "minimum": 0 },
+    "tactics": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["condition", "action"],
+        "properties": {
+          "condition": {
+            "type": "object",
+            "required": ["type"],
+            "properties": {
+              "type":      { "type": "string", "enum": ["always", "hp_below", "player_hp_above", "player_effect_absent"] },
+              "threshold": { "type": "number" },
+              "kind":      { "type": "string" }
+            },
+            "additionalProperties": false
+          },
+          "action": {
+            "type": "object",
+            "required": ["type"],
+            "properties": {
+              "type":       { "type": "string", "enum": ["basic_attack", "heavy_attack", "apply_effect", "use_ability"] },
+              "multiplier": { "type": "number" },
+              "kind":       { "type": "string" },
+              "damage":     { "type": "integer" },
+              "duration":   { "type": "integer" },
+              "ability_id": { "type": "string" }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}

@@ -17,10 +17,12 @@
 //! Quest chains use `requires_quest_complete` fields that check these flags.
 //! Dialogue topic gating also reads them via `requires_quest_complete`.
 
-use bevy_ecs::prelude::*;
-use crate::components::{Controllable, Experience, GameTime, Position, QuestEntry, QuestLog, Stats, Wallet, WorldFlags};
-use crate::data::{StaticRepository, schemas::QuestObjective};
+use crate::components::{
+    Controllable, Experience, GameTime, Position, QuestEntry, QuestLog, Stats, Wallet, WorldFlags,
+};
+use crate::data::{schemas::QuestObjective, StaticRepository};
 use crate::events::ContextAction;
+use bevy_ecs::prelude::*;
 
 pub struct QuestResult {
     pub success: bool,
@@ -29,7 +31,11 @@ pub struct QuestResult {
 }
 
 /// Accept a quest from an NPC. Player must be in the NPC's room.
-pub fn process_accept_quest(world: &mut World, repo: &StaticRepository, quest_id: &str) -> QuestResult {
+pub fn process_accept_quest(
+    world: &mut World,
+    repo: &StaticRepository,
+    quest_id: &str,
+) -> QuestResult {
     let template = match repo.quest(quest_id) {
         Some(q) => q.clone(),
         None => return err(&format!("Unknown quest '{quest_id}'.")),
@@ -37,18 +43,28 @@ pub fn process_accept_quest(world: &mut World, repo: &StaticRepository, quest_id
 
     // Check quest prerequisite gate before checking location.
     for req_id in &template.requires_quest_complete {
-        let flag_set = world.get_resource::<WorldFlags>()
+        let flag_set = world
+            .get_resource::<WorldFlags>()
             .map(|f| f.is_set(&format!("{req_id}_turned_in")))
             .unwrap_or(false);
         if !flag_set {
-            let npc_name = repo.npc(&template.giver_npc_id).map(|n| n.name.as_str()).unwrap_or("the quest giver");
-            return err(&format!("{} isn't ready to offer you this quest yet.", npc_name));
+            let npc_name = repo
+                .npc(&template.giver_npc_id)
+                .map(|n| n.name.as_str())
+                .unwrap_or("the quest giver");
+            return err(&format!(
+                "{} isn't ready to offer you this quest yet.",
+                npc_name
+            ));
         }
     }
 
     // Check night gating for Armistice quests.
     if template.requires_night {
-        let is_night = world.get_resource::<GameTime>().map(|gt| gt.is_night()).unwrap_or(false);
+        let is_night = world
+            .get_resource::<GameTime>()
+            .map(|gt| gt.is_night())
+            .unwrap_or(false);
         if !is_night {
             return err("This quest is only available during the Armistice — after dusk. Type 'wait' to pass time.");
         }
@@ -60,8 +76,14 @@ pub fn process_accept_quest(world: &mut World, repo: &StaticRepository, quest_id
         q.iter(world).next().map(|p| p.room_id.clone())
     };
     if player_room.as_deref() != npc_room {
-        let npc_name = repo.npc(&template.giver_npc_id).map(|n| n.name.as_str()).unwrap_or("the quest giver");
-        return err(&format!("You need to speak with {} to accept this quest.", npc_name));
+        let npc_name = repo
+            .npc(&template.giver_npc_id)
+            .map(|n| n.name.as_str())
+            .unwrap_or("the quest giver");
+        return err(&format!(
+            "You need to speak with {} to accept this quest.",
+            npc_name
+        ));
     }
 
     let player_e = {
@@ -74,7 +96,11 @@ pub fn process_accept_quest(world: &mut World, repo: &StaticRepository, quest_id
 
     if let Some(mut log) = world.entity_mut(player_e).get_mut::<QuestLog>() {
         if log.has_any(&template.id) {
-            let status = if log.is_completed(&template.id) { "already completed" } else { "already active" };
+            let status = if log.is_completed(&template.id) {
+                "already completed"
+            } else {
+                "already active"
+            };
             return err(&format!("Quest '{}' is {}.", template.name, status));
         }
         log.entries.push(QuestEntry {
@@ -87,15 +113,24 @@ pub fn process_accept_quest(world: &mut World, repo: &StaticRepository, quest_id
 
     let objective_desc = match &template.objective {
         QuestObjective::KillCount { class_id, count } => {
-            let class_name = repo.class(class_id).map(|c| c.name.clone()).unwrap_or_else(|_| class_id.clone());
+            let class_name = repo
+                .class(class_id)
+                .map(|c| c.name.clone())
+                .unwrap_or_else(|_| class_id.clone());
             format!("Slay {} {} (0/{})", count, class_name, count)
         }
         QuestObjective::ReachRoom { room_id } => {
-            let room_name = repo.room(room_id).map(|r| r.name.clone()).unwrap_or_else(|_| room_id.clone());
+            let room_name = repo
+                .room(room_id)
+                .map(|r| r.name.clone())
+                .unwrap_or_else(|_| room_id.clone());
             format!("Reach: {}", room_name)
         }
         QuestObjective::TalkTo { npc_id } => {
-            let npc_name = repo.npc(npc_id).map(|n| n.name.clone()).unwrap_or_else(|_| npc_id.clone());
+            let npc_name = repo
+                .npc(npc_id)
+                .map(|n| n.name.clone())
+                .unwrap_or_else(|_| npc_id.clone());
             format!("Talk to: {}", npc_name)
         }
     };
@@ -106,7 +141,8 @@ pub fn process_accept_quest(world: &mut World, repo: &StaticRepository, quest_id
         template.accept_text.clone()
     };
 
-    let npc_name = repo.npc(&template.giver_npc_id)
+    let npc_name = repo
+        .npc(&template.giver_npc_id)
         .map(|n| n.name.clone())
         .unwrap_or_else(|_| template.giver_npc_id.clone());
 
@@ -114,8 +150,13 @@ pub fn process_accept_quest(world: &mut World, repo: &StaticRepository, quest_id
         success: true,
         narrative: format!(
             "{}\n\n**{}** — {}\nObjective: {}\nReward: {} scraps, {} XP\n\nReturn to {} when done.",
-            accept_text, template.name, template.description, objective_desc,
-            template.gold_reward, template.xp_reward, npc_name
+            accept_text,
+            template.name,
+            template.description,
+            objective_desc,
+            template.gold_reward,
+            template.xp_reward,
+            npc_name
         ),
         context_actions: vec![],
     }
@@ -139,7 +180,8 @@ pub fn process_quest_log(world: &mut World, repo: &StaticRepository) -> QuestRes
     if log.is_empty() {
         return QuestResult {
             success: true,
-            narrative: "You have no active quests. Speak with a quest giver to find work.".to_string(),
+            narrative: "You have no active quests. Speak with a quest giver to find work."
+                .to_string(),
             context_actions: vec![],
         };
     }
@@ -162,11 +204,18 @@ pub fn process_quest_log(world: &mut World, repo: &StaticRepository) -> QuestRes
             if entry.completed {
                 lines.push("  COMPLETED".to_string());
             } else if entry.ready_to_turn_in {
-                let npc_name = repo.npc(&template.giver_npc_id)
+                let npc_name = repo
+                    .npc(&template.giver_npc_id)
                     .map(|n| n.name.clone())
                     .unwrap_or_else(|_| template.giver_npc_id.clone());
-                lines.push(format!("  ★ RETURN TO {} TO COLLECT REWARD", npc_name.to_uppercase()));
-                lines.push(format!("  Waiting: {} scraps, {} XP", template.gold_reward, template.xp_reward));
+                lines.push(format!(
+                    "  ★ RETURN TO {} TO COLLECT REWARD",
+                    npc_name.to_uppercase()
+                ));
+                lines.push(format!(
+                    "  Waiting: {} scraps, {} XP",
+                    template.gold_reward, template.xp_reward
+                ));
                 actions.push(ContextAction {
                     label: format!("Turn in to {}", npc_name),
                     command: format!("turn in {}", template.id.replace('_', " ")),
@@ -174,20 +223,35 @@ pub fn process_quest_log(world: &mut World, repo: &StaticRepository) -> QuestRes
             } else {
                 let progress_desc = match &template.objective {
                     QuestObjective::KillCount { class_id, count } => {
-                        let class_name = repo.class(class_id).map(|c| c.name.clone()).unwrap_or_else(|_| class_id.clone());
-                        format!("  Kill {} {} ({}/{})", count, class_name, entry.progress, count)
+                        let class_name = repo
+                            .class(class_id)
+                            .map(|c| c.name.clone())
+                            .unwrap_or_else(|_| class_id.clone());
+                        format!(
+                            "  Kill {} {} ({}/{})",
+                            count, class_name, entry.progress, count
+                        )
                     }
                     QuestObjective::ReachRoom { room_id } => {
-                        let room_name = repo.room(room_id).map(|r| r.name.clone()).unwrap_or_else(|_| room_id.clone());
+                        let room_name = repo
+                            .room(room_id)
+                            .map(|r| r.name.clone())
+                            .unwrap_or_else(|_| room_id.clone());
                         format!("  Reach: {}", room_name)
                     }
                     QuestObjective::TalkTo { npc_id } => {
-                        let npc_name = repo.npc(npc_id).map(|n| n.name.clone()).unwrap_or_else(|_| npc_id.clone());
+                        let npc_name = repo
+                            .npc(npc_id)
+                            .map(|n| n.name.clone())
+                            .unwrap_or_else(|_| npc_id.clone());
                         format!("  Talk to: {}", npc_name)
                     }
                 };
                 lines.push(progress_desc);
-                lines.push(format!("  Reward: {} scraps, {} XP", template.gold_reward, template.xp_reward));
+                lines.push(format!(
+                    "  Reward: {} scraps, {} XP",
+                    template.gold_reward, template.xp_reward
+                ));
             }
             lines.push(String::new());
         }
@@ -218,12 +282,22 @@ pub fn process_turn_in(world: &mut World, repo: &StaticRepository, quest_id: &st
 
     // Validate quest state
     let quest_state = world.entity(player_e).get::<QuestLog>().and_then(|ql| {
-        ql.entries.iter().find(|e| e.quest_id == quest_id).map(|e| (e.ready_to_turn_in, e.completed))
+        ql.entries
+            .iter()
+            .find(|e| e.quest_id == quest_id)
+            .map(|e| (e.ready_to_turn_in, e.completed))
     });
     match quest_state {
-        None => return err(&format!("You haven't accepted the quest '{}'.", template.name)),
+        None => {
+            return err(&format!(
+                "You haven't accepted the quest '{}'.",
+                template.name
+            ))
+        }
         Some((_, true)) => return err(&format!("You have already turned in '{}'.", template.name)),
-        Some((false, false)) => return err(&format!("'{}' is not ready to turn in yet.", template.name)),
+        Some((false, false)) => {
+            return err(&format!("'{}' is not ready to turn in yet.", template.name))
+        }
         Some((true, false)) => {} // proceed
     }
 
@@ -234,8 +308,14 @@ pub fn process_turn_in(world: &mut World, repo: &StaticRepository, quest_id: &st
     };
     let npc_room = repo.npc_room(&template.giver_npc_id);
     if player_room.as_deref() != npc_room {
-        let npc_name = repo.npc(&template.giver_npc_id).map(|n| n.name.as_str()).unwrap_or("the quest giver");
-        return err(&format!("You need to return to {} to turn in this quest.", npc_name));
+        let npc_name = repo
+            .npc(&template.giver_npc_id)
+            .map(|n| n.name.as_str())
+            .unwrap_or("the quest giver");
+        return err(&format!(
+            "You need to return to {} to turn in this quest.",
+            npc_name
+        ));
     }
 
     // Mark completed
@@ -255,7 +335,9 @@ pub fn process_turn_in(world: &mut World, repo: &StaticRepository, quest_id: &st
 
     // Award XP + level-up
     let level_up: Option<u32> = if template.xp_reward > 0 {
-        world.entity_mut(player_e).get_mut::<Experience>()
+        world
+            .entity_mut(player_e)
+            .get_mut::<Experience>()
             .and_then(|mut exp| exp.add_xp(template.xp_reward))
     } else {
         None
@@ -283,7 +365,8 @@ pub fn process_turn_in(world: &mut World, repo: &StaticRepository, quest_id: &st
         template.complete_text.clone()
     };
 
-    let npc_name = repo.npc(&template.giver_npc_id)
+    let npc_name = repo
+        .npc(&template.giver_npc_id)
         .map(|n| n.name.clone())
         .unwrap_or_else(|_| template.giver_npc_id.clone());
 
@@ -292,7 +375,10 @@ pub fn process_turn_in(world: &mut World, repo: &StaticRepository, quest_id: &st
         complete_text, template.gold_reward, template.xp_reward
     );
     if let Some(new_level) = level_up {
-        narrative.push_str(&format!("\nLevel up! Reached level {}! (+1 ATK, +1 DEF)", new_level));
+        narrative.push_str(&format!(
+            "\nLevel up! Reached level {}! (+1 ATK, +1 DEF)",
+            new_level
+        ));
     }
 
     QuestResult {
@@ -315,11 +401,14 @@ pub fn on_enemy_killed(
 ) -> Vec<String> {
     let quest_ids: Vec<String> = {
         let log = world.entity(player_e).get::<QuestLog>();
-        log.map(|l| l.entries.iter()
-            .filter(|e| !e.completed && !e.ready_to_turn_in)
-            .map(|e| e.quest_id.clone())
-            .collect()
-        ).unwrap_or_default()
+        log.map(|l| {
+            l.entries
+                .iter()
+                .filter(|e| !e.completed && !e.ready_to_turn_in)
+                .map(|e| e.quest_id.clone())
+                .collect()
+        })
+        .unwrap_or_default()
     };
 
     let mut notices = vec![];
@@ -333,7 +422,9 @@ pub fn on_enemy_killed(
             QuestObjective::KillCount { class_id, .. } => class_id == killed_class_id,
             _ => false,
         };
-        if !matches { continue; }
+        if !matches {
+            continue;
+        }
 
         let (new_progress, target, just_met) = {
             let log = world.entity(player_e).get::<QuestLog>();
@@ -361,7 +452,8 @@ pub fn on_enemy_killed(
         }
 
         if just_met {
-            let npc_name = repo.npc(&template.giver_npc_id)
+            let npc_name = repo
+                .npc(&template.giver_npc_id)
                 .map(|n| n.name.clone())
                 .unwrap_or_else(|_| template.giver_npc_id.clone());
             notices.push(format!(
@@ -389,11 +481,14 @@ pub fn on_player_entered_room(
 ) -> Vec<String> {
     let quest_ids: Vec<String> = {
         let log = world.entity(player_e).get::<QuestLog>();
-        log.map(|l| l.entries.iter()
-            .filter(|e| !e.completed && !e.ready_to_turn_in)
-            .map(|e| e.quest_id.clone())
-            .collect()
-        ).unwrap_or_default()
+        log.map(|l| {
+            l.entries
+                .iter()
+                .filter(|e| !e.completed && !e.ready_to_turn_in)
+                .map(|e| e.quest_id.clone())
+                .collect()
+        })
+        .unwrap_or_default()
     };
 
     let mut notices = vec![];
@@ -407,7 +502,9 @@ pub fn on_player_entered_room(
             QuestObjective::ReachRoom { room_id: target } => target == room_id,
             _ => false,
         };
-        if !matches { continue; }
+        if !matches {
+            continue;
+        }
 
         if let Some(mut log) = world.entity_mut(player_e).get_mut::<QuestLog>() {
             if let Some(entry) = log.entries.iter_mut().find(|e| e.quest_id == quest_id) {
@@ -415,7 +512,8 @@ pub fn on_player_entered_room(
             }
         }
 
-        let npc_name = repo.npc(&template.giver_npc_id)
+        let npc_name = repo
+            .npc(&template.giver_npc_id)
             .map(|n| n.name.clone())
             .unwrap_or_else(|_| template.giver_npc_id.clone());
         notices.push(format!(
@@ -437,11 +535,14 @@ pub fn on_npc_talked_to(
 ) -> Vec<String> {
     let quest_ids: Vec<String> = {
         let log = world.entity(player_e).get::<QuestLog>();
-        log.map(|l| l.entries.iter()
-            .filter(|e| !e.completed && !e.ready_to_turn_in)
-            .map(|e| e.quest_id.clone())
-            .collect()
-        ).unwrap_or_default()
+        log.map(|l| {
+            l.entries
+                .iter()
+                .filter(|e| !e.completed && !e.ready_to_turn_in)
+                .map(|e| e.quest_id.clone())
+                .collect()
+        })
+        .unwrap_or_default()
     };
 
     let mut notices = vec![];
@@ -455,7 +556,9 @@ pub fn on_npc_talked_to(
             QuestObjective::TalkTo { npc_id: target } => target == npc_id,
             _ => false,
         };
-        if !matches { continue; }
+        if !matches {
+            continue;
+        }
 
         if let Some(mut log) = world.entity_mut(player_e).get_mut::<QuestLog>() {
             if let Some(entry) = log.entries.iter_mut().find(|e| e.quest_id == quest_id) {
@@ -463,7 +566,8 @@ pub fn on_npc_talked_to(
             }
         }
 
-        let npc_name = repo.npc(&template.giver_npc_id)
+        let npc_name = repo
+            .npc(&template.giver_npc_id)
             .map(|n| n.name.clone())
             .unwrap_or_else(|_| template.giver_npc_id.clone());
         notices.push(format!(
@@ -476,5 +580,9 @@ pub fn on_npc_talked_to(
 }
 
 fn err(msg: &str) -> QuestResult {
-    QuestResult { success: false, narrative: msg.to_string(), context_actions: vec![] }
+    QuestResult {
+        success: false,
+        narrative: msg.to_string(),
+        context_actions: vec![],
+    }
 }

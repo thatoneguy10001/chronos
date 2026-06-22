@@ -13,13 +13,21 @@ impl ActiveEffects {
     pub fn apply(&mut self, effect: ActiveEffect) {
         match effect.kind {
             EffectKind::Bleed => {
-                let stacks = self.effects.iter().filter(|e| e.kind == EffectKind::Bleed).count();
+                let stacks = self
+                    .effects
+                    .iter()
+                    .filter(|e| e.kind == EffectKind::Bleed)
+                    .count();
                 if stacks < 3 {
                     self.effects.push(effect);
                 }
             }
             EffectKind::Corrode => {
-                let stacks = self.effects.iter().filter(|e| e.kind == EffectKind::Corrode).count();
+                let stacks = self
+                    .effects
+                    .iter()
+                    .filter(|e| e.kind == EffectKind::Corrode)
+                    .count();
                 if stacks < 2 {
                     self.effects.push(effect);
                 }
@@ -39,12 +47,18 @@ impl ActiveEffects {
 
     /// Whether any effect of the given kind is currently active on `tick`.
     pub fn has_active(&self, kind: &EffectKind, tick: u64) -> bool {
-        self.effects.iter().any(|e| e.kind == *kind && e.is_active_on(tick))
+        self.effects
+            .iter()
+            .any(|e| e.kind == *kind && e.is_active_on(tick))
     }
 
     /// Stack count for stackable effects (Bleed/Corrode). Returns 1 for all others.
     pub fn stack_count(&self, kind: &EffectKind) -> usize {
-        self.effects.iter().filter(|e| &e.kind == kind).count().max(1)
+        self.effects
+            .iter()
+            .filter(|e| &e.kind == kind)
+            .count()
+            .max(1)
     }
 }
 
@@ -70,7 +84,7 @@ impl ActiveEffect {
     }
 
     pub fn is_active_on(&self, tick: u64) -> bool {
-        tick >= self.applied_at_tick + 1 && tick <= self.end_tick()
+        tick > self.applied_at_tick && tick <= self.end_tick()
     }
 }
 
@@ -90,10 +104,10 @@ pub enum EffectKind {
     Plague,
 
     // --- Stat debuffs (applied immediately to Stats, reversed on expiry) ---
-    Blind,      // -Stats.hit
-    Chill,      // -Stats.agility
-    Frozen,     // Stats.agility → 0 (immobilize)
-    Weaken,     // -Stats.attack
+    Blind,  // -Stats.hit
+    Chill,  // -Stats.agility
+    Frozen, // Stats.agility → 0 (immobilize)
+    Weaken, // -Stats.attack
 
     // --- Stat buffs (applied immediately to Stats, reversed on expiry) ---
     DefenseUp,
@@ -107,76 +121,121 @@ pub enum EffectKind {
 }
 
 impl EffectKind {
+    #[allow(clippy::should_implement_trait)]
     pub fn from_str(s: &str) -> Option<Self> {
         match s.to_lowercase().replace('-', "_").as_str() {
-            "poison"     => Some(Self::Poison),
-            "burn"       => Some(Self::Burn),
-            "bleed"      => Some(Self::Bleed),
-            "corrode"    => Some(Self::Corrode),
-            "hemotoxin"  => Some(Self::Hemotoxin),
-            "plague"     => Some(Self::Plague),
-            "blind"      => Some(Self::Blind),
-            "chill"      => Some(Self::Chill),
-            "frozen"     => Some(Self::Frozen),
-            "weaken"     => Some(Self::Weaken),
+            "poison" => Some(Self::Poison),
+            "burn" => Some(Self::Burn),
+            "bleed" => Some(Self::Bleed),
+            "corrode" => Some(Self::Corrode),
+            "hemotoxin" => Some(Self::Hemotoxin),
+            "plague" => Some(Self::Plague),
+            "blind" => Some(Self::Blind),
+            "chill" => Some(Self::Chill),
+            "frozen" => Some(Self::Frozen),
+            "weaken" => Some(Self::Weaken),
             "defense_up" => Some(Self::DefenseUp),
-            "attack_up"  => Some(Self::AttackUp),
-            "tech_up"    => Some(Self::TechUp),
+            "attack_up" => Some(Self::AttackUp),
+            "tech_up" => Some(Self::TechUp),
             "agility_up" => Some(Self::AgilityUp),
-            "luck_up"    => Some(Self::LuckUp),
-            "stun"       => Some(Self::Stun),
+            "luck_up" => Some(Self::LuckUp),
+            "stun" => Some(Self::Stun),
             _ => None,
         }
     }
 
     pub fn label(&self) -> &'static str {
         match self {
-            Self::Poison     => "Poison",
-            Self::Burn       => "Burn",
-            Self::Bleed      => "Bleed",
-            Self::Corrode    => "Corrode",
-            Self::Hemotoxin  => "Hemotoxin",
-            Self::Plague     => "Plague",
-            Self::Blind      => "Blind",
-            Self::Chill      => "Chill",
-            Self::Frozen     => "Frozen",
-            Self::Weaken     => "Weaken",
-            Self::DefenseUp  => "Defense Up",
-            Self::AttackUp   => "Attack Up",
-            Self::TechUp     => "Tech Up",
-            Self::AgilityUp  => "Agility Up",
-            Self::LuckUp     => "Luck Up",
-            Self::Stun       => "Stunned",
+            Self::Poison => "Poison",
+            Self::Burn => "Burn",
+            Self::Bleed => "Bleed",
+            Self::Corrode => "Corrode",
+            Self::Hemotoxin => "Hemotoxin",
+            Self::Plague => "Plague",
+            Self::Blind => "Blind",
+            Self::Chill => "Chill",
+            Self::Frozen => "Frozen",
+            Self::Weaken => "Weaken",
+            Self::DefenseUp => "Defense Up",
+            Self::AttackUp => "Attack Up",
+            Self::TechUp => "Tech Up",
+            Self::AgilityUp => "Agility Up",
+            Self::LuckUp => "Luck Up",
+            Self::Stun => "Stunned",
         }
     }
 
     /// Whether the effect deals damage per tick.
     pub fn is_dot(&self) -> bool {
-        matches!(self, Self::Poison | Self::Burn | Self::Bleed | Self::Corrode | Self::Hemotoxin | Self::Plague)
+        matches!(
+            self,
+            Self::Poison
+                | Self::Burn
+                | Self::Bleed
+                | Self::Corrode
+                | Self::Hemotoxin
+                | Self::Plague
+        )
     }
 
     /// Whether the effect mutates a stat on the Stats component directly.
     /// Returns (field_sign, stat_name) — sign +1 for buff, -1 for debuff.
     pub fn stat_mutation(&self) -> Option<StatMutation> {
         match self {
-            Self::DefenseUp  => Some(StatMutation { stat: StatField::Defense,    sign: 1  }),
-            Self::AttackUp   => Some(StatMutation { stat: StatField::Attack,     sign: 1  }),
-            Self::TechUp     => Some(StatMutation { stat: StatField::TechAttack, sign: 1  }),
-            Self::AgilityUp  => Some(StatMutation { stat: StatField::Agility,    sign: 1  }),
-            Self::LuckUp     => Some(StatMutation { stat: StatField::Luck,       sign: 1  }),
-            Self::Blind      => Some(StatMutation { stat: StatField::Hit,        sign: -1 }),
-            Self::Chill      => Some(StatMutation { stat: StatField::Agility,    sign: -1 }),
-            Self::Frozen     => Some(StatMutation { stat: StatField::Agility,    sign: -1 }),
-            Self::Weaken     => Some(StatMutation { stat: StatField::Attack,     sign: -1 }),
-            Self::Corrode    => Some(StatMutation { stat: StatField::Defense,    sign: -1 }),
-            Self::Hemotoxin  => Some(StatMutation { stat: StatField::Hit,        sign: -1 }),
+            Self::DefenseUp => Some(StatMutation {
+                stat: StatField::Defense,
+                sign: 1,
+            }),
+            Self::AttackUp => Some(StatMutation {
+                stat: StatField::Attack,
+                sign: 1,
+            }),
+            Self::TechUp => Some(StatMutation {
+                stat: StatField::TechAttack,
+                sign: 1,
+            }),
+            Self::AgilityUp => Some(StatMutation {
+                stat: StatField::Agility,
+                sign: 1,
+            }),
+            Self::LuckUp => Some(StatMutation {
+                stat: StatField::Luck,
+                sign: 1,
+            }),
+            Self::Blind => Some(StatMutation {
+                stat: StatField::Hit,
+                sign: -1,
+            }),
+            Self::Chill => Some(StatMutation {
+                stat: StatField::Agility,
+                sign: -1,
+            }),
+            Self::Frozen => Some(StatMutation {
+                stat: StatField::Agility,
+                sign: -1,
+            }),
+            Self::Weaken => Some(StatMutation {
+                stat: StatField::Attack,
+                sign: -1,
+            }),
+            Self::Corrode => Some(StatMutation {
+                stat: StatField::Defense,
+                sign: -1,
+            }),
+            Self::Hemotoxin => Some(StatMutation {
+                stat: StatField::Hit,
+                sign: -1,
+            }),
             _ => None,
         }
     }
 
     /// Whether the effect targets the caster rather than an enemy.
     pub fn is_self_targeting(&self) -> bool {
-        matches!(self, Self::DefenseUp | Self::AttackUp | Self::TechUp | Self::AgilityUp | Self::LuckUp)
+        matches!(
+            self,
+            Self::DefenseUp | Self::AttackUp | Self::TechUp | Self::AgilityUp | Self::LuckUp
+        )
     }
 }
 

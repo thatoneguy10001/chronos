@@ -11,9 +11,16 @@ use crate::events::EngineEvent;
 
 /// Aliases for movement directions — normalizes synonyms before routing.
 const DIRECTION_ALIASES: &[(&str, &str)] = &[
-    ("n", "north"), ("s", "south"), ("e", "east"), ("w", "west"),
-    ("u", "up"), ("d", "down"),
-    ("ne", "northeast"), ("nw", "northwest"), ("se", "southeast"), ("sw", "southwest"),
+    ("n", "north"),
+    ("s", "south"),
+    ("e", "east"),
+    ("w", "west"),
+    ("u", "up"),
+    ("d", "down"),
+    ("ne", "northeast"),
+    ("nw", "northwest"),
+    ("se", "southeast"),
+    ("sw", "southwest"),
 ];
 
 /// Parse a raw input string into a typed EngineEvent.
@@ -23,18 +30,20 @@ pub fn parse(raw: &str) -> EngineEvent {
     let tokens: Vec<&str> = input.split_whitespace().collect();
 
     if tokens.is_empty() {
-        return EngineEvent::Unknown { raw: raw.to_string() };
+        return EngineEvent::Unknown {
+            raw: raw.to_string(),
+        };
     }
 
     match tokens[0] {
         // Movement
-        "go" | "move" | "walk" | "run" if tokens.len() >= 2 => {
-            EngineEvent::Move { direction: normalize_direction(tokens[1]) }
-        }
+        "go" | "move" | "walk" | "run" if tokens.len() >= 2 => EngineEvent::Move {
+            direction: normalize_direction(tokens[1]),
+        },
         // Bare direction words
-        word if is_direction(word) => {
-            EngineEvent::Move { direction: normalize_direction(word) }
-        }
+        word if is_direction(word) => EngineEvent::Move {
+            direction: normalize_direction(word),
+        },
 
         // Pick up
         "take" | "pick" | "grab" | "get" => {
@@ -44,9 +53,13 @@ pub fn parse(raw: &str) -> EngineEvent {
                 tokens[1..].join(" ")
             };
             if item_fragment.is_empty() {
-                EngineEvent::Unknown { raw: raw.to_string() }
+                EngineEvent::Unknown {
+                    raw: raw.to_string(),
+                }
             } else {
-                EngineEvent::PickUp { item_id: item_fragment }
+                EngineEvent::PickUp {
+                    item_id: item_fragment,
+                }
             }
         }
 
@@ -54,9 +67,13 @@ pub fn parse(raw: &str) -> EngineEvent {
         "drop" | "put" | "place" => {
             let item_fragment = tokens[1..].join(" ");
             if item_fragment.is_empty() {
-                EngineEvent::Unknown { raw: raw.to_string() }
+                EngineEvent::Unknown {
+                    raw: raw.to_string(),
+                }
             } else {
-                EngineEvent::Drop { item_id: item_fragment }
+                EngineEvent::Drop {
+                    item_id: item_fragment,
+                }
             }
         }
 
@@ -65,7 +82,7 @@ pub fn parse(raw: &str) -> EngineEvent {
             let class_id = tokens[1].to_string();
             // Pull the name from the ORIGINAL (non-lowercased) input so "Aragorn"
             // keeps its capitalization. Default to "Hero" when no name is given.
-            let raw_tokens: Vec<&str> = raw.trim().split_whitespace().collect();
+            let raw_tokens: Vec<&str> = raw.split_whitespace().collect();
             let name = if raw_tokens.len() >= 3 {
                 raw_tokens[2..].join(" ")
             } else {
@@ -81,7 +98,10 @@ pub fn parse(raw: &str) -> EngineEvent {
         // Generic: "use ability <name> [target]" / "ability <name> [target]"
         "ability" | "use_ability" if tokens.len() >= 2 => {
             let (ability_name, target_name) = split_ability_target(&tokens[1..]);
-            EngineEvent::UseAbility { ability_name, target_name }
+            EngineEvent::UseAbility {
+                ability_name,
+                target_name,
+            }
         }
 
         // Two-word ability shortcuts (must come before single-word fallbacks)
@@ -272,9 +292,13 @@ pub fn parse(raw: &str) -> EngineEvent {
                 tokens[1..].join(" ")
             };
             if rest.is_empty() {
-                EngineEvent::Unknown { raw: raw.to_string() }
+                EngineEvent::Unknown {
+                    raw: raw.to_string(),
+                }
             } else {
-                EngineEvent::Talk { npc_id: rest.replace(' ', "_") }
+                EngineEvent::Talk {
+                    npc_id: rest.replace(' ', "_"),
+                }
             }
         }
 
@@ -286,7 +310,9 @@ pub fn parse(raw: &str) -> EngineEvent {
                 tokens[1..].to_vec()
             };
             if rest.len() < 2 {
-                EngineEvent::Unknown { raw: raw.to_string() }
+                EngineEvent::Unknown {
+                    raw: raw.to_string(),
+                }
             } else {
                 EngineEvent::Ask {
                     npc_id: rest[0].to_string(),
@@ -299,9 +325,13 @@ pub fn parse(raw: &str) -> EngineEvent {
         "use" | "drink" | "consume" | "quaff" => {
             let item_fragment = tokens[1..].join(" ");
             if item_fragment.is_empty() {
-                EngineEvent::Unknown { raw: raw.to_string() }
+                EngineEvent::Unknown {
+                    raw: raw.to_string(),
+                }
             } else {
-                EngineEvent::UseItem { item_id: item_fragment }
+                EngineEvent::UseItem {
+                    item_id: item_fragment,
+                }
             }
         }
 
@@ -309,7 +339,9 @@ pub fn parse(raw: &str) -> EngineEvent {
         "accept" | "take quest" => {
             let rest = tokens[1..].join("_");
             if rest.is_empty() {
-                EngineEvent::Unknown { raw: raw.to_string() }
+                EngineEvent::Unknown {
+                    raw: raw.to_string(),
+                }
             } else {
                 EngineEvent::AcceptQuest { quest_id: rest }
             }
@@ -322,7 +354,9 @@ pub fn parse(raw: &str) -> EngineEvent {
         "shop" | "browse" | "wares" | "vendor" => {
             let rest = tokens[1..].join("_");
             if rest.is_empty() {
-                EngineEvent::Unknown { raw: raw.to_string() }
+                EngineEvent::Unknown {
+                    raw: raw.to_string(),
+                }
             } else {
                 EngineEvent::Shop { npc_id: rest }
             }
@@ -331,7 +365,9 @@ pub fn parse(raw: &str) -> EngineEvent {
         // Buy item from vendor: "buy innkeeper health_potion"
         "buy" | "purchase" => {
             if tokens.len() < 3 {
-                EngineEvent::Unknown { raw: raw.to_string() }
+                EngineEvent::Unknown {
+                    raw: raw.to_string(),
+                }
             } else {
                 EngineEvent::Buy {
                     npc_id: tokens[1].to_string(),
@@ -341,29 +377,33 @@ pub fn parse(raw: &str) -> EngineEvent {
         }
 
         // Equip / unequip weapon
-        "equip" | "wield" | "wear" if tokens.len() >= 2 => {
-            EngineEvent::Equip { item_id: tokens[1..].join(" ") }
-        }
+        "equip" | "wield" | "wear" if tokens.len() >= 2 => EngineEvent::Equip {
+            item_id: tokens[1..].join(" "),
+        },
         "unequip" | "remove" | "unwield" => EngineEvent::Unequip,
 
         // Load / unload payload vials into syringe spear
-        "load" | "slot" if tokens.len() >= 2 => EngineEvent::Load { payload_id: tokens[1..].join(" ") },
-        "unload" | "eject" if tokens.len() >= 2 => EngineEvent::Unload { payload_id: tokens[1..].join(" ") },
+        "load" | "slot" if tokens.len() >= 2 => EngineEvent::Load {
+            payload_id: tokens[1..].join(" "),
+        },
+        "unload" | "eject" if tokens.len() >= 2 => EngineEvent::Unload {
+            payload_id: tokens[1..].join(" "),
+        },
 
         // Assemble weapon from parts: "assemble <frame> <mech> <enhance>"
-        "assemble" | "craft" | "combine" if tokens.len() >= 4 => {
-            EngineEvent::Assemble {
-                frame_id: tokens[1].to_string(),
-                mechanism_id: tokens[2].to_string(),
-                enhancement_id: tokens[3].to_string(),
-            }
-        }
+        "assemble" | "craft" | "combine" if tokens.len() >= 4 => EngineEvent::Assemble {
+            frame_id: tokens[1].to_string(),
+            mechanism_id: tokens[2].to_string(),
+            enhancement_id: tokens[3].to_string(),
+        },
 
         // Turn in quest: "turn in <quest_id>" / "hand in <quest_id>" / "deliver <quest_id>"
         "turn" if tokens.get(1).copied() == Some("in") => {
             let quest_id = tokens[2..].join("_");
             if quest_id.is_empty() {
-                EngineEvent::Unknown { raw: raw.to_string() }
+                EngineEvent::Unknown {
+                    raw: raw.to_string(),
+                }
             } else {
                 EngineEvent::TurnIn { quest_id }
             }
@@ -371,14 +411,16 @@ pub fn parse(raw: &str) -> EngineEvent {
         "hand" if tokens.get(1).copied() == Some("in") => {
             let quest_id = tokens[2..].join("_");
             if quest_id.is_empty() {
-                EngineEvent::Unknown { raw: raw.to_string() }
+                EngineEvent::Unknown {
+                    raw: raw.to_string(),
+                }
             } else {
                 EngineEvent::TurnIn { quest_id }
             }
         }
-        "deliver" if tokens.len() >= 2 => {
-            EngineEvent::TurnIn { quest_id: tokens[1..].join("_") }
-        }
+        "deliver" if tokens.len() >= 2 => EngineEvent::TurnIn {
+            quest_id: tokens[1..].join("_"),
+        },
 
         // Rest at inn
         "rest" | "sleep" | "camp" => EngineEvent::Rest,
@@ -395,7 +437,9 @@ pub fn parse(raw: &str) -> EngineEvent {
             Some("goto") | Some("go") => {
                 let room_id = tokens.get(2).copied().unwrap_or("").to_string();
                 if room_id.is_empty() {
-                    EngineEvent::Unknown { raw: raw.to_string() }
+                    EngineEvent::Unknown {
+                        raw: raw.to_string(),
+                    }
                 } else {
                     EngineEvent::DevGoto { room_id }
                 }
@@ -403,12 +447,16 @@ pub fn parse(raw: &str) -> EngineEvent {
             Some("complete") => {
                 let quest_id = tokens[2..].join("_");
                 if quest_id.is_empty() {
-                    EngineEvent::Unknown { raw: raw.to_string() }
+                    EngineEvent::Unknown {
+                        raw: raw.to_string(),
+                    }
                 } else {
                     EngineEvent::DevComplete { quest_id }
                 }
             }
-            _ => EngineEvent::Unknown { raw: raw.to_string() },
+            _ => EngineEvent::Unknown {
+                raw: raw.to_string(),
+            },
         },
 
         // Restart / new game
@@ -419,11 +467,13 @@ pub fn parse(raw: &str) -> EngineEvent {
 
         // Examine item: "examine iron sword" / "look at iron sword"
         "look" if tokens.get(1).copied() == Some("at") && tokens.len() >= 3 => {
-            EngineEvent::Examine { item_id: tokens[2..].join(" ") }
+            EngineEvent::Examine {
+                item_id: tokens[2..].join(" "),
+            }
         }
-        "examine" | "x" | "inspect" if tokens.len() >= 2 => {
-            EngineEvent::Examine { item_id: tokens[1..].join(" ") }
-        }
+        "examine" | "x" | "inspect" if tokens.len() >= 2 => EngineEvent::Examine {
+            item_id: tokens[1..].join(" "),
+        },
 
         // Look
         "look" | "l" | "examine" | "x" | "inspect" => EngineEvent::Look,
@@ -431,7 +481,9 @@ pub fn parse(raw: &str) -> EngineEvent {
         // Inventory
         "inventory" | "inv" | "i" | "items" => EngineEvent::Inventory,
 
-        _ => EngineEvent::Unknown { raw: raw.to_string() },
+        _ => EngineEvent::Unknown {
+            raw: raw.to_string(),
+        },
     }
 }
 
@@ -453,10 +505,19 @@ fn normalize_direction(word: &str) -> String {
 }
 
 fn is_direction(word: &str) -> bool {
-    let canonical = ["north", "south", "east", "west", "up", "down",
-                     "northeast", "northwest", "southeast", "southwest"];
-    canonical.contains(&word)
-        || DIRECTION_ALIASES.iter().any(|(alias, _)| *alias == word)
+    let canonical = [
+        "north",
+        "south",
+        "east",
+        "west",
+        "up",
+        "down",
+        "northeast",
+        "northwest",
+        "southeast",
+        "southwest",
+    ];
+    canonical.contains(&word) || DIRECTION_ALIASES.iter().any(|(alias, _)| *alias == word)
 }
 
 #[cfg(test)]
@@ -465,8 +526,18 @@ mod tests {
 
     #[test]
     fn bare_direction_shorthand() {
-        assert_eq!(parse("n"), EngineEvent::Move { direction: "north".into() });
-        assert_eq!(parse("go south"), EngineEvent::Move { direction: "south".into() });
+        assert_eq!(
+            parse("n"),
+            EngineEvent::Move {
+                direction: "north".into()
+            }
+        );
+        assert_eq!(
+            parse("go south"),
+            EngineEvent::Move {
+                direction: "south".into()
+            }
+        );
     }
 
     #[test]

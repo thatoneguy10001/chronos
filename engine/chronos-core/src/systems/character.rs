@@ -7,10 +7,12 @@
 //! reclassing (`become hunter` after `become fighter`) just overwrites the
 //! components in place, keeping inventory and position unchanged.
 
-use bevy_ecs::prelude::*;
-use crate::components::{AbilityCooldowns, Controllable, Experience, Health, Identity, InInventory, ItemBlueprint, Stats};
+use crate::components::{
+    AbilityCooldowns, Controllable, Experience, Health, Identity, InInventory, ItemBlueprint, Stats,
+};
 use crate::data::StaticRepository;
 use crate::events::ContextAction;
+use bevy_ecs::prelude::*;
 
 pub struct SpawnResult {
     pub success: bool,
@@ -34,7 +36,8 @@ pub fn process_spawn_character(
     let class = match repo.class(class_id) {
         Ok(c) => c,
         Err(_) => {
-            let known: Vec<String> = repo.all_classes()
+            let known: Vec<String> = repo
+                .all_classes()
                 .filter(|c| c.tactics.is_empty())
                 .map(|c| c.id.clone())
                 .collect();
@@ -65,7 +68,10 @@ pub fn process_spawn_character(
     // `insert` overwrites Health/Stats/Experience (and any prior values from a re-cast).
     // Experience resets on re-cast so you can't carry XP across classes by swapping.
     world.entity_mut(player).insert((
-        Identity { name: name.to_string(), class_id: class.id.clone() },
+        Identity {
+            name: name.to_string(),
+            class_id: class.id.clone(),
+        },
         Stats {
             attack: bs.attack,
             defense: bs.defense,
@@ -95,21 +101,35 @@ pub fn process_spawn_character(
         if let Ok(template) = repo.item(item_id) {
             if template.starting_room_id.is_none() {
                 world.spawn((
-                    ItemBlueprint { id: item_id.clone() },
+                    ItemBlueprint {
+                        id: item_id.clone(),
+                    },
                     InInventory { owner: player },
                 ));
-                let stat = template.attributes.get("equip_stat").and_then(|v| v.as_str());
-                let bonus = template.attributes.get("equip_bonus").and_then(|v| v.as_i64()).unwrap_or(0) as i32;
+                let stat = template
+                    .attributes
+                    .get("equip_stat")
+                    .and_then(|v| v.as_str());
+                let bonus = template
+                    .attributes
+                    .get("equip_bonus")
+                    .and_then(|v| v.as_i64())
+                    .unwrap_or(0) as i32;
                 if bonus != 0 {
                     if let Some(mut stats) = world.entity_mut(player).get_mut::<Stats>() {
                         match stat {
-                            Some("attack")       => stats.attack += bonus,
-                            Some("defense")      => stats.defense += bonus,
+                            Some("attack") => stats.attack += bonus,
+                            Some("defense") => stats.defense += bonus,
                             Some("intelligence") => stats.intelligence += bonus,
                             _ => {}
                         }
                     }
-                    let label = match stat { Some("attack") => "ATK", Some("defense") => "DEF", Some("intelligence") => "INT", _ => "" };
+                    let label = match stat {
+                        Some("attack") => "ATK",
+                        Some("defense") => "DEF",
+                        Some("intelligence") => "INT",
+                        _ => "",
+                    };
                     gear_notes.push(format!("{} (+{} {})", template.name, bonus, label));
                 }
             }
@@ -121,5 +141,9 @@ pub fn process_spawn_character(
         full_narrative.push_str(&format!("\n\nStarting kit: {}.", gear_notes.join(", ")));
     }
 
-    SpawnResult { success: true, narrative: full_narrative, context_actions: vec![] }
+    SpawnResult {
+        success: true,
+        narrative: full_narrative,
+        context_actions: vec![],
+    }
 }

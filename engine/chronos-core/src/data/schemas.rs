@@ -60,7 +60,9 @@ pub struct NpcTemplate {
     pub initial_disposition: i32,
 }
 
-fn default_disposition() -> i32 { 50 }
+fn default_disposition() -> i32 {
+    50
+}
 
 /// One item in a vendor's shop inventory.
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -185,8 +187,12 @@ pub struct AbilityTemplate {
     pub targeting: TargetingType,
 }
 
-fn default_hit_count() -> u32 { 1 }
-fn default_unlock_level() -> u32 { 1 }
+fn default_hit_count() -> u32 {
+    1
+}
+fn default_unlock_level() -> u32 {
+    1
+}
 
 /// Immutable blueprint for a playable (or, later, enemy) character class.
 /// Rewritten from the Python RPG's `*_DATA` dicts (see `characters/impl/classes.py`).
@@ -248,7 +254,11 @@ pub enum TacticAction {
     /// Empowered hit: damage = (atk * multiplier) - def + rng(-1,1). Uses 1 RNG draw.
     HeavyAttack { multiplier: f32 },
     /// Apply a status effect to the player. Deterministic — no RNG draw.
-    ApplyEffect { kind: String, damage: i32, duration: u32 },
+    ApplyEffect {
+        kind: String,
+        damage: i32,
+        duration: u32,
+    },
 }
 
 /// The numeric starting block of a class. `hp` seeds `Health`; the rest seed `Stats`.

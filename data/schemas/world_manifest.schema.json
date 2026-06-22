@@ -15,6 +15,32 @@
     "title": {
       "type": "string",
       "description": "Display title for the world. Not yet wired to the UI."
+    },
+    "encounters": {
+      "type": "array",
+      "description": "Initial enemy placements: class_id + room_id pairs spawned at world init.",
+      "items": {
+        "type": "object",
+        "required": ["class_id", "room_id"],
+        "additionalProperties": false,
+        "properties": {
+          "class_id": { "type": "string" },
+          "room_id":  { "type": "string" }
+        }
+      }
+    },
+    "npc_placements": {
+      "type": "array",
+      "description": "Initial NPC placements: npc_id + room_id pairs placed at world init.",
+      "items": {
+        "type": "object",
+        "required": ["npc_id", "room_id"],
+        "additionalProperties": false,
+        "properties": {
+          "npc_id":  { "type": "string" },
+          "room_id": { "type": "string" }
+        }
+      }
     }
   }
 }

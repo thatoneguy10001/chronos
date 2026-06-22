@@ -14,9 +14,11 @@
 //! Each has a `damage_per_turn` and `duration_turns`. Stat debuffs (Blind, Stun)
 //! are modeled as large-magnitude damage so they interact consistently with HP.
 
-use bevy_ecs::prelude::*;
-use crate::components::{ActiveEffect, ActiveEffects, EffectKind, Health, Identity, StatField, Stats};
+use crate::components::{
+    ActiveEffect, ActiveEffects, EffectKind, Health, Identity, StatField, Stats,
+};
 use crate::events::ContextAction;
+use bevy_ecs::prelude::*;
 
 pub struct EffectResult {
     pub narrative: String,
@@ -70,21 +72,35 @@ pub fn apply_effect_to_entity(
     if let Some(mutation) = kind.stat_mutation() {
         let is_stacking = matches!(kind, EffectKind::Bleed | EffectKind::Corrode);
         if !is_stacking {
-            let existing_total: i32 = world.entity(entity)
+            let existing_total: i32 = world
+                .entity(entity)
                 .get::<ActiveEffects>()
-                .map(|ae| ae.effects.iter()
-                    .filter(|e| e.kind == kind)
-                    .map(|e| e.magnitude)
-                    .sum())
+                .map(|ae| {
+                    ae.effects
+                        .iter()
+                        .filter(|e| e.kind == kind)
+                        .map(|e| e.magnitude)
+                        .sum()
+                })
                 .unwrap_or(0);
             if existing_total != 0 {
-                apply_stat_delta(world, entity, &mutation.stat, -(existing_total * mutation.sign));
+                apply_stat_delta(
+                    world,
+                    entity,
+                    &mutation.stat,
+                    -(existing_total * mutation.sign),
+                );
             }
         }
         apply_stat_delta(world, entity, &mutation.stat, magnitude * mutation.sign);
     }
 
-    let effect = ActiveEffect { kind, applied_at_tick: current_tick, duration_turns, magnitude };
+    let effect = ActiveEffect {
+        kind,
+        applied_at_tick: current_tick,
+        duration_turns,
+        magnitude,
+    };
     if let Some(mut ae) = world.entity_mut(entity).get_mut::<ActiveEffects>() {
         ae.apply(effect);
     } else {
@@ -102,12 +118,15 @@ pub fn tick_all_effects(world: &mut World, current_tick: u64) {
     // Collect entities with active effects and what needs ticking/expiring.
     let affected: Vec<(Entity, Vec<ActiveEffect>)> = {
         let mut q = world.query::<(Entity, &ActiveEffects)>();
-        q.iter(world).map(|(e, ae)| (e, ae.effects.clone())).collect()
+        q.iter(world)
+            .map(|(e, ae)| (e, ae.effects.clone()))
+            .collect()
     };
 
     for (entity, effects) in affected {
         // DoT damage pass
-        let dot_damage: i32 = effects.iter()
+        let dot_damage: i32 = effects
+            .iter()
             .filter(|e| e.kind.is_dot() && e.is_active_on(current_tick))
             .map(|e| e.magnitude)
             .sum();
@@ -123,7 +142,12 @@ pub fn tick_all_effects(world: &mut World, current_tick: u64) {
                 if let Some(mutation) = effect.kind.stat_mutation() {
                     // Reverse: sign is already baked into the original application,
                     // so we invert it here to undo the delta.
-                    apply_stat_delta(world, entity, &mutation.stat, -(effect.magnitude * mutation.sign));
+                    apply_stat_delta(
+                        world,
+                        entity,
+                        &mutation.stat,
+                        -(effect.magnitude * mutation.sign),
+                    );
                 }
             }
         }
@@ -139,12 +163,12 @@ pub fn tick_all_effects(world: &mut World, current_tick: u64) {
 fn apply_stat_delta(world: &mut World, entity: Entity, field: &StatField, delta: i32) {
     if let Some(mut stats) = world.entity_mut(entity).get_mut::<Stats>() {
         match field {
-            StatField::Attack     => stats.attack      = (stats.attack      + delta).max(0),
-            StatField::Defense    => stats.defense     = (stats.defense     + delta).max(0),
-            StatField::Hit        => stats.hit         = (stats.hit         + delta).max(0),
+            StatField::Attack => stats.attack = (stats.attack + delta).max(0),
+            StatField::Defense => stats.defense = (stats.defense + delta).max(0),
+            StatField::Hit => stats.hit = (stats.hit + delta).max(0),
             StatField::TechAttack => stats.tech_attack = (stats.tech_attack + delta).max(0),
-            StatField::Agility    => stats.agility     = (stats.agility     + delta).max(0),
-            StatField::Luck       => stats.luck        = (stats.luck        + delta).max(0),
+            StatField::Agility => stats.agility = (stats.agility + delta).max(0),
+            StatField::Luck => stats.luck = (stats.luck + delta).max(0),
         }
     }
 }

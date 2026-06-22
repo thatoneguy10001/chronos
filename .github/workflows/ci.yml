@@ -23,8 +23,21 @@ jobs:
           workspaces: engine
       # chronos-wasm is built via wasm-pack in the `ui` job; here we build/test
       # the host-native crates where the real test suites live.
+      - run: cargo fmt --all --check
+      - run: cargo clippy -p chronos-core -p chronos-server --locked -- -D warnings
       - run: cargo build -p chronos-core -p chronos-server --locked
       - run: cargo test -p chronos-core --locked
+
+  world-data:
+    name: World data — schema validation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install jsonschema
+      - run: python scripts/validate_worlds.py
 
   ui:
     name: UI — wasm + typecheck + build

@@ -7,11 +7,11 @@
 //! Both use `resolve_npc_in_room` from the dialogue system so players can type
 //! display names ("shop thorn") instead of internal IDs ("shop commander_thorn").
 
-use bevy_ecs::prelude::*;
 use crate::components::{Controllable, ItemBlueprint, Position, Wallet};
 use crate::data::StaticRepository;
 use crate::events::{CommandResult, ContextAction};
 use crate::systems::dialogue::resolve_npc_in_room;
+use bevy_ecs::prelude::*;
 
 pub struct ShopResult {
     pub success: bool,
@@ -21,7 +21,12 @@ pub struct ShopResult {
 }
 
 fn err(msg: &str, inventory_ids: Vec<String>) -> ShopResult {
-    ShopResult { success: false, narrative: msg.to_string(), context_actions: vec![], inventory_ids }
+    ShopResult {
+        success: false,
+        narrative: msg.to_string(),
+        context_actions: vec![],
+        inventory_ids,
+    }
 }
 
 /// List what a vendor NPC is selling and the player's current gold balance.
@@ -34,7 +39,7 @@ pub fn process_shop(world: &mut World, repo: &StaticRepository, npc_id: &str) ->
     // Resolve player-typed fragment to actual NPC ID present in the room.
     let npc_id: String = if let Some(room_id) = &player_room {
         let npcs_here = repo.npcs_in_room(room_id);
-        match resolve_npc_in_room(npc_id, &npcs_here, repo) {
+        match resolve_npc_in_room(npc_id, npcs_here, repo) {
             Some(id) => id.to_string(),
             None => return err(&format!("There is no '{npc_id}' here."), vec![]),
         }
@@ -49,12 +54,18 @@ pub fn process_shop(world: &mut World, repo: &StaticRepository, npc_id: &str) ->
     };
 
     if !npc.vendor {
-        return err(&format!("{} doesn't seem to be selling anything.", npc.name), vec![]);
+        return err(
+            &format!("{} doesn't seem to be selling anything.", npc.name),
+            vec![],
+        );
     }
 
     let npc_room = repo.npc_room(npc_id);
     if player_room.as_deref() != npc_room {
-        return err(&format!("{} is not here.", npc.name), player_inventory_ids(world));
+        return err(
+            &format!("{} is not here.", npc.name),
+            player_inventory_ids(world),
+        );
     }
 
     let gold = {
@@ -79,7 +90,8 @@ pub fn process_shop(world: &mut World, repo: &StaticRepository, npc_id: &str) ->
     let mut actions = vec![];
 
     for shop_item in &npc.shop {
-        let item_name_owned = repo.item(&shop_item.item_id)
+        let item_name_owned = repo
+            .item(&shop_item.item_id)
             .map(|it| it.name.clone())
             .unwrap_or_else(|_| shop_item.item_id.clone());
         let item_name = item_name_owned.as_str();
@@ -107,7 +119,12 @@ pub fn process_shop(world: &mut World, repo: &StaticRepository, npc_id: &str) ->
 }
 
 /// Purchase one item from a vendor NPC. Deducts gold and spawns the item into inventory.
-pub fn process_buy(world: &mut World, repo: &StaticRepository, npc_id: &str, item_id: &str) -> ShopResult {
+pub fn process_buy(
+    world: &mut World,
+    repo: &StaticRepository,
+    npc_id: &str,
+    item_id: &str,
+) -> ShopResult {
     let player_room = {
         let mut q = world.query_filtered::<&Position, With<Controllable>>();
         q.iter(world).next().map(|p| p.room_id.clone())
@@ -115,9 +132,14 @@ pub fn process_buy(world: &mut World, repo: &StaticRepository, npc_id: &str, ite
 
     let npc_id: String = if let Some(room_id) = &player_room {
         let npcs_here = repo.npcs_in_room(room_id);
-        match resolve_npc_in_room(npc_id, &npcs_here, repo) {
+        match resolve_npc_in_room(npc_id, npcs_here, repo) {
             Some(id) => id.to_string(),
-            None => return err(&format!("There is no '{npc_id}' here."), player_inventory_ids(world)),
+            None => {
+                return err(
+                    &format!("There is no '{npc_id}' here."),
+                    player_inventory_ids(world),
+                )
+            }
         }
     } else {
         npc_id.to_string()
@@ -126,26 +148,47 @@ pub fn process_buy(world: &mut World, repo: &StaticRepository, npc_id: &str, ite
 
     let npc = match repo.npc(npc_id) {
         Ok(n) => n.clone(),
-        Err(_) => return err(&format!("There is no '{npc_id}' here."), player_inventory_ids(world)),
+        Err(_) => {
+            return err(
+                &format!("There is no '{npc_id}' here."),
+                player_inventory_ids(world),
+            )
+        }
     };
 
     if !npc.vendor {
-        return err(&format!("{} doesn't sell anything.", npc.name), player_inventory_ids(world));
+        return err(
+            &format!("{} doesn't sell anything.", npc.name),
+            player_inventory_ids(world),
+        );
     }
 
     let npc_room = repo.npc_room(npc_id).map(|r| r.to_string());
     if player_room != npc_room {
-        return err(&format!("{} is not here.", npc.name), player_inventory_ids(world));
+        return err(
+            &format!("{} is not here.", npc.name),
+            player_inventory_ids(world),
+        );
     }
 
     let shop_entry = match npc.shop.iter().find(|si| si.item_id == item_id) {
         Some(s) => s.clone(),
-        None => return err(&format!("{} doesn't sell that.", npc.name), player_inventory_ids(world)),
+        None => {
+            return err(
+                &format!("{} doesn't sell that.", npc.name),
+                player_inventory_ids(world),
+            )
+        }
     };
 
     let item_template = match repo.item(item_id) {
         Ok(it) => it.clone(),
-        Err(_) => return err(&format!("Unknown item '{item_id}'."), player_inventory_ids(world)),
+        Err(_) => {
+            return err(
+                &format!("Unknown item '{item_id}'."),
+                player_inventory_ids(world),
+            )
+        }
     };
 
     // Find player entity and gold
@@ -157,7 +200,11 @@ pub fn process_buy(world: &mut World, repo: &StaticRepository, npc_id: &str, ite
         return err("You have no character.", player_inventory_ids(world));
     };
 
-    let gold = world.entity(player_e).get::<Wallet>().map(|w| w.gold).unwrap_or(0);
+    let gold = world
+        .entity(player_e)
+        .get::<Wallet>()
+        .map(|w| w.gold)
+        .unwrap_or(0);
     if gold < shop_entry.price {
         return err(
             &format!("You need {} gold but only have {}.", shop_entry.price, gold),
@@ -174,10 +221,16 @@ pub fn process_buy(world: &mut World, repo: &StaticRepository, npc_id: &str, ite
     use crate::components::InInventory;
     world.spawn((
         InInventory { owner: player_e },
-        ItemBlueprint { id: item_template.id.clone() },
+        ItemBlueprint {
+            id: item_template.id.clone(),
+        },
     ));
 
-    let new_gold = world.entity(player_e).get::<Wallet>().map(|w| w.gold).unwrap_or(0);
+    let new_gold = world
+        .entity(player_e)
+        .get::<Wallet>()
+        .map(|w| w.gold)
+        .unwrap_or(0);
 
     ShopResult {
         success: true,
@@ -185,12 +238,10 @@ pub fn process_buy(world: &mut World, repo: &StaticRepository, npc_id: &str, ite
             "You buy {} for {} gold. ({} gold remaining)",
             item_template.name, shop_entry.price, new_gold
         ),
-        context_actions: vec![
-            ContextAction {
-                label: format!("Browse {}'s wares", npc.name),
-                command: format!("shop {}", npc_id),
-            },
-        ],
+        context_actions: vec![ContextAction {
+            label: format!("Browse {}'s wares", npc.name),
+            command: format!("shop {}", npc_id),
+        }],
         inventory_ids: player_inventory_ids(world),
     }
 }

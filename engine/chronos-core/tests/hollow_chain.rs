@@ -8,8 +8,8 @@
 //!   - NPC dialogue topics are gated by `requires_quest_complete`
 //!   - Cross-chain dependency (Blood and Memory Act 3) gates Hollow Act 3
 
+use chronos_core::{data::repository::StaticRepository, ChronosEngine};
 use std::path::Path;
-use chronos_core::{ChronosEngine, data::repository::StaticRepository};
 
 // ── helpers ──────────────────────────────────────────────────────────────────
 
@@ -32,22 +32,39 @@ fn load_dir(dir: &Path) -> Vec<(String, String)> {
 fn iron_blood_repo() -> StaticRepository {
     let base = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../worlds/iron-and-blood");
 
-    let rooms   = load_dir(&base.join("rooms"));
-    let items   = load_dir(&base.join("items"));
+    let rooms = load_dir(&base.join("rooms"));
+    let items = load_dir(&base.join("items"));
     let classes = load_dir(&base.join("classes"));
-    let npcs    = load_dir(&base.join("npcs"));
-    let quests  = load_dir(&base.join("quests"));
-    let manifest = std::fs::read_to_string(base.join("manifest.json"))
-        .expect("manifest.json should exist");
+    let npcs = load_dir(&base.join("npcs"));
+    let quests = load_dir(&base.join("quests"));
+    let manifest =
+        std::fs::read_to_string(base.join("manifest.json")).expect("manifest.json should exist");
 
-    let room_refs:   Vec<(&str, &str)> = rooms.iter().map(|(f, c)| (f.as_str(), c.as_str())).collect();
-    let item_refs:   Vec<(&str, &str)> = items.iter().map(|(f, c)| (f.as_str(), c.as_str())).collect();
-    let class_refs:  Vec<(&str, &str)> = classes.iter().map(|(f, c)| (f.as_str(), c.as_str())).collect();
-    let npc_refs:    Vec<(&str, &str)> = npcs.iter().map(|(f, c)| (f.as_str(), c.as_str())).collect();
-    let quest_refs:  Vec<(&str, &str)> = quests.iter().map(|(f, c)| (f.as_str(), c.as_str())).collect();
+    let room_refs: Vec<(&str, &str)> = rooms
+        .iter()
+        .map(|(f, c)| (f.as_str(), c.as_str()))
+        .collect();
+    let item_refs: Vec<(&str, &str)> = items
+        .iter()
+        .map(|(f, c)| (f.as_str(), c.as_str()))
+        .collect();
+    let class_refs: Vec<(&str, &str)> = classes
+        .iter()
+        .map(|(f, c)| (f.as_str(), c.as_str()))
+        .collect();
+    let npc_refs: Vec<(&str, &str)> = npcs.iter().map(|(f, c)| (f.as_str(), c.as_str())).collect();
+    let quest_refs: Vec<(&str, &str)> = quests
+        .iter()
+        .map(|(f, c)| (f.as_str(), c.as_str()))
+        .collect();
 
     StaticRepository::from_json_pairs_full(
-        &room_refs, &item_refs, &class_refs, &npc_refs, &quest_refs, Some(&manifest),
+        &room_refs,
+        &item_refs,
+        &class_refs,
+        &npc_refs,
+        &quest_refs,
+        Some(&manifest),
     )
     .expect("iron-and-blood world should load without errors")
 }
@@ -72,9 +89,15 @@ fn world_loads_cleanly() {
 fn all_hollow_quests_exist_in_repository() {
     let repo = iron_blood_repo();
     let chain = [
-        "the_shrine", "what_the_mark_means", "kell_reads_the_name",
-        "thirty_years_of_watching", "the_dead_visitor", "the_fresh_one_speaks",
-        "what_lazarus_becomes", "the_oldest_warning", "the_choice_in_the_lair",
+        "the_shrine",
+        "what_the_mark_means",
+        "kell_reads_the_name",
+        "thirty_years_of_watching",
+        "the_dead_visitor",
+        "the_fresh_one_speaks",
+        "what_lazarus_becomes",
+        "the_oldest_warning",
+        "the_choice_in_the_lair",
     ];
     for quest_id in &chain {
         assert!(
@@ -88,7 +111,11 @@ fn all_hollow_quests_exist_in_repository() {
 fn fresh_hollow_vassal_is_placed_in_abomination_lair() {
     let repo = iron_blood_repo();
     let room = repo.npc_room("fresh_hollow_vassal");
-    assert_eq!(room, Some("abomination_lair"), "fresh_hollow_vassal should be in abomination_lair");
+    assert_eq!(
+        room,
+        Some("abomination_lair"),
+        "fresh_hollow_vassal should be in abomination_lair"
+    );
 }
 
 // ── gate tests ────────────────────────────────────────────────────────────────
@@ -128,7 +155,11 @@ fn dev_complete_sets_flag_and_unlocks_next_quest() {
 fn dev_complete_unknown_quest_returns_error() {
     let mut engine = new_game();
     let r = engine.process_command("dev complete nonexistent_quest_xyz");
-    assert!(!r.success, "dev complete of unknown quest should fail: {}", r.narrative);
+    assert!(
+        !r.success,
+        "dev complete of unknown quest should fail: {}",
+        r.narrative
+    );
     assert!(
         r.narrative.contains("nonexistent_quest_xyz"),
         "error should name the unknown quest: {}",
@@ -146,7 +177,11 @@ fn act1_shrine_accept_and_reach_marks_ready() {
     engine.process_command("talk morlak");
 
     let accept = engine.process_command("accept the_shrine");
-    assert!(accept.success, "accept the_shrine failed: {}", accept.narrative);
+    assert!(
+        accept.success,
+        "accept the_shrine failed: {}",
+        accept.narrative
+    );
 
     // Teleport to abomination_lair — ReachRoom objective should fire.
     let goto = engine.process_command("dev goto abomination_lair");
@@ -158,7 +193,11 @@ fn act1_shrine_accept_and_reach_marks_ready() {
 
     // Quest log should show it ready to turn in (★ = ready).
     let log = engine.process_command("quests");
-    assert!(log.narrative.contains("★"), "quest log should show ★: {}", log.narrative);
+    assert!(
+        log.narrative.contains("★"),
+        "quest log should show ★: {}",
+        log.narrative
+    );
 }
 
 #[test]
@@ -172,7 +211,11 @@ fn act1_shrine_turn_in_unlocks_what_the_mark_means() {
     engine.process_command("dev goto no_mans_land");
 
     let turn_in = engine.process_command("turn in the shrine");
-    assert!(turn_in.success, "turn in the_shrine failed: {}", turn_in.narrative);
+    assert!(
+        turn_in.success,
+        "turn in the_shrine failed: {}",
+        turn_in.narrative
+    );
 
     // Next quest should now be available from Morlak.
     let talk = engine.process_command("talk morlak");
@@ -191,7 +234,9 @@ fn act1_solan_mark_topic_gates_on_shrine_complete() {
 
     let before = engine.process_command("ask abbot_solan mark");
     assert!(
-        !before.success || before.narrative.contains("don't understand") || before.narrative.contains("doesn't know"),
+        !before.success
+            || before.narrative.contains("don't understand")
+            || before.narrative.contains("doesn't know"),
         "mark topic should be unavailable before the_shrine is complete: {}",
         before.narrative
     );
@@ -220,7 +265,11 @@ fn act1_what_the_mark_means_completes_on_talk_solan() {
     engine.process_command("dev goto no_mans_land");
     engine.process_command("talk morlak");
     let accept = engine.process_command("accept what the mark means");
-    assert!(accept.success, "accept what_the_mark_means failed: {}", accept.narrative);
+    assert!(
+        accept.success,
+        "accept what_the_mark_means failed: {}",
+        accept.narrative
+    );
 
     // Talking to Solan should mark the quest ready.
     engine.process_command("dev goto iron_monastery");
@@ -241,7 +290,11 @@ fn act1_kell_reads_the_name_completes_on_talk_kell() {
     engine.process_command("dev goto iron_monastery");
     engine.process_command("talk abbot_solan");
     let accept = engine.process_command("accept kell reads the name");
-    assert!(accept.success, "accept kell_reads_the_name failed: {}", accept.narrative);
+    assert!(
+        accept.success,
+        "accept kell_reads_the_name failed: {}",
+        accept.narrative
+    );
 
     engine.process_command("dev goto maintenance_tunnels");
     let talk = engine.process_command("talk brother_kell");
@@ -262,7 +315,9 @@ fn act2_hollow_topic_gates_on_kell_reads_the_name_complete() {
     // Before kell_reads_the_name complete — hollow topic should not appear.
     let before = engine.process_command("ask brother_kell hollow");
     assert!(
-        !before.success || before.narrative.contains("don't") || !before.narrative.contains("process notation"),
+        !before.success
+            || before.narrative.contains("don't")
+            || !before.narrative.contains("process notation"),
         "hollow topic should be gated before kell_reads_the_name: {}",
         before.narrative
     );
@@ -321,7 +376,11 @@ fn act2_thirty_years_completes_on_talk_morlak() {
     engine.process_command("dev goto maintenance_tunnels");
     engine.process_command("talk brother_kell");
     let accept = engine.process_command("accept thirty years of watching");
-    assert!(accept.success, "accept thirty_years_of_watching failed: {}", accept.narrative);
+    assert!(
+        accept.success,
+        "accept thirty_years_of_watching failed: {}",
+        accept.narrative
+    );
 
     engine.process_command("dev goto no_mans_land");
     let talk = engine.process_command("talk morlak");
@@ -375,7 +434,11 @@ fn act2_the_fresh_one_speaks_completes_on_talk_vassal() {
     engine.process_command("dev goto maintenance_tunnels");
     engine.process_command("talk brother_kell");
     let accept = engine.process_command("accept the fresh one speaks");
-    assert!(accept.success, "accept the_fresh_one_speaks failed: {}", accept.narrative);
+    assert!(
+        accept.success,
+        "accept the_fresh_one_speaks failed: {}",
+        accept.narrative
+    );
 
     // The fresh_hollow_vassal is in abomination_lair.
     engine.process_command("dev goto abomination_lair");
@@ -446,8 +509,12 @@ fn act3_what_lazarus_becomes_unlocks_after_blood_and_memory() {
 
     // Complete all Hollow chain prerequisites
     for q in &[
-        "morlak_intelligence", "the_shrine", "what_the_mark_means",
-        "kell_reads_the_name", "thirty_years_of_watching", "the_dead_visitor",
+        "morlak_intelligence",
+        "the_shrine",
+        "what_the_mark_means",
+        "kell_reads_the_name",
+        "thirty_years_of_watching",
+        "the_dead_visitor",
         "the_fresh_one_speaks",
     ] {
         engine.process_command(&format!("dev complete {}", q));
@@ -498,9 +565,14 @@ fn act3_what_lazarus_becomes_completes_on_talk_kehl() {
     let mut engine = new_game();
 
     for q in &[
-        "morlak_intelligence", "the_shrine", "what_the_mark_means",
-        "kell_reads_the_name", "thirty_years_of_watching", "the_dead_visitor",
-        "the_fresh_one_speaks", "the_sergeant_at_the_wall",
+        "morlak_intelligence",
+        "the_shrine",
+        "what_the_mark_means",
+        "kell_reads_the_name",
+        "thirty_years_of_watching",
+        "the_dead_visitor",
+        "the_fresh_one_speaks",
+        "the_sergeant_at_the_wall",
     ] {
         engine.process_command(&format!("dev complete {}", q));
     }
@@ -508,7 +580,11 @@ fn act3_what_lazarus_becomes_completes_on_talk_kehl() {
     engine.process_command("dev goto maintenance_tunnels");
     engine.process_command("talk brother_kell");
     let accept = engine.process_command("accept what lazarus becomes");
-    assert!(accept.success, "accept what_lazarus_becomes failed: {}", accept.narrative);
+    assert!(
+        accept.success,
+        "accept what_lazarus_becomes failed: {}",
+        accept.narrative
+    );
 
     engine.process_command("dev goto windward_approach");
     let talk = engine.process_command("talk sergeant_kehl");
@@ -551,9 +627,15 @@ fn act3_oldest_warning_completes_on_talk_solan() {
     let mut engine = new_game();
 
     for q in &[
-        "morlak_intelligence", "the_shrine", "what_the_mark_means",
-        "kell_reads_the_name", "thirty_years_of_watching", "the_dead_visitor",
-        "the_fresh_one_speaks", "the_sergeant_at_the_wall", "what_lazarus_becomes",
+        "morlak_intelligence",
+        "the_shrine",
+        "what_the_mark_means",
+        "kell_reads_the_name",
+        "thirty_years_of_watching",
+        "the_dead_visitor",
+        "the_fresh_one_speaks",
+        "the_sergeant_at_the_wall",
+        "what_lazarus_becomes",
     ] {
         engine.process_command(&format!("dev complete {}", q));
     }
@@ -561,7 +643,11 @@ fn act3_oldest_warning_completes_on_talk_solan() {
     engine.process_command("dev goto windward_approach");
     engine.process_command("talk sergeant_kehl");
     let accept = engine.process_command("accept the oldest warning");
-    assert!(accept.success, "accept the_oldest_warning failed: {}", accept.narrative);
+    assert!(
+        accept.success,
+        "accept the_oldest_warning failed: {}",
+        accept.narrative
+    );
 
     engine.process_command("dev goto iron_monastery");
     let talk = engine.process_command("talk abbot_solan");
@@ -577,9 +663,15 @@ fn act3_choice_in_the_lair_completes_on_reach_abomination_lair() {
     let mut engine = new_game();
 
     for q in &[
-        "morlak_intelligence", "the_shrine", "what_the_mark_means",
-        "kell_reads_the_name", "thirty_years_of_watching", "the_dead_visitor",
-        "the_fresh_one_speaks", "the_sergeant_at_the_wall", "what_lazarus_becomes",
+        "morlak_intelligence",
+        "the_shrine",
+        "what_the_mark_means",
+        "kell_reads_the_name",
+        "thirty_years_of_watching",
+        "the_dead_visitor",
+        "the_fresh_one_speaks",
+        "the_sergeant_at_the_wall",
+        "what_lazarus_becomes",
         "the_oldest_warning",
     ] {
         engine.process_command(&format!("dev complete {}", q));
@@ -588,7 +680,11 @@ fn act3_choice_in_the_lair_completes_on_reach_abomination_lair() {
     engine.process_command("dev goto iron_monastery");
     engine.process_command("talk abbot_solan");
     let accept = engine.process_command("accept the choice in the lair");
-    assert!(accept.success, "accept the_choice_in_the_lair failed: {}", accept.narrative);
+    assert!(
+        accept.success,
+        "accept the_choice_in_the_lair failed: {}",
+        accept.narrative
+    );
 
     let goto = engine.process_command("dev goto abomination_lair");
     assert!(
@@ -608,16 +704,43 @@ fn full_hollow_chain_with_dev_complete_completes_all_nine_quests() {
 
     let steps: &[(&str, &str, &str)] = &[
         // (prerequisite to complete before accepting, quest_id, destination to satisfy objective)
-        ("morlak_intelligence",     "the_shrine",              "abomination_lair"),
-        ("the_shrine",              "what_the_mark_means",     "iron_monastery"),       // TalkTo solan
-        ("what_the_mark_means",     "kell_reads_the_name",     "maintenance_tunnels"),  // TalkTo kell
-        ("kell_reads_the_name",     "thirty_years_of_watching","no_mans_land"),         // TalkTo morlak
-        ("thirty_years_of_watching","the_dead_visitor",        "hive_gate_district"),   // TalkTo vane
-        ("the_dead_visitor",        "the_fresh_one_speaks",    "abomination_lair"),     // TalkTo vassal
-        ("the_fresh_one_speaks|the_sergeant_at_the_wall",
-                                    "what_lazarus_becomes",    "windward_approach"),    // TalkTo kehl
-        ("what_lazarus_becomes",    "the_oldest_warning",      "iron_monastery"),       // TalkTo solan
-        ("the_oldest_warning",      "the_choice_in_the_lair",  "abomination_lair"),    // ReachRoom
+        ("morlak_intelligence", "the_shrine", "abomination_lair"),
+        ("the_shrine", "what_the_mark_means", "iron_monastery"), // TalkTo solan
+        (
+            "what_the_mark_means",
+            "kell_reads_the_name",
+            "maintenance_tunnels",
+        ), // TalkTo kell
+        (
+            "kell_reads_the_name",
+            "thirty_years_of_watching",
+            "no_mans_land",
+        ), // TalkTo morlak
+        (
+            "thirty_years_of_watching",
+            "the_dead_visitor",
+            "hive_gate_district",
+        ), // TalkTo vane
+        (
+            "the_dead_visitor",
+            "the_fresh_one_speaks",
+            "abomination_lair",
+        ), // TalkTo vassal
+        (
+            "the_fresh_one_speaks|the_sergeant_at_the_wall",
+            "what_lazarus_becomes",
+            "windward_approach",
+        ), // TalkTo kehl
+        (
+            "what_lazarus_becomes",
+            "the_oldest_warning",
+            "iron_monastery",
+        ), // TalkTo solan
+        (
+            "the_oldest_warning",
+            "the_choice_in_the_lair",
+            "abomination_lair",
+        ), // ReachRoom
     ];
 
     for (prereqs, quest_id, _destination) in steps {
@@ -652,15 +775,22 @@ fn full_hollow_chain_with_dev_complete_completes_all_nine_quests() {
     // The quest log should show all 9 as completed.
     let log = engine.process_command("quests");
     let hollow_quest_names = [
-        "The Shrine", "What the Mark Means", "Kell Reads the Name",
-        "Thirty Years of Watching", "The Dead Visitor", "The Fresh One Speaks",
-        "What Lazarus Becomes", "The Oldest Warning", "The Choice in the Lair",
+        "The Shrine",
+        "What the Mark Means",
+        "Kell Reads the Name",
+        "Thirty Years of Watching",
+        "The Dead Visitor",
+        "The Fresh One Speaks",
+        "What Lazarus Becomes",
+        "The Oldest Warning",
+        "The Choice in the Lair",
     ];
     for name in &hollow_quest_names {
         assert!(
             log.narrative.contains(name),
             "quest log should contain '{}': {}",
-            name, log.narrative
+            name,
+            log.narrative
         );
     }
 }

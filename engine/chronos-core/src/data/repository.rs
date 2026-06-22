@@ -1,11 +1,17 @@
+use crate::data::schemas::{
+    ClassTemplate, EncounterDef, ItemTemplate, NpcTemplate, QuestTemplate, RoomTemplate,
+    WorldManifest,
+};
 use std::collections::HashMap;
-use crate::data::schemas::{ClassTemplate, EncounterDef, ItemTemplate, NpcTemplate, QuestTemplate, RoomTemplate, WorldManifest};
 use thiserror::Error;
 
 #[derive(Debug, Error)]
 pub enum RepositoryError {
     #[error("JSON parse error in {file}: {source}")]
-    ParseError { file: String, source: serde_json::Error },
+    ParseError {
+        file: String,
+        source: serde_json::Error,
+    },
     #[error("No start room defined — at least one room must exist")]
     NoStartRoom,
     #[error("Manifest start_room_id '{0}' does not match any room")]
@@ -61,7 +67,14 @@ impl StaticRepository {
         npc_jsons: &[(&str, &str)],
         manifest_json: Option<&str>,
     ) -> Result<Self, RepositoryError> {
-        Self::from_json_pairs_full(room_jsons, item_jsons, class_jsons, npc_jsons, &[], manifest_json)
+        Self::from_json_pairs_full(
+            room_jsons,
+            item_jsons,
+            class_jsons,
+            npc_jsons,
+            &[],
+            manifest_json,
+        )
     }
 
     pub fn from_json_pairs_full(
@@ -74,61 +87,103 @@ impl StaticRepository {
     ) -> Result<Self, RepositoryError> {
         let mut rooms = HashMap::new();
         for (file, json) in room_jsons {
-            let template: RoomTemplate = serde_json::from_str(json)
-                .map_err(|e| RepositoryError::ParseError { file: file.to_string(), source: e })?;
+            let template: RoomTemplate =
+                serde_json::from_str(json).map_err(|e| RepositoryError::ParseError {
+                    file: file.to_string(),
+                    source: e,
+                })?;
             rooms.insert(template.id.clone(), template);
         }
 
         let mut items = HashMap::new();
         for (file, json) in item_jsons {
-            let template: ItemTemplate = serde_json::from_str(json)
-                .map_err(|e| RepositoryError::ParseError { file: file.to_string(), source: e })?;
+            let template: ItemTemplate =
+                serde_json::from_str(json).map_err(|e| RepositoryError::ParseError {
+                    file: file.to_string(),
+                    source: e,
+                })?;
             items.insert(template.id.clone(), template);
         }
 
         let mut classes = HashMap::new();
         for (file, json) in class_jsons {
-            let template: ClassTemplate = serde_json::from_str(json)
-                .map_err(|e| RepositoryError::ParseError { file: file.to_string(), source: e })?;
+            let template: ClassTemplate =
+                serde_json::from_str(json).map_err(|e| RepositoryError::ParseError {
+                    file: file.to_string(),
+                    source: e,
+                })?;
             classes.insert(template.id.clone(), template);
         }
 
         let mut npcs = HashMap::new();
         for (file, json) in npc_jsons {
-            let template: NpcTemplate = serde_json::from_str(json)
-                .map_err(|e| RepositoryError::ParseError { file: file.to_string(), source: e })?;
+            let template: NpcTemplate =
+                serde_json::from_str(json).map_err(|e| RepositoryError::ParseError {
+                    file: file.to_string(),
+                    source: e,
+                })?;
             npcs.insert(template.id.clone(), template);
         }
 
         let mut quests = HashMap::new();
         for (file, json) in quest_jsons {
-            let template: QuestTemplate = serde_json::from_str(json)
-                .map_err(|e| RepositoryError::ParseError { file: file.to_string(), source: e })?;
+            let template: QuestTemplate =
+                serde_json::from_str(json).map_err(|e| RepositoryError::ParseError {
+                    file: file.to_string(),
+                    source: e,
+                })?;
             quests.insert(template.id.clone(), template);
         }
 
         let (start_room_id, encounters, raw_placements) = match manifest_json {
             Some(json) => {
-                let manifest: WorldManifest = serde_json::from_str(json).map_err(|e| {
-                    RepositoryError::ParseError { file: "manifest.json".to_string(), source: e }
-                })?;
+                let manifest: WorldManifest =
+                    serde_json::from_str(json).map_err(|e| RepositoryError::ParseError {
+                        file: "manifest.json".to_string(),
+                        source: e,
+                    })?;
                 if !rooms.contains_key(&manifest.start_room_id) {
                     return Err(RepositoryError::StartRoomNotFound(manifest.start_room_id));
                 }
-                (manifest.start_room_id, manifest.encounters, manifest.npc_placements)
+                (
+                    manifest.start_room_id,
+                    manifest.encounters,
+                    manifest.npc_placements,
+                )
             }
-            None => (rooms.keys().min().ok_or(RepositoryError::NoStartRoom)?.clone(), Vec::new(), Vec::new()),
+            None => (
+                rooms
+                    .keys()
+                    .min()
+                    .ok_or(RepositoryError::NoStartRoom)?
+                    .clone(),
+                Vec::new(),
+                Vec::new(),
+            ),
         };
 
         // Build room → [npc_ids] and npc_id → room indexes.
         let mut npc_placements: HashMap<String, Vec<String>> = HashMap::new();
         let mut npc_id_to_room: HashMap<String, String> = HashMap::new();
         for p in raw_placements {
-            npc_placements.entry(p.room_id.clone()).or_default().push(p.npc_id.clone());
+            npc_placements
+                .entry(p.room_id.clone())
+                .or_default()
+                .push(p.npc_id.clone());
             npc_id_to_room.insert(p.npc_id, p.room_id);
         }
 
-        Ok(Self { rooms, items, classes, npcs, quests, encounters, npc_placements, npc_id_to_room, start_room_id })
+        Ok(Self {
+            rooms,
+            items,
+            classes,
+            npcs,
+            quests,
+            encounters,
+            npc_placements,
+            npc_id_to_room,
+            start_room_id,
+        })
     }
 
     pub fn start_room_id(&self) -> &str {
@@ -136,15 +191,21 @@ impl StaticRepository {
     }
 
     pub fn room(&self, id: &str) -> Result<&RoomTemplate, RepositoryError> {
-        self.rooms.get(id).ok_or_else(|| RepositoryError::RoomNotFound(id.to_string()))
+        self.rooms
+            .get(id)
+            .ok_or_else(|| RepositoryError::RoomNotFound(id.to_string()))
     }
 
     pub fn item(&self, id: &str) -> Result<&ItemTemplate, RepositoryError> {
-        self.items.get(id).ok_or_else(|| RepositoryError::ItemNotFound(id.to_string()))
+        self.items
+            .get(id)
+            .ok_or_else(|| RepositoryError::ItemNotFound(id.to_string()))
     }
 
     pub fn class(&self, id: &str) -> Result<&ClassTemplate, RepositoryError> {
-        self.classes.get(id).ok_or_else(|| RepositoryError::ClassNotFound(id.to_string()))
+        self.classes
+            .get(id)
+            .ok_or_else(|| RepositoryError::ClassNotFound(id.to_string()))
     }
 
     pub fn all_classes(&self) -> impl Iterator<Item = &ClassTemplate> {
@@ -172,7 +233,9 @@ impl StaticRepository {
     }
 
     pub fn npc(&self, id: &str) -> Result<&NpcTemplate, RepositoryError> {
-        self.npcs.get(id).ok_or_else(|| RepositoryError::NpcNotFound(id.to_string()))
+        self.npcs
+            .get(id)
+            .ok_or_else(|| RepositoryError::NpcNotFound(id.to_string()))
     }
 
     /// Room ID that the given NPC occupies, or None if not placed.
@@ -186,7 +249,10 @@ impl StaticRepository {
 
     /// All quests offered by the given NPC.
     pub fn quests_for_npc(&self, npc_id: &str) -> Vec<&QuestTemplate> {
-        self.quests.values().filter(|q| q.giver_npc_id == npc_id).collect()
+        self.quests
+            .values()
+            .filter(|q| q.giver_npc_id == npc_id)
+            .collect()
     }
 
     pub fn all_quests(&self) -> impl Iterator<Item = &QuestTemplate> {
@@ -195,6 +261,9 @@ impl StaticRepository {
 
     /// NPCs present in the given room (by npc_id).
     pub fn npcs_in_room(&self, room_id: &str) -> &[String] {
-        self.npc_placements.get(room_id).map(|v| v.as_slice()).unwrap_or(&[])
+        self.npc_placements
+            .get(room_id)
+            .map(|v| v.as_slice())
+            .unwrap_or(&[])
     }
 }

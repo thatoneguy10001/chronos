@@ -4,10 +4,10 @@
 //! to next level, HP, attack, defense, hit chance, evasion, luck, and equipped
 //! items. Does not advance the tick or modify any state.
 
-use bevy_ecs::prelude::*;
 use crate::components::{Controllable, Experience, Health, Identity, Stats};
 use crate::data::StaticRepository;
 use crate::events::ContextAction;
+use bevy_ecs::prelude::*;
 
 pub struct SheetResult {
     pub success: bool,
@@ -17,7 +17,8 @@ pub struct SheetResult {
 
 /// Read-only view of the player's character sheet. Does not advance the tick.
 pub fn process_character_sheet(world: &mut World, repo: &StaticRepository) -> SheetResult {
-    let mut q = world.query_filtered::<(&Identity, &Stats, &Health, &Experience), With<Controllable>>();
+    let mut q =
+        world.query_filtered::<(&Identity, &Stats, &Health, &Experience), With<Controllable>>();
     let Some((id, stats, hp, exp)) = q.iter(world).next() else {
         return SheetResult {
             success: false,
@@ -52,7 +53,9 @@ pub fn process_character_sheet(world: &mut World, repo: &StaticRepository) -> Sh
         let section = if class.abilities.is_empty() {
             String::new()
         } else {
-            let lines: String = class.abilities.iter()
+            let lines: String = class
+                .abilities
+                .iter()
                 .map(|a| format!("\n  {} — {}", a.name, a.description))
                 .collect();
             format!("\n\nAbilities:{}", lines)
@@ -72,13 +75,21 @@ pub fn process_character_sheet(world: &mut World, repo: &StaticRepository) -> Sh
     );
 
     let context_actions = if let Ok(class) = repo.class(&class_id) {
-        class.abilities.iter().map(|a| ContextAction {
-            label: a.name.clone(),
-            command: a.id.replace('_', " "),
-        }).collect()
+        class
+            .abilities
+            .iter()
+            .map(|a| ContextAction {
+                label: a.name.clone(),
+                command: a.id.replace('_', " "),
+            })
+            .collect()
     } else {
         vec![]
     };
 
-    SheetResult { success: true, narrative, context_actions }
+    SheetResult {
+        success: true,
+        narrative,
+        context_actions,
+    }
 }

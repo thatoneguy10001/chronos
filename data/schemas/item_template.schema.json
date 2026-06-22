@@ -32,6 +32,10 @@
       "description": "Arbitrary key-value data for game mechanics (weight, damage, etc.)",
       "additionalProperties": true
     },
+    "consumable": {
+      "type": "boolean",
+      "description": "If true, item is removed from inventory on use."
+    },
     "tags": {
       "type": "array",
       "items": { "type": "string" },
