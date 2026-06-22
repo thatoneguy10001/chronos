@@ -50,7 +50,7 @@ export function MiniMap() {
       <svg
         viewBox={`0 0 ${MAP_W} ${MAP_H}`}
         preserveAspectRatio="xMidYMid meet"
-        style={{ display: 'block', width: '100%', height: 'auto', overflow: 'hidden', background: '#050a05', border: '1px solid #2a3a2a', borderRadius: 2 }}
+        style={{ display: 'block', width: '100%', height: 'auto', overflow: 'hidden', background: '#b8955a', border: '1px solid rgba(46,26,8,0.3)', borderRadius: 2 }}
         onMouseLeave={() => setHoveredId(null)}
       >
         {/* Edges + direction labels */}
@@ -68,11 +68,11 @@ export function MiniMap() {
           return (
             <g key={i}>
               <line x1={x1} y1={y1} x2={x2} y2={y2}
-                stroke="#3a5a3a" strokeWidth={1.5} />
+                stroke="rgba(46,26,8,0.45)" strokeWidth={1.5} />
               <rect x={mx - 7} y={my - 6} width={14} height={11} rx={1}
-                fill="#050a05" />
+                fill="#b8955a" />
               <text x={mx} y={my + 1} textAnchor="middle" dominantBaseline="middle"
-                fontSize="7" fill="#5a7a5a" fontFamily="monospace"
+                fontSize="7" fill="rgba(46,26,8,0.55)" fontFamily="monospace"
                 style={{ pointerEvents: 'none' }}>
                 {abbr}
               </text>
@@ -94,13 +94,13 @@ export function MiniMap() {
               <rect
                 x={sx - ROOM} y={sy - ROOM}
                 width={ROOM * 2} height={ROOM * 2}
-                fill={isCurrent ? '#2a5a2a' : isHovered ? '#1a3a1a' : '#0f1f0f'}
-                stroke={isCurrent ? '#5aaa5a' : isHovered ? '#4a7a4a' : '#2a4a2a'}
+                fill={isCurrent ? 'rgba(46,26,8,0.55)' : isHovered ? 'rgba(46,26,8,0.2)' : 'rgba(46,26,8,0.12)'}
+                stroke={isCurrent ? 'rgba(46,26,8,0.85)' : isHovered ? 'rgba(46,26,8,0.5)' : 'rgba(46,26,8,0.3)'}
                 strokeWidth={isCurrent ? 1.5 : 1}
               />
               {isCurrent && (
                 <text x={sx} y={sy + 1} textAnchor="middle" dominantBaseline="middle"
-                  fontSize="9" fill="#8aff8a" fontFamily="monospace"
+                  fontSize="9" fill="#e4d0a0" fontFamily="monospace"
                   style={{ pointerEvents: 'none' }}>●</text>
               )}
             </g>

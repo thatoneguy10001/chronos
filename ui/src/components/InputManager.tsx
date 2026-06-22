@@ -44,12 +44,13 @@ export function InputManager({ onCommand }: Props) {
 
   return (
     <div style={{
-      borderTop: `1px solid var(--j-divider)`,
-      padding: '0.75rem 1.5rem',
-      background: 'var(--bg-input)',
+      borderTop: `1px solid var(--ink-divider)`,
+      padding: '0.65rem 2rem',
+      background: 'var(--parchment-mid)',
+      fontFamily: 'var(--font-dossier)',
     }}>
-      <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.6rem', alignItems: 'center' }}>
-        <span style={{ color: 'var(--j-label)', fontSize: '0.62em', letterSpacing: '0.15em' }}>INPUT</span>
+      <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.5rem', alignItems: 'center' }}>
+        <span style={{ color: 'var(--ink-faint)', fontSize: '0.6em', letterSpacing: '0.15em' }}>INPUT</span>
         {(['PARSER', 'BUTTONS'] as InputMode[]).map(mode => (
           <button
             key={mode}
@@ -80,23 +81,23 @@ export function InputManager({ onCommand }: Props) {
 
       {inputMode === 'PARSER' ? (
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-          <span style={{ color: 'var(--text-label)', userSelect: 'none' }}>&gt;</span>
+          <span style={{ color: 'var(--ink-faint)', userSelect: 'none', fontFamily: 'var(--font-journal)' }}>›</span>
           <input
             ref={inputRef}
             value={draft}
             onChange={e => setDraft(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="enter command..."
+            placeholder="write your next move..."
             autoFocus
             style={{
               flex: 1,
               background: 'transparent',
               border: 'none',
               outline: 'none',
-              color: 'var(--text-input)',
-              fontFamily: 'inherit',
-              fontSize: '1em',
-              caretColor: 'var(--text)',
+              color: 'var(--ink-narrative)',
+              fontFamily: 'var(--font-journal)',
+              fontSize: '1.15em',
+              caretColor: 'var(--ink-narrative)',
             }}
           />
         </div>

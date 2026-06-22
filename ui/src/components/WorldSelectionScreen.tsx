@@ -5,8 +5,8 @@ import { readAllSlots } from '@/store/gameStore';
 import type { SaveSlot } from '@/store/gameStore';
 
 const TONE_COLORS: Record<string, { accent: string; dim: string }> = {
-  fantasy:    { accent: '#4a9a4a', dim: '#2a5a2a' },
-  dieselpunk: { accent: '#9a7a2a', dim: '#5a4a1a' },
+  fantasy:    { accent: '#1a4a1a', dim: 'rgba(26,74,26,0.55)' },
+  dieselpunk: { accent: '#2e1a08', dim: 'rgba(46,26,8,0.5)'  },
 };
 
 function formatSavedAt(iso: string): string {
@@ -50,7 +50,7 @@ function ContinueCard({
         padding: '0.75rem 1.2rem',
         marginBottom: '0.5rem',
         cursor: 'pointer',
-        background: hovered ? 'var(--bg-hover)' : 'transparent',
+        background: hovered ? 'rgba(46,26,8,0.07)' : 'rgba(46,26,8,0.03)',
         transition: 'all 0.15s',
         maxWidth: 560,
         width: '100%',
@@ -102,7 +102,7 @@ function WorldCard({
         padding: '1.2rem 1.4rem',
         marginBottom: '1rem',
         cursor: 'pointer',
-        background: hovered ? 'var(--bg-hover)' : 'transparent',
+        background: hovered ? 'rgba(46,26,8,0.07)' : 'rgba(46,26,8,0.03)',
         transition: 'all 0.15s',
         maxWidth: 560,
         width: '100%',
@@ -150,12 +150,16 @@ export function WorldSelectionScreen({ onSelect, onContinue }: WorldSelectionScr
       flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'flex-start',
-      fontFamily: 'monospace',
-      background: 'var(--bg-panel)',
+      fontFamily: 'var(--font-journal)',
+      background: [
+        'radial-gradient(ellipse at 20% 30%, rgba(140,96,32,0.3) 0%, transparent 55%)',
+        'radial-gradient(ellipse at 80% 70%, rgba(120,80,24,0.22) 0%, transparent 48%)',
+        'var(--parchment)',
+      ].join(', '),
       padding: '10vh 2rem 2rem',
       overflowY: 'auto',
     }}>
-      <div style={{ color: 'var(--text-dim)', fontSize: '0.72em', letterSpacing: '0.15em', marginBottom: '0.5rem' }}>
+      <div style={{ color: 'var(--ink-faint)', fontSize: '0.75em', letterSpacing: '0.15em', marginBottom: '0.5rem', fontFamily: 'var(--font-dossier)' }}>
         ── PROJECT CHRONOS ──
       </div>
 
@@ -186,13 +190,13 @@ export function WorldSelectionScreen({ onSelect, onContinue }: WorldSelectionScr
       )}
 
       {!populatedSaves.length && (
-        <div style={{ color: 'var(--text-accent)', fontSize: '1.4em', fontWeight: 'bold', marginBottom: '0.4rem' }}>
+        <div style={{ color: 'var(--ink-narrative)', fontSize: '1.6em', fontWeight: '600', marginBottom: '0.4rem' }}>
           Choose Your World
         </div>
       )}
 
       {!populatedSaves.length && (
-        <div style={{ color: 'var(--text-body)', fontSize: '0.8em', marginBottom: '2rem' }}>
+        <div style={{ color: 'var(--ink-movement)', fontSize: '0.9em', marginBottom: '2rem', fontFamily: 'var(--font-dossier)' }}>
           Each world is a complete adventure with its own rules and lore.
         </div>
       )}
