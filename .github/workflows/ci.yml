@@ -8,6 +8,11 @@ on:
     branches: [master]
   pull_request:
 
+# Restrict the GITHUB_TOKEN to the minimum required.
+# All jobs here only read code and run tests — no writes needed.
+permissions:
+  contents: read
+
 jobs:
   engine:
     name: Engine — build + test
