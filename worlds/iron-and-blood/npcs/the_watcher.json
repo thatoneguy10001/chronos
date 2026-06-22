@@ -32,8 +32,7 @@
       "keyword": "hollow",
       "prompt": "what you are",
       "response": "It considers the question with evident care. 'Your people have a name for what I am. I have heard it through the stone when the ones who came above walked the city.' It looks at its hands — the crystalline flesh, the cracks, the slow pulse. 'The word you use describes the process. It does not describe — this.' A gesture that takes in the plaza, the preserved city, the centuries. 'I am what remains of a person who chose not to leave. I am not what the compound produces in your soldiers. That process is an imitation of something that was done properly and with consent, and the imitation does not work the same way.' A pause. 'Tell the one who designed it that the original records are in the hall to the west. She will want to see them.'",
-      "disposition_delta": 10,
-      "requires_quest_complete": "stone_investigates"
+      "disposition_delta": 10
     },
     {
       "keyword": "night",
