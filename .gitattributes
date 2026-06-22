@@ -1,0 +1,38 @@
+# Normalize all text files to LF in the repo; git converts to CRLF on Windows checkout.
+# This eliminates the "LF will be replaced by CRLF" warnings and keeps diffs clean.
+* text=auto eol=lf
+
+# Rust source
+*.rs    text eol=lf
+*.toml  text eol=lf
+
+# Web / UI
+*.ts    text eol=lf
+*.tsx   text eol=lf
+*.js    text eol=lf
+*.jsx   text eol=lf
+*.css   text eol=lf
+*.html  text eol=lf
+*.json  text eol=lf
+
+# Config / scripts
+*.yml   text eol=lf
+*.yaml  text eol=lf
+*.md    text eol=lf
+*.py    text eol=lf
+
+# PowerShell scripts stay CRLF (Windows tooling expects it)
+*.ps1   text eol=crlf
+*.psm1  text eol=crlf
+*.psd1  text eol=crlf
+
+# Binary — never diff or normalize
+*.wasm  binary
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.gif   binary
+*.ico   binary
+*.ttf   binary
+*.woff  binary
+*.woff2 binary

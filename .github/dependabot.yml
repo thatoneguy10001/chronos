@@ -1,0 +1,41 @@
+version: 2
+updates:
+  # Rust crates (engine workspace)
+  - package-ecosystem: "cargo"
+    directory: "/engine"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 5
+    groups:
+      # Group minor/patch bumps for bevy_ecs and serde together to reduce PR noise.
+      # Major bumps (e.g. bevy 0.14 → 0.15) are left ungrouped so we can review them individually.
+      serialization:
+        patterns: ["serde", "serde_json", "thiserror"]
+        update-types: ["minor", "patch"]
+      axum-stack:
+        patterns: ["axum", "tokio", "tower-http"]
+        update-types: ["minor", "patch"]
+
+  # npm packages (UI)
+  - package-ecosystem: "npm"
+    directory: "/ui"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 5
+    groups:
+      react:
+        patterns: ["react", "react-dom", "@types/react", "@types/react-dom"]
+        update-types: ["minor", "patch"]
+      vite-toolchain:
+        patterns: ["vite", "@vitejs/*", "vite-plugin-*", "typescript"]
+        update-types: ["minor", "patch"]
+
+  # GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 5
