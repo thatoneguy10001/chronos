@@ -68,7 +68,6 @@
       "keyword": "sunken",
       "prompt": "the Sunken City of Aetherion",
       "response": "His composure does not shift, but something behind it does — the quality of someone who has been waiting for a particular question for a very long time. 'You have been there.' Not a question. 'The Monastery has had a record of Aetherion's existence for two hundred years. We could not reach it — the descent was not something anyone attempted until recently.' He folds his hands. 'The original Elder records — the ones Kell has been translating — were written by people who built that city. Who lived in it. Who were in it when the Cascade struck.' He is quiet. 'The last entry in the deepest section of the records is a description of the decision to remain. Written by someone who chose not to ascend with the survivors. Who chose to stay as witness.' He looks at you. 'We did not know, until you have just confirmed it, that the one who stayed was still there.'",
-      "requires_quest_complete": "visit_aetherion",
       "disposition_delta": 12
     },
     {
