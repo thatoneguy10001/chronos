@@ -3,8 +3,8 @@ import { listPlayableClasses } from '@/bridge/engine';
 import type { ClassMeta } from '@/bridge/engine';
 
 const TONE_COLORS: Record<string, { accent: string; dim: string; stat: string }> = {
-  fantasy:    { accent: '#4a9a4a', dim: '#2a5a2a', stat: '#c8ffb0' },
-  dieselpunk: { accent: '#9a7a2a', dim: '#5a4a1a', stat: '#ffd080' },
+  fantasy:    { accent: '#1a4a1a', dim: 'rgba(26,74,26,0.55)',  stat: '#2a6a2a' },
+  dieselpunk: { accent: '#2e1a08', dim: 'rgba(46,26,8,0.5)',   stat: '#6b3a10' },
 };
 
 const DEFAULT_COLORS = TONE_COLORS['fantasy'];
@@ -13,7 +13,7 @@ function StatPill({ label, value, color }: { label: string; value: number; color
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2, minWidth: 44 }}>
       <span style={{ color, fontWeight: 'bold', fontSize: '0.9em' }}>{value}</span>
-      <span style={{ color: 'var(--text-label)', fontSize: '0.65em', letterSpacing: '0.06em' }}>{label}</span>
+      <span style={{ color: 'var(--ink-faint)', fontSize: '0.65em', letterSpacing: '0.06em', fontFamily: 'var(--font-dossier)' }}>{label}</span>
     </div>
   );
 }
@@ -43,16 +43,16 @@ function ClassCard({
         borderRadius: 4,
         padding: '1rem 1.2rem',
         cursor: 'pointer',
-        background: hovered ? 'var(--bg-hover)' : 'transparent',
+        background: hovered ? 'rgba(46,26,8,0.07)' : 'rgba(46,26,8,0.02)',
         transition: 'all 0.15s',
         width: 240,
         flexShrink: 0,
       }}
     >
-      <div style={{ color: colors.accent, fontWeight: 'bold', fontSize: '0.95em', marginBottom: '0.2rem' }}>
+      <div style={{ color: colors.accent, fontWeight: '600', fontSize: '1.05em', marginBottom: '0.2rem' }}>
         {cls.name}
       </div>
-      <div style={{ color: 'var(--text-body)', fontSize: '0.72em', lineHeight: 1.45, marginBottom: '0.7rem', minHeight: '3.2em' }}>
+      <div style={{ color: 'var(--ink-narrative)', fontSize: '0.78em', lineHeight: 1.55, marginBottom: '0.7rem', minHeight: '3.2em', opacity: 0.8 }}>
         {cls.description}
       </div>
 
@@ -63,11 +63,11 @@ function ClassCard({
         <StatPill label="INT" value={intelligence}  color={hovered ? colors.stat : colors.dim} />
       </div>
 
-      <div style={{ fontSize: '0.68em', color: colors.dim, letterSpacing: '0.06em', marginBottom: '0.3rem' }}>
+      <div style={{ fontSize: '0.65em', color: colors.dim, letterSpacing: '0.1em', marginBottom: '0.3rem', fontFamily: 'var(--font-dossier)' }}>
         ABILITIES
       </div>
       {cls.abilities.map(a => (
-        <div key={a.id} style={{ fontSize: '0.72em', color: hovered ? 'var(--text-body)' : 'var(--text-label)', marginBottom: 2 }}>
+        <div key={a.id} style={{ fontSize: '0.78em', color: hovered ? 'var(--ink-narrative)' : 'var(--ink-faint)', marginBottom: 2 }}>
           · {a.name}
         </div>
       ))}
@@ -98,17 +98,17 @@ export function CharacterCreationScreen({ worldId, tone, worldTitle, onSelect }:
       flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'center',
-      fontFamily: 'monospace',
-      background: 'var(--bg-panel)',
+      fontFamily: 'var(--font-journal)',
+      background: "url('/textures/teastain%20102.png') center/cover no-repeat var(--parchment)",
       padding: '2rem',
     }}>
-      <div style={{ color: colors.dim, fontSize: '0.72em', letterSpacing: '0.15em', marginBottom: '0.5rem' }}>
+      <div style={{ color: 'var(--ink-faint)', fontSize: '0.75em', letterSpacing: '0.15em', marginBottom: '0.5rem', fontFamily: 'var(--font-dossier)' }}>
         ── {worldTitle.toUpperCase()} ──
       </div>
-      <div style={{ color: colors.accent, fontSize: '1.4em', fontWeight: 'bold', marginBottom: '0.4rem' }}>
+      <div style={{ color: 'var(--ink-narrative)', fontSize: '1.6em', fontWeight: '600', marginBottom: '0.4rem' }}>
         Choose Your Class
       </div>
-      <div style={{ color: 'var(--text-body)', fontSize: '0.8em', marginBottom: '2rem' }}>
+      <div style={{ color: 'var(--ink-movement)', fontSize: '0.9em', marginBottom: '2rem', fontFamily: 'var(--font-dossier)' }}>
         Your class defines your stats and abilities for this run.
       </div>
 
