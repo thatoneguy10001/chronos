@@ -149,7 +149,7 @@ async fn handle_socket(mut socket: WebSocket) {
             Ok(client_msg) => dispatch(&mut engine, client_msg),
         };
 
-        if socket.send(Message::Text(response)).await.is_err() {
+        if socket.send(Message::Text(response.into())).await.is_err() {
             break;
         }
     }
