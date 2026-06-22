@@ -72,3 +72,37 @@ jobs:
       # `npm run build` is `tsc && vite build` — type-check + production bundle.
       - run: npm run build
         working-directory: ui
+      # Upload the dist + wasm so the e2e job can serve it without rebuilding.
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ui-dist
+          path: ui/dist
+          retention-days: 1
+
+  e2e:
+    name: UI — Playwright E2E
+    needs: ui
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: ui/package-lock.json
+      - run: npm ci
+        working-directory: ui
+      - uses: actions/download-artifact@v4
+        with:
+          name: ui-dist
+          path: ui/dist
+      - run: npx playwright install --with-deps chromium
+        working-directory: ui
+      - run: npm run e2e
+        working-directory: ui
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-report
+          path: ui/playwright-report
+          retention-days: 7

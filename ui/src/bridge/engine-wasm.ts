@@ -48,27 +48,30 @@ let currentItemNames: Record<string, string> = {};
 let currentItemDescriptions: Record<string, string> = {};
 
 // All world data — eagerly bundled at build time across every world directory.
-const allRoomModules    = import.meta.glob('../../../worlds/*/rooms/*.json',    { as: 'raw', eager: true });
-const allItemModules    = import.meta.glob('../../../worlds/*/items/*.json',    { as: 'raw', eager: true });
-const allClassModules   = import.meta.glob('../../../worlds/*/classes/*.json',  { as: 'raw', eager: true });
-const allNpcModules     = import.meta.glob('../../../worlds/*/npcs/*.json',     { as: 'raw', eager: true });
-const allQuestModules   = import.meta.glob('../../../worlds/*/quests/*.json',   { as: 'raw', eager: true });
-const allManifestModules = import.meta.glob('../../../worlds/*/manifest.json',  { as: 'raw', eager: true });
-const allWorldMetaModules = import.meta.glob('../../../worlds/*/world.json',   { as: 'raw', eager: true });
+// Vite 8 dropped the `as: 'raw'` glob option; JSON files are now imported as
+// module namespace objects ({ default: parsedObject, ...namedExports }).
+// We access `.default` and re-stringify when the WASM engine needs raw JSON.
+const allRoomModules      = import.meta.glob<{ default: unknown }>('../../../worlds/*/rooms/*.json',    { eager: true });
+const allItemModules      = import.meta.glob<{ default: unknown }>('../../../worlds/*/items/*.json',    { eager: true });
+const allClassModules     = import.meta.glob<{ default: unknown }>('../../../worlds/*/classes/*.json',  { eager: true });
+const allNpcModules       = import.meta.glob<{ default: unknown }>('../../../worlds/*/npcs/*.json',     { eager: true });
+const allQuestModules     = import.meta.glob<{ default: unknown }>('../../../worlds/*/quests/*.json',   { eager: true });
+const allManifestModules  = import.meta.glob<{ default: unknown }>('../../../worlds/*/manifest.json',  { eager: true });
+const allWorldMetaModules = import.meta.glob<{ default: WorldMeta }>('../../../worlds/*/world.json',   { eager: true });
 
-function filterByWorld(modules: Record<string, unknown>, worldId: string) {
+function filterByWorld(modules: Record<string, { default: unknown }>, worldId: string) {
   return Object.entries(modules)
     .filter(([path]) => path.includes(`/worlds/${worldId}/`))
-    .map(([path, content]) => ({
+    .map(([path, module]) => ({
       filename: path.split('/').pop() ?? path,
-      content: content as string,
+      content: JSON.stringify(module.default),
     }));
 }
 
 /** Returns metadata for all available worlds, sorted by id. */
 export async function listWorlds(): Promise<WorldMeta[]> {
   return Object.entries(allWorldMetaModules)
-    .map(([, content]) => JSON.parse(content as string) as WorldMeta)
+    .map(([, module]) => module.default)
     .sort((a, b) => a.id.localeCompare(b.id));
 }
 
@@ -118,11 +121,11 @@ export async function initEngine(worldId: string): Promise<{ worldMeta: WorldMet
 
   const manifestEntry = Object.entries(allManifestModules)
     .find(([path]) => path.includes(`/worlds/${worldId}/`));
-  const manifest = manifestEntry ? (manifestEntry[1] as string) : undefined;
+  const manifest = manifestEntry ? JSON.stringify(manifestEntry[1].default) : undefined;
 
   const metaEntry = Object.entries(allWorldMetaModules)
     .find(([path]) => path.includes(`/worlds/${worldId}/`));
-  currentWorldMeta = metaEntry ? JSON.parse(metaEntry[1] as string) as WorldMeta : null;
+  currentWorldMeta = metaEntry ? (metaEntry[1].default as WorldMeta) : null;
 
   currentItemNames = Object.fromEntries(
     items.map(({ content }) => {
