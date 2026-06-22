@@ -59,7 +59,7 @@ jobs:
       - uses: jetli/wasm-pack-action@v0.4.0
       - uses: actions/setup-node@v6
         with:
-          node-version: 20
+          node-version: 22
           cache: npm
           cache-dependency-path: ui/package-lock.json
       - run: npm ci
