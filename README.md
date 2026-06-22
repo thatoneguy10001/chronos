@@ -86,3 +86,7 @@ Active development. One world (Iron & Blood) is complete and playable. Engine su
 The Chronos engine (`engine/`, `ui/`) is MIT licensed — see [LICENSE](LICENSE).
 
 World content (`worlds/iron-and-blood/`) — lore, dialogue, quest writing, and story — is copyright © 2026 Casey Logsdon, all rights reserved. See [worlds/iron-and-blood/COPYRIGHT](worlds/iron-and-blood/COPYRIGHT).
+
+## Credits
+
+Third-party assets used in this project are listed in [CREDITS.md](CREDITS.md), including attribution for the parchment texture (Majcher, CC BY 4.0).

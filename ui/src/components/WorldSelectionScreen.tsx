@@ -151,11 +151,7 @@ export function WorldSelectionScreen({ onSelect, onContinue }: WorldSelectionScr
       alignItems: 'center',
       justifyContent: 'flex-start',
       fontFamily: 'var(--font-journal)',
-      background: [
-        'radial-gradient(ellipse at 20% 30%, rgba(140,96,32,0.3) 0%, transparent 55%)',
-        'radial-gradient(ellipse at 80% 70%, rgba(120,80,24,0.22) 0%, transparent 48%)',
-        'var(--parchment)',
-      ].join(', '),
+      background: "url('/textures/teastain%20102.png') center/cover no-repeat var(--parchment)",
       padding: '10vh 2rem 2rem',
       overflowY: 'auto',
     }}>
