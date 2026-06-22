@@ -2,11 +2,8 @@ name: Deploy to GitHub Pages
 
 # Builds the standalone WASM app (no dev WebSocket server) and publishes it to
 # GitHub Pages on every push to master, giving an always-current playable URL.
-#
-# NOTE: Pages on a PRIVATE repo requires a paid GitHub plan (Pro/Team/Enterprise).
-# On a free plan this job will fail at publish — make the repo public or deploy
-# elsewhere (Netlify/Cloudflare Pages). Enable once at: Settings → Pages →
-# Build and deployment → Source: GitHub Actions.
+# Requires the repo to be public (free plan) or a paid GitHub plan.
+# Enable Pages at: Settings → Pages → Build and deployment → Source: GitHub Actions
 on:
   push:
     branches: [master]
@@ -37,7 +34,7 @@ jobs:
       - uses: jetli/wasm-pack-action@v0.4.0
       - uses: actions/setup-node@v6
         with:
-          node-version: 20
+          node-version: 22
           cache: npm
           cache-dependency-path: ui/package-lock.json
       - run: npm ci
@@ -49,10 +46,6 @@ jobs:
         env:
           VITE_BASE: /chronos/
       - uses: actions/configure-pages@v5
-        with:
-          # Auto-enable Pages (source = Actions) on first run, so the only manual
-          # step is making the repo public. Requires the repo to permit it.
-          enablement: true
       - uses: actions/upload-pages-artifact@v5
         with:
           path: ui/dist
