@@ -45,12 +45,7 @@ export function Terminal() {
         display: 'flex', flexDirection: 'column',
         fontFamily: 'var(--font-journal)',
         fontSize: '1.2rem',
-        background: [
-          'radial-gradient(ellipse at 18% 25%, rgba(160,112,40,0.35) 0%, transparent 55%)',
-          'radial-gradient(ellipse at 82% 72%, rgba(140,96,32,0.28) 0%, transparent 48%)',
-          'radial-gradient(ellipse at 50% 95%, rgba(120,80,24,0.22) 0%, transparent 35%)',
-          'var(--parchment)',
-        ].join(', '),
+        background: 'transparent',
       }}
     >
       <div style={{ marginTop: 'auto' }}>
