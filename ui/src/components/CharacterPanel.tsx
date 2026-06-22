@@ -20,7 +20,8 @@ function Bar({ value, max, color }: { value: number; max: number; color: string 
   );
 }
 
-function StatRow({ label, value }: { label: string; value: number }) {
+function StatRow({ label, value, hideIfZero }: { label: string; value: number; hideIfZero?: boolean }) {
+  if (hideIfZero && value === 0) return null;
   return (
     <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8em', marginBottom: 2 }}>
       <span style={{ color: 'var(--text-label)' }}>{label}</span>
@@ -65,15 +66,15 @@ function PlayerCard({ ch, currencyName, currencySymbol, secondaryCurrencyName, s
       </div>
 
       <div style={divider}>
-        <StatRow label="AGI"      value={ch.agility} />
+        <StatRow label="AGI"      value={ch.agility}      hideIfZero />
         <StatRow label="ATK"      value={ch.attack} />
         <StatRow label="DEF"      value={ch.defense} />
-        <StatRow label="EVA"      value={ch.evasion} />
-        <StatRow label="HIT"      value={ch.hit} />
+        <StatRow label="EVA"      value={ch.evasion}      hideIfZero />
+        <StatRow label="HIT"      value={ch.hit}          hideIfZero />
         <StatRow label="INT"      value={ch.intelligence} />
-        <StatRow label="LCK"      value={ch.luck} />
-        <StatRow label="TECH ATK" value={ch.tech_attack} />
-        <StatRow label="TECH DEF" value={ch.endurance} />
+        <StatRow label="LCK"      value={ch.luck}         hideIfZero />
+        <StatRow label="TECH ATK" value={ch.tech_attack}  hideIfZero />
+        <StatRow label="TECH DEF" value={ch.endurance}    hideIfZero />
         <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8em', marginBottom: 2, marginTop: 4, borderTop: '1px solid var(--j-divider)', paddingTop: 4 }}>
           <span style={{ color: 'var(--gold-dim)' }}>{currencyName.toUpperCase()}</span>
           <span style={{ color: 'var(--gold)' }}>{currencySymbol} {ch.gold ?? 0}</span>

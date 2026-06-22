@@ -149,10 +149,11 @@ export function WorldSelectionScreen({ onSelect, onContinue }: WorldSelectionScr
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-      justifyContent: 'center',
+      justifyContent: 'flex-start',
       fontFamily: 'monospace',
       background: 'var(--bg-panel)',
-      padding: '2rem',
+      padding: '10vh 2rem 2rem',
+      overflowY: 'auto',
     }}>
       <div style={{ color: 'var(--text-dim)', fontSize: '0.72em', letterSpacing: '0.15em', marginBottom: '0.5rem' }}>
         ── PROJECT CHRONOS ──
