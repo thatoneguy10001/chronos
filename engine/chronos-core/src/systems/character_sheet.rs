@@ -65,11 +65,28 @@ pub fn process_character_sheet(world: &mut World, repo: &StaticRepository) -> Sh
         (class_id.clone(), String::new())
     };
 
+    let secondary: Vec<String> = [
+        ("HIT", hit),
+        ("TECH ATK", tech),
+        ("EVA", eva),
+        ("TECH DEF", end),
+        ("LCK", lck),
+        ("AGI", agi),
+    ]
+    .iter()
+    .filter(|(_, v)| *v != 0)
+    .map(|(l, v)| format!("{} {}", l, v))
+    .collect();
+    let secondary_line = if secondary.is_empty() {
+        String::new()
+    } else {
+        format!("\n{}", secondary.join("  \u{2022}  "))
+    };
     let narrative = format!(
-        "=== {} the {} (Level {}) ===\n\nHP {}/{}  \u{2022}  ATK {}  \u{2022}  DEF {}  \u{2022}  INT {}\nHIT {}  \u{2022}  TECH ATK {}  \u{2022}  EVA {}  \u{2022}  TECH DEF {}  \u{2022}  LCK {}  \u{2022}  AGI {}\n{}{}",
+        "=== {} the {} (Level {}) ===\n\nHP {}/{}  \u{2022}  ATK {}  \u{2022}  DEF {}  \u{2022}  INT {}{}\n{}{}",
         name, class_display_name, level,
         hp_cur, hp_max, atk, def, int,
-        hit, tech, eva, end, lck, agi,
+        secondary_line,
         xp_line,
         abilities_section,
     );

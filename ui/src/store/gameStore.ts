@@ -316,8 +316,9 @@ export const useGameStore = create<GameStore>((set, get) => ({
         mapNodes[newRoomId] = { id: newRoomId, name: newRoomName, x: newX, y: newY };
       }
 
+      const isInternalCmd = cmd.startsWith('become ');
       set(state => ({
-        lines: [...state.lines, mkLine('input', `> ${raw}`), responseLine],
+        lines: [...state.lines, ...(isInternalCmd ? [] : [mkLine('input', `> ${raw}`)]), responseLine],
         currentTick:     result.tick,
         maxTick:         result.max_tick,
         gameTime:        result.game_time ?? 360,
