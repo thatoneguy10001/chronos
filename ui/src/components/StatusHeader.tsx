@@ -6,7 +6,7 @@
  *   • Status line  — current room (left) · HP bar + numbers + effect chips (right)
  */
 import { useGameStore } from '@/store/gameStore';
-import { SectionLabel, pillButton } from '@/components/Panel';
+import { pillButton } from '@/components/Panel';
 
 export function formatGameTime(minutes: number): { timeStr: string; dayStr: string; isNight: boolean } {
   const h = Math.floor((minutes % 1440) / 60);
@@ -47,22 +47,23 @@ export function StatusHeader({ devMode = false }: { devMode?: boolean }) {
   const hpColor = hpLow ? 'var(--bar-hp-low)' : hpMed ? '#c8a040' : 'var(--bar-hp)';
 
   return (
-    <div style={{ borderBottom: '1px solid var(--j-border)', background: 'var(--bg-panel)', flexShrink: 0 }}>
+    <div style={{ borderBottom: '1px solid var(--ink-divider)', background: 'var(--parchment-mid)', flexShrink: 0 }}>
       {/* ── Utility line ── */}
       <div style={{
         display: 'flex', alignItems: 'center', gap: 'var(--sp-2)',
-        padding: '0.5rem var(--sp-4)',
-        borderBottom: '1px solid var(--j-divider)',
+        padding: '0.4rem var(--sp-4)',
+        borderBottom: '1px solid var(--ink-divider)',
+        fontFamily: 'var(--font-dossier)',
       }}>
-        <SectionLabel style={{ fontSize: 'var(--fs-label)' }}>
+        <span style={{ fontSize: '0.65em', letterSpacing: '0.15em', color: 'var(--ink-movement)', textTransform: 'uppercase' }}>
           {worldTitle || 'Project Chronos'}
-        </SectionLabel>
+        </span>
         <div style={{ flex: 1 }} />
         <TimeBadge gameTime={gameTime} />
         {devMode && (
           <span title="Dev mode active (Ctrl+D to toggle)" style={{
             fontSize: '0.6em', padding: '0.15rem 0.45rem',
-            border: '1px solid var(--gold-dim)', color: 'var(--gold)',
+            border: '1px solid var(--ink-movement)', color: 'var(--ink-movement)',
             borderRadius: 12, letterSpacing: '0.1em', textTransform: 'uppercase', cursor: 'default',
           }}>DEV</span>
         )}
@@ -73,12 +74,12 @@ export function StatusHeader({ devMode = false }: { devMode?: boolean }) {
       {/* ── Status line ── */}
       <div style={{
         display: 'flex', alignItems: 'center', gap: 'var(--sp-3)',
-        padding: '0.6rem var(--sp-4)',
+        padding: '0.45rem var(--sp-4)',
       }}>
         {roomName && (
           <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.4rem', flexShrink: 0 }}>
-            <span style={{ color: 'var(--ent-place)', opacity: 0.6 }}>▸</span>
-            <span style={{ color: 'var(--ent-place)', fontWeight: 'bold', fontSize: 'var(--fs-title)' }}>
+            <span style={{ color: 'var(--ink-movement)', opacity: 0.5 }}>▸</span>
+            <span style={{ color: 'var(--ink-narrative)', fontWeight: 'bold', fontSize: '1.05em', fontFamily: 'var(--font-journal)' }}>
               {roomName}
             </span>
           </div>
@@ -87,24 +88,24 @@ export function StatusHeader({ devMode = false }: { devMode?: boolean }) {
         <div style={{ flex: 1 }} />
 
         {ch && (
-          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--sp-2)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--sp-2)', fontFamily: 'var(--font-dossier)' }}>
             {ch.active_effects.length > 0 && (
               <div style={{ display: 'flex', gap: '0.3rem', flexWrap: 'wrap' }}>
                 {ch.active_effects.map(fx => (
                   <span key={fx} style={{
                     fontSize: '0.6em', padding: '0.1rem 0.4rem',
-                    border: '1px solid var(--combat-text)', color: 'var(--combat-text)',
+                    border: '1px solid var(--ink-combat)', color: 'var(--ink-combat)',
                     borderRadius: 12, letterSpacing: '0.05em', textTransform: 'uppercase',
                   }}>{fx}</span>
                 ))}
               </div>
             )}
-            <span style={{ color: 'var(--text-label)', fontSize: 'var(--fs-small)', letterSpacing: '0.08em' }}>HP</span>
-            <div style={{ width: 200, height: 10, background: 'var(--bar-bg)', borderRadius: 2, overflow: 'hidden' }}>
+            <span style={{ color: 'var(--ink-faint)', fontSize: '0.65em', letterSpacing: '0.08em' }}>HP</span>
+            <div style={{ width: 160, height: 7, background: 'rgba(46,26,8,0.15)', borderRadius: 1, overflow: 'hidden' }}>
               <div style={{ width: `${hpPct * 100}%`, height: '100%', background: hpColor, transition: 'width 0.3s, background 0.3s' }} />
             </div>
-            <span style={{ fontSize: 'var(--fs-small)', color: hpLow ? 'var(--danger-low)' : 'var(--text)', fontVariantNumeric: 'tabular-nums', minWidth: 64 }}>
-              {ch.hp}<span style={{ color: 'var(--text-label)' }}>/{ch.max_hp}</span>
+            <span style={{ fontSize: '0.75em', color: hpLow ? 'var(--danger-low)' : 'var(--ink-narrative)', fontVariantNumeric: 'tabular-nums', minWidth: 56 }}>
+              {ch.hp}<span style={{ color: 'var(--ink-faint)' }}>/{ch.max_hp}</span>
             </span>
           </div>
         )}

@@ -250,11 +250,11 @@ export function CharacterPanel() {
     <div style={{
       width: 232,
       flexShrink: 0,
-      borderLeft: '1px solid var(--j-divider)',
+      borderLeft: '1px solid var(--ink-divider)',
       padding: '0.75rem',
       overflowY: 'auto',
-      fontFamily: 'monospace',
-      background: 'var(--bg-panel)',
+      fontFamily: 'var(--font-dossier)',
+      background: 'var(--parchment-light)',
     }}>
       <MiniMap />
 

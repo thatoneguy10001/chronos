@@ -165,25 +165,25 @@ export function App() {
   }
 
   return (
-    // Dark backdrop — the framed window floats on it, like the journal modal.
     <div style={{
       height: '100vh',
-      background: 'var(--bg)',
+      background: 'var(--leather)',
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
       padding: '0.75rem',
     }}>
-      {/* The framed window: status header → body → footer hints. */}
+      {/* Parchment journal — the main frame */}
       <div style={{
         width: 'min(1180px, 100%)',
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
-        border: '1px solid var(--j-border)',
-        background: 'var(--j-bg)',
+        border: '1px solid var(--leather-border)',
+        background: 'var(--parchment)',
         overflow: 'hidden',
-        fontFamily: 'monospace',
+        fontFamily: 'var(--font-journal)',
+        boxShadow: '0 0 40px rgba(0,0,0,0.6), inset 0 0 60px rgba(0,0,0,0.08)',
       }}>
         <StatusHeader devMode={devMode} />
 
