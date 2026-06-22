@@ -9,15 +9,15 @@
   --parchment-cream:  #e4d0a0;
 
   /* Ink colors — each channel has its own color that bleeds into the page */
-  --ink-narrative:  #2e1a08;
-  --ink-system:     #1a2e40;
-  --ink-combat:     #6b1a1a;
-  --ink-npc:        #1a3d1a;
-  --ink-movement:   #3a2a08;
-  --ink-error:      #8b0000;
-  --ink-input:      #2e1a08;
-  --ink-faint:      rgba(46,26,8,0.45);
-  --ink-divider:    rgba(46,26,8,0.2);
+  --ink-narrative:  #1a0e04;
+  --ink-system:     #0e1e30;
+  --ink-combat:     #4e0e0e;
+  --ink-npc:        #0e280e;
+  --ink-movement:   #261804;
+  --ink-error:      #6e0000;
+  --ink-input:      #1a0e04;
+  --ink-faint:      rgba(20,10,2,0.65);
+  --ink-divider:    rgba(20,10,2,0.28);
 
   /* Font families */
   --font-journal: 'Caveat', cursive;
