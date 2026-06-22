@@ -67,6 +67,8 @@ jobs:
       - run: npm run build:wasm
         working-directory: ui
       - run: wasm-pack test --node engine/chronos-wasm
+      - run: npm test
+        working-directory: ui
       # `npm run build` is `tsc && vite build` — type-check + production bundle.
       - run: npm run build
         working-directory: ui
