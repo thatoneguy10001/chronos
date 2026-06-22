@@ -66,11 +66,17 @@ pub fn process_character_sheet(world: &mut World, repo: &StaticRepository) -> Sh
     };
 
     let secondary: Vec<String> = [
-        ("HIT", hit), ("TECH ATK", tech), ("EVA", eva),
-        ("TECH DEF", end), ("LCK", lck), ("AGI", agi),
-    ].iter().filter(|(_, v)| *v != 0)
-        .map(|(l, v)| format!("{} {}", l, v))
-        .collect();
+        ("HIT", hit),
+        ("TECH ATK", tech),
+        ("EVA", eva),
+        ("TECH DEF", end),
+        ("LCK", lck),
+        ("AGI", agi),
+    ]
+    .iter()
+    .filter(|(_, v)| *v != 0)
+    .map(|(l, v)| format!("{} {}", l, v))
+    .collect();
     let secondary_line = if secondary.is_empty() {
         String::new()
     } else {

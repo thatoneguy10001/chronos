@@ -89,11 +89,17 @@ pub fn process_spawn_character(
     ));
 
     let secondary: Vec<String> = [
-        ("HIT", bs.hit), ("TECH ATK", bs.tech_attack), ("EVA", bs.evasion),
-        ("TECH DEF", bs.endurance), ("LCK", bs.luck), ("AGI", bs.agility),
-    ].iter().filter(|(_, v)| *v != 0)
-        .map(|(l, v)| format!("{} {}", l, v))
-        .collect();
+        ("HIT", bs.hit),
+        ("TECH ATK", bs.tech_attack),
+        ("EVA", bs.evasion),
+        ("TECH DEF", bs.endurance),
+        ("LCK", bs.luck),
+        ("AGI", bs.agility),
+    ]
+    .iter()
+    .filter(|(_, v)| *v != 0)
+    .map(|(l, v)| format!("{} {}", l, v))
+    .collect();
     let secondary_line = if secondary.is_empty() {
         String::new()
     } else {
