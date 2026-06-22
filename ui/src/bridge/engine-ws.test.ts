@@ -36,7 +36,7 @@ vi.stubEnv('VITE_WS_URL', 'ws://localhost:3000/ws');
 vi.stubEnv('VITE_USE_WS_SERVER', 'false');
 
 // Stub fetch for HTTP endpoints used by initEngine.
-global.fetch = vi.fn();
+globalThis.fetch = vi.fn();
 
 import * as ws from './engine-ws';
 
@@ -69,13 +69,13 @@ describe('synchronous getters (before any messages)', () => {
 describe('listWorlds', () => {
   it('fetches from /api/worlds and returns parsed JSON', async () => {
     const worlds = [{ id: 'iron-and-blood', title: 'Iron & Blood' }];
-    (global.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
+    (globalThis.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
       json: () => Promise.resolve(worlds),
     });
 
     const result = await ws.listWorlds();
     expect(result).toEqual(worlds);
-    expect(global.fetch).toHaveBeenCalledWith(expect.stringContaining('/api/worlds'));
+    expect(globalThis.fetch).toHaveBeenCalledWith(expect.stringContaining('/api/worlds'));
   });
 });
 
@@ -84,13 +84,13 @@ describe('listWorlds', () => {
 describe('listPlayableClasses', () => {
   it('fetches from /api/worlds/:id/classes', async () => {
     const classes = [{ id: 'soldier', name: 'Soldier' }];
-    (global.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
+    (globalThis.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
       json: () => Promise.resolve(classes),
     });
 
     const result = await ws.listPlayableClasses('iron-and-blood');
     expect(result).toEqual(classes);
-    expect(global.fetch).toHaveBeenCalledWith(
+    expect(globalThis.fetch).toHaveBeenCalledWith(
       expect.stringContaining('/api/worlds/iron-and-blood/classes'),
     );
   });

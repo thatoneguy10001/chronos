@@ -3,10 +3,8 @@ import type { CharacterStateDTO, ContextAction, EnemyStateDTO, InputMode } from 
 import * as engine from '@/bridge/engine';
 import {
   DIR_VECTORS,
-  DIRS,
   extractDirection,
   isMovementCmd,
-  isNpcCmd,
   classifyLine,
   extractSpeaker,
 } from './storeUtils';
@@ -143,8 +141,6 @@ const mkLine = (type: TerminalLine['type'], text: string, tick?: number, label?:
 });
 
 
-const isNpcCmd = (cmd: string) =>
-  cmd.startsWith('talk ') || cmd.startsWith('ask ');
 
 export const useGameStore = create<GameStore>((set, get) => ({
   initialized: false,
