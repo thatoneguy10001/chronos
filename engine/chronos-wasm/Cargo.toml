@@ -28,7 +28,7 @@ console_error_panic_hook = "0.1"
 web-sys = { version = "0.3", features = ["console"] }
 # bevy_ecs → ahash pulls getrandom transitively; on wasm32-unknown-unknown it needs
 # the browser-crypto backend enabled. Feature here + cfg flag in .cargo/config.toml.
-getrandom = { version = "0.3", features = ["wasm_js"] }
+getrandom = { version = "0.4", features = ["wasm_js"] }
 # std's vendored dlmalloc (both 0.2.10 and 0.2.11) corrupts the heap on its wasm
 # `memory.grow` path: once allocation outgrows the initial wasm pages, its chunk
 # accounting breaks and it trips "assertion failed: psize <= size + max_overhead"
