@@ -162,3 +162,77 @@ impl WasmEngine {
         self.inner.max_tick() as u32
     }
 }
+
+// ── tests ─────────────────────────────────────────────────────────────────────
+// Run with: wasm-pack test --node engine/chronos-wasm
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use wasm_bindgen_test::wasm_bindgen_test;
+
+    /// Minimal one-room world payload — enough for the engine to initialise.
+    fn minimal_payload() -> &'static str {
+        r#"{
+            "rooms": [{
+                "filename": "start.json",
+                "content": "{\"id\":\"start\",\"name\":\"The Void\",\"description\":\"Empty.\",\"exits\":{}}"
+            }],
+            "items":   [],
+            "classes": [],
+            "npcs":    [],
+            "quests":  [],
+            "manifest": "{\"id\":\"test\",\"title\":\"Test\",\"start_room_id\":\"start\",\"currency\":\"gold\",\"currency_symbol\":\"G\"}"
+        }"#
+    }
+
+    #[wasm_bindgen_test]
+    fn engine_initialises_from_minimal_payload() {
+        WasmEngine::new(minimal_payload()).expect("engine should initialise from valid payload");
+    }
+
+    #[wasm_bindgen_test]
+    fn process_command_returns_valid_json() {
+        let mut engine = WasmEngine::new(minimal_payload()).unwrap();
+        let result = engine.process_command("look");
+        let v: serde_json::Value =
+            serde_json::from_str(&result).expect("process_command should return JSON");
+        assert!(
+            v.get("success").is_some(),
+            "result must have 'success' field"
+        );
+        assert!(
+            v.get("narrative").is_some(),
+            "result must have 'narrative' field"
+        );
+    }
+
+    #[wasm_bindgen_test]
+    fn rewind_to_tick_zero_returns_valid_json() {
+        let mut engine = WasmEngine::new(minimal_payload()).unwrap();
+        engine.process_command("look"); // advance at least one tick
+        let result = engine.rewind_to_tick(0);
+        let v: serde_json::Value =
+            serde_json::from_str(&result).expect("rewind should return JSON");
+        assert!(v.get("success").is_some());
+    }
+
+    #[wasm_bindgen_test]
+    fn snapshot_round_trip() {
+        let mut engine = WasmEngine::new(minimal_payload()).unwrap();
+        engine.process_command("look");
+        let snap = engine.snapshot();
+        // snapshot must be valid JSON
+        let _: serde_json::Value = serde_json::from_str(&snap).expect("snapshot should be JSON");
+        // loading that snapshot back must succeed
+        engine
+            .load_from_snapshot(&snap)
+            .expect("load_from_snapshot should succeed with own snapshot");
+    }
+
+    #[wasm_bindgen_test]
+    fn invalid_payload_returns_error() {
+        let result = WasmEngine::new("not json at all");
+        assert!(result.is_err(), "invalid JSON payload should return Err");
+    }
+}
