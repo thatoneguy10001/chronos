@@ -78,3 +78,15 @@ Worlds live in `worlds/<id>/` as plain JSON files — rooms, NPCs, items, quests
 ## Project status
 
 Active development. One world (Iron & Blood) is complete and playable. Engine supports: movement, combat, quests, dialogue, save/load, day/night, abilities, inventory, and time-travel rewind.
+
+---
+
+## License
+
+The Chronos engine (`engine/`, `ui/`) is MIT licensed — see [LICENSE](LICENSE).
+
+World content (`worlds/iron-and-blood/`) — lore, dialogue, quest writing, and story — is copyright © 2026 Casey Logsdon, all rights reserved. See [worlds/iron-and-blood/COPYRIGHT](worlds/iron-and-blood/COPYRIGHT).
+
+## Credits
+
+Third-party assets used in this project are listed in [CREDITS.md](CREDITS.md), including attribution for the parchment texture (Majcher, CC BY 4.0).

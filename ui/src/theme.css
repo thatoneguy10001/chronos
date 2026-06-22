@@ -1,60 +1,84 @@
 :root {
-  /* Surfaces */
-  --bg:            #0a0a0a;
-  --bg-panel:      #030303;
-  --bg-input:      #050505;
-  --bg-hover:      #0d0d0d;
-  --bg-overlay:    rgba(0, 0, 0, 0.75);
+  /* ── Parchment / journal palette ── */
+  --leather:          #141008;
+  --leather-border:   #3a2510;
+  --parchment:        #c9a96e;
+  --parchment-mid:    #b8955a;
+  --parchment-dark:   #a07840;
+  --parchment-light:  #d4b880;
+  --parchment-cream:  #e4d0a0;
+
+  /* Ink colors — each channel has its own color that bleeds into the page */
+  --ink-narrative:  #1a0e04;
+  --ink-system:     #0e1e30;
+  --ink-combat:     #4e0e0e;
+  --ink-npc:        #0e280e;
+  --ink-movement:   #261804;
+  --ink-error:      #6e0000;
+  --ink-input:      #1a0e04;
+  --ink-faint:      rgba(20,10,2,0.65);
+  --ink-divider:    rgba(20,10,2,0.28);
+
+  /* Font families */
+  --font-journal: 'Caveat', cursive;
+  --font-dossier: 'Special Elite', monospace;
+
+  /* Surfaces (kept for modals/overlays that stay dark) */
+  --bg:            #141008;
+  --bg-panel:      #141008;
+  --bg-input:      #c9a96e;
+  --bg-hover:      rgba(46,26,8,0.08);
+  --bg-overlay:    rgba(10, 8, 4, 0.82);
 
   /* Borders */
-  --border:        #1a3a1a;
-  --border-input:  #2a4a2a;
+  --border:        rgba(46,26,8,0.3);
+  --border-input:  rgba(46,26,8,0.25);
 
-  /* Text — green scale */
-  --text:          #c8ffb0;
-  --text-input:    #ffffff;
-  --text-label:    #4a7a4a;
-  --text-accent:   #4a9a4a;
-  --text-dim:      #2a5a2a;
-  --text-body:     #6a8a6a;
-  --text-faint:    #2a3a2a;
-  --text-muted:    #888888;
-  --text-ui:       #666666;
+  /* Text — mapped to ink palette */
+  --text:          var(--ink-narrative);
+  --text-input:    var(--ink-narrative);
+  --text-label:    var(--parchment-dark);
+  --text-accent:   var(--ink-narrative);
+  --text-dim:      var(--ink-faint);
+  --text-body:     var(--ink-narrative);
+  --text-faint:    var(--ink-faint);
+  --text-muted:    var(--ink-movement);
+  --text-ui:       var(--ink-faint);
 
-  /* Channel colors */
-  --combat-text:   #d4886a;
-  --movement-text: #a0b4c8;
+  /* Channel colors (legacy — now via --ink-* above) */
+  --combat-text:   var(--ink-combat);
+  --movement-text: var(--ink-movement);
 
   /* Status */
-  --error:         #ff6b6b;
-  --gold:          #ffdd44;
-  --gold-dim:      #7a7a2a;
-  --blue:          #88ccff;
-  --blue-dim:      #4a6a7a;
-  --green-bright:  #88dd99;
-  --warn:          #ffaa00;
-  --xp-text:       #8a8a4a;
+  --error:         var(--ink-error);
+  --gold:          #7a5010;
+  --gold-dim:      #5a3a08;
+  --blue:          #1a3d6b;
+  --blue-dim:      #2a4a5a;
+  --green-bright:  #1a4a1a;
+  --warn:          #7a4a08;
+  --xp-text:       var(--ink-movement);
 
   /* Combat */
-  --danger:        #993333;
-  --danger-text:   #cc6666;
-  --danger-low:    #ff4444;
-  --danger-border: #3a1a1a;
-  --danger-bar:    #6a1a1a;
-  --danger-mid:    #aa5555;
+  --danger:        var(--ink-combat);
+  --danger-text:   #8b1a1a;
+  --danger-low:    #6b0000;
+  --danger-border: rgba(107,26,26,0.3);
+  --danger-bar:    #5a0808;
+  --danger-mid:    #7a2020;
 
   /* Progress bars */
-  --bar-bg:        #111111;
-  --bar-hp:        #2a6a2a;
-  --bar-hp-low:    #993333;
-  --bar-xp:        #4a4a1a;
-  --bar-quest:     #3a4a1a;
+  --bar-bg:        rgba(46,26,8,0.15);
+  --bar-hp:        #3a6a20;
+  --bar-hp-low:    #8b1a1a;
+  --bar-xp:        #5a4010;
+  --bar-quest:     #3a5010;
 
   /* Game time */
-  --time-day:      #6a8a4a;
-  --time-night:    #6a5a8a;
+  --time-day:      #5a4010;
+  --time-night:    #2a2a5a;
 
-  /* Save/Load modal (gold-toned) */
+  /* Save/Load modal (keep dark-toned for contrast on overlay) */
   --save-accent:   #9a7a2a;
   --save-dim:      #5a4a1a;
   --save-text:     #c8a84a;
@@ -62,40 +86,37 @@
   --save-text-dim: #6a5a3a;
 
   /* Disabled / empty states */
-  --disabled:      #3a3a3a;
-  --empty:         #2a2a2a;
+  --disabled:      rgba(46,26,8,0.3);
+  --empty:         rgba(46,26,8,0.15);
 
   /* Payload slots */
-  --payload-border: #2a4a3a;
-  --payload-text:   #4a7a5a;
+  --payload-border: rgba(26,61,26,0.4);
+  --payload-text:   var(--ink-npc);
 
-  /* Entity link colors */
-  --ent-npc:    #88ccff;
-  --ent-place:  #c89848;
-  --ent-item:   #88dd99;
-  --ent-enemy:  #cc6666;
+  /* Entity link colors — ink on parchment */
+  --ent-npc:    #1a3d6b;
+  --ent-place:  #5a3a08;
+  --ent-item:   #1a4a1a;
+  --ent-enemy:  #7a1a1a;
 
   /* ── Journal / panel design system ──
-     Shared visual language: bordered panels with a header strip, left-aligned
-     caps section labels, left-accent boxes, and pill buttons. Used by the
-     journal modal and the main-UI chrome so everything reads as one system. */
-  --j-bg:          #060c06;  /* panel surface */
-  --j-bg-inner:    #080e08;  /* accent / nested surface */
-  --j-bg-active:   #0a160a;  /* active tab / selected row */
-  --j-border:      #2a4a2a;  /* panel border */
-  --j-divider:     #1a2a1a;  /* internal divider */
-  --j-label:       #3a6a3a;  /* section label caps */
-  --j-accent:      #4a8a4a;  /* active underline / left bar */
-  --j-accent-dim:  #2a5a2a;  /* accent-box left bar */
-  --j-text:        #8aaa8a;  /* primary panel text */
-  --j-text-body:   #5a7a5a;  /* body text */
-  --j-text-dim:    #4a6a4a;  /* secondary list text */
+     Maps onto the parchment palette so all chrome reads as ink on paper. */
+  --j-bg:          var(--parchment);
+  --j-bg-inner:    var(--parchment-mid);
+  --j-bg-active:   var(--parchment-cream);
+  --j-border:      rgba(46,26,8,0.28);
+  --j-divider:     rgba(46,26,8,0.15);
+  --j-label:       var(--parchment-dark);
+  --j-accent:      var(--ink-narrative);
+  --j-accent-dim:  rgba(46,26,8,0.35);
+  --j-text:        var(--ink-narrative);
+  --j-text-body:   var(--ink-movement);
+  --j-text-dim:    var(--ink-faint);
 
-  /* Character dialogue — spoken lines render as a quoted callout that pops
-     against the cooler green narration around it. */
-  --speech-text:   #dcf48e;  /* warm bright spoken text */
-  --speech-accent: #8ec64a;  /* quote marks + left bar */
-  --speech-bg:     #10180a;  /* faint warm tint behind speech */
+  /* Character dialogue — quoted callout on parchment */
+  --speech-text:   var(--ink-npc);
+  --speech-accent: #1a4a1a;
+  --speech-bg:     rgba(26,61,26,0.08);
 
   /* ── Type & spacing scale ──
      One place to tune "comfortable" density. Sizes are em-relative so they
@@ -116,16 +137,25 @@
   cursor: pointer;
   text-decoration: underline;
   text-decoration-style: dotted;
-  text-underline-offset: 2px;
+  text-underline-offset: 3px;
   border-radius: 2px;
   padding: 0 1px;
   transition: background 0.1s;
+  font-weight: 600;
 }
-.ent-link:hover { filter: brightness(1.25); background: rgba(255,255,255,0.07); }
+.ent-link:hover { background: rgba(46,26,8,0.1); }
 .ent-npc   { color: var(--ent-npc); }
 .ent-place { color: var(--ent-place); }
 .ent-item  { color: var(--ent-item); }
 .ent-enemy { color: var(--ent-enemy); }
 
 /* Inline spoken dialogue inside flowing room/quest/output text. */
-.speech-inline { color: var(--speech-text); font-weight: 500; }
+.speech-inline { color: var(--speech-accent); font-weight: 600; }
+
+/* Ink bleed — subtle text-shadow per ink color */
+.ink-narrative { text-shadow: 0 0 5px rgba(46,26,8,0.18),  0 0 1px rgba(46,26,8,0.1); }
+.ink-system    { text-shadow: 0 0 5px rgba(26,46,64,0.2),  0 0 1px rgba(26,46,64,0.1); }
+.ink-combat    { text-shadow: 0 0 5px rgba(107,26,26,0.22), 0 0 1px rgba(107,26,26,0.1); }
+.ink-npc       { text-shadow: 0 0 5px rgba(26,61,26,0.2),  0 0 1px rgba(26,61,26,0.1); }
+.ink-movement  { text-shadow: 0 0 4px rgba(58,42,8,0.15); }
+.ink-error     { text-shadow: 0 0 5px rgba(139,0,0,0.25); }

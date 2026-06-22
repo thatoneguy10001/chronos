@@ -8,12 +8,12 @@ export async function initGame(page: Page, classPartialName = 'Vanguard') {
   await page.getByText('Iron & Blood').first().click();
   await page.getByText(classPartialName).first().click();
   // Wait until the game input is ready.
-  await page.getByPlaceholder('enter command...').waitFor({ state: 'visible', timeout: 15_000 });
+  await page.getByPlaceholder('write your next move...').waitFor({ state: 'visible', timeout: 15_000 });
 }
 
 /** Type a command into the parser input and press Enter. */
 export async function send(page: Page, cmd: string) {
-  const input = page.getByPlaceholder('enter command...');
+  const input = page.getByPlaceholder('write your next move...');
   await input.fill(cmd);
   await input.press('Enter');
 }

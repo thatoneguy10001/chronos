@@ -20,30 +20,31 @@ function GameOverScreen({ worldTitle, onRestart }: { worldTitle: string; onResta
       flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'center',
-      fontFamily: 'monospace',
-      background: 'var(--bg-panel)',
+      fontFamily: 'var(--font-journal)',
+      background: "url('/textures/teastain%20102.png') center/cover no-repeat var(--parchment)",
       gap: '1.5rem',
     }}>
-      <div style={{ color: 'var(--text-dim)', fontSize: '0.8em', letterSpacing: '0.2em' }}>── {worldTitle.toUpperCase()} ──</div>
-      <div style={{ color: 'var(--danger)', fontSize: '2em', fontWeight: 'bold', letterSpacing: '0.1em' }}>YOU DIED</div>
-      <div style={{ color: 'var(--danger-border)', fontSize: '0.85em' }}>Your story ends here.</div>
+      <div style={{ color: 'var(--ink-faint)', fontSize: '0.75em', letterSpacing: '0.2em', fontFamily: 'var(--font-dossier)' }}>── {worldTitle.toUpperCase()} ──</div>
+      <div style={{ color: 'var(--ink-combat)', fontSize: '2.4em', fontWeight: '600' }}>You are dead.</div>
+      <div style={{ color: 'var(--ink-movement)', fontSize: '1em', fontStyle: 'italic', opacity: 0.7 }}>Your story ends here.</div>
       <button
         onClick={onRestart}
         style={{
           marginTop: '1rem',
           background: 'transparent',
-          border: '1px solid var(--danger)',
-          color: 'var(--danger-text)',
-          fontFamily: 'monospace',
-          fontSize: '0.9em',
+          border: '1px solid var(--ink-combat)',
+          color: 'var(--ink-combat)',
+          fontFamily: 'var(--font-dossier)',
+          fontSize: '0.85em',
           padding: '0.5rem 2rem',
           cursor: 'pointer',
-          letterSpacing: '0.1em',
+          letterSpacing: '0.12em',
+          opacity: 0.75,
         }}
-        onMouseEnter={e => { (e.target as HTMLElement).style.background = '#1a0000'; }}
-        onMouseLeave={e => { (e.target as HTMLElement).style.background = 'transparent'; }}
+        onMouseEnter={e => { (e.target as HTMLElement).style.opacity = '1'; }}
+        onMouseLeave={e => { (e.target as HTMLElement).style.opacity = '0.75'; }}
       >
-        RESTART
+        BEGIN AGAIN
       </button>
     </div>
   );
@@ -165,25 +166,25 @@ export function App() {
   }
 
   return (
-    // Dark backdrop — the framed window floats on it, like the journal modal.
     <div style={{
       height: '100vh',
-      background: 'var(--bg)',
+      background: 'var(--leather)',
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
       padding: '0.75rem',
     }}>
-      {/* The framed window: status header → body → footer hints. */}
+      {/* Parchment journal — the main frame */}
       <div style={{
         width: 'min(1180px, 100%)',
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
-        border: '1px solid var(--j-border)',
-        background: 'var(--j-bg)',
+        border: '1px solid var(--leather-border)',
+        background: "url('/textures/teastain%20102.png') center/cover no-repeat var(--parchment)",
         overflow: 'hidden',
-        fontFamily: 'monospace',
+        fontFamily: 'var(--font-journal)',
+        boxShadow: '0 0 40px rgba(0,0,0,0.6), inset 0 0 60px rgba(0,0,0,0.08)',
       }}>
         <StatusHeader devMode={devMode} />
 

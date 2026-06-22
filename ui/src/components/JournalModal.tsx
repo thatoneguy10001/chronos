@@ -44,17 +44,18 @@ export function JournalModal() {
       onClick={closeJournal}
       style={{
         position: 'fixed', inset: 0,
-        background: 'rgba(0,0,0,0.82)',
+        background: 'rgba(20,16,8,0.72)',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         zIndex: 100,
-        fontFamily: 'monospace',
+        fontFamily: 'var(--font-journal)',
       }}
     >
       <div
         onClick={e => e.stopPropagation()}
         style={{
-          background: '#060c06',
-          border: '1px solid #2a4a2a',
+          background: "url('/textures/teastain%20102.png') center/cover no-repeat var(--parchment)",
+          border: '1px solid rgba(46,26,8,0.4)',
+          boxShadow: '0 12px 48px rgba(0,0,0,0.55)',
           width: 'min(820px, 92vw)',
           height: 'min(600px, 88vh)',
           display: 'flex',
@@ -63,21 +64,22 @@ export function JournalModal() {
       >
         {/* ── Header ── */}
         <div style={{
-          borderBottom: '1px solid #1a2a1a',
+          borderBottom: '1px solid var(--ink-divider)',
           padding: '0.6rem 1rem',
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
+          background: 'rgba(184,149,90,0.45)',
         }}>
-          <span style={{ color: '#3a6a3a', fontSize: '0.7em', letterSpacing: '0.2em' }}>── JOURNAL ──</span>
+          <span style={{ color: 'var(--ink-faint)', fontSize: '0.68em', letterSpacing: '0.2em', fontFamily: 'var(--font-dossier)' }}>── JOURNAL ──</span>
           <button
             onClick={closeJournal}
             style={{
               background: 'transparent',
-              border: '1px solid #2a4a2a',
-              color: '#4a7a4a',
-              fontFamily: 'monospace',
-              fontSize: '0.7em',
+              border: '1px solid rgba(46,26,8,0.3)',
+              color: 'var(--ink-faint)',
+              fontFamily: 'var(--font-dossier)',
+              fontSize: '0.68em',
               padding: '0.25rem 0.75rem',
               cursor: 'pointer',
               borderRadius: '12px',
@@ -87,26 +89,26 @@ export function JournalModal() {
         </div>
 
         {/* ── Tabs ── */}
-        <div style={{ display: 'flex', borderBottom: '1px solid #1a2a1a' }}>
+        <div style={{ display: 'flex', borderBottom: '1px solid var(--ink-divider)', background: 'rgba(184,149,90,0.35)' }}>
           {(['active', 'completed'] as Tab[]).map(t => (
             <button
               key={t}
               onClick={() => setTab(t)}
               style={{
-                background: tab === t ? '#0a160a' : 'transparent',
+                background: 'transparent',
                 border: 'none',
-                borderBottom: tab === t ? '2px solid #4a8a4a' : '2px solid transparent',
-                color: tab === t ? '#8aaa8a' : '#3a5a3a',
-                fontFamily: 'monospace',
-                fontSize: '0.8em',
+                borderBottom: tab === t ? '2px solid var(--ink-narrative)' : '2px solid transparent',
+                color: tab === t ? 'var(--ink-narrative)' : 'var(--ink-faint)',
+                fontFamily: 'var(--font-dossier)',
+                fontSize: '0.78em',
                 padding: '0.5rem 1.2rem',
                 cursor: 'pointer',
-                letterSpacing: '0.05em',
+                letterSpacing: '0.06em',
               }}
             >
               {t === 'active' ? 'Active' : 'Completed'}
               {' '}
-              <span style={{ color: tab === t ? '#5a9a5a' : '#2a4a2a', fontSize: '0.9em' }}>
+              <span style={{ opacity: 0.6, fontSize: '0.9em' }}>
                 {t === 'active' ? active.length : completed.length}
               </span>
             </button>
@@ -119,16 +121,18 @@ export function JournalModal() {
           {/* Sidebar */}
           <div style={{
             width: '240px',
-            borderRight: '1px solid #1a2a1a',
+            borderRight: '1px solid var(--ink-divider)',
             overflowY: 'auto',
             flexShrink: 0,
+            background: 'rgba(184,149,90,0.2)',
           }}>
             {list.length === 0 ? (
               <div style={{
                 padding: '1rem',
-                color: '#2a4a2a',
-                fontSize: '0.75em',
+                color: 'var(--ink-faint)',
+                fontSize: '0.8em',
                 fontStyle: 'italic',
+                opacity: 0.6,
               }}>
                 {tab === 'active'
                   ? 'No active quests.'
@@ -140,21 +144,21 @@ export function JournalModal() {
                 onClick={() => setSelectedIdx(i)}
                 style={{
                   padding: '0.6rem 0.75rem',
-                  borderLeft: i === selectedIdx ? '3px solid #4a8a4a' : '3px solid transparent',
-                  background: i === selectedIdx ? '#0a160a' : 'transparent',
+                  borderLeft: i === selectedIdx ? '3px solid var(--ink-narrative)' : '3px solid transparent',
+                  background: i === selectedIdx ? 'rgba(46,26,8,0.08)' : 'transparent',
                   cursor: 'pointer',
-                  borderBottom: '1px solid #111811',
+                  borderBottom: '1px solid var(--ink-divider)',
                 }}
               >
                 <div style={{
-                  color: i === selectedIdx ? '#8aaa8a' : '#4a6a4a',
-                  fontSize: '0.78em',
-                  fontWeight: i === selectedIdx ? 'bold' : 'normal',
+                  color: i === selectedIdx ? 'var(--ink-narrative)' : 'var(--ink-movement)',
+                  fontSize: '0.85em',
+                  fontWeight: i === selectedIdx ? '600' : 'normal',
                   marginBottom: '0.2rem',
                 }}>
                   {q.name}
                 </div>
-                <div style={{ color: '#2a4a2a', fontSize: '0.62em', letterSpacing: '0.08em' }}>
+                <div style={{ color: 'var(--ink-faint)', fontSize: '0.62em', letterSpacing: '0.08em', fontFamily: 'var(--font-dossier)', opacity: 0.7 }}>
                   ▸ {q.ready_to_turn_in ? 'READY TO TURN IN' : q.completed ? 'COMPLETED' : 'ACTIVE'}
                 </div>
               </div>
@@ -166,7 +170,7 @@ export function JournalModal() {
             {selected ? (
               <Detail quest={selected} />
             ) : (
-              <div style={{ color: '#2a4a2a', fontSize: '0.8em', fontStyle: 'italic' }}>
+              <div style={{ color: 'var(--ink-faint)', fontSize: '0.85em', fontStyle: 'italic', opacity: 0.6 }}>
                 Select a quest.
               </div>
             )}
@@ -175,17 +179,20 @@ export function JournalModal() {
 
         {/* ── Footer hints ── */}
         <div style={{
-          borderTop: '1px solid #1a2a1a',
+          borderTop: '1px solid var(--ink-divider)',
           padding: '0.35rem 1rem',
           display: 'flex',
           gap: '1.5rem',
-          color: '#2a4a2a',
+          color: 'var(--ink-faint)',
           fontSize: '0.62em',
           letterSpacing: '0.08em',
+          fontFamily: 'var(--font-dossier)',
+          background: 'rgba(184,149,90,0.35)',
+          opacity: 0.7,
         }}>
-          <span><span style={{ color: '#3a6a3a' }}>[J]</span> open / close</span>
-          <span><span style={{ color: '#3a6a3a' }}>[↑↓]</span> navigate</span>
-          <span><span style={{ color: '#3a6a3a' }}>[ESC]</span> close</span>
+          <span>[J] open / close</span>
+          <span>[↑↓] navigate</span>
+          <span>[ESC] close</span>
         </div>
       </div>
     </div>
@@ -195,31 +202,32 @@ export function JournalModal() {
 function Detail({ quest }: { quest: QuestProgressDTO }) {
   return (
     <div>
-      <div style={{ color: '#8aaa8a', fontSize: '0.9em', marginBottom: '0.6rem' }}>
+      <div style={{ color: 'var(--ink-narrative)', fontSize: '1.1em', fontWeight: '600', marginBottom: '0.6rem' }}>
         {quest.name}
       </div>
-      <div style={{ borderBottom: '1px solid #1a2a1a', marginBottom: '0.9rem' }} />
+      <div style={{ borderBottom: '1px solid var(--ink-divider)', marginBottom: '0.9rem' }} />
 
       <div style={{ marginBottom: '1.1rem' }}>
-        <div style={{ color: '#3a6a3a', fontSize: '0.62em', letterSpacing: '0.15em', marginBottom: '0.4rem' }}>
+        <div style={{ color: 'var(--ink-faint)', fontSize: '0.62em', letterSpacing: '0.15em', marginBottom: '0.5rem', fontFamily: 'var(--font-dossier)' }}>
           DESCRIPTION
         </div>
-        <div style={{ color: '#5a7a5a', fontSize: '0.78em', lineHeight: '1.7' }}>
+        <div style={{ color: 'var(--ink-narrative)', fontSize: '0.9em', lineHeight: '1.75', opacity: 0.85 }}>
           {quest.description || 'No description.'}
         </div>
       </div>
 
       <div>
-        <div style={{ color: '#3a6a3a', fontSize: '0.62em', letterSpacing: '0.15em', marginBottom: '0.4rem' }}>
+        <div style={{ color: 'var(--ink-faint)', fontSize: '0.62em', letterSpacing: '0.15em', marginBottom: '0.5rem', fontFamily: 'var(--font-dossier)' }}>
           {quest.completed ? 'COMPLETED' : quest.ready_to_turn_in ? 'RETURN TO QUEST GIVER' : 'CURRENT OBJECTIVE'}
         </div>
         <div style={{
-          borderLeft: '3px solid #2a5a2a',
-          background: '#080e08',
+          borderLeft: '3px solid var(--ink-movement)',
+          background: 'rgba(46,26,8,0.06)',
           padding: '0.6rem 0.85rem',
-          color: '#6a9a6a',
-          fontSize: '0.78em',
-          lineHeight: '1.6',
+          color: 'var(--ink-movement)',
+          fontSize: '0.88em',
+          lineHeight: '1.65',
+          fontStyle: 'italic',
         }}>
           {quest.objective_hint || (quest.completed ? 'Quest complete.' : 'See quest giver for details.')}
         </div>
