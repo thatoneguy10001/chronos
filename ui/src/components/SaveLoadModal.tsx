@@ -40,47 +40,47 @@ function SlotCard({
       style={{
         display: 'block',
         width: '100%',
-        background: 'transparent',
-        border: `1px solid ${disabled ? 'var(--empty)' : 'var(--save-dim)'}`,
-        borderRadius: 4,
+        background: disabled ? 'transparent' : 'rgba(46,26,8,0.03)',
+        border: `1px solid ${disabled ? 'rgba(46,26,8,0.15)' : 'rgba(46,26,8,0.3)'}`,
+        borderRadius: 3,
         padding: '0.75rem 1rem',
         marginBottom: '0.6rem',
         cursor: disabled ? 'default' : 'pointer',
-        fontFamily: 'monospace',
+        fontFamily: 'var(--font-dossier)',
         textAlign: 'left',
         transition: 'border-color 0.12s, background 0.12s',
       }}
       onMouseEnter={e => {
         if (!disabled) {
-          (e.currentTarget as HTMLElement).style.borderColor = 'var(--save-accent)';
-          (e.currentTarget as HTMLElement).style.background = 'var(--bg-hover)';
+          (e.currentTarget as HTMLElement).style.borderColor = 'rgba(46,26,8,0.6)';
+          (e.currentTarget as HTMLElement).style.background = 'rgba(46,26,8,0.08)';
         }
       }}
       onMouseLeave={e => {
-        (e.currentTarget as HTMLElement).style.borderColor = disabled ? 'var(--empty)' : 'var(--save-dim)';
-        (e.currentTarget as HTMLElement).style.background = 'transparent';
+        (e.currentTarget as HTMLElement).style.borderColor = disabled ? 'rgba(46,26,8,0.15)' : 'rgba(46,26,8,0.3)';
+        (e.currentTarget as HTMLElement).style.background = disabled ? 'transparent' : 'rgba(46,26,8,0.03)';
       }}
     >
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: isEmpty ? 0 : '0.3rem' }}>
-        <span style={{ color: disabled ? 'var(--disabled)' : 'var(--save-dim)', fontSize: '0.7em', letterSpacing: '0.1em' }}>
+        <span style={{ color: disabled ? 'var(--ink-faint)' : 'var(--ink-movement)', fontSize: '0.68em', letterSpacing: '0.12em', opacity: disabled ? 0.4 : 0.7 }}>
           SLOT {index + 1}
         </span>
         {slot && (
-          <span style={{ color: 'var(--text-faint)', fontSize: '0.68em' }}>
+          <span style={{ color: 'var(--ink-faint)', fontSize: '0.68em' }}>
             {formatSavedAt(slot.savedAt)}
           </span>
         )}
       </div>
 
       {isEmpty ? (
-        <div style={{ color: 'var(--empty)', fontSize: '0.8em' }}>— empty —</div>
+        <div style={{ color: 'var(--ink-faint)', fontSize: '0.8em', fontStyle: 'italic', opacity: 0.5 }}>— empty —</div>
       ) : (
         <>
-          <div style={{ color: 'var(--save-text)', fontSize: '0.88em', fontWeight: 'bold' }}>
+          <div style={{ color: 'var(--ink-narrative)', fontSize: '0.9em', fontWeight: '600', fontFamily: 'var(--font-journal)' }}>
             {slot.characterName}
-            <span style={{ color: 'var(--save-text-dim)', fontWeight: 'normal', fontSize: '0.85em' }}> · {slot.classId}</span>
+            <span style={{ color: 'var(--ink-movement)', fontWeight: 'normal', fontSize: '0.85em', fontFamily: 'var(--font-dossier)' }}> · {slot.classId}</span>
           </div>
-          <div style={{ color: 'var(--save-text-dim)', fontSize: '0.72em', marginTop: '0.15rem' }}>
+          <div style={{ color: 'var(--ink-faint)', fontSize: '0.72em', marginTop: '0.15rem' }}>
             {slot.worldTitle} · {humanizeRoomId(slot.roomId)} · tick {slot.tick}
           </div>
         </>
@@ -120,26 +120,28 @@ export function SaveLoadModal() {
       style={{
         position: 'fixed',
         inset: 0,
-        background: 'var(--bg-overlay)',
+        background: 'rgba(20,16,8,0.72)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         zIndex: 100,
-        fontFamily: 'monospace',
+        fontFamily: 'var(--font-dossier)',
       }}
     >
       <div
         onClick={e => e.stopPropagation()}
         style={{
-          background: 'var(--bg)',
-          border: `1px solid var(--save-border)`,
-          borderRadius: 4,
+          background: "url('/textures/teastain%20102.png') center/cover no-repeat var(--parchment-cream)",
+          border: '1px solid rgba(46,26,8,0.35)',
+          borderRadius: 3,
           padding: '1.5rem',
           width: 380,
           maxWidth: '90vw',
+          transform: 'rotate(-0.4deg)',
+          boxShadow: '0 8px 32px rgba(0,0,0,0.5)',
         }}
       >
-        <div style={{ color: 'var(--save-dim)', fontSize: '0.7em', letterSpacing: '0.15em', marginBottom: '1.2rem' }}>
+        <div style={{ color: 'var(--ink-faint)', fontSize: '0.68em', letterSpacing: '0.18em', marginBottom: '1.2rem' }}>
           ── {title} ──
         </div>
 
@@ -153,7 +155,7 @@ export function SaveLoadModal() {
           />
         ))}
 
-        <div style={{ color: 'var(--empty)', fontSize: '0.68em', marginTop: '0.8rem' }}>
+        <div style={{ color: 'var(--ink-faint)', fontSize: '0.65em', marginTop: '0.8rem', opacity: 0.6 }}>
           [1–{NUM_SLOTS}] select slot · [Esc] cancel
         </div>
       </div>
