@@ -9,6 +9,8 @@
 
 import type { CommandResult, GameStateDTO } from '@/types/contracts';
 import type { WorldMeta, ClassMeta } from './engine-wasm';
+import { buildItemMeta } from '@/bridge/item-meta';
+import type { ItemMeta } from '@/bridge/item-meta';
 
 const WS_URL = import.meta.env.VITE_WS_URL ?? 'ws://localhost:3000/ws';
 const API_URL = import.meta.env.VITE_WS_URL
@@ -27,6 +29,7 @@ let cachedMaxTick = 0;
 let currentWorldMeta: WorldMeta | null = null;
 let currentItemNames: Record<string, string> = {};
 let currentItemDescriptions: Record<string, string> = {};
+let currentItemMeta: Record<string, ItemMeta> = {};
 
 function getSocket(): Promise<WebSocket> {
   if (socket && socket.readyState === WebSocket.OPEN) return Promise.resolve(socket);
@@ -87,15 +90,20 @@ export function getItemDescription(itemId: string): string {
   return currentItemDescriptions[itemId] ?? '';
 }
 
+export function getItemMeta(itemId: string): ItemMeta {
+  return currentItemMeta[itemId] ?? { tags: [], effectHint: '', canEquip: false, canLoad: false, canUse: true, consumable: true };
+}
+
 export async function initEngine(worldId: string): Promise<{ worldMeta: WorldMeta | null }> {
   const worlds = await listWorlds();
   currentWorldMeta = worlds.find(w => w.id === worldId) ?? null;
 
-  // Load item metadata so getItemName/getItemDescription work without round-trips.
+  // Load item metadata so getItemName/getItemDescription/getItemMeta work without round-trips.
   const itemsRes = await fetch(`${API_URL}/api/worlds/${worldId}/items`);
-  const itemList = await itemsRes.json() as { id: string; name: string; description: string }[];
-  currentItemNames = Object.fromEntries(itemList.map(i => [i.id, i.name]));
+  const itemList = await itemsRes.json() as { id: string; name: string; description: string; tags?: string[]; consumable?: boolean; attributes?: Record<string, unknown> }[];
+  currentItemNames        = Object.fromEntries(itemList.map(i => [i.id, i.name]));
   currentItemDescriptions = Object.fromEntries(itemList.map(i => [i.id, i.description ?? '']));
+  currentItemMeta         = Object.fromEntries(itemList.map(i => [i.id, buildItemMeta(i)]));
 
   await send({ type: 'init', world_id: worldId });
   return { worldMeta: currentWorldMeta };

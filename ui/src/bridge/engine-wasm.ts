@@ -1,4 +1,6 @@
 import type { CommandResult, ContextAction, GameStateDTO } from '@/types/contracts';
+import { buildItemMeta } from '@/bridge/item-meta';
+import type { ItemMeta } from '@/bridge/item-meta';
 
 // Shape of one WASM engine instance (mirrors the wasm-bindgen-generated class).
 interface WasmEngineInstance {
@@ -46,6 +48,7 @@ let engineInstance: WasmEngineInstance | null = null;
 let currentWorldMeta: WorldMeta | null = null;
 let currentItemNames: Record<string, string> = {};
 let currentItemDescriptions: Record<string, string> = {};
+let currentItemMeta: Record<string, ItemMeta> = {};
 
 // All world data — eagerly bundled at build time across every world directory.
 // Vite 8 dropped the `as: 'raw'` glob option; JSON files are now imported as
@@ -127,18 +130,10 @@ export async function initEngine(worldId: string): Promise<{ worldMeta: WorldMet
     .find(([path]) => path.includes(`/worlds/${worldId}/`));
   currentWorldMeta = metaEntry ? (metaEntry[1].default as WorldMeta) : null;
 
-  currentItemNames = Object.fromEntries(
-    items.map(({ content }) => {
-      const item = JSON.parse(content) as { id: string; name: string };
-      return [item.id, item.name];
-    })
-  );
-  currentItemDescriptions = Object.fromEntries(
-    items.map(({ content }) => {
-      const item = JSON.parse(content) as { id: string; description: string };
-      return [item.id, item.description ?? ''];
-    })
-  );
+  const parsedItems = items.map(({ content }) => JSON.parse(content) as { id: string; name: string; description: string; tags?: string[]; consumable?: boolean; attributes?: Record<string, unknown> });
+  currentItemNames        = Object.fromEntries(parsedItems.map(i => [i.id, i.name]));
+  currentItemDescriptions = Object.fromEntries(parsedItems.map(i => [i.id, i.description ?? '']));
+  currentItemMeta         = Object.fromEntries(parsedItems.map(i => [i.id, buildItemMeta(i)]));
 
   const payload = JSON.stringify({ rooms, items, classes, npcs, quests, manifest });
   engineInstance = new wasmModule.WasmEngine(payload);
@@ -151,6 +146,10 @@ export function getItemName(itemId: string): string {
 
 export function getItemDescription(itemId: string): string {
   return currentItemDescriptions[itemId] ?? '';
+}
+
+export function getItemMeta(itemId: string): ItemMeta {
+  return currentItemMeta[itemId] ?? { tags: [], effectHint: '', canEquip: false, canLoad: false, canUse: true, consumable: true };
 }
 
 // Sync helpers used internally and by the router.

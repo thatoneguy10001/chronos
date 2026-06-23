@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useGameStore } from '@/store/gameStore';
-import { getItemName, getItemDescription } from '@/bridge/engine';
+import { getItemName, getItemDescription, getItemMeta } from '@/bridge/engine';
 import { MiniMap } from '@/components/MiniMap';
 import { Panel, SectionLabel, pillButton } from '@/components/Panel';
 import type { CharacterStateDTO, EnemyStateDTO, QuestProgressDTO } from '@/types/contracts';
@@ -132,8 +132,24 @@ function PlayerCard({ ch, currencyName, currencySymbol, secondaryCurrencyName, s
         </div>
       )}
       {ch.active_effects.length > 0 && (
-        <div style={{ fontSize: '0.72em', color: 'var(--text-body)', ...divider }}>
-          {ch.active_effects.join(' · ')}
+        <div style={{ ...divider, display: 'flex', flexWrap: 'wrap', gap: '0.25rem' }}>
+          {ch.active_effects.map((eff, i) => {
+            const isBuff = /\+/.test(eff);
+            const isDebuff = /bleed|poison|burn|corrode|blind|chill|frozen|weaken|hemotoxin|plague/i.test(eff);
+            const color = isBuff ? 'var(--green-bright)' : isDebuff ? 'var(--danger-text)' : 'var(--text-muted)';
+            const borderColor = isBuff ? 'rgba(26,74,26,0.4)' : isDebuff ? 'rgba(139,26,26,0.4)' : 'var(--j-border)';
+            return (
+              <span key={i} style={{
+                fontSize: '0.65em',
+                color,
+                border: `1px solid ${borderColor}`,
+                borderRadius: 2,
+                padding: '0.1rem 0.35rem',
+                fontFamily: 'var(--font-dossier)',
+                letterSpacing: '0.04em',
+              }}>{eff}</span>
+            );
+          })}
         </div>
       )}
     </div>
@@ -180,53 +196,92 @@ function EnemyCard({ enemy }: { enemy: EnemyStateDTO }) {
   );
 }
 
+function ItemActionButton({ id, submitCommand }: { id: string; submitCommand: (cmd: string) => void }) {
+  const meta = getItemMeta(id);
+  const name = getItemName(id);
+
+  let label: string;
+  let cmd: string;
+  let hoverColor: string;
+
+  if (meta.canEquip) {
+    label = 'EQUIP';
+    cmd   = `equip ${id}`;
+    hoverColor = 'var(--blue)';
+  } else if (meta.canLoad) {
+    label = 'LOAD';
+    cmd   = `load ${id}`;
+    hoverColor = 'var(--payload-text)';
+  } else if (meta.canUse) {
+    label = 'USE';
+    cmd   = `use ${name.toLowerCase()}`;
+    hoverColor = 'var(--text)';
+  } else {
+    return null;
+  }
+
+  return (
+    <button
+      onClick={() => submitCommand(cmd)}
+      style={{ ...pillButton, fontSize: '0.7em', padding: '0.08rem 0.5rem', flexShrink: 0, marginLeft: '0.4rem' }}
+      onMouseEnter={e => { (e.target as HTMLElement).style.borderColor = hoverColor; (e.target as HTMLElement).style.color = hoverColor; }}
+      onMouseLeave={e => { (e.target as HTMLElement).style.borderColor = 'var(--j-border)'; (e.target as HTMLElement).style.color = 'var(--j-text-dim)'; }}
+    >
+      {label}
+    </button>
+  );
+}
+
 function InventoryList({ inventoryIds, submitCommand }: { inventoryIds: string[]; submitCommand: (cmd: string) => void }) {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
-  const desc = hoveredId ? getItemDescription(hoveredId) : '';
 
   return (
     <div>
-      {inventoryIds.map(id => (
-        <div
-          key={id}
-          style={{ position: 'relative' }}
-          onMouseEnter={() => setHoveredId(id)}
-          onMouseLeave={() => setHoveredId(null)}
-        >
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '0.78em', marginBottom: '0.3rem' }}>
-            <span style={{ color: 'var(--green-bright)', cursor: 'default' }}>{getItemName(id)}</span>
-            <button
-              onClick={() => submitCommand(`use ${getItemName(id).toLowerCase()}`)}
-              style={{ ...pillButton, fontSize: '0.7em', padding: '0.08rem 0.5rem', flexShrink: 0, marginLeft: '0.4rem' }}
-              onMouseEnter={e => { (e.target as HTMLElement).style.borderColor = 'var(--text)'; (e.target as HTMLElement).style.color = 'var(--text)'; }}
-              onMouseLeave={e => { (e.target as HTMLElement).style.borderColor = 'var(--j-border)'; (e.target as HTMLElement).style.color = 'var(--j-text-dim)'; }}
-            >
-              USE
-            </button>
-          </div>
-          {hoveredId === id && desc && (
-            <div style={{
-              position: 'absolute',
-              right: '100%',
-              top: 0,
-              width: 220,
-              marginRight: '0.5rem',
-              background: 'var(--j-bg)',
-              border: '1px solid var(--j-border)',
-              borderLeft: '2px solid var(--green-bright)',
-              padding: '0.5rem 0.6rem',
-              fontSize: '0.72em',
-              color: 'var(--text-body)',
-              lineHeight: 1.5,
-              zIndex: 100,
-              pointerEvents: 'none',
-            }}>
-              <div style={{ color: 'var(--green-bright)', fontWeight: 'bold', marginBottom: '0.25rem' }}>{getItemName(id)}</div>
-              {desc}
+      {inventoryIds.map(id => {
+        const meta = getItemMeta(id);
+        const isWeapon = meta.tags.includes('weapon');
+        const nameColor = isWeapon ? 'var(--blue)' : meta.canLoad ? 'var(--payload-text)' : 'var(--green-bright)';
+
+        return (
+          <div
+            key={id}
+            style={{ position: 'relative' }}
+            onMouseEnter={() => setHoveredId(id)}
+            onMouseLeave={() => setHoveredId(null)}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '0.78em', marginBottom: '0.3rem' }}>
+              <span style={{ color: nameColor, cursor: 'default' }}>{getItemName(id)}</span>
+              <ItemActionButton id={id} submitCommand={submitCommand} />
             </div>
-          )}
-        </div>
-      ))}
+            {hoveredId === id && (
+              <div style={{
+                position: 'absolute',
+                right: '100%',
+                top: 0,
+                width: 220,
+                marginRight: '0.5rem',
+                background: 'var(--j-bg)',
+                border: '1px solid var(--j-border)',
+                borderLeft: `2px solid ${nameColor}`,
+                padding: '0.5rem 0.6rem',
+                fontSize: '0.72em',
+                color: 'var(--text-body)',
+                lineHeight: 1.5,
+                zIndex: 100,
+                pointerEvents: 'none',
+              }}>
+                <div style={{ color: nameColor, fontWeight: 'bold', marginBottom: '0.2rem' }}>{getItemName(id)}</div>
+                {meta.effectHint && (
+                  <div style={{ color: 'var(--j-text)', marginBottom: '0.25rem', fontFamily: 'var(--font-dossier)', fontSize: '0.9em' }}>
+                    {meta.effectHint}{!meta.consumable ? ' (reusable)' : ''}
+                  </div>
+                )}
+                <div style={{ color: 'var(--text-body)', opacity: 0.85 }}>{getItemDescription(id)}</div>
+              </div>
+            )}
+          </div>
+        );
+      })}
     </div>
   );
 }
