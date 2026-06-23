@@ -84,9 +84,11 @@ function SaveRow({
 
 function NewGameButton({
   colors,
+  worldId,
   onClick,
 }: {
   colors: { accent: string; dim: string };
+  worldId: string;
   onClick: () => void;
 }) {
   const [hovered, setHovered] = useState(false);
@@ -94,6 +96,7 @@ function NewGameButton({
   return (
     <button
       onClick={onClick}
+      data-testid={`new-game-${worldId}`}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
@@ -174,7 +177,7 @@ function WorldCard({
       )}
 
       <div style={{ marginTop: '0.9rem', display: 'flex', justifyContent: 'flex-end' }}>
-        <NewGameButton colors={colors} onClick={onSelect} />
+        <NewGameButton colors={colors} worldId={world.id} onClick={onSelect} />
       </div>
     </div>
   );

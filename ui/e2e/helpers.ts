@@ -5,7 +5,7 @@ const PANIC_STRINGS = ['panic', 'unwrap()', 'called `Option', 'RUST_BACKTRACE', 
 /** Select Iron & Blood and a playable class, wait for the game terminal. */
 export async function initGame(page: Page, classPartialName = 'Vanguard') {
   await page.goto('/');
-  await page.getByText('Iron & Blood').first().click();
+  await page.getByTestId('new-game-iron-and-blood').click();
   await page.getByText(classPartialName).first().click();
   // Wait until the game input is ready.
   await page.getByPlaceholder('write your next move...').waitFor({ state: 'visible', timeout: 15_000 });
