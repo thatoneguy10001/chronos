@@ -14,7 +14,7 @@ test.describe('Iron & Blood — golden path', () => {
 
   test('character-creation screen appears after selecting a world', async ({ page }) => {
     await page.goto('/');
-    await page.getByText('Iron & Blood').first().click();
+    await page.getByTestId('new-game-iron-and-blood').click();
     // Class cards should be visible.
     await expect(page.getByText('Vanguard').first()).toBeVisible({ timeout: 8_000 });
   });
