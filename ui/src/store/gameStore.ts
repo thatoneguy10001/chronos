@@ -46,27 +46,44 @@ export interface SaveSlot {
   characterName: string;
   classId: string;
   roomId: string;
+  roomName?: string;  // display name; absent in pre-migration saves
   tick: number;
   savedAt: string;  // ISO
   snapshot: string; // engine JSON
 }
 
-const SLOT_KEY = (n: number) => `chronos_slot_${n}`;
+const SLOT_KEY = (worldId: string, n: number) => `chronos_slot_${worldId}_${n}`;
 export const NUM_SLOTS = 3;
 
-function readSaveSlot(n: number): SaveSlot | null {
+// One-time migration: move old global-keyed saves to per-world keys.
+function migrateGlobalSlots(): void {
+  for (let i = 0; i < NUM_SLOTS; i++) {
+    const oldKey = `chronos_slot_${i}`;
+    const raw = localStorage.getItem(oldKey);
+    if (!raw) continue;
+    try {
+      const slot = JSON.parse(raw) as SaveSlot;
+      const newKey = SLOT_KEY(slot.worldId, i);
+      if (!localStorage.getItem(newKey)) localStorage.setItem(newKey, raw);
+    } catch { /* ignore corrupt saves */ }
+    localStorage.removeItem(oldKey);
+  }
+}
+migrateGlobalSlots();
+
+function readSaveSlot(worldId: string, n: number): SaveSlot | null {
   try {
-    const raw = localStorage.getItem(SLOT_KEY(n));
+    const raw = localStorage.getItem(SLOT_KEY(worldId, n));
     return raw ? (JSON.parse(raw) as SaveSlot) : null;
   } catch { return null; }
 }
 
-function writeSaveSlot(n: number, slot: SaveSlot): void {
-  localStorage.setItem(SLOT_KEY(n), JSON.stringify(slot));
+function writeSaveSlot(worldId: string, n: number, slot: SaveSlot): void {
+  localStorage.setItem(SLOT_KEY(worldId, n), JSON.stringify(slot));
 }
 
-export function readAllSlots(): (SaveSlot | null)[] {
-  return Array.from({ length: NUM_SLOTS }, (_, i) => readSaveSlot(i));
+export function readWorldSlots(worldId: string): (SaveSlot | null)[] {
+  return Array.from({ length: NUM_SLOTS }, (_, i) => readSaveSlot(worldId, i));
 }
 
 interface GameStore {
@@ -168,7 +185,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
   mapCurrentX: 0,
   mapCurrentY: 0,
   isRewound: false,
-  saves: readAllSlots(),
+  saves: [],
   saveModalMode: null,
   journalOpen: false,
 
@@ -184,7 +201,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
     };
 
     if (loadSlot !== undefined) {
-      const saved = readSaveSlot(loadSlot);
+      const saved = readSaveSlot(worldId, loadSlot);
       if (saved) {
         const result = await engine.loadFromSnapshot(saved.snapshot);
         const snap   = await engine.getSnapshot();
@@ -193,6 +210,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
         set({
           ...worldBase,
           initialized: true,
+          saves:          readWorldSlots(worldId),
           currentTick:    result.tick,
           maxTick:        result.max_tick,
           gameTime:       result.game_time ?? 360,
@@ -225,6 +243,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
     set({
       ...worldBase,
       initialized: true,
+      saves:          readWorldSlots(worldId),
       currentTick: result.tick,
       maxTick: result.max_tick,
       gameTime: result.game_time ?? 360,
@@ -394,7 +413,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
   saveToSlot: (slot: number) => {
     void (async () => {
-      const { worldId, worldTitle, playerCharacter, currentRoomId, currentTick } = get();
+      const { worldId, worldTitle, playerCharacter, currentRoomId, currentRoomName, currentTick } = get();
       const snap = await engine.getSnapshot();
       const entry: SaveSlot = {
         version: 1,
@@ -403,12 +422,13 @@ export const useGameStore = create<GameStore>((set, get) => ({
         characterName: playerCharacter?.name ?? 'Unknown',
         classId: playerCharacter?.class_id ?? '',
         roomId: currentRoomId,
+        roomName: currentRoomName,
         tick: currentTick,
         savedAt: new Date().toISOString(),
         snapshot: JSON.stringify(snap),
       };
-      writeSaveSlot(slot, entry);
-      const saves = readAllSlots();
+      writeSaveSlot(worldId, slot, entry);
+      const saves = readWorldSlots(worldId);
       set(state => ({
         saves,
         saveModalMode: null,
@@ -418,7 +438,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
   },
 
   loadFromSlot: (slot: number) => {
-    const saved = readSaveSlot(slot);
+    const saved = readSaveSlot(get().worldId, slot);
     if (!saved) return;
     void (async () => {
       try {
