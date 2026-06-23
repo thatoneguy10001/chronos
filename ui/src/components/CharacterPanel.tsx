@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useGameStore } from '@/store/gameStore';
 import { getItemName, getItemDescription, getItemMeta } from '@/bridge/engine';
 import { MiniMap } from '@/components/MiniMap';
@@ -20,12 +20,49 @@ function Bar({ value, max, color }: { value: number; max: number; color: string 
   );
 }
 
+function useDelta(value: number) {
+  const prevRef = useRef<number | null>(null);
+  const [delta, setDelta] = useState(0);
+  const [key, setKey] = useState(0);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    if (prevRef.current !== null && prevRef.current !== value) {
+      if (timerRef.current) clearTimeout(timerRef.current);
+      setDelta(value - prevRef.current);
+      setKey(k => k + 1);
+      timerRef.current = setTimeout(() => setDelta(0), 1700);
+    }
+    prevRef.current = value;
+  }, [value]);
+
+  return { delta, key };
+}
+
+function DeltaBadge({ delta, animKey }: { delta: number; animKey: number }) {
+  if (delta === 0) return null;
+  const positive = delta > 0;
+  return (
+    <span
+      key={animKey}
+      className="stat-delta"
+      style={{ color: positive ? 'var(--green-bright)' : 'var(--danger-text)' }}
+    >
+      {positive ? `+${delta}` : delta}
+    </span>
+  );
+}
+
 function StatRow({ label, value, hideIfZero }: { label: string; value: number; hideIfZero?: boolean }) {
+  const { delta, key } = useDelta(value);
   if (hideIfZero && value === 0) return null;
   return (
     <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8em', marginBottom: 2 }}>
       <span style={{ color: 'var(--text-label)' }}>{label}</span>
-      <span style={{ color: 'var(--text)' }}>{value}</span>
+      <span style={{ color: 'var(--text)' }}>
+        {value}
+        <DeltaBadge delta={delta} animKey={key} />
+      </span>
     </div>
   );
 }
@@ -45,6 +82,7 @@ function PlayerCard({ ch, currencyName, currencySymbol, secondaryCurrencyName, s
   const xpInLevel = ch.xp - prevXp;
   const xpNeeded = nextXp != null ? nextXp - prevXp : null;
   const hpLow = ch.hp <= ch.max_hp * 0.3;
+  const { delta: hpDelta, key: hpKey } = useDelta(ch.hp);
 
   return (
     <div>
@@ -60,6 +98,7 @@ function PlayerCard({ ch, currencyName, currencySymbol, secondaryCurrencyName, s
           <span style={{ color: 'var(--text-label)' }}>HP</span>
           <span style={{ color: hpLow ? 'var(--danger-low)' : 'var(--text)' }}>
             {ch.hp}/{ch.max_hp}
+            <DeltaBadge delta={hpDelta} animKey={hpKey} />
           </span>
         </div>
         <Bar value={ch.hp} max={ch.max_hp} color={hpLow ? 'var(--bar-hp-low)' : 'var(--bar-hp)'} />

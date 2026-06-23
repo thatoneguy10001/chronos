@@ -152,6 +152,21 @@
 /* Inline spoken dialogue inside flowing room/quest/output text. */
 .speech-inline { color: var(--speech-accent); font-weight: 600; }
 
+/* Stat flash — floats up and fades when a stat changes */
+@keyframes statFlash {
+  0%   { opacity: 1;   transform: translateY(0);   }
+  60%  { opacity: 0.9; transform: translateY(-5px); }
+  100% { opacity: 0;   transform: translateY(-10px); }
+}
+.stat-delta {
+  display: inline-block;
+  margin-left: 0.3em;
+  font-size: 0.82em;
+  font-weight: bold;
+  pointer-events: none;
+  animation: statFlash 1.6s ease-out forwards;
+}
+
 /* Ink bleed — subtle text-shadow per ink color */
 .ink-narrative { text-shadow: 0 0 5px rgba(46,26,8,0.18),  0 0 1px rgba(46,26,8,0.1); }
 .ink-system    { text-shadow: 0 0 5px rgba(26,46,64,0.2),  0 0 1px rgba(26,46,64,0.1); }
