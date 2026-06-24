@@ -3,7 +3,7 @@ import type { ContextAction } from '@/types/contracts';
 
 // ── Action classification ────────────────────────────────────────────────────
 
-type ActionKind = 'move' | 'attack' | 'talk' | 'item' | 'other';
+type ActionKind = 'move' | 'attack' | 'talk' | 'dialogue' | 'item' | 'other';
 
 const DIRS = new Set([
   'north','south','east','west','up','down',
@@ -15,33 +15,37 @@ function classifyAction(cmd: string): ActionKind {
   const verb = parts[0];
   if (DIRS.has(verb) || (verb === 'go' && DIRS.has(parts[1]))) return 'move';
   if (verb === 'attack' || verb === 'fight') return 'attack';
-  if (verb === 'talk' || verb === 'ask' || verb === 'speak') return 'talk';
+  if (verb === 'talk' || verb === 'speak') return 'talk';
+  if (verb === 'ask') return 'dialogue';
   if (['take', 'pick', 'get', 'use'].includes(verb)) return 'item';
   return 'other';
 }
 
 const KIND_ICON: Record<ActionKind, string> = {
-  move:   'ti-arrow-right',
-  attack: 'ti-sword',
-  talk:   'ti-message-circle',
-  item:   'ti-package',
-  other:  'ti-circle-dot',
+  move:     'ti-arrow-right',
+  attack:   'ti-sword',
+  talk:     'ti-message-circle',
+  dialogue: 'ti-message-2',
+  item:     'ti-package',
+  other:    'ti-circle-dot',
 };
 
 const KIND_LABEL: Record<ActionKind, string> = {
-  move:   'Exit',
-  attack: 'Hostile',
-  talk:   'Person',
-  item:   'Item',
-  other:  'Action',
+  move:     'Exit',
+  attack:   'Hostile',
+  talk:     'Person',
+  dialogue: 'Topic',
+  item:     'Item',
+  other:    'Action',
 };
 
 const KIND_BORDER: Record<ActionKind, string> = {
-  move:   'rgba(100,140,210,0.45)',
-  attack: 'var(--ui-red)',
-  talk:   'rgba(100,180,100,0.45)',
-  item:   'rgba(200,168,74,0.45)',
-  other:  'rgba(212,200,168,0.2)',
+  move:     'rgba(100,140,210,0.45)',
+  attack:   'var(--ui-red)',
+  talk:     'rgba(100,180,100,0.45)',
+  dialogue: 'rgba(100,200,160,0.5)',
+  item:     'rgba(200,168,74,0.45)',
+  other:    'rgba(212,200,168,0.2)',
 };
 
 // Derive a short NPC name from a talk action label ("Talk to Private Marsh" → "Private Marsh")
@@ -135,6 +139,7 @@ export function ExploreScreen() {
   const moveActions  = allActions.filter(a => classifyAction(a.command) === 'move');
   const zoneActions  = allActions.filter(a => classifyAction(a.command) !== 'move');
 
+  // Only initial "talk to NPC" commands go in the sidebar — "ask" topic replies are shown as zone cards
   const talkActions  = zoneActions.filter(a => classifyAction(a.command) === 'talk');
   const visibleEnemies = enemies.filter(e => e.hp > 0 && e.room_id === currentRoomId);
 
@@ -301,28 +306,6 @@ export function ExploreScreen() {
             </div>
           )}
 
-          {/* Fallback parser */}
-          <div style={{ paddingTop: 8, borderTop: '1px solid var(--ui-gold-border)' }}>
-            <div style={{ fontSize: 9, letterSpacing: '0.12em', color: 'var(--ui-gold-dim)', fontFamily: 'var(--font-dossier)', marginBottom: 5 }}>Command</div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-              <span style={{ color: 'var(--ui-gold-dim)', fontFamily: 'Georgia, serif', fontSize: 14 }}>›</span>
-              <input
-                onKeyDown={e => {
-                  if (e.key === 'Enter') {
-                    const val = (e.target as HTMLInputElement).value.trim();
-                    if (val) { submitCommand(val); (e.target as HTMLInputElement).value = ''; }
-                  }
-                }}
-                placeholder="type a command…"
-                style={{
-                  flex: 1, background: 'transparent', border: 'none',
-                  borderBottom: '1px solid var(--ui-gold-border)', outline: 'none',
-                  color: 'var(--ui-cream)', fontFamily: 'var(--font-dossier)',
-                  fontSize: 10, padding: '2px 0', caretColor: 'var(--ui-gold)',
-                }}
-              />
-            </div>
-          </div>
         </div>
       </div>
     </div>
