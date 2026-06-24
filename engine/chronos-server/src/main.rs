@@ -419,7 +419,7 @@ mod tests {
 // ── main ──────────────────────────────────────────────────────────────────────
 
 #[tokio::main]
-async fn main() {
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Use CHRONOS_PORT (not PORT) so the preview tool's PORT injection for Vite
     // doesn't accidentally redirect this server away from its default of 3000.
     let port: u16 = std::env::var("CHRONOS_PORT")
@@ -444,6 +444,8 @@ async fn main() {
     println!("chronos-server listening on ws://localhost:{port}/ws");
     println!("worlds dir: {}", worlds_dir().display());
 
-    let listener = tokio::net::TcpListener::bind(addr).await.unwrap();
-    axum::serve(listener, app).await.unwrap();
+    let listener = tokio::net::TcpListener::bind(addr).await
+        .map_err(|e| format!("could not bind to {addr}: {e} — is another instance already running?"))?;
+    axum::serve(listener, app).await?;
+    Ok(())
 }
