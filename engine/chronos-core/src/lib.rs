@@ -964,7 +964,7 @@ impl ChronosEngine {
                             .filter(|n| n.rest_provider)
                             .map(|n| n.name.clone())
                     });
-                if rest_npc_name.is_none() {
+                let Some(npc_name) = rest_npc_name else {
                     return CommandResult {
                         success: false,
                         narrative: "There's nowhere to rest here.".to_string(),
@@ -975,8 +975,7 @@ impl ChronosEngine {
                         npc_sections: vec![],
                         game_over: false,
                     };
-                }
-                let npc_name = rest_npc_name.unwrap();
+                };
                 let (player_e, gold, hp_cur, hp_max) = {
                     let mut q = self
                         .world
@@ -1092,7 +1091,23 @@ impl ChronosEngine {
                 });
                 match found {
                     Some((found_id, in_room)) => {
-                        let t = self.repository.item(found_id).unwrap();
+                        let t = match self.repository.item(found_id) {
+                            Ok(t) => t,
+                            Err(_) => {
+                                return CommandResult {
+                                    success: false,
+                                    narrative: format!(
+                                        "Item data for '{found_id}' is missing from the world."
+                                    ),
+                                    context_actions: vec![],
+                                    inventory_ids: self.player_inventory_ids(),
+                                    tick: self.tick,
+                                    game_time: self.current_game_time(),
+                                    npc_sections: vec![],
+                                    game_over: false,
+                                }
+                            }
+                        };
                         // Special rendering for the diary: build contents from WorldFlags.
                         if t.id == "ren_diary" {
                             let flags = self
