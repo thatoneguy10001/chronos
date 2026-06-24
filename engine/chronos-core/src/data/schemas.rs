@@ -1,16 +1,42 @@
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
+/// The schema version this build of the engine speaks. Every world manifest
+/// declares its own `schema_version`; the loader refuses to run a world whose
+/// version is *newer* than this (the engine can't know about fields that didn't
+/// exist when it was built) and may migrate worlds that are older.
+///
+/// Bump this whenever the world JSON format changes in a way old worlds need
+/// migrating for. This is the contract that lets community worlds keep working
+/// across engine updates — it is load-bearing, not decorative.
+pub const CURRENT_SCHEMA_VERSION: u32 = 1;
+
+fn default_schema_version() -> u32 {
+    // A manifest with no `schema_version` predates versioning → treat as v1.
+    1
+}
+
 /// World-level configuration loaded from `manifest.json` at startup.
 /// Holds settings that aren't tied to any single room or item — most
 /// importantly the canonical spawn point.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct WorldManifest {
+    /// Format version of this world file. See [`CURRENT_SCHEMA_VERSION`].
+    /// Defaults to 1 for worlds authored before versioning existed.
+    #[serde(default = "default_schema_version")]
+    pub schema_version: u32,
     /// Room the player spawns in at world init. Must match a RoomTemplate id.
     pub start_room_id: String,
     /// Display title for the world (optional; not yet wired to the UI).
     #[serde(default)]
     pub title: Option<String>,
+    /// The layer stack that defines this world's genre. Each entry activates and
+    /// configures one engine layer (space, combat, dialogue, …); the combination
+    /// *is* the genre. Empty means "use the engine's built-in defaults" — which is
+    /// exactly how every world authored before the layer system behaves, so older
+    /// worlds keep running untouched.
+    #[serde(default)]
+    pub layers: Vec<LayerConfig>,
     /// Initial enemy placements. Each is (class blueprint → room) and is spawned
     /// at every bootstrap, so a rewind respawns enemies and replay re-fights them.
     #[serde(default)]
@@ -19,6 +45,47 @@ pub struct WorldManifest {
     /// don't change state so these are never re-bootstrapped — just referenced.
     #[serde(default)]
     pub npc_placements: Vec<NpcPlacement>,
+}
+
+/// One layer in a world's stack.
+///
+/// A layer has a stable `id` (which engine subsystem it activates — `"combat"`,
+/// `"space"`, `"dialogue"`, …), an optional `mode` (the variant of that subsystem,
+/// e.g. combat `"single_exchange"` vs `"turn_order"`), and a free-form bag of
+/// parameters. The bag is `flatten`ed, so any extra keys in the JSON land here
+/// without a schema change — that's deliberate: a new layer can ship its own
+/// config keys before the core struct knows about them.
+///
+/// Example:
+/// ```json
+/// { "id": "space",  "mode": "room_graph" }
+/// { "id": "combat", "mode": "single_exchange" }
+/// { "id": "economy", "currencies": ["scraps", "shards"] }
+/// ```
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct LayerConfig {
+    /// Which engine subsystem this layer activates. Stable identifier.
+    pub id: String,
+    /// The variant of that subsystem, when it has more than one. `None` means
+    /// "the layer's default mode."
+    #[serde(default)]
+    pub mode: Option<String>,
+    /// Everything else declared on this layer. Layer-specific; opaque to the core
+    /// schema so new layers don't force a struct change.
+    #[serde(flatten, default)]
+    pub params: HashMap<String, serde_json::Value>,
+}
+
+impl LayerConfig {
+    /// Read a string parameter from the layer's free-form bag, if present.
+    pub fn param_str(&self, key: &str) -> Option<&str> {
+        self.params.get(key).and_then(|v| v.as_str())
+    }
+
+    /// Read an integer parameter from the layer's free-form bag, if present.
+    pub fn param_i64(&self, key: &str) -> Option<i64> {
+        self.params.get(key).and_then(|v| v.as_i64())
+    }
 }
 
 /// One enemy placement: spawn class `class_id` into room `room_id` at world init.
