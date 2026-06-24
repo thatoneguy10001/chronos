@@ -102,6 +102,31 @@ impl ChronosEngine {
             };
         }
 
+        // WorldCommand is the extensible verb seam. Until a layer claims a verb it
+        // behaves exactly like Unknown — no tick, no log — so unrecognized verbs
+        // never pollute the deterministic event log. Once a layer registers the
+        // verb (see the layer dispatch registry), the command falls through to the
+        // normal tick/apply/log path below and becomes replay-safe like any other.
+        if let EngineEvent::WorldCommand { verb, .. } = &event {
+            if !self.world_command_is_handled(verb) {
+                return CommandResult {
+                    success: false,
+                    narrative: format!(
+                        "Nothing here responds to '{verb}'. Type 'help' for available commands."
+                    ),
+                    context_actions: vec![ContextAction {
+                        label: "Help".into(),
+                        command: "help".into(),
+                    }],
+                    inventory_ids: self.player_inventory_ids(),
+                    tick: self.tick,
+                    game_time: self.current_game_time(),
+                    npc_sections: vec![],
+                    game_over: false,
+                };
+            }
+        }
+
         // Restart is special: it resets everything including the event log, so it
         // gets its own path that bypasses normal tick/log machinery.
         if event == EngineEvent::Restart {
@@ -646,6 +671,39 @@ impl ChronosEngine {
     }
 
     /// Execute an event against the World. Does not touch the event log.
+    /// Whether any active layer claims the given `WorldCommand` verb.
+    ///
+    /// This is the dispatch seam for the layer system. Today no layer registers
+    /// verbs, so every world command is unhandled and behaves like `Unknown`.
+    /// When the layer registry lands, this consults it: a verb owned by a layer
+    /// in the world's stack returns `true` and flows through the normal
+    /// tick/apply/log path, making world commands replay-safe by construction.
+    fn world_command_is_handled(&self, _verb: &str) -> bool {
+        // No layer currently registers verbs. See task: formalize layer modules.
+        false
+    }
+
+    /// Route a `WorldCommand` to its owning layer. Mirror of `world_command_is_handled`:
+    /// until layers register verbs this is only reached defensively (the guard in
+    /// `process_command` short-circuits unhandled verbs first), so it returns a
+    /// graceful "unrecognized" result rather than panicking.
+    fn dispatch_world_command(
+        &mut self,
+        verb: &str,
+        _args: &std::collections::HashMap<String, serde_json::Value>,
+    ) -> CommandResult {
+        CommandResult {
+            success: false,
+            narrative: format!("Nothing here responds to '{verb}'."),
+            context_actions: vec![],
+            inventory_ids: self.player_inventory_ids(),
+            tick: self.tick,
+            game_time: self.current_game_time(),
+            npc_sections: vec![],
+            game_over: false,
+        }
+    }
+
     fn apply_event(&mut self, event: &EngineEvent) -> CommandResult {
         match event {
             EngineEvent::Move { direction } => {
@@ -1990,6 +2048,8 @@ impl ChronosEngine {
                     game_over: false,
                 }
             }
+
+            EngineEvent::WorldCommand { verb, args } => self.dispatch_world_command(verb, args),
 
             EngineEvent::Unknown { raw } => CommandResult {
                 success: false,

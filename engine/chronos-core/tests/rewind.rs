@@ -162,6 +162,57 @@ fn no_manifest_falls_back_to_alphabetical_start() {
 }
 
 #[test]
+fn manifest_without_version_defaults_to_v1() {
+    let (rooms, items) = world_data();
+    // A pre-versioning manifest (no schema_version field) loads as v1.
+    let manifest = r#"{ "start_room_id": "dim_corridor" }"#;
+    let repo = StaticRepository::from_json_pairs(&rooms, &items, &[], Some(manifest)).unwrap();
+    assert_eq!(repo.schema_version(), 1);
+    // No layers declared → empty stack → engine uses built-in defaults.
+    assert!(repo.layers().is_empty());
+}
+
+#[test]
+fn manifest_newer_than_engine_is_rejected() {
+    let (rooms, items) = world_data();
+    // A world authored against a future schema must not silently load — the engine
+    // can't know about fields that didn't exist when it was built.
+    let manifest = r#"{ "schema_version": 9999, "start_room_id": "dim_corridor" }"#;
+    let err = StaticRepository::from_json_pairs(&rooms, &items, &[], Some(manifest)).unwrap_err();
+    assert!(matches!(
+        err,
+        RepositoryError::UnsupportedSchemaVersion { found: 9999, .. }
+    ));
+}
+
+#[test]
+fn manifest_layer_stack_parses_with_freeform_params() {
+    let (rooms, items) = world_data();
+    let manifest = r#"{
+        "start_room_id": "dim_corridor",
+        "layers": [
+            { "id": "space", "mode": "room_graph" },
+            { "id": "economy", "currencies": ["scraps", "shards"] },
+            { "id": "combat", "mode": "turn_order", "party_size": 4 }
+        ]
+    }"#;
+    let repo = StaticRepository::from_json_pairs(&rooms, &items, &[], Some(manifest)).unwrap();
+
+    assert_eq!(repo.layers().len(), 3);
+
+    // mode is pulled out as a first-class field.
+    let combat = repo.layer("combat").expect("combat layer present");
+    assert_eq!(combat.mode.as_deref(), Some("turn_order"));
+    // Extra keys land in the flattened param bag, no schema change needed.
+    assert_eq!(combat.param_i64("party_size"), Some(4));
+
+    // A layer with no mode reports None; unknown layers report None.
+    let economy = repo.layer("economy").expect("economy layer present");
+    assert_eq!(economy.mode, None);
+    assert!(repo.layer("nonexistent").is_none());
+}
+
+#[test]
 fn rewind_restores_picked_up_item_to_room() {
     let mut engine = ChronosEngine::new(test_repo());
 
