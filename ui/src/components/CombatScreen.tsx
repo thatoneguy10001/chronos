@@ -284,25 +284,6 @@ export function CombatScreen() {
           />
         </div>
 
-        {/* Parser fallback */}
-        <div style={{ marginTop: 10, display: 'flex', alignItems: 'center', gap: 6 }}>
-          <span style={{ color: 'var(--ui-gold-dim)', fontFamily: 'Georgia, serif', fontSize: 14 }}>›</span>
-          <input
-            onKeyDown={e => {
-              if (e.key === 'Enter') {
-                const val = (e.target as HTMLInputElement).value.trim();
-                if (val) { submitCommand(val); (e.target as HTMLInputElement).value = ''; }
-              }
-            }}
-            placeholder="or type a command…"
-            style={{
-              flex: 1, background: 'transparent', border: 'none',
-              borderBottom: '1px solid var(--ui-gold-border)', outline: 'none',
-              color: 'var(--ui-cream)', fontFamily: 'var(--font-dossier)',
-              fontSize: 10.5, padding: '2px 0', caretColor: 'var(--ui-gold)',
-            }}
-          />
-        </div>
       </div>
     </div>
   );

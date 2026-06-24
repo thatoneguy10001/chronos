@@ -94,6 +94,31 @@ test.describe('Iron & Blood — golden path', () => {
     await sendAndWait(page, 'inventory');
     await assertNoPanic(page);
   });
+
+  test('inventory tab renders gear loadout', async ({ page }) => {
+    await initGame(page);
+    await page.getByRole('button', { name: /inventory/i }).click();
+    await expect(page.getByText('Loadout', { exact: false })).toBeVisible({ timeout: 4_000 });
+    await assertNoPanic(page);
+  });
+
+  test('character tab renders player stats', async ({ page }) => {
+    await initGame(page);
+    await page.getByRole('button', { name: /character/i }).click();
+    // Class name appears in the portrait and the identity section
+    await expect(page.getByText('Vanguard', { exact: false }).first()).toBeVisible({ timeout: 4_000 });
+    await assertNoPanic(page);
+  });
+
+  test('help modal opens and closes', async ({ page }) => {
+    await initGame(page);
+    await page.getByTitle('How to play').click();
+    await expect(page.getByText('How to Play', { exact: false })).toBeVisible({ timeout: 4_000 });
+    // Close via the × button
+    await page.getByRole('button', { name: '×' }).click();
+    await expect(page.getByText('How to Play', { exact: false })).not.toBeVisible();
+    await assertNoPanic(page);
+  });
 });
 
 // ── Parser robustness (key cases from stress-test.js) ────────────────────────

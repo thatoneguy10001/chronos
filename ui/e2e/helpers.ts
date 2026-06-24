@@ -2,20 +2,18 @@ import type { Page } from '@playwright/test';
 
 const PANIC_STRINGS = ['panic', 'unwrap()', 'called `Option', 'RUST_BACKTRACE', 'wasm-function'];
 
-/** Select Iron & Blood and a playable class, wait for the game input. */
+/** Select Iron & Blood and a playable class, wait for the game frame to mount. */
 export async function initGame(page: Page, classPartialName = 'Vanguard') {
   await page.goto('/');
   await page.getByTestId('new-game-iron-and-blood').click();
   await page.getByText(classPartialName).first().click();
-  // Wait until the in-game command input is ready (placeholder contains "command").
-  await page.locator('input[placeholder*="command"]').waitFor({ state: 'visible', timeout: 15_000 });
+  // Wait until the game frame is rendered (data-tick attribute appears).
+  await page.locator('[data-tick]').waitFor({ state: 'visible', timeout: 15_000 });
 }
 
-/** Type a command into the parser input and press Enter. */
+/** Dispatch a command through the engine via the window debug hook. */
 export async function send(page: Page, cmd: string) {
-  const input = page.locator('input[placeholder*="command"]').first();
-  await input.fill(cmd);
-  await input.press('Enter');
+  await page.evaluate((c) => (window as any).__gameCmd(c), cmd);
 }
 
 /** Send a command and wait for the engine to respond (tick increments). */

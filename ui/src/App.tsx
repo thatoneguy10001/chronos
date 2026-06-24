@@ -4,6 +4,7 @@ import { CharacterCreationScreen } from '@/components/CharacterCreationScreen';
 import { SaveLoadModal } from '@/components/SaveLoadModal';
 import { JournalModal } from '@/components/JournalModal';
 import { TopChrome } from '@/components/TopChrome';
+import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { ExploreScreen } from '@/components/ExploreScreen';
 import { CombatScreen } from '@/components/CombatScreen';
 import { InventoryScreen } from '@/components/InventoryScreen';
@@ -187,10 +188,12 @@ export function App() {
         <TopChrome />
 
         {/* Body: routed by activeScreen */}
-        {activeScreen === 'explore'   && <ExploreScreen />}
-        {activeScreen === 'combat'    && <CombatScreen />}
-        {activeScreen === 'inventory' && <InventoryScreen />}
-        {activeScreen === 'character' && <CharacterScreen />}
+        <ErrorBoundary>
+          {activeScreen === 'explore'   && <ExploreScreen />}
+          {activeScreen === 'combat'    && <CombatScreen />}
+          {activeScreen === 'inventory' && <InventoryScreen />}
+          {activeScreen === 'character' && <CharacterScreen />}
+        </ErrorBoundary>
 
         <NavBar />
       </div>
