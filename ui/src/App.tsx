@@ -1,16 +1,17 @@
-import { useEffect, useRef, useState } from 'react';
+import { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import { WorldSelectionScreen } from '@/components/WorldSelectionScreen';
 import { CharacterCreationScreen } from '@/components/CharacterCreationScreen';
 import { SaveLoadModal } from '@/components/SaveLoadModal';
 import { JournalModal } from '@/components/JournalModal';
 import { TopChrome } from '@/components/TopChrome';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
-import { ExploreScreen } from '@/components/ExploreScreen';
-import { CombatScreen } from '@/components/CombatScreen';
-import { InventoryScreen } from '@/components/InventoryScreen';
-import { CharacterScreen } from '@/components/CharacterScreen';
 import { NavBar } from '@/components/NavBar';
 import { useGameStore } from '@/store/gameStore';
+
+const ExploreScreen   = lazy(() => import('@/components/ExploreScreen').then(m => ({ default: m.ExploreScreen })));
+const CombatScreen    = lazy(() => import('@/components/CombatScreen').then(m => ({ default: m.CombatScreen })));
+const InventoryScreen = lazy(() => import('@/components/InventoryScreen').then(m => ({ default: m.InventoryScreen })));
+const CharacterScreen = lazy(() => import('@/components/CharacterScreen').then(m => ({ default: m.CharacterScreen })));
 
 function GameOverScreen({ worldTitle, onRestart }: { worldTitle: string; onRestart: () => void }) {
   return (
@@ -189,10 +190,12 @@ export function App() {
 
         {/* Body: routed by activeScreen */}
         <ErrorBoundary>
-          {activeScreen === 'explore'   && <ExploreScreen />}
-          {activeScreen === 'combat'    && <CombatScreen />}
-          {activeScreen === 'inventory' && <InventoryScreen />}
-          {activeScreen === 'character' && <CharacterScreen />}
+          <Suspense fallback={null}>
+            {activeScreen === 'explore'   && <ExploreScreen />}
+            {activeScreen === 'combat'    && <CombatScreen />}
+            {activeScreen === 'inventory' && <InventoryScreen />}
+            {activeScreen === 'character' && <CharacterScreen />}
+          </Suspense>
         </ErrorBoundary>
 
         <NavBar />
