@@ -301,6 +301,9 @@ async fn items_handler(Path(world_id): Path<String>) -> Json<Vec<Value>> {
                 "id":          v.get("id")?,
                 "name":        v.get("name").cloned().unwrap_or(Value::Null),
                 "description": v.get("description").cloned().unwrap_or(Value::Null),
+                "tags":        v.get("tags").cloned().unwrap_or(Value::Array(vec![])),
+                "consumable":  v.get("consumable").cloned().unwrap_or(Value::Bool(true)),
+                "attributes":  v.get("attributes").cloned().unwrap_or(Value::Object(serde_json::Map::new())),
             }))
         })
         .collect();

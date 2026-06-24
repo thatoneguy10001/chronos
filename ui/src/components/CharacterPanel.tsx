@@ -3,6 +3,7 @@ import { useGameStore } from '@/store/gameStore';
 import { getItemName, getItemDescription, getItemMeta } from '@/bridge/engine';
 import { MiniMap } from '@/components/MiniMap';
 import { Panel, SectionLabel, pillButton } from '@/components/Panel';
+import { OutfitterModal } from '@/components/OutfitterModal';
 import type { CharacterStateDTO, EnemyStateDTO, QuestProgressDTO } from '@/types/contracts';
 
 const XP_THRESHOLDS = [100, 300, 600, 1000, 1500, 2100, 2800, 3600, 4500];
@@ -79,11 +80,19 @@ const SLOTS: { key: keyof CharacterStateDTO; label: string; icon: string; cmd: s
   { key: 'equipped_accessory_2', label: 'ACC 2',     icon: '💎', cmd: 'unequip accessory_2' },
 ];
 
-function EquipmentGrid({ ch, submitCommand }: { ch: CharacterStateDTO; submitCommand: (cmd: string) => void }) {
+function EquipmentGrid({ ch, submitCommand, onOpenOutfitter }: { ch: CharacterStateDTO; submitCommand: (cmd: string) => void; onOpenOutfitter: () => void }) {
   const hasAny = SLOTS.some(s => ch[s.key]);
   return (
     <div style={{ ...divider, fontSize: '0.7em' }}>
-      <SectionLabel style={{ display: 'block', marginBottom: '0.3rem' }}>GEAR</SectionLabel>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.3rem' }}>
+        <SectionLabel>GEAR</SectionLabel>
+        <button
+          onClick={onOpenOutfitter}
+          style={{ ...pillButton, fontSize: '0.62em', padding: '0.05rem 0.4rem' }}
+          onMouseEnter={e => { (e.target as HTMLElement).style.borderColor = 'var(--blue)'; (e.target as HTMLElement).style.color = 'var(--blue)'; }}
+          onMouseLeave={e => { (e.target as HTMLElement).style.borderColor = 'var(--j-border)'; (e.target as HTMLElement).style.color = 'var(--j-text-dim)'; }}
+        >OUTFITTER</button>
+      </div>
       {SLOTS.map(({ key, label, icon, cmd }) => {
         const name = ch[key] as string | null | undefined;
         return (
@@ -117,13 +126,14 @@ function EquipmentGrid({ ch, submitCommand }: { ch: CharacterStateDTO; submitCom
   );
 }
 
-function PlayerCard({ ch, currencyName, currencySymbol, secondaryCurrencyName, secondaryCurrencySymbol, submitCommand }: {
+function PlayerCard({ ch, currencyName, currencySymbol, secondaryCurrencyName, secondaryCurrencySymbol, submitCommand, onOpenOutfitter }: {
   ch: CharacterStateDTO;
   currencyName: string;
   currencySymbol: string;
   secondaryCurrencyName: string;
   secondaryCurrencySymbol: string;
   submitCommand: (cmd: string) => void;
+  onOpenOutfitter: () => void;
 }) {
   const nextXp = xpToNext(ch.level);
   const prevXp = ch.level > 1 ? (XP_THRESHOLDS[ch.level - 2] ?? 0) : 0;
@@ -186,7 +196,7 @@ function PlayerCard({ ch, currencyName, currencySymbol, secondaryCurrencyName, s
       {nextXp == null && (
         <div style={{ color: 'var(--xp-text)', fontSize: '0.75em', marginTop: '0.5rem' }}>MAX LEVEL</div>
       )}
-      <EquipmentGrid ch={ch} submitCommand={submitCommand} />
+      <EquipmentGrid ch={ch} submitCommand={submitCommand} onOpenOutfitter={onOpenOutfitter} />
       {ch.payload_capacity > 0 && (
         <div style={divider}>
           <SectionLabel style={{ display: 'block', marginBottom: '0.3rem' }}>
@@ -379,12 +389,22 @@ export function CharacterPanel() {
   const secondaryCurrencySymbol = useGameStore(s => s.secondaryCurrencySymbol);
   const inventoryIds = useGameStore(s => s.inventoryIds);
   const submitCommand = useGameStore(s => s.submitCommand);
+  const [outfitterOpen, setOutfitterOpen] = useState(false);
   const visibleEnemies = enemies.filter(e => e.hp > 0 && e.room_id === currentRoomId);
   const activeQuests = playerCharacter?.active_quests ?? [];
 
   if (!playerCharacter && visibleEnemies.length === 0) return null;
 
   return (
+    <>
+    {outfitterOpen && playerCharacter && (
+      <OutfitterModal
+        ch={playerCharacter}
+        inventoryIds={inventoryIds}
+        onClose={() => setOutfitterOpen(false)}
+        submitCommand={submitCommand}
+      />
+    )}
     <div style={{
       width: 232,
       flexShrink: 0,
@@ -398,7 +418,7 @@ export function CharacterPanel() {
 
       <Panel label="Character">
         {playerCharacter
-          ? <PlayerCard ch={playerCharacter} currencyName={currencyName} currencySymbol={currencySymbol} secondaryCurrencyName={secondaryCurrencyName} secondaryCurrencySymbol={secondaryCurrencySymbol} submitCommand={submitCommand} />
+          ? <PlayerCard ch={playerCharacter} currencyName={currencyName} currencySymbol={currencySymbol} secondaryCurrencyName={secondaryCurrencyName} secondaryCurrencySymbol={secondaryCurrencySymbol} submitCommand={submitCommand} onOpenOutfitter={() => setOutfitterOpen(true)} />
           : <div style={{ color: 'var(--text-dim)', fontSize: '0.8em' }}>No character yet.<br/>Try: become fighter</div>
         }
       </Panel>
@@ -421,5 +441,6 @@ export function CharacterPanel() {
         </Panel>
       )}
     </div>
+    </>
   );
 }

@@ -91,7 +91,15 @@ export function getItemDescription(itemId: string): string {
 }
 
 export function getItemMeta(itemId: string): ItemMeta {
-  return currentItemMeta[itemId] ?? { tags: [], effectHint: '', canEquip: false, canLoad: false, canUse: true, consumable: true };
+  return currentItemMeta[itemId] ?? { tags: [], effectHint: '', canEquip: false, equipSlot: null, equipStat: null, equipBonus: null, canLoad: false, canUse: true, consumable: true };
+}
+
+export function getAllItems(): Array<{ id: string; name: string; meta: ItemMeta }> {
+  return Object.entries(currentItemMeta).map(([id, meta]) => ({
+    id,
+    name: currentItemNames[id] ?? id,
+    meta,
+  }));
 }
 
 export async function initEngine(worldId: string): Promise<{ worldMeta: WorldMeta | null }> {

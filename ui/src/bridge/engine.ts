@@ -26,6 +26,7 @@ export const listPlayableClasses = (worldId: string)   => b.listPlayableClasses(
 export const getItemName         = (itemId: string)    => b.getItemName(itemId);
 export const getItemDescription  = (itemId: string)    => b.getItemDescription(itemId);
 export const getItemMeta         = (itemId: string)    => b.getItemMeta(itemId);
+export const getAllItems         = ()                  => b.getAllItems();
 export const initEngine          = (worldId: string)   => b.initEngine(worldId);
 export const processCommand      = (raw: string)       => b.processCommand(raw);
 export const rewindToTick        = (tick: number)      => b.rewindToTick(tick);

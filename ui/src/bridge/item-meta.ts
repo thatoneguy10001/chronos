@@ -9,6 +9,10 @@ export interface ItemMeta {
   canEquip: boolean;
   /** Which body slot this item equips to, or null if not equippable. */
   equipSlot: EquipSlot | null;
+  /** Stat key this item boosts when equipped, e.g. "defense" or "attack". */
+  equipStat: string | null;
+  /** How much the stat changes when equipped. */
+  equipBonus: number | null;
   /** Should the item show a LOAD button (payload loaded into a weapon). */
   canLoad: boolean;
   /** Should the item show a USE button (has a use_effect). */
@@ -118,6 +122,8 @@ export function buildItemMeta(raw: ItemRaw): ItemMeta {
     effectHint: buildEffectHint(attr, tags),
     canEquip:   equipSlot !== null,
     equipSlot,
+    equipStat:  (attr['equip_stat'] as string | undefined) ?? null,
+    equipBonus: (attr['equip_bonus'] as number | undefined) ?? null,
     canLoad:    tags.includes('payload'),
     canUse:     !!useEffect,
     consumable,
