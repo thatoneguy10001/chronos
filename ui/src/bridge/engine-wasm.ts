@@ -50,25 +50,26 @@ let currentItemNames: Record<string, string> = {};
 let currentItemDescriptions: Record<string, string> = {};
 let currentItemMeta: Record<string, ItemMeta> = {};
 
-// All world data — eagerly bundled at build time across every world directory.
-// Vite 8 dropped the `as: 'raw'` glob option; JSON files are now imported as
-// module namespace objects ({ default: parsedObject, ...namedExports }).
-// We access `.default` and re-stringify when the WASM engine needs raw JSON.
-const allRoomModules      = import.meta.glob<{ default: unknown }>('../../../worlds/*/rooms/*.json',    { eager: true });
-const allItemModules      = import.meta.glob<{ default: unknown }>('../../../worlds/*/items/*.json',    { eager: true });
-const allClassModules     = import.meta.glob<{ default: unknown }>('../../../worlds/*/classes/*.json',  { eager: true });
-const allNpcModules       = import.meta.glob<{ default: unknown }>('../../../worlds/*/npcs/*.json',     { eager: true });
-const allQuestModules     = import.meta.glob<{ default: unknown }>('../../../worlds/*/quests/*.json',   { eager: true });
-const allManifestModules  = import.meta.glob<{ default: unknown }>('../../../worlds/*/manifest.json',  { eager: true });
-const allWorldMetaModules = import.meta.glob<{ default: WorldMeta }>('../../../worlds/*/world.json',   { eager: true });
+// world.json metadata is loaded eagerly — it's tiny and needed immediately for
+// the world-selection screen before any world is chosen.
+const allWorldMetaModules = import.meta.glob<{ default: WorldMeta }>('../../../worlds/*/world.json', { eager: true });
 
-function filterByWorld(modules: Record<string, { default: unknown }>, worldId: string) {
-  return Object.entries(modules)
-    .filter(([path]) => path.includes(`/worlds/${worldId}/`))
-    .map(([path, module]) => ({
-      filename: path.split('/').pop() ?? path,
-      content: JSON.stringify(module.default),
-    }));
+// All other world content is lazy — only the selected world's files are fetched
+// at initEngine() time, so players who never enter a world don't pay for its data.
+type LazyMod = () => Promise<{ default: unknown }>;
+const allRoomModules     = import.meta.glob<{ default: unknown }>('../../../worlds/*/rooms/*.json');
+const allItemModules     = import.meta.glob<{ default: unknown }>('../../../worlds/*/items/*.json');
+const allClassModules    = import.meta.glob<{ default: unknown }>('../../../worlds/*/classes/*.json');
+const allNpcModules      = import.meta.glob<{ default: unknown }>('../../../worlds/*/npcs/*.json');
+const allQuestModules    = import.meta.glob<{ default: unknown }>('../../../worlds/*/quests/*.json');
+const allManifestModules = import.meta.glob<{ default: unknown }>('../../../worlds/*/manifest.json');
+
+async function filterByWorld(modules: Record<string, LazyMod>, worldId: string) {
+  const entries = Object.entries(modules).filter(([path]) => path.includes(`/worlds/${worldId}/`));
+  return Promise.all(entries.map(async ([path, load]) => ({
+    filename: path.split('/').pop() ?? path,
+    content: JSON.stringify((await load()).default),
+  })));
 }
 
 /** Returns metadata for all available worlds, sorted by id. */
@@ -85,7 +86,7 @@ export function getCurrentWorld(): WorldMeta | null {
 
 /** Returns playable (non-enemy) classes for a world, sorted by name. */
 export async function listPlayableClasses(worldId: string): Promise<ClassMeta[]> {
-  return filterByWorld(allClassModules, worldId)
+  return (await filterByWorld(allClassModules, worldId))
     .map(({ content }) => JSON.parse(content) as Record<string, unknown>)
     .filter(c => !c.xp_reward && !c.gold_reward)
     .map(c => ({
@@ -116,15 +117,18 @@ export async function initEngine(worldId: string): Promise<{ worldMeta: WorldMet
     await wasmModule.default?.();
   }
 
-  const rooms    = filterByWorld(allRoomModules,    worldId);
-  const items    = filterByWorld(allItemModules,    worldId);
-  const classes  = filterByWorld(allClassModules,   worldId);
-  const npcs     = filterByWorld(allNpcModules,     worldId);
-  const quests   = filterByWorld(allQuestModules,   worldId);
+  const [rooms, items, classes, npcs, quests] = await Promise.all([
+    filterByWorld(allRoomModules,  worldId),
+    filterByWorld(allItemModules,  worldId),
+    filterByWorld(allClassModules, worldId),
+    filterByWorld(allNpcModules,   worldId),
+    filterByWorld(allQuestModules, worldId),
+  ]);
 
-  const manifestEntry = Object.entries(allManifestModules)
-    .find(([path]) => path.includes(`/worlds/${worldId}/`));
-  const manifest = manifestEntry ? JSON.stringify(manifestEntry[1].default) : undefined;
+  const manifestEntries = Object.entries(allManifestModules)
+    .filter(([path]) => path.includes(`/worlds/${worldId}/`));
+  const manifestLoaded = manifestEntries.length > 0 ? (await manifestEntries[0][1]()).default : undefined;
+  const manifest = manifestLoaded ? JSON.stringify(manifestLoaded) : undefined;
 
   const metaEntry = Object.entries(allWorldMetaModules)
     .find(([path]) => path.includes(`/worlds/${worldId}/`));

@@ -1,6 +1,10 @@
 import { create } from 'zustand';
 import type { CharacterStateDTO, ContextAction, EnemyStateDTO, InputMode } from '@/types/contracts';
 
+const MAX_LINES = 500;
+const addLines = (existing: TerminalLine[], ...add: TerminalLine[]): TerminalLine[] =>
+  [...existing, ...add].slice(-MAX_LINES);
+
 export type ActiveScreen = 'explore' | 'combat' | 'inventory' | 'character';
 import * as engine from '@/bridge/engine';
 import {
@@ -290,14 +294,14 @@ export const useGameStore = create<GameStore>((set, get) => ({
     if (cmd === 'save') {
       set(state => ({
         saveModalMode: 'save',
-        lines: [...state.lines, mkLine('input', '> save')],
+        lines: addLines(state.lines, mkLine('input', '> save')),
       }));
       return;
     }
     if (cmd === 'load') {
       set(state => ({
         saveModalMode: 'load',
-        lines: [...state.lines, mkLine('input', '> load')],
+        lines: addLines(state.lines, mkLine('input', '> load')),
       }));
       return;
     }
@@ -305,7 +309,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
     if (cmd === 'journal' || cmd === 'j') {
       set(state => ({
         journalOpen: true,
-        lines: [...state.lines, mkLine('input', '> journal')],
+        lines: addLines(state.lines, mkLine('input', '> journal')),
       }));
       return;
     }
@@ -368,7 +372,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
           : curScreen;
 
       set(state => ({
-        lines: [...state.lines, ...(isInternalCmd ? [] : [mkLine('input', `> ${raw}`)]), responseLine],
+        lines: addLines(state.lines, ...(isInternalCmd ? [] : [mkLine('input', `> ${raw}`)]), responseLine),
         currentTick:     result.tick,
         maxTick:         result.max_tick,
         gameTime:        result.game_time ?? 360,
@@ -395,11 +399,11 @@ export const useGameStore = create<GameStore>((set, get) => ({
       const result = await engine.rewindToTick(tick);
       const snap   = await engine.getSnapshot();
       set(state => ({
-        lines: [
-          ...state.lines,
+        lines: addLines(
+          state.lines,
           mkLine('system', `⏪ Rewound to tick ${tick}`),
           mkLine('output', result.narrative, tick),
-        ],
+        ),
         currentTick:     tick,
         maxTick:         result.max_tick,
         gameTime:        result.game_time ?? 360,
@@ -422,7 +426,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
       const result = await engine.rewindToTick(max);
       const snap   = await engine.getSnapshot();
       set(state => ({
-        lines: [...state.lines, mkLine('system', '▶ Resumed at latest tick')],
+        lines: addLines(state.lines, mkLine('system', '▶ Resumed at latest tick')),
         currentTick:     max,
         maxTick:         result.max_tick,
         gameTime:        result.game_time ?? 360,
@@ -469,7 +473,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
       set(state => ({
         saves,
         saveModalMode: null,
-        lines: [...state.lines, mkLine('system', `Game saved to slot ${slot + 1}.`)],
+        lines: addLines(state.lines, mkLine('system', `Game saved to slot ${slot + 1}.`)),
       }));
     })();
   },
@@ -485,11 +489,11 @@ export const useGameStore = create<GameStore>((set, get) => ({
         const loadedRoomName = snap.current_room_name ?? '';
         set(state => ({
           saveModalMode: null,
-          lines: [
-            ...state.lines,
+          lines: addLines(
+            state.lines,
             mkLine('system', `Loaded slot ${slot + 1} — ${saved.characterName}.`),
             mkLine('output', result.narrative, result.tick),
-          ],
+          ),
           currentTick:     result.tick,
           maxTick:         result.max_tick,
           gameTime:        snap.game_time ?? 360,
@@ -510,7 +514,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
       } catch (e) {
         set(state => ({
           saveModalMode: null,
-          lines: [...state.lines, mkLine('error', `Load failed: ${e}`)],
+          lines: addLines(state.lines, mkLine('error', `Load failed: ${e}`)),
         }));
       }
     })();

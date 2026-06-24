@@ -38,4 +38,18 @@ export default defineConfig({
     // WASM modules must be excluded from Vite's pre-bundling
     exclude: ['chronos-wasm'],
   },
+  build: {
+    rollupOptions: {
+      output: {
+        // Separate the React/Zustand vendor bundle so it can be cached
+        // independently from app code. Users only re-download the smaller
+        // app chunk when content changes.
+        manualChunks: (id) => {
+          if (id.includes('node_modules/react') || id.includes('node_modules/react-dom') || id.includes('node_modules/zustand')) {
+            return 'vendor';
+          }
+        },
+      },
+    },
+  },
 });
