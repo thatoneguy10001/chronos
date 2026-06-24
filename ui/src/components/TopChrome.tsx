@@ -96,6 +96,7 @@ export function TopChrome() {
   const hpLow = hp <= maxHp * 0.3;
 
   return (
+    <>
     <div style={{
       background: 'var(--ui-bg-2)',
       borderBottom: '1px solid var(--ui-gold-border)',
@@ -199,5 +200,6 @@ export function TopChrome() {
       </div>
     </div>
     {helpOpen && <HelpModal onClose={() => setHelpOpen(false)} />}
+    </>
   );
 }
