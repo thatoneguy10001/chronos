@@ -51,7 +51,7 @@ impl EquipSlot {
     }
 
     /// Parse a slot name from a player command token ("head", "weapon", etc.).
-    pub fn from_str(s: &str) -> Option<EquipSlot> {
+    pub fn parse_slot(s: &str) -> Option<EquipSlot> {
         match s.to_lowercase().as_str() {
             "weapon" | "wield" => Some(EquipSlot::Weapon),
             "head" | "helm" | "helmet" => Some(EquipSlot::Head),

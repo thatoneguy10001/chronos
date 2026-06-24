@@ -1539,7 +1539,7 @@ impl ChronosEngine {
                         npc_sections: vec![],
                     };
                 };
-                let parsed = EquipSlot::from_str(&slot);
+                let parsed = EquipSlot::parse_slot(slot);
                 let (narrative, success) = if let Some(target_slot) = parsed {
                     if let Some(mut eq) =
                         self.world.entity_mut(player_e).get_mut::<EquipmentSlots>()
