@@ -137,8 +137,10 @@ pub fn tick_all_effects(world: &mut World, current_tick: u64) {
         }
 
         // Expiry pass — reverse stat mutations for expired stat-mutating effects.
+        // Fires AT end_tick (same tick as the final DoT) so the debuff lasts exactly
+        // duration_turns ticks, matching the DoT window, not duration_turns+1.
         for effect in &effects {
-            if current_tick > effect.end_tick() {
+            if current_tick >= effect.end_tick() {
                 if let Some(mutation) = effect.kind.stat_mutation() {
                     // Reverse: sign is already baked into the original application,
                     // so we invert it here to undo the delta.
@@ -152,9 +154,9 @@ pub fn tick_all_effects(world: &mut World, current_tick: u64) {
             }
         }
 
-        // Prune expired effects.
+        // Prune expired effects (using < so the prune also fires at end_tick).
         if let Some(mut ae) = world.entity_mut(entity).get_mut::<ActiveEffects>() {
-            ae.effects.retain(|e| current_tick <= e.end_tick());
+            ae.effects.retain(|e| current_tick < e.end_tick());
         }
     }
 }
