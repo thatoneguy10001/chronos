@@ -126,6 +126,10 @@ interface GameStore {
   // Time-travel
   isRewound: boolean;
 
+  // Death
+  isGameOver: boolean;
+  deathCause: string;
+
   // Save slots
   saves: (SaveSlot | null)[];
   saveModalMode: 'save' | 'load' | null;
@@ -185,6 +189,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
   mapCurrentX: 0,
   mapCurrentY: 0,
   isRewound: false,
+  isGameOver: false,
+  deathCause: '',
   saves: [],
   saveModalMode: null,
   journalOpen: false,
@@ -226,6 +232,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
           mapCurrentX: 0,
           mapCurrentY: 0,
           isRewound:       false,
+          isGameOver:      false,
+          deathCause:      '',
           lines: [
             mkLine('system', `=== ${worldMeta?.title?.toUpperCase() ?? 'PROJECT CHRONOS'} ===`),
             mkLine('system', 'Save loaded.'),
@@ -258,6 +266,9 @@ export const useGameStore = create<GameStore>((set, get) => ({
       mapEdges: [],
       mapCurrentX: 0,
       mapCurrentY: 0,
+      isRewound: false,
+      isGameOver: false,
+      deathCause: '',
       lines: [
         mkLine('system', `=== ${worldMeta?.title?.toUpperCase() ?? 'PROJECT CHRONOS'} ===`),
         mkLine('system', "Type 'help' for commands. Type 'save' to save, 'load' to load."),
@@ -352,6 +363,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
         mapEdges,
         mapCurrentX:     newX,
         mapCurrentY:     newY,
+        isGameOver:      result.game_over ?? false,
+        deathCause:      result.game_over ? narrative : state.deathCause,
       }));
     })();
   },

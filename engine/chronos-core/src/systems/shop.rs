@@ -271,5 +271,6 @@ pub fn shop_result_to_command(r: ShopResult, tick: u64, game_time: u32) -> Comma
         tick,
         game_time,
         npc_sections: vec![],
+        game_over: false,
     }
 }
