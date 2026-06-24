@@ -9,6 +9,10 @@ import { SaveLoadModal } from '@/components/SaveLoadModal';
 import { JournalModal } from '@/components/JournalModal';
 import { StatusHeader } from '@/components/StatusHeader';
 import { FooterHints } from '@/components/FooterHints';
+import { CombatScreen } from '@/components/CombatScreen';
+import { InventoryScreen } from '@/components/InventoryScreen';
+import { CharacterScreen } from '@/components/CharacterScreen';
+import { NavBar } from '@/components/NavBar';
 import { useGameStore } from '@/store/gameStore';
 import { useDevMode } from '@/hooks/useDevMode';
 
@@ -51,10 +55,11 @@ function GameOverScreen({ worldTitle, onRestart }: { worldTitle: string; onResta
 }
 
 export function App() {
-  const init           = useGameStore(s => s.init);
-  const initialized    = useGameStore(s => s.initialized);
-  const submitCommand  = useGameStore(s => s.submitCommand);
+  const init            = useGameStore(s => s.init);
+  const initialized     = useGameStore(s => s.initialized);
+  const submitCommand   = useGameStore(s => s.submitCommand);
   const playerCharacter = useGameStore(s => s.playerCharacter);
+  const activeScreen    = useGameStore(s => s.activeScreen);
 
   const closeJournal  = useGameStore(s => s.closeJournal);
   const openJournal   = useGameStore(s => s.openJournal);
@@ -188,16 +193,23 @@ export function App() {
       }}>
         <StatusHeader devMode={devMode} />
 
-        {/* Body: narrative column + sidebar rail */}
-        <div style={{ flex: 1, display: 'flex', minHeight: 0 }}>
-          <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column' }}>
-            <Terminal />
-            <InputManager onCommand={submitCommand} />
-            {devMode && <TimelineDebugPanel />}
+        {/* Body: routed by activeScreen */}
+        {activeScreen === 'explore' && (
+          <div style={{ flex: 1, display: 'flex', minHeight: 0 }}>
+            <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column' }}>
+              <Terminal />
+              <InputManager onCommand={submitCommand} />
+              {devMode && <TimelineDebugPanel />}
+            </div>
+            <CharacterPanel />
           </div>
-          <CharacterPanel />
-        </div>
+        )}
 
+        {activeScreen === 'combat' && <CombatScreen />}
+        {activeScreen === 'inventory' && <InventoryScreen />}
+        {activeScreen === 'character' && <CharacterScreen />}
+
+        <NavBar />
         <FooterHints />
       </div>
 
