@@ -1226,7 +1226,10 @@ impl ChronosEngine {
                     row("  buy <npc> <item>    — purchase an item"),
                     row("  accept <quest_id>        — accept a quest"),
                     row("  turn in <quest_id>   — turn in a completed quest"),
-                    row(&format!("  rest               — sleep at an inn ({} gold, full HP)", REST_COST)),
+                    row(&format!(
+                        "  rest               — sleep at an inn ({} gold, full HP)",
+                        REST_COST
+                    )),
                     hr.clone(),
                     row("CLASSES  (type to start playing)"),
                 ];
@@ -1434,8 +1437,7 @@ impl ChronosEngine {
                     };
                 };
                 // Handle assembled weapons (assembled:<weapon_id>).
-                let (narrative, success) = if let Some(id_part) =
-                    item_id.strip_prefix("assembled:")
+                let (narrative, success) = if let Some(id_part) = item_id.strip_prefix("assembled:")
                 {
                     // Find assembled weapon in inventory by weapon_id.
                     let found = {
@@ -1443,9 +1445,13 @@ impl ChronosEngine {
                             .world
                             .query::<(Entity, &InInventory, &AssembledWeapon)>();
                         q.iter(&self.world).find_map(|(e, inv, aw)| {
-                            if inv.owner == player_e && aw.weapon_id == id_part
-                            {
-                                Some((e, aw.weapon_id.clone(), aw.display_name.clone(), aw.attack_bonus))
+                            if inv.owner == player_e && aw.weapon_id == id_part {
+                                Some((
+                                    e,
+                                    aw.weapon_id.clone(),
+                                    aw.display_name.clone(),
+                                    aw.attack_bonus,
+                                ))
                             } else {
                                 None
                             }

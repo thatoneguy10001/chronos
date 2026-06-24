@@ -185,8 +185,8 @@ pub fn process_attack(
         let payload_text = String::new();
         world.despawn(enemy_e);
         let class_data = repo.class(&e_class_id).ok();
-        let xp_reward   = class_data.as_ref().map(|c| c.xp_reward).unwrap_or(0);
-        let gold_reward  = class_data.as_ref().map(|c| c.gold_reward).unwrap_or(0);
+        let xp_reward = class_data.as_ref().map(|c| c.xp_reward).unwrap_or(0);
+        let gold_reward = class_data.as_ref().map(|c| c.gold_reward).unwrap_or(0);
         let class_missing = class_data.is_none();
         let level_up = if xp_reward > 0 {
             world
@@ -228,7 +228,9 @@ pub fn process_attack(
             narrative.push_str(&update);
         }
         if class_missing {
-            narrative.push_str(&format!("\n[Warning: class data missing for '{e_class_id}' — no XP/gold awarded]"));
+            narrative.push_str(&format!(
+                "\n[Warning: class data missing for '{e_class_id}' — no XP/gold awarded]"
+            ));
         }
 
         let next_enemy = {
