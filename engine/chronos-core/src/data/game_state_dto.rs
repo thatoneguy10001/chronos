@@ -88,9 +88,21 @@ pub struct CharacterStateDTO {
     pub gold: i32,
     #[serde(default)]
     pub shards: i32,
-    /// Item ID of the currently equipped weapon, or None.
+    /// Display names of equipped items per body slot (None = slot is empty).
     #[serde(default)]
     pub equipped_weapon: Option<String>,
+    #[serde(default)]
+    pub equipped_head: Option<String>,
+    #[serde(default)]
+    pub equipped_body: Option<String>,
+    #[serde(default)]
+    pub equipped_hands: Option<String>,
+    #[serde(default)]
+    pub equipped_feet: Option<String>,
+    #[serde(default)]
+    pub equipped_accessory_1: Option<String>,
+    #[serde(default)]
+    pub equipped_accessory_2: Option<String>,
     /// IDs of payload vials currently loaded into the syringe spear (Iron Apothecary only).
     #[serde(default)]
     pub payload_slots: Vec<String>,

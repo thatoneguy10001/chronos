@@ -1,3 +1,5 @@
+export type EquipSlot = 'weapon' | 'head' | 'body' | 'hands' | 'feet' | 'accessory';
+
 /** Derived UI metadata for an item — computed from its JSON definition. */
 export interface ItemMeta {
   tags: string[];
@@ -5,6 +7,8 @@ export interface ItemMeta {
   effectHint: string;
   /** Should the item show an EQUIP button (weapon / armor). */
   canEquip: boolean;
+  /** Which body slot this item equips to, or null if not equippable. */
+  equipSlot: EquipSlot | null;
   /** Should the item show a LOAD button (payload loaded into a weapon). */
   canLoad: boolean;
   /** Should the item show a USE button (has a use_effect). */
@@ -76,16 +80,44 @@ function buildEffectHint(attr: Record<string, unknown>, tags: string[]): string 
   return hints.join(' · ');
 }
 
+function slotFromTags(tags: string[]): EquipSlot | null {
+  for (const tag of tags) {
+    switch (tag) {
+      case 'weapon': case 'sword': case 'axe': case 'spear': case 'bow':
+      case 'staff': case 'dagger': case 'mace': case 'shield': case 'gun':
+      case 'syringe-spear':
+        return 'weapon';
+      case 'helm': case 'helmet': case 'hat': case 'hood': case 'crown':
+      case 'cap': case 'headgear': case 'circlet':
+        return 'head';
+      case 'body': case 'chest': case 'vest': case 'coat': case 'robe':
+      case 'plate': case 'cuirass': case 'jerkin': case 'tunic':
+        return 'body';
+      case 'gloves': case 'gauntlets': case 'bracers': case 'hands': case 'mitts':
+        return 'hands';
+      case 'boots': case 'shoes': case 'greaves': case 'feet': case 'sandals':
+      case 'sabatons':
+        return 'feet';
+      case 'accessory': case 'ring': case 'amulet': case 'talisman': case 'badge':
+      case 'pendant': case 'brooch': case 'charm':
+        return 'accessory';
+    }
+  }
+  return null;
+}
+
 export function buildItemMeta(raw: ItemRaw): ItemMeta {
   const tags  = raw.tags ?? [];
   const attr  = raw.attributes ?? {};
   const consumable = raw.consumable !== false && (attr['consumable'] as boolean | undefined) !== false;
   const useEffect  = attr['use_effect'] as string | undefined;
+  const equipSlot  = slotFromTags(tags);
 
   return {
     tags,
     effectHint: buildEffectHint(attr, tags),
-    canEquip:   tags.includes('weapon') || tags.includes('armor') || tags.includes('accessory'),
+    canEquip:   equipSlot !== null,
+    equipSlot,
     canLoad:    tags.includes('payload'),
     canUse:     !!useEffect,
     consumable,

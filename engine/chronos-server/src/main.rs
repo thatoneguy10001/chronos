@@ -430,8 +430,8 @@ async fn main() {
     let app = Router::new()
         .route("/ws", get(ws_upgrade))
         .route("/api/worlds", get(worlds_handler))
-        .route("/api/worlds/:world_id/classes", get(classes_handler))
-        .route("/api/worlds/:world_id/items", get(items_handler))
+        .route("/api/worlds/{world_id}/classes", get(classes_handler))
+        .route("/api/worlds/{world_id}/items", get(items_handler))
         .layer(cors);
 
     let addr = SocketAddr::from(([127, 0, 0, 1], port));

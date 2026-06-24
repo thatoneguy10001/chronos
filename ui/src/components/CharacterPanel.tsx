@@ -69,6 +69,54 @@ function StatRow({ label, value, hideIfZero }: { label: string; value: number; h
 
 const divider: React.CSSProperties = { borderTop: '1px solid var(--j-divider)', paddingTop: '0.5rem', marginTop: '0.5rem' };
 
+const SLOTS: { key: keyof CharacterStateDTO; label: string; icon: string; cmd: string }[] = [
+  { key: 'equipped_weapon',      label: 'WEAPON',    icon: '⚔',  cmd: 'unequip weapon'    },
+  { key: 'equipped_head',        label: 'HEAD',      icon: '🪖', cmd: 'unequip head'      },
+  { key: 'equipped_body',        label: 'BODY',      icon: '🛡',  cmd: 'unequip body'      },
+  { key: 'equipped_hands',       label: 'HANDS',     icon: '🤛', cmd: 'unequip hands'     },
+  { key: 'equipped_feet',        label: 'FEET',      icon: '👢', cmd: 'unequip feet'      },
+  { key: 'equipped_accessory_1', label: 'ACC 1',     icon: '💎', cmd: 'unequip accessory' },
+  { key: 'equipped_accessory_2', label: 'ACC 2',     icon: '💎', cmd: 'unequip accessory_2' },
+];
+
+function EquipmentGrid({ ch, submitCommand }: { ch: CharacterStateDTO; submitCommand: (cmd: string) => void }) {
+  const hasAny = SLOTS.some(s => ch[s.key]);
+  return (
+    <div style={{ ...divider, fontSize: '0.7em' }}>
+      <SectionLabel style={{ display: 'block', marginBottom: '0.3rem' }}>GEAR</SectionLabel>
+      {SLOTS.map(({ key, label, icon, cmd }) => {
+        const name = ch[key] as string | null | undefined;
+        return (
+          <div key={key} style={{ display: 'flex', alignItems: 'center', gap: '0.3em', marginBottom: 3 }}>
+            <span style={{ width: '1.2em', textAlign: 'center', flexShrink: 0 }}>{icon}</span>
+            <span style={{ color: 'var(--text-label)', width: '3.4em', flexShrink: 0 }}>{label}</span>
+            {name ? (
+              <span
+                title={`Click to unequip (${cmd})`}
+                onClick={() => submitCommand(cmd)}
+                style={{
+                  color: 'var(--text)',
+                  cursor: 'pointer',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap',
+                  maxWidth: '8em',
+                  borderBottom: '1px dotted var(--text-muted)',
+                }}
+              >
+                {name}
+              </span>
+            ) : (
+              <span style={{ color: 'var(--text-muted)', fontStyle: 'italic' }}>—</span>
+            )}
+          </div>
+        );
+      })}
+      {!hasAny && <div style={{ color: 'var(--text-muted)', fontStyle: 'italic', marginTop: 2 }}>No gear equipped</div>}
+    </div>
+  );
+}
+
 function PlayerCard({ ch, currencyName, currencySymbol, secondaryCurrencyName, secondaryCurrencySymbol, submitCommand }: {
   ch: CharacterStateDTO;
   currencyName: string;
@@ -138,11 +186,7 @@ function PlayerCard({ ch, currencyName, currencySymbol, secondaryCurrencyName, s
       {nextXp == null && (
         <div style={{ color: 'var(--xp-text)', fontSize: '0.75em', marginTop: '0.5rem' }}>MAX LEVEL</div>
       )}
-      {ch.equipped_weapon && (
-        <div style={{ fontSize: '0.72em', color: 'var(--blue)', ...divider }}>
-          ⚔ {ch.equipped_weapon}
-        </div>
-      )}
+      <EquipmentGrid ch={ch} submitCommand={submitCommand} />
       {ch.payload_capacity > 0 && (
         <div style={divider}>
           <SectionLabel style={{ display: 'block', marginBottom: '0.3rem' }}>

@@ -31,9 +31,9 @@ pub mod systems;
 
 use bevy_ecs::prelude::*;
 use components::{
-    AbilityCooldowns, ActiveEffects, AssembledWeapon, Controllable, Enemy, EquipmentSlots,
-    Experience, GameTime, Health, Identity, InInventory, ItemBlueprint, NpcDispositions,
-    PayloadSlots, Position, QuestLog, Stats, Victory, Wallet, WorldFlags,
+    AbilityCooldowns, ActiveEffects, AssembledWeapon, Controllable, Enemy, EquipSlot,
+    EquipmentSlots, Experience, GameTime, Health, Identity, InInventory, ItemBlueprint,
+    NpcDispositions, PayloadSlots, Position, QuestLog, Stats, Victory, Wallet, WorldFlags,
 };
 use data::game_state_dto::{
     CharacterStateDTO, EnemyStateDTO, EntityStateDTO, GameStateDTO, QuestProgressDTO,
@@ -349,6 +349,36 @@ impl ChronosEngine {
                                     .map(|t| t.name.clone())
                                     .unwrap_or_else(|| id.to_string())
                             }
+                        })
+                    }),
+                    equipped_head: eq.and_then(|e| {
+                        e.head.as_deref().and_then(|id| {
+                            self.repository.item(id).ok().map(|t| t.name.clone())
+                        })
+                    }),
+                    equipped_body: eq.and_then(|e| {
+                        e.body.as_deref().and_then(|id| {
+                            self.repository.item(id).ok().map(|t| t.name.clone())
+                        })
+                    }),
+                    equipped_hands: eq.and_then(|e| {
+                        e.hands.as_deref().and_then(|id| {
+                            self.repository.item(id).ok().map(|t| t.name.clone())
+                        })
+                    }),
+                    equipped_feet: eq.and_then(|e| {
+                        e.feet.as_deref().and_then(|id| {
+                            self.repository.item(id).ok().map(|t| t.name.clone())
+                        })
+                    }),
+                    equipped_accessory_1: eq.and_then(|e| {
+                        e.accessory_1.as_deref().and_then(|id| {
+                            self.repository.item(id).ok().map(|t| t.name.clone())
+                        })
+                    }),
+                    equipped_accessory_2: eq.and_then(|e| {
+                        e.accessory_2.as_deref().and_then(|id| {
+                            self.repository.item(id).ok().map(|t| t.name.clone())
                         })
                     }),
                     payload_slots: ps.map(|p| p.loaded.clone()).unwrap_or_default(),
@@ -1387,20 +1417,48 @@ impl ChronosEngine {
                     // Check item exists in the template repository.
                     let item = self.repository.item(item_id);
                     if let Ok(tmpl) = item {
+                        let slot = EquipSlot::from_tags(&tmpl.tags);
+                        let Some(slot) = slot else {
+                            return CommandResult {
+                                success: false,
+                                narrative: format!(
+                                    "The {} doesn't seem to be equippable.",
+                                    tmpl.name
+                                ),
+                                context_actions: vec![],
+                                inventory_ids: self.player_inventory_ids(),
+                                tick: self.tick,
+                                game_time: self.current_game_time(),
+                                npc_sections: vec![],
+                            };
+                        };
                         if let Some(mut eq) =
                             self.world.entity_mut(player_e).get_mut::<EquipmentSlots>()
                         {
-                            let prev = eq.weapon.replace(tmpl.id.clone());
-                            if let Some(old) = prev {
+                            let prev = eq.set(slot, tmpl.id.clone());
+                            let slot_label = slot.name();
+                            if let Some(old_id) = prev {
+                                let old_name = self
+                                    .repository
+                                    .item(&old_id)
+                                    .ok()
+                                    .map(|t| t.name.clone())
+                                    .unwrap_or(old_id);
                                 (
                                     format!(
-                                        "You swap out the {} and equip the {}.",
-                                        old, tmpl.name
+                                        "You swap out the {} and equip the {} ({} slot).",
+                                        old_name, tmpl.name, slot_label
                                     ),
                                     true,
                                 )
                             } else {
-                                (format!("You equip the {}.", tmpl.name), true)
+                                (
+                                    format!(
+                                        "You equip the {} ({} slot).",
+                                        tmpl.name, slot_label
+                                    ),
+                                    true,
+                                )
                             }
                         } else {
                             ("No equipment slots.".into(), false)
@@ -1442,6 +1500,7 @@ impl ChronosEngine {
                 let (narrative, success) = if let Some(mut eq) =
                     self.world.entity_mut(player_e).get_mut::<EquipmentSlots>()
                 {
+                    // Bare "unequip" clears weapon slot for backward compatibility.
                     if let Some(old_id) = eq.weapon.take() {
                         let display = self
                             .repository
@@ -1451,10 +1510,68 @@ impl ChronosEngine {
                             .unwrap_or_else(|| old_id.clone());
                         (format!("You unequip the {}.", display), true)
                     } else {
-                        ("Nothing is equipped.".into(), false)
+                        ("Nothing equipped in the weapon slot.".into(), false)
                     }
                 } else {
                     ("No equipment slots.".into(), false)
+                };
+                CommandResult {
+                    success,
+                    narrative,
+                    context_actions: vec![],
+                    inventory_ids: self.player_inventory_ids(),
+                    tick: self.tick,
+                    game_time: self.current_game_time(),
+                    npc_sections: vec![],
+                }
+            }
+
+            EngineEvent::UnequipSlot { slot } => {
+                let player_e = {
+                    let mut q = self.world.query_filtered::<Entity, With<Controllable>>();
+                    q.iter(&self.world).next()
+                };
+                let Some(player_e) = player_e else {
+                    return CommandResult {
+                        success: false,
+                        narrative: "No character.".into(),
+                        context_actions: vec![],
+                        inventory_ids: vec![],
+                        tick: self.tick,
+                        game_time: self.current_game_time(),
+                        npc_sections: vec![],
+                    };
+                };
+                let parsed = EquipSlot::from_str(&slot);
+                let (narrative, success) = if let Some(target_slot) = parsed {
+                    if let Some(mut eq) =
+                        self.world.entity_mut(player_e).get_mut::<EquipmentSlots>()
+                    {
+                        if let Some(old_id) = eq.clear(target_slot) {
+                            let display = self
+                                .repository
+                                .item(&old_id)
+                                .ok()
+                                .map(|t| t.name.clone())
+                                .unwrap_or_else(|| old_id.clone());
+                            (format!("You unequip the {}.", display), true)
+                        } else {
+                            (
+                                format!("Nothing equipped in the {} slot.", target_slot.name()),
+                                false,
+                            )
+                        }
+                    } else {
+                        ("No equipment slots.".into(), false)
+                    }
+                } else {
+                    (
+                        format!(
+                            "Unknown slot '{}'. Try: weapon, head, body, hands, feet, accessory.",
+                            slot
+                        ),
+                        false,
+                    )
                 };
                 CommandResult {
                     success,

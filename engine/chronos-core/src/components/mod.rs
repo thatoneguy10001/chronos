@@ -25,7 +25,7 @@ pub use assembled_weapon::AssembledWeapon;
 pub use blueprint::ItemBlueprint;
 pub use controllable::Controllable;
 pub use enemy::Enemy;
-pub use equipment::EquipmentSlots;
+pub use equipment::{EquipSlot, EquipmentSlots};
 pub use experience::Experience;
 pub use game_time::GameTime;
 pub use health::Health;
