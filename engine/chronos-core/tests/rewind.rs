@@ -1983,25 +1983,40 @@ fn equip_routes_to_correct_body_slot() {
     );
     let snap = engine.snapshot();
     let ch = snap.player_character.as_ref().unwrap();
-    assert_eq!(ch.equipped_head.as_deref(), Some("Iron Helm"), "head slot should have Iron Helm");
+    assert_eq!(
+        ch.equipped_head.as_deref(),
+        Some("Iron Helm"),
+        "head slot should have Iron Helm"
+    );
     assert!(ch.equipped_weapon.is_none(), "weapon slot should be empty");
 
     // Equip first accessory — fills accessory_1
     engine.process_command("equip lucky_ring");
     let snap = engine.snapshot();
     let ch = snap.player_character.as_ref().unwrap();
-    assert_eq!(ch.equipped_accessory_1.as_deref(), Some("Lucky Ring"), "acc_1 should be Lucky Ring");
+    assert_eq!(
+        ch.equipped_accessory_1.as_deref(),
+        Some("Lucky Ring"),
+        "acc_1 should be Lucky Ring"
+    );
     assert!(ch.equipped_accessory_2.is_none(), "acc_2 should be empty");
 
     // Equip second accessory — fills accessory_2
     engine.process_command("equip cursed_ring");
     let snap = engine.snapshot();
     let ch = snap.player_character.as_ref().unwrap();
-    assert_eq!(ch.equipped_accessory_2.as_deref(), Some("Cursed Ring"), "acc_2 should be Cursed Ring");
+    assert_eq!(
+        ch.equipped_accessory_2.as_deref(),
+        Some("Cursed Ring"),
+        "acc_2 should be Cursed Ring"
+    );
 
     // Unequip head slot by name
     let result = engine.process_command("unequip head");
     assert!(result.success, "unequip head failed: {}", result.narrative);
     let snap = engine.snapshot();
-    assert!(snap.player_character.unwrap().equipped_head.is_none(), "head should be empty after unequip");
+    assert!(
+        snap.player_character.unwrap().equipped_head.is_none(),
+        "head should be empty after unequip"
+    );
 }

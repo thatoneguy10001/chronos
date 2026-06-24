@@ -15,11 +15,11 @@ impl EquipSlot {
     /// Canonical lower-case name used in text commands ("unequip head").
     pub fn name(self) -> &'static str {
         match self {
-            EquipSlot::Weapon    => "weapon",
-            EquipSlot::Head      => "head",
-            EquipSlot::Body      => "body",
-            EquipSlot::Hands     => "hands",
-            EquipSlot::Feet      => "feet",
+            EquipSlot::Weapon => "weapon",
+            EquipSlot::Head => "head",
+            EquipSlot::Body => "body",
+            EquipSlot::Hands => "hands",
+            EquipSlot::Feet => "feet",
             EquipSlot::Accessory => "accessory",
         }
     }
@@ -31,18 +31,19 @@ impl EquipSlot {
             match tag.as_str() {
                 "weapon" | "sword" | "axe" | "spear" | "bow" | "staff" | "dagger" | "mace"
                 | "shield" | "gun" | "syringe-spear" => return Some(EquipSlot::Weapon),
-                "helm" | "helmet" | "hat" | "hood" | "crown" | "cap" | "headgear"
-                | "circlet" => return Some(EquipSlot::Head),
-                "body" | "chest" | "vest" | "coat" | "robe" | "plate" | "cuirass"
-                | "jerkin" | "tunic" => return Some(EquipSlot::Body),
+                "helm" | "helmet" | "hat" | "hood" | "crown" | "cap" | "headgear" | "circlet" => {
+                    return Some(EquipSlot::Head)
+                }
+                "body" | "chest" | "vest" | "coat" | "robe" | "plate" | "cuirass" | "jerkin"
+                | "tunic" => return Some(EquipSlot::Body),
                 "gloves" | "gauntlets" | "bracers" | "hands" | "mitts" => {
                     return Some(EquipSlot::Hands)
                 }
                 "boots" | "shoes" | "greaves" | "feet" | "sandals" | "sabatons" => {
                     return Some(EquipSlot::Feet)
                 }
-                "accessory" | "ring" | "amulet" | "talisman" | "badge" | "pendant"
-                | "brooch" | "charm" => return Some(EquipSlot::Accessory),
+                "accessory" | "ring" | "amulet" | "talisman" | "badge" | "pendant" | "brooch"
+                | "charm" => return Some(EquipSlot::Accessory),
                 _ => {}
             }
         }
@@ -69,11 +70,11 @@ impl EquipSlot {
 /// Accessories get two slots; everything else is one.
 #[derive(Component, Debug, Clone, Default)]
 pub struct EquipmentSlots {
-    pub weapon:      Option<String>,
-    pub head:        Option<String>,
-    pub body:        Option<String>,
-    pub hands:       Option<String>,
-    pub feet:        Option<String>,
+    pub weapon: Option<String>,
+    pub head: Option<String>,
+    pub body: Option<String>,
+    pub hands: Option<String>,
+    pub feet: Option<String>,
     pub accessory_1: Option<String>,
     pub accessory_2: Option<String>,
 }
@@ -89,10 +90,10 @@ impl EquipmentSlots {
     pub fn set(&mut self, slot: EquipSlot, item_id: String) -> Option<String> {
         match slot {
             EquipSlot::Weapon => self.weapon.replace(item_id),
-            EquipSlot::Head   => self.head.replace(item_id),
-            EquipSlot::Body   => self.body.replace(item_id),
-            EquipSlot::Hands  => self.hands.replace(item_id),
-            EquipSlot::Feet   => self.feet.replace(item_id),
+            EquipSlot::Head => self.head.replace(item_id),
+            EquipSlot::Body => self.body.replace(item_id),
+            EquipSlot::Hands => self.hands.replace(item_id),
+            EquipSlot::Feet => self.feet.replace(item_id),
             EquipSlot::Accessory => {
                 if self.accessory_1.is_none() {
                     self.accessory_1.replace(item_id)
@@ -109,11 +110,11 @@ impl EquipmentSlots {
     /// Accepts "accessory" to clear accessory_1, "accessory_2" for the second.
     pub fn clear(&mut self, slot: EquipSlot) -> Option<String> {
         match slot {
-            EquipSlot::Weapon    => self.weapon.take(),
-            EquipSlot::Head      => self.head.take(),
-            EquipSlot::Body      => self.body.take(),
-            EquipSlot::Hands     => self.hands.take(),
-            EquipSlot::Feet      => self.feet.take(),
+            EquipSlot::Weapon => self.weapon.take(),
+            EquipSlot::Head => self.head.take(),
+            EquipSlot::Body => self.body.take(),
+            EquipSlot::Hands => self.hands.take(),
+            EquipSlot::Feet => self.feet.take(),
             EquipSlot::Accessory => {
                 // Try accessory_2 first so the player can "unequip accessory_2" naturally;
                 // "unequip accessory" clears the most recently filled slot.

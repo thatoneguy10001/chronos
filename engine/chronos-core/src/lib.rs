@@ -352,34 +352,34 @@ impl ChronosEngine {
                         })
                     }),
                     equipped_head: eq.and_then(|e| {
-                        e.head.as_deref().and_then(|id| {
-                            self.repository.item(id).ok().map(|t| t.name.clone())
-                        })
+                        e.head
+                            .as_deref()
+                            .and_then(|id| self.repository.item(id).ok().map(|t| t.name.clone()))
                     }),
                     equipped_body: eq.and_then(|e| {
-                        e.body.as_deref().and_then(|id| {
-                            self.repository.item(id).ok().map(|t| t.name.clone())
-                        })
+                        e.body
+                            .as_deref()
+                            .and_then(|id| self.repository.item(id).ok().map(|t| t.name.clone()))
                     }),
                     equipped_hands: eq.and_then(|e| {
-                        e.hands.as_deref().and_then(|id| {
-                            self.repository.item(id).ok().map(|t| t.name.clone())
-                        })
+                        e.hands
+                            .as_deref()
+                            .and_then(|id| self.repository.item(id).ok().map(|t| t.name.clone()))
                     }),
                     equipped_feet: eq.and_then(|e| {
-                        e.feet.as_deref().and_then(|id| {
-                            self.repository.item(id).ok().map(|t| t.name.clone())
-                        })
+                        e.feet
+                            .as_deref()
+                            .and_then(|id| self.repository.item(id).ok().map(|t| t.name.clone()))
                     }),
                     equipped_accessory_1: eq.and_then(|e| {
-                        e.accessory_1.as_deref().and_then(|id| {
-                            self.repository.item(id).ok().map(|t| t.name.clone())
-                        })
+                        e.accessory_1
+                            .as_deref()
+                            .and_then(|id| self.repository.item(id).ok().map(|t| t.name.clone()))
                     }),
                     equipped_accessory_2: eq.and_then(|e| {
-                        e.accessory_2.as_deref().and_then(|id| {
-                            self.repository.item(id).ok().map(|t| t.name.clone())
-                        })
+                        e.accessory_2
+                            .as_deref()
+                            .and_then(|id| self.repository.item(id).ok().map(|t| t.name.clone()))
                     }),
                     payload_slots: ps.map(|p| p.loaded.clone()).unwrap_or_default(),
                     payload_capacity: ps.map(|p| p.capacity as u32).unwrap_or(0),
@@ -1453,10 +1453,7 @@ impl ChronosEngine {
                                 )
                             } else {
                                 (
-                                    format!(
-                                        "You equip the {} ({} slot).",
-                                        tmpl.name, slot_label
-                                    ),
+                                    format!("You equip the {} ({} slot).", tmpl.name, slot_label),
                                     true,
                                 )
                             }
