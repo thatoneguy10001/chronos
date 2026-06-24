@@ -35,7 +35,7 @@
     {
       "id": "seismic_slam",
       "name": "Seismic Slam",
-      "description": "A shockwave hammer blow that reverberates through the ground — hits every enemy in the room.",
+      "description": "A shockwave hammer blow that reverberates through the ground \u00e2\u20ac\u201d hits every enemy in the room.",
       "base_damage": 7,
       "hit_count": 1,
       "cooldown": 3,
@@ -43,7 +43,16 @@
     }
   ],
   "passives": [],
-  "starting_equipment": [],
+  "starting_equipment": [
+    "terran_bayonet",
+    "terran_helmet",
+    "iron_coat",
+    "terran_combat_gloves",
+    "iron_field_boots",
+    "iron_bandage",
+    "iron_bandage",
+    "adrenaline_injector"
+  ],
   "xp_reward": 0,
   "gold_reward": 0,
   "tactics": []

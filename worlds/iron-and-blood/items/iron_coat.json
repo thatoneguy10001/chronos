@@ -1,13 +1,16 @@
 {
   "id": "iron_coat",
   "name": "Iron-Plated Coat [T]",
-  "description": "A heavy canvas greatcoat reinforced with overlapping iron plates sewn into the lining. Not officially armor — officially a 'reinforced weather garment.' The distinction exists so the logistics department can file it under a different budget line. It stops shrapnel and glancing rounds. It does not stop a Rock-Shell Crab claw. Wear it anyway.",
-  "starting_room_id": "armory",
+  "description": "A heavy canvas greatcoat reinforced with overlapping iron plates sewn into the lining. Not officially armor \u00e2\u20ac\u201d officially a 'reinforced weather garment.' The distinction exists so the logistics department can file it under a different budget line. It stops shrapnel and glancing rounds. It does not stop a Rock-Shell Crab claw. Wear it anyway.",
   "takeable": true,
   "consumable": false,
   "attributes": {
     "equip_stat": "defense",
     "equip_bonus": 6
   },
-  "tags": ["armor", "body", "terra"]
+  "tags": [
+    "armor",
+    "body",
+    "terra"
+  ]
 }

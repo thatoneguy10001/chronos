@@ -8,5 +8,9 @@
     "equip_stat": "defense",
     "equip_bonus": 4
   },
-  "tags": ["armor", "helm", "gray-wastes"]
+  "tags": [
+    "armor",
+    "helm",
+    "gray-wastes"
+  ]
 }

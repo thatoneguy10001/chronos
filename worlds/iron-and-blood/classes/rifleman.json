@@ -18,7 +18,7 @@
     {
       "id": "rapid_fire",
       "name": "Rapid Fire",
-      "description": "Three rounds in fast succession — accuracy drops, but against anything within twenty meters, it doesn't matter.",
+      "description": "Three rounds in fast succession \u00e2\u20ac\u201d accuracy drops, but against anything within twenty meters, it doesn't matter.",
       "base_damage": 5,
       "hit_count": 3
     },
@@ -34,15 +34,23 @@
     {
       "id": "suppression_shot",
       "name": "Suppression Shot",
-      "description": "A round placed specifically to restrict enemy movement — not necessarily to wound. The Rifleman's tactical round.",
+      "description": "A round placed specifically to restrict enemy movement \u00e2\u20ac\u201d not necessarily to wound. The Rifleman's tactical round.",
       "base_damage": 5,
       "applies_effect": "poison",
       "effect_damage": 3,
       "effect_duration": 2
     }
   ],
-  "passives": ["long_range_mastery"],
-  "starting_equipment": ["scrap_revolver"],
+  "passives": [
+    "long_range_mastery"
+  ],
+  "starting_equipment": [
+    "scrap_revolver",
+    "terran_helmet",
+    "iron_coat",
+    "antitoxin_vial",
+    "iron_bandage"
+  ],
   "xp_reward": 0,
   "gold_reward": 0,
   "tactics": []

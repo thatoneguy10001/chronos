@@ -1,0 +1,16 @@
+{
+  "id": "iron_field_boots",
+  "name": "Iron Field Boots [T]",
+  "description": "Terran infantry boots built for the Hive's lower levels \u00e2\u20ac\u201d iron-reinforced toe caps, chemical-resistant sole compound, ankle brace built in. Heavy. Loud on metal grating, which is everything in the Hive. You learn to walk differently in them, heel-first instead of toe-first, redistributing weight so the grating doesn't ring. Every Terran soldier develops this walk. You can identify a long-service soldier by it in civilian clothes, six years after discharge, still walking like they're trying not to wake the Hive.",
+  "takeable": true,
+  "consumable": false,
+  "attributes": {
+    "equip_stat": "defense",
+    "equip_bonus": 2
+  },
+  "tags": [
+    "armor",
+    "boots",
+    "terra"
+  ]
+}

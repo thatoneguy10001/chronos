@@ -1,0 +1,16 @@
+{
+  "id": "wastes_runner",
+  "name": "Wastes Runner [G]",
+  "description": "Boots assembled in the Discarded tradition: two pairs of ruined boots identified for what was still good in each, the soles from one, the upper from another, joined with industrial adhesive and wire binding. Lighter than Terran issue by half. No ankle support \u00e2\u20ac\u201d the Discarded consider that a trade worth making: the Wastes rewards speed over protection, and anything that slows you down in open ground is a liability. There's a particular quality of quiet to the sole material, something about the compound the maker chose. You don't know what it is. The maker does, and has chosen not to explain, on the grounds that you'll either understand or you won't, and explaining won't change which.",
+  "takeable": true,
+  "consumable": false,
+  "attributes": {
+    "equip_stat": "attack",
+    "equip_bonus": 3
+  },
+  "tags": [
+    "armor",
+    "boots",
+    "gray-wastes"
+  ]
+}

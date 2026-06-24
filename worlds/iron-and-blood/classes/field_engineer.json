@@ -1,7 +1,7 @@
 {
   "id": "field_engineer",
   "name": "Field Engineer",
-  "description": "Tool belt, welding goggles, and a SCAMP turret strapped to their back. The Field Engineer digs in and holds ground — deploying automated fire support and self-repairing between attacks. Patient, tactical, dangerous.",
+  "description": "Tool belt, welding goggles, and a SCAMP turret strapped to their back. The Field Engineer digs in and holds ground \u00e2\u20ac\u201d deploying automated fire support and self-repairing between attacks. Patient, tactical, dangerous.",
   "base_stats": {
     "hp": 100,
     "attack": 9,
@@ -39,7 +39,13 @@
     }
   ],
   "passives": [],
-  "starting_equipment": [],
+  "starting_equipment": [
+    "discarded_blade",
+    "terran_helmet",
+    "iron_field_boots",
+    "scamp_capacitor",
+    "smoke_canister"
+  ],
   "xp_reward": 0,
   "gold_reward": 0,
   "tactics": []

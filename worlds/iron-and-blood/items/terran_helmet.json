@@ -8,5 +8,9 @@
     "equip_stat": "defense",
     "equip_bonus": 3
   },
-  "tags": ["armor", "helm", "terra"]
+  "tags": [
+    "armor",
+    "helm",
+    "terra"
+  ]
 }
