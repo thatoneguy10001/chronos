@@ -1,0 +1,13 @@
+{
+  "id": "arc_gauntlets",
+  "name": "Arc Gauntlets [A]",
+  "description": "Aetherian combat gauntlets built around a crystal-discharge system embedded in the palm assembly — the crystals are tuned to release a short-range electrical arc on contact, adding significant force to an unarmed strike and playing havoc with anything electronic within arm's reach. The engineering is elegant in the way Aetherian things are: minimal material, maximum effect, the mechanism invisible until it fires. The gauntlets left behind in the forward post are sized for someone's specific hands. They fit yours well enough. The Aetherian soldier who wore these probably had a name for them. Soldiers name their gear.",
+  "starting_room_id": "aetherian_forward_post",
+  "takeable": true,
+  "consumable": false,
+  "attributes": {
+    "equip_stat": "attack",
+    "equip_bonus": 5
+  },
+  "tags": ["armor", "gauntlets", "aetherian"]
+}
