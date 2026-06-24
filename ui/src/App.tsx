@@ -59,6 +59,7 @@ export function App() {
   const closeJournal  = useGameStore(s => s.closeJournal);
   const openJournal   = useGameStore(s => s.openJournal);
   const journalOpen   = useGameStore(s => s.journalOpen);
+  const currentTick   = useGameStore(s => s.currentTick);
   const [selectedWorldId, setSelectedWorldId] = useState<string | null>(null);
   const [worldTone,  setWorldTone]  = useState('fantasy');
   const [worldTitle, setWorldTitle] = useState('');
@@ -173,7 +174,7 @@ export function App() {
       alignItems: 'center',
     }}>
       {/* Dark game frame */}
-      <div style={{
+      <div data-tick={currentTick} style={{
         width: 'min(1180px, 100%)',
         height: '100%',
         display: 'flex',
