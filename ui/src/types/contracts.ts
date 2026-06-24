@@ -19,6 +19,7 @@ export interface CommandResult {
   tick: number;
   game_time: number;
   npc_sections?: NpcSectionDTO[];
+  game_over?: boolean;
 }
 
 export interface QuestProgressDTO {

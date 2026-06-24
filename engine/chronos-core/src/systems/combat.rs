@@ -32,6 +32,7 @@ pub struct CombatResult {
     pub success: bool,
     pub narrative: String,
     pub context_actions: Vec<ContextAction>,
+    pub game_over: bool,
 }
 
 fn err(msg: &str) -> CombatResult {
@@ -39,6 +40,7 @@ fn err(msg: &str) -> CombatResult {
         success: false,
         narrative: msg.to_string(),
         context_actions: vec![],
+        game_over: false,
     }
 }
 
@@ -154,6 +156,7 @@ pub fn process_attack(
             success: true,
             narrative,
             context_actions,
+            game_over: player_hp_after <= 0,
         };
     }
 
@@ -247,6 +250,7 @@ pub fn process_attack(
             success: true,
             narrative,
             context_actions,
+            game_over: false,
         };
     }
 
@@ -284,8 +288,9 @@ pub fn process_attack(
         player_hp_after.max(0)
     );
 
-    let context_actions = if player_hp_after <= 0 {
-        narrative.push_str(&format!("\n\nThe {e_name} has slain you!"));
+    let died = player_hp_after <= 0;
+    let context_actions = if died {
+        narrative.push_str(&format!("\n\nThe {e_name} has slain you."));
         vec![]
     } else {
         vec![ContextAction {
@@ -298,6 +303,7 @@ pub fn process_attack(
         success: true,
         narrative,
         context_actions,
+        game_over: died,
     }
 }
 

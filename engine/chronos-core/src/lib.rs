@@ -98,6 +98,7 @@ impl ChronosEngine {
                 tick: self.tick,
                 game_time: self.current_game_time(),
                 npc_sections: vec![],
+                game_over: false,
             };
         }
 
@@ -117,6 +118,7 @@ impl ChronosEngine {
                 tick: 0,
                 game_time: self.current_game_time(),
                 npc_sections: vec![],
+                game_over: false,
             };
         }
 
@@ -133,6 +135,7 @@ impl ChronosEngine {
                 tick: self.tick,
                 game_time: self.current_game_time(),
                 npc_sections: vec![],
+                game_over: false,
             };
         }
 
@@ -677,6 +680,7 @@ impl ChronosEngine {
                     tick: self.tick,
                     game_time: self.current_game_time(),
                     npc_sections: vec![],
+                    game_over: false,
                 }
             }
 
@@ -690,6 +694,7 @@ impl ChronosEngine {
                     tick: self.tick,
                     game_time: self.current_game_time(),
                     npc_sections: vec![],
+                    game_over: false,
                 }
             }
 
@@ -716,6 +721,7 @@ impl ChronosEngine {
                     tick: self.tick,
                     game_time: self.current_game_time(),
                     npc_sections: vec![],
+                    game_over: false,
                 }
             }
 
@@ -729,6 +735,7 @@ impl ChronosEngine {
                     tick: self.tick,
                     game_time: self.current_game_time(),
                     npc_sections: vec![],
+                    game_over: false,
                 }
             }
 
@@ -742,6 +749,7 @@ impl ChronosEngine {
                     tick: self.tick,
                     game_time: self.current_game_time(),
                     npc_sections: vec![],
+                    game_over: false,
                 }
             }
 
@@ -769,6 +777,7 @@ impl ChronosEngine {
                     tick: self.tick,
                     game_time: self.current_game_time(),
                     npc_sections: vec![],
+                    game_over: false,
                 }
             }
 
@@ -782,6 +791,7 @@ impl ChronosEngine {
                     tick: self.tick,
                     game_time: self.current_game_time(),
                     npc_sections: vec![],
+                    game_over: r.game_over,
                 }
             }
 
@@ -809,6 +819,7 @@ impl ChronosEngine {
                     tick: self.tick,
                     game_time: self.current_game_time(),
                     npc_sections: vec![],
+                    game_over: false,
                 }
             }
 
@@ -831,6 +842,7 @@ impl ChronosEngine {
                     tick: self.tick,
                     game_time: self.current_game_time(),
                     npc_sections: vec![],
+                    game_over: false,
                 }
             }
 
@@ -844,6 +856,7 @@ impl ChronosEngine {
                     tick: self.tick,
                     game_time: self.current_game_time(),
                     npc_sections: vec![],
+                    game_over: false,
                 }
             }
 
@@ -857,6 +870,7 @@ impl ChronosEngine {
                     tick: self.tick,
                     game_time: self.current_game_time(),
                     npc_sections: vec![],
+                    game_over: false,
                 }
             }
 
@@ -884,6 +898,7 @@ impl ChronosEngine {
                     tick: self.tick,
                     game_time: self.current_game_time(),
                     npc_sections: r.npc_sections,
+                    game_over: false,
                 }
             }
 
@@ -897,6 +912,7 @@ impl ChronosEngine {
                     tick: self.tick,
                     game_time: self.current_game_time(),
                     npc_sections: r.npc_sections,
+                    game_over: false,
                 }
             }
 
@@ -910,6 +926,7 @@ impl ChronosEngine {
                     tick: self.tick,
                     game_time: self.current_game_time(),
                     npc_sections: vec![],
+                    game_over: false,
                 }
             }
 
@@ -923,6 +940,7 @@ impl ChronosEngine {
                     tick: self.tick,
                     game_time: self.current_game_time(),
                     npc_sections: vec![],
+                    game_over: false,
                 }
             }
 
@@ -955,6 +973,7 @@ impl ChronosEngine {
                         tick: self.tick,
                         game_time: self.current_game_time(),
                         npc_sections: vec![],
+                        game_over: false,
                     };
                 }
                 let npc_name = rest_npc_name.unwrap();
@@ -973,6 +992,7 @@ impl ChronosEngine {
                                 tick: self.tick,
                                 game_time: self.current_game_time(),
                                 npc_sections: vec![],
+                                game_over: false,
                             }
                         }
                     }
@@ -985,6 +1005,7 @@ impl ChronosEngine {
                         inventory_ids: self.player_inventory_ids(),
                         tick: self.tick,
                         game_time: self.current_game_time(), npc_sections: vec![],
+                    game_over: false,
                     };
                 }
                 if let Some(mut w) = self.world.entity_mut(player_e).get_mut::<Wallet>() {
@@ -1004,6 +1025,7 @@ impl ChronosEngine {
                     inventory_ids: self.player_inventory_ids(),
                     tick: self.tick,
                     game_time: self.current_game_time(), npc_sections: vec![],
+                game_over: false,
                 }
             }
 
@@ -1029,6 +1051,7 @@ impl ChronosEngine {
                     tick: self.tick,
                     game_time: self.current_game_time(),
                     npc_sections: vec![],
+                    game_over: false,
                 }
             }
 
@@ -1090,6 +1113,7 @@ impl ChronosEngine {
                                 tick: self.tick,
                                 game_time: self.current_game_time(),
                                 npc_sections: vec![],
+                                game_over: false,
                             };
                         }
                         let context_actions = if *in_room {
@@ -1119,6 +1143,7 @@ impl ChronosEngine {
                             tick: self.tick,
                             game_time: self.current_game_time(),
                             npc_sections: vec![],
+                            game_over: false,
                         }
                     }
                     None => CommandResult {
@@ -1129,6 +1154,7 @@ impl ChronosEngine {
                         tick: self.tick,
                         game_time: self.current_game_time(),
                         npc_sections: vec![],
+                        game_over: false,
                     },
                 }
             }
@@ -1197,6 +1223,7 @@ impl ChronosEngine {
                     tick: self.tick,
                     game_time: self.current_game_time(),
                     npc_sections: vec![],
+                    game_over: false,
                 }
             }
 
@@ -1228,6 +1255,7 @@ impl ChronosEngine {
                         tick: self.tick,
                         game_time: self.current_game_time(),
                         npc_sections: vec![],
+                        game_over: false,
                     };
                 };
 
@@ -1272,6 +1300,7 @@ impl ChronosEngine {
                         inventory_ids: self.player_inventory_ids(),
                         tick: self.tick,
                         game_time: self.current_game_time(), npc_sections: vec![],
+                    game_over: false,
                     };
                 }
 
@@ -1304,6 +1333,7 @@ impl ChronosEngine {
                                 tick: self.tick,
                                 game_time: self.current_game_time(),
                                 npc_sections: vec![],
+                                game_over: false,
                             }
                         }
                     }
@@ -1348,6 +1378,7 @@ impl ChronosEngine {
                     tick: self.tick,
                     game_time: self.current_game_time(),
                     npc_sections: vec![],
+                    game_over: false,
                 }
             }
 
@@ -1366,6 +1397,7 @@ impl ChronosEngine {
                         tick: self.tick,
                         game_time: self.current_game_time(),
                         npc_sections: vec![],
+                        game_over: false,
                     };
                 };
                 // Handle assembled weapons (assembled:<display_name>).
@@ -1430,6 +1462,7 @@ impl ChronosEngine {
                                 tick: self.tick,
                                 game_time: self.current_game_time(),
                                 npc_sections: vec![],
+                                game_over: false,
                             };
                         };
                         if let Some(mut eq) =
@@ -1475,6 +1508,7 @@ impl ChronosEngine {
                     tick: self.tick,
                     game_time: self.current_game_time(),
                     npc_sections: vec![],
+                    game_over: false,
                 }
             }
 
@@ -1492,6 +1526,7 @@ impl ChronosEngine {
                         tick: self.tick,
                         game_time: self.current_game_time(),
                         npc_sections: vec![],
+                        game_over: false,
                     };
                 };
                 let (narrative, success) = if let Some(mut eq) =
@@ -1520,6 +1555,7 @@ impl ChronosEngine {
                     tick: self.tick,
                     game_time: self.current_game_time(),
                     npc_sections: vec![],
+                    game_over: false,
                 }
             }
 
@@ -1537,6 +1573,7 @@ impl ChronosEngine {
                         tick: self.tick,
                         game_time: self.current_game_time(),
                         npc_sections: vec![],
+                        game_over: false,
                     };
                 };
                 let parsed = EquipSlot::parse_slot(slot);
@@ -1578,6 +1615,7 @@ impl ChronosEngine {
                     tick: self.tick,
                     game_time: self.current_game_time(),
                     npc_sections: vec![],
+                    game_over: false,
                 }
             }
 
@@ -1595,12 +1633,13 @@ impl ChronosEngine {
                         tick: self.tick,
                         game_time: self.current_game_time(),
                         npc_sections: vec![],
+                        game_over: false,
                     };
                 };
 
                 let (current_loaded, capacity) = match self.world.entity(player_e).get::<PayloadSlots>() {
                     Some(ps) => (ps.loaded.clone(), ps.capacity),
-                    None => return CommandResult { success: false, narrative: "Your class doesn't have payload slots. Play as Iron Apothecary to use payloads.".into(), context_actions: vec![], inventory_ids: self.player_inventory_ids(), tick: self.tick, game_time: self.current_game_time(), npc_sections: vec![] },
+                    None => return CommandResult { success: false, narrative: "Your class doesn't have payload slots. Play as Iron Apothecary to use payloads.".into(), context_actions: vec![], inventory_ids: self.player_inventory_ids(), tick: self.tick, game_time: self.current_game_time(), npc_sections: vec![], game_over: false },
                 };
 
                 if current_loaded.len() >= capacity {
@@ -1615,6 +1654,7 @@ impl ChronosEngine {
                         tick: self.tick,
                         game_time: self.current_game_time(),
                         npc_sections: vec![],
+                        game_over: false,
                     };
                 }
 
@@ -1639,6 +1679,7 @@ impl ChronosEngine {
                             tick: self.tick,
                             game_time: self.current_game_time(),
                             npc_sections: vec![],
+                            game_over: false,
                         }
                     }
                 };
@@ -1651,6 +1692,7 @@ impl ChronosEngine {
                         tick: self.tick,
                         game_time: self.current_game_time(),
                         npc_sections: vec![],
+                        game_over: false,
                     };
                 }
                 if current_loaded.contains(&resolved_id) {
@@ -1662,6 +1704,7 @@ impl ChronosEngine {
                         tick: self.tick,
                         game_time: self.current_game_time(),
                         npc_sections: vec![],
+                        game_over: false,
                     };
                 }
 
@@ -1679,6 +1722,7 @@ impl ChronosEngine {
                         tick: self.tick,
                         game_time: self.current_game_time(),
                         npc_sections: vec![],
+                        game_over: false,
                     };
                 }
 
@@ -1693,6 +1737,7 @@ impl ChronosEngine {
                     inventory_ids: self.player_inventory_ids(),
                     tick: self.tick,
                     game_time: self.current_game_time(), npc_sections: vec![],
+                game_over: false,
                 }
             }
 
@@ -1710,6 +1755,7 @@ impl ChronosEngine {
                         tick: self.tick,
                         game_time: self.current_game_time(),
                         npc_sections: vec![],
+                        game_over: false,
                     };
                 };
 
@@ -1724,6 +1770,7 @@ impl ChronosEngine {
                             tick: self.tick,
                             game_time: self.current_game_time(),
                             npc_sections: vec![],
+                            game_over: false,
                         }
                     }
                 };
@@ -1773,6 +1820,7 @@ impl ChronosEngine {
                             tick: self.tick,
                             game_time: self.current_game_time(),
                             npc_sections: vec![],
+                            game_over: false,
                         }
                     }
                     None => CommandResult {
@@ -1786,6 +1834,7 @@ impl ChronosEngine {
                         tick: self.tick,
                         game_time: self.current_game_time(),
                         npc_sections: vec![],
+                        game_over: false,
                     },
                 }
             }
@@ -1800,6 +1849,7 @@ impl ChronosEngine {
                     tick: self.tick,
                     game_time: self.current_game_time(),
                     npc_sections: vec![],
+                    game_over: false,
                 }
             }
 
@@ -1813,6 +1863,7 @@ impl ChronosEngine {
                     tick: self.tick,
                     game_time: self.current_game_time(),
                     npc_sections: vec![],
+                    game_over: false,
                 }
             }
 
@@ -1825,6 +1876,7 @@ impl ChronosEngine {
                         inventory_ids: self.player_inventory_ids(),
                         tick: self.tick,
                         game_time: self.current_game_time(), npc_sections: vec![],
+                    game_over: false,
                     };
                 }
                 // Scoped query releases the borrow before entity_mut + process_look.
@@ -1864,6 +1916,7 @@ impl ChronosEngine {
                     tick: self.tick,
                     game_time: self.current_game_time(),
                     npc_sections: vec![],
+                    game_over: false,
                 }
             }
 
@@ -1876,6 +1929,7 @@ impl ChronosEngine {
                         inventory_ids: self.player_inventory_ids(),
                         tick: self.tick,
                         game_time: self.current_game_time(), npc_sections: vec![],
+                    game_over: false,
                     };
                 }
                 let player_e = {
@@ -1918,6 +1972,7 @@ impl ChronosEngine {
                     tick: self.tick,
                     game_time: self.current_game_time(),
                     npc_sections: vec![],
+                    game_over: false,
                 }
             }
 
@@ -1934,6 +1989,7 @@ impl ChronosEngine {
                 tick: self.tick,
                 game_time: self.current_game_time(),
                 npc_sections: vec![],
+                game_over: false,
             },
         }
     }

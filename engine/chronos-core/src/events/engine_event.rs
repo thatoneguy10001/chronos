@@ -157,6 +157,9 @@ pub struct CommandResult {
     /// Empty for all other command types.
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub npc_sections: Vec<NpcSection>,
+    /// True when the player has just died. The UI should show a death screen.
+    #[serde(default, skip_serializing_if = "std::ops::Not::not")]
+    pub game_over: bool,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
