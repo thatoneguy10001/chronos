@@ -41,21 +41,14 @@
   ],
   "vendor": true,
   "shop": [
-    {
-      "item_id": "iron_bandage",
-      "price": 8
-    },
-    {
-      "item_id": "trauma_kit",
-      "price": 20
-    },
-    {
-      "item_id": "adrenaline_injector",
-      "price": 15
-    },
-    {
-      "item_id": "antitoxin_vial",
-      "price": 12
-    }
+    { "item_id": "iron_bandage",          "price": 8  },
+    { "item_id": "trauma_kit",            "price": 20 },
+    { "item_id": "adrenaline_injector",   "price": 15 },
+    { "item_id": "antitoxin_vial",        "price": 12 },
+    { "item_id": "terran_bayonet",        "price": 40 },
+    { "item_id": "terran_helmet",         "price": 25 },
+    { "item_id": "iron_coat",             "price": 50 },
+    { "item_id": "terran_combat_gloves",  "price": 15 },
+    { "item_id": "iron_field_boots",      "price": 15 }
   ]
 }

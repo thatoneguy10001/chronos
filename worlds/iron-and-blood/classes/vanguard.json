@@ -12,7 +12,7 @@
     {
       "id": "trench_charge",
       "name": "Trench Charge",
-      "description": "A full-body ram at close range — closing distance in one brutal stride, using armor weight as a weapon.",
+      "description": "A full-body ram at close range \u00e2\u20ac\u201d closing distance in one brutal stride, using armor weight as a weapon.",
       "base_damage": 12
     },
     {
@@ -34,12 +34,19 @@
     {
       "id": "bayonet_drive",
       "name": "Bayonet Drive",
-      "description": "A vicious forward stab — not elegant, not subtle, lethal. The Vanguard's backup weapon when the shield is locked.",
+      "description": "A vicious forward stab \u00e2\u20ac\u201d not elegant, not subtle, lethal. The Vanguard's backup weapon when the shield is locked.",
       "base_damage": 9
     }
   ],
-  "passives": ["iron_skin"],
-  "starting_equipment": ["terran_helmet", "iron_coat"],
+  "passives": [
+    "iron_skin"
+  ],
+  "starting_equipment": [
+    "terran_helmet",
+    "iron_coat",
+    "terran_combat_gloves",
+    "iron_field_boots"
+  ],
   "xp_reward": 0,
   "gold_reward": 0,
   "tactics": []
