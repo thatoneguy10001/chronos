@@ -1093,16 +1093,20 @@ impl ChronosEngine {
                     Some((found_id, in_room)) => {
                         let t = match self.repository.item(found_id) {
                             Ok(t) => t,
-                            Err(_) => return CommandResult {
-                                success: false,
-                                narrative: format!("Item data for '{found_id}' is missing from the world."),
-                                context_actions: vec![],
-                                inventory_ids: self.player_inventory_ids(),
-                                tick: self.tick,
-                                game_time: self.current_game_time(),
-                                npc_sections: vec![],
-                                game_over: false,
-                            },
+                            Err(_) => {
+                                return CommandResult {
+                                    success: false,
+                                    narrative: format!(
+                                        "Item data for '{found_id}' is missing from the world."
+                                    ),
+                                    context_actions: vec![],
+                                    inventory_ids: self.player_inventory_ids(),
+                                    tick: self.tick,
+                                    game_time: self.current_game_time(),
+                                    npc_sections: vec![],
+                                    game_over: false,
+                                }
+                            }
                         };
                         // Special rendering for the diary: build contents from WorldFlags.
                         if t.id == "ren_diary" {

@@ -444,8 +444,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("chronos-server listening on ws://localhost:{port}/ws");
     println!("worlds dir: {}", worlds_dir().display());
 
-    let listener = tokio::net::TcpListener::bind(addr).await
-        .map_err(|e| format!("could not bind to {addr}: {e} — is another instance already running?"))?;
+    let listener = tokio::net::TcpListener::bind(addr).await.map_err(|e| {
+        format!("could not bind to {addr}: {e} — is another instance already running?")
+    })?;
     axum::serve(listener, app).await?;
     Ok(())
 }
