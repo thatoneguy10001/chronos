@@ -42,10 +42,14 @@
     "iron_skin"
   ],
   "starting_equipment": [
+    "terran_bayonet",
     "terran_helmet",
     "iron_coat",
     "terran_combat_gloves",
-    "iron_field_boots"
+    "iron_field_boots",
+    "iron_bandage",
+    "iron_bandage",
+    "adrenaline_injector"
   ],
   "xp_reward": 0,
   "gold_reward": 0,

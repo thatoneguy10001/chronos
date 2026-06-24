@@ -46,7 +46,10 @@
   ],
   "starting_equipment": [
     "scrap_revolver",
-    "terran_helmet"
+    "terran_helmet",
+    "iron_coat",
+    "antitoxin_vial",
+    "iron_bandage"
   ],
   "xp_reward": 0,
   "gold_reward": 0,

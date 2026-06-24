@@ -43,7 +43,11 @@
   ],
   "passives": [],
   "starting_equipment": [
-    "terran_helmet"
+    "discarded_blade",
+    "terran_helmet",
+    "venom_vial",
+    "bleed_vial",
+    "antitoxin_vial"
   ],
   "xp_reward": 0,
   "gold_reward": 0,

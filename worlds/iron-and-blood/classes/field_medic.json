@@ -43,8 +43,12 @@
   ],
   "passives": [],
   "starting_equipment": [
+    "terran_bayonet",
     "terran_helmet",
-    "terran_combat_gloves"
+    "terran_combat_gloves",
+    "trauma_kit",
+    "salvaged_gauze",
+    "salvaged_gauze"
   ],
   "xp_reward": 0,
   "gold_reward": 0,
