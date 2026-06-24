@@ -1,7 +1,7 @@
 {
   "id": "field_medic",
   "name": "Field Medic",
-  "description": "The pragmatic healer of the trenches. Heavy leather apron, vials of chemical compounds, a syringe launcher that fires healing payloads or toxic rounds. They keep soldiers alive through grit and chemistry — not magic.",
+  "description": "The pragmatic healer of the trenches. Heavy leather apron, vials of chemical compounds, a syringe launcher that fires healing payloads or toxic rounds. They keep soldiers alive through grit and chemistry \u00e2\u20ac\u201d not magic.",
   "base_stats": {
     "hp": 110,
     "attack": 7,
@@ -12,7 +12,7 @@
     {
       "id": "hemostatic_jab",
       "name": "Hemostatic Jab",
-      "description": "A precise injection that halts bleeding — or induces it in enemies. Deals damage with a chance to cause bleeding.",
+      "description": "A precise injection that halts bleeding \u00e2\u20ac\u201d or induces it in enemies. Deals damage with a chance to cause bleeding.",
       "base_damage": 5,
       "applies_effect": "bleed",
       "effect_damage": 5,
@@ -42,7 +42,10 @@
     }
   ],
   "passives": [],
-  "starting_equipment": [],
+  "starting_equipment": [
+    "terran_helmet",
+    "terran_combat_gloves"
+  ],
   "xp_reward": 0,
   "gold_reward": 0,
   "tactics": []

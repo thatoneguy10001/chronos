@@ -1,17 +1,17 @@
 {
   "id": "gideon_moss",
   "name": "Gideon \"The Gear\" Moss",
-  "greeting": "Short, wiry, quick movements that cover ground faster than they look like they should. Worker's coat, better quality than it appears. Hands covered in small scars. Smiles before you've said anything — the specific smile of someone who has already assessed the situation and decided you might be useful. 'Moss,' he says, easy and light, like he's told you something. 'I hear you've been doing good work out at the Fort. Effective people are a rare commodity.' He gestures with the confidence of a man who considers this his territory. 'What are you looking for? I generally have it. Or I know who does.'",
+  "greeting": "Short, wiry, quick movements that cover ground faster than they look like they should. Worker's coat, better quality than it appears. Hands covered in small scars. Smiles before you've said anything \u00e2\u20ac\u201d the specific smile of someone who has already assessed the situation and decided you might be useful. 'Moss,' he says, easy and light, like he's told you something. 'I hear you've been doing good work out at the Fort. Effective people are a rare commodity.' He gestures with the confidence of a man who considers this his territory. 'What are you looking for? I generally have it. Or I know who does.'",
   "dialogue": [
     {
       "keyword": "gear",
       "prompt": "equipment and gear",
-      "response": "'Best selection in the Lower Rigs — which means the best in the Hive, since the official armories don't carry half of what's actually useful out there.' He produces a wrapped package and sets it on the counter. 'Ministry-approved, Ministry-unauthorized, and a few things the Ministry doesn't know exist. The last category is negotiable.' The smile stays precisely calibrated. 'I like to think of myself as solving supply problems the official channels can't admit they have.'"
+      "response": "'Best selection in the Lower Rigs \u00e2\u20ac\u201d which means the best in the Hive, since the official armories don't carry half of what's actually useful out there.' He produces a wrapped package and sets it on the counter. 'Ministry-approved, Ministry-unauthorized, and a few things the Ministry doesn't know exist. The last category is negotiable.' The smile stays precisely calibrated. 'I like to think of myself as solving supply problems the official channels can't admit they have.'"
     },
     {
       "keyword": "scamp",
       "prompt": "the SCAMP turret",
-      "response": "'The Scrap Autonomous Minigun Platform. My design, technically — or the design of twelve engineers whose names I have carefully preserved and never published.' He sounds entirely untroubled by this. 'The Field Engineers who came to me with the idea had all the theory. I had the fabrication contacts and the Ministry's blind spots. We built the first one in a maintenance tunnel.' He taps the counter. 'The Mark I was a disaster. The Mark II was a catastrophe. The Mark III worked once. The Mark IV is what they're using now. It's mostly reliable.' A pause. 'Mostly.'"
+      "response": "'The Scrap Autonomous Minigun Platform. My design, technically \u00e2\u20ac\u201d or the design of twelve engineers whose names I have carefully preserved and never published.' He sounds entirely untroubled by this. 'The Field Engineers who came to me with the idea had all the theory. I had the fabrication contacts and the Ministry's blind spots. We built the first one in a maintenance tunnel.' He taps the counter. 'The Mark I was a disaster. The Mark II was a catastrophe. The Mark III worked once. The Mark IV is what they're using now. It's mostly reliable.' A pause. 'Mostly.'"
     },
     {
       "keyword": "ministry",
@@ -36,7 +36,7 @@
     {
       "keyword": "engineers",
       "prompt": "the twelve SCAMP engineers",
-      "response": "'You know about them.' He says it without surprise — he almost never expresses surprise. 'The twelve engineers came to me two years before the Mark IV was deployed. The Ministry was watching them. They needed a buffer.' He pauses. 'After the Mark IV worked, the Ministry got interested in a particular way. The engineers got — cautious. Dispersed.' He leans forward slightly. 'I know where eight of them are. The other four — three went to places I won't say in a market, and one went somewhere he described as not reachable by conventional means, which I thought was him being dramatic until it turned out he meant it literally.' He considers you. 'What do you know about the tunnels under the Bone Fields? Specifically the part the Ministry doesn't map?'",
+      "response": "'You know about them.' He says it without surprise \u00e2\u20ac\u201d he almost never expresses surprise. 'The twelve engineers came to me two years before the Mark IV was deployed. The Ministry was watching them. They needed a buffer.' He pauses. 'After the Mark IV worked, the Ministry got interested in a particular way. The engineers got \u00e2\u20ac\u201d cautious. Dispersed.' He leans forward slightly. 'I know where eight of them are. The other four \u00e2\u20ac\u201d three went to places I won't say in a market, and one went somewhere he described as not reachable by conventional means, which I thought was him being dramatic until it turned out he meant it literally.' He considers you. 'What do you know about the tunnels under the Bone Fields? Specifically the part the Ministry doesn't map?'",
       "requires_topic": "scamp",
       "disposition_delta": 7
     },
@@ -53,6 +53,18 @@
     {
       "item_id": "scrap_revolver",
       "price": 30
+    },
+    {
+      "item_id": "discarded_blade",
+      "price": 20
+    },
+    {
+      "item_id": "scavenger_mask",
+      "price": 30
+    },
+    {
+      "item_id": "wastes_runner",
+      "price": 20
     },
     {
       "item_id": "iron_bandage",

@@ -2,12 +2,15 @@
   "id": "scavenger_mask",
   "name": "Scavenger Mask [G]",
   "description": "An improvised respirator built from a shattered Terran gas mask's filter assembly, a Aetherian flexible seal salvaged from a downed airship, and wire. It doesn't look like anything official, which means Ministry checkpoints sometimes ignore it. It filters the worst of the chemical air in the Wastes and provides enough coverage to stop shrapnel from reaching your face. The Discarded call this 'good enough,' which in the Gray Wastes is high praise.",
-  "starting_room_id": "smog_market",
   "takeable": true,
   "consumable": false,
   "attributes": {
     "equip_stat": "defense",
     "equip_bonus": 4
   },
-  "tags": ["armor", "helm", "gray-wastes"]
+  "tags": [
+    "armor",
+    "helm",
+    "gray-wastes"
+  ]
 }

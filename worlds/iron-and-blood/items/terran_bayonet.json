@@ -1,13 +1,16 @@
 {
   "id": "terran_bayonet",
   "name": "Terran Service Bayonet [T]",
-  "description": "The standard Terran infantry bayonet — a thirty-centimeter single-edged blade designed to mount on a rifle but equally functional as a standalone weapon. Stamped from high-carbon steel at the Foundry in batches of ten thousand. No individual identity: no maker's mark, no serial number, identical to the nine thousand, nine hundred and ninety-nine made before it. Soldiers name them anyway.",
-  "starting_room_id": "armory",
+  "description": "The standard Terran infantry bayonet \u00e2\u20ac\u201d a thirty-centimeter single-edged blade designed to mount on a rifle but equally functional as a standalone weapon. Stamped from high-carbon steel at the Foundry in batches of ten thousand. No individual identity: no maker's mark, no serial number, identical to the nine thousand, nine hundred and ninety-nine made before it. Soldiers name them anyway.",
   "takeable": true,
   "consumable": false,
   "attributes": {
     "equip_stat": "attack",
     "equip_bonus": 6
   },
-  "tags": ["weapon", "melee", "terra"]
+  "tags": [
+    "weapon",
+    "melee",
+    "terra"
+  ]
 }

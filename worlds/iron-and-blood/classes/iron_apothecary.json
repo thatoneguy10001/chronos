@@ -1,7 +1,7 @@
 {
   "id": "iron_apothecary",
   "name": "Iron Apothecary",
-  "description": "Industrial disruptor. Plague doctor gear, toxic smoke, leaking pipes, grimy green vials. The Iron Apothecary dismantles enemies through systemic chemical failure — poisons, corrosives, and hemotoxins applied with surgical precision via a pneumatic syringe spear.",
+  "description": "Industrial disruptor. Plague doctor gear, toxic smoke, leaking pipes, grimy green vials. The Iron Apothecary dismantles enemies through systemic chemical failure \u00e2\u20ac\u201d poisons, corrosives, and hemotoxins applied with surgical precision via a pneumatic syringe spear.",
   "base_stats": {
     "hp": 90,
     "attack": 8,
@@ -42,7 +42,9 @@
     }
   ],
   "passives": [],
-  "starting_equipment": [],
+  "starting_equipment": [
+    "terran_helmet"
+  ],
   "xp_reward": 0,
   "gold_reward": 0,
   "tactics": []

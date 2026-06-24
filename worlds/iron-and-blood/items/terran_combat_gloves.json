@@ -1,13 +1,16 @@
 {
   "id": "terran_combat_gloves",
   "name": "Terran Combat Gloves [T]",
-  "description": "Standard-issue Terran infantry gloves — heavy leather palms reinforced with iron knuckle plates and a wrist buckle that you tighten so slowly before a push that the action becomes almost ceremonial. The stitching on the right glove is newer than the left, which means someone replaced it, which means the left glove came back from somewhere and the right one didn't, and someone thought it worth keeping. The weight is familiar. You've been wearing something like these long enough that a day without them feels wrong.",
-  "starting_room_id": "armory",
+  "description": "Standard-issue Terran infantry gloves \u00e2\u20ac\u201d heavy leather palms reinforced with iron knuckle plates and a wrist buckle that you tighten so slowly before a push that the action becomes almost ceremonial. The stitching on the right glove is newer than the left, which means someone replaced it, which means the left glove came back from somewhere and the right one didn't, and someone thought it worth keeping. The weight is familiar. You've been wearing something like these long enough that a day without them feels wrong.",
   "takeable": true,
   "consumable": false,
   "attributes": {
     "equip_stat": "defense",
     "equip_bonus": 2
   },
-  "tags": ["armor", "gloves", "terra"]
+  "tags": [
+    "armor",
+    "gloves",
+    "terra"
+  ]
 }
