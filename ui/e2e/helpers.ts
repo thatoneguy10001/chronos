@@ -2,34 +2,38 @@ import type { Page } from '@playwright/test';
 
 const PANIC_STRINGS = ['panic', 'unwrap()', 'called `Option', 'RUST_BACKTRACE', 'wasm-function'];
 
-/** Select Iron & Blood and a playable class, wait for the game terminal. */
+/** Select Iron & Blood and a playable class, wait for the game input. */
 export async function initGame(page: Page, classPartialName = 'Vanguard') {
   await page.goto('/');
   await page.getByTestId('new-game-iron-and-blood').click();
   await page.getByText(classPartialName).first().click();
-  // Wait until the game input is ready.
-  await page.getByPlaceholder('write your next move...').waitFor({ state: 'visible', timeout: 15_000 });
+  // Wait until the in-game command input is ready (placeholder contains "command").
+  await page.locator('input[placeholder*="command"]').waitFor({ state: 'visible', timeout: 15_000 });
 }
 
 /** Type a command into the parser input and press Enter. */
 export async function send(page: Page, cmd: string) {
-  const input = page.getByPlaceholder('write your next move...');
+  const input = page.locator('input[placeholder*="command"]').first();
   await input.fill(cmd);
   await input.press('Enter');
 }
 
-/** Send a command and wait for new text to appear in the terminal. */
+/** Send a command and wait for the engine to respond (tick increments). */
 export async function sendAndWait(page: Page, cmd: string, waitForText?: string) {
-  // Measure with textContent (raw DOM) so the waitForFunction comparison uses the same metric.
-  const before = await page.locator('#root').evaluate(el => el.textContent?.length ?? 0);
+  // Read the current engine tick from the data attribute on the game frame.
+  const frame = page.locator('[data-tick]').first();
+  const tickBefore = Number(await frame.getAttribute('data-tick'));
   await send(page, cmd);
   if (waitForText) {
     await page.getByText(waitForText, { exact: false }).first().waitFor({ timeout: 8_000 });
   } else {
-    // Wait until the terminal has more text than before.
+    // Wait until the engine has processed the command (tick incremented).
     await page.waitForFunction(
-      (prev) => (document.querySelector('#root')?.textContent?.length ?? 0) > prev,
-      before,
+      (prev) => {
+        const el = document.querySelector('[data-tick]');
+        return el ? Number(el.getAttribute('data-tick')) > prev : false;
+      },
+      tickBefore,
       { timeout: 8_000 },
     );
   }

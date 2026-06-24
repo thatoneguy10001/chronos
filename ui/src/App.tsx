@@ -1,16 +1,15 @@
 import { useEffect, useRef, useState } from 'react';
-import { Terminal } from '@/components/Terminal';
-import { InputManager } from '@/components/InputManager';
-import { TimelineDebugPanel } from '@/components/TimelineDebugPanel';
-import { CharacterPanel } from '@/components/CharacterPanel';
 import { WorldSelectionScreen } from '@/components/WorldSelectionScreen';
 import { CharacterCreationScreen } from '@/components/CharacterCreationScreen';
 import { SaveLoadModal } from '@/components/SaveLoadModal';
 import { JournalModal } from '@/components/JournalModal';
-import { StatusHeader } from '@/components/StatusHeader';
-import { FooterHints } from '@/components/FooterHints';
+import { TopChrome } from '@/components/TopChrome';
+import { ExploreScreen } from '@/components/ExploreScreen';
+import { CombatScreen } from '@/components/CombatScreen';
+import { InventoryScreen } from '@/components/InventoryScreen';
+import { CharacterScreen } from '@/components/CharacterScreen';
+import { NavBar } from '@/components/NavBar';
 import { useGameStore } from '@/store/gameStore';
-import { useDevMode } from '@/hooks/useDevMode';
 
 function GameOverScreen({ worldTitle, onRestart }: { worldTitle: string; onRestart: () => void }) {
   return (
@@ -20,20 +19,20 @@ function GameOverScreen({ worldTitle, onRestart }: { worldTitle: string; onResta
       flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'center',
-      fontFamily: 'var(--font-journal)',
-      background: "url('/textures/teastain%20102.png') center/cover no-repeat var(--parchment)",
+      fontFamily: 'var(--font-dossier)',
+      background: 'var(--ui-bg)',
       gap: '1.5rem',
     }}>
-      <div style={{ color: 'var(--ink-faint)', fontSize: '0.75em', letterSpacing: '0.2em', fontFamily: 'var(--font-dossier)' }}>── {worldTitle.toUpperCase()} ──</div>
-      <div style={{ color: 'var(--ink-combat)', fontSize: '2.4em', fontWeight: '600' }}>You are dead.</div>
-      <div style={{ color: 'var(--ink-movement)', fontSize: '1em', fontStyle: 'italic', opacity: 0.7 }}>Your story ends here.</div>
+      <div style={{ color: 'var(--ui-gold-dim)', fontSize: 10, letterSpacing: '0.2em' }}>── {worldTitle.toUpperCase()} ──</div>
+      <div style={{ color: 'var(--ui-red-hi)', fontSize: '2.2em', fontWeight: '600', fontFamily: 'Georgia, serif' }}>You are dead.</div>
+      <div style={{ color: 'var(--ui-dim)', fontSize: '0.9em', fontStyle: 'italic' }}>Your story ends here.</div>
       <button
         onClick={onRestart}
         style={{
           marginTop: '1rem',
           background: 'transparent',
-          border: '1px solid var(--ink-combat)',
-          color: 'var(--ink-combat)',
+          border: '1px solid var(--ui-red-dim)',
+          color: 'var(--ui-red-hi)',
           fontFamily: 'var(--font-dossier)',
           fontSize: '0.85em',
           padding: '0.5rem 2rem',
@@ -51,15 +50,16 @@ function GameOverScreen({ worldTitle, onRestart }: { worldTitle: string; onResta
 }
 
 export function App() {
-  const init           = useGameStore(s => s.init);
-  const initialized    = useGameStore(s => s.initialized);
-  const submitCommand  = useGameStore(s => s.submitCommand);
+  const init            = useGameStore(s => s.init);
+  const initialized     = useGameStore(s => s.initialized);
+  const submitCommand   = useGameStore(s => s.submitCommand);
   const playerCharacter = useGameStore(s => s.playerCharacter);
+  const activeScreen    = useGameStore(s => s.activeScreen);
 
   const closeJournal  = useGameStore(s => s.closeJournal);
   const openJournal   = useGameStore(s => s.openJournal);
   const journalOpen   = useGameStore(s => s.journalOpen);
-  const devMode = useDevMode();
+  const currentTick   = useGameStore(s => s.currentTick);
   const [selectedWorldId, setSelectedWorldId] = useState<string | null>(null);
   const [worldTone,  setWorldTone]  = useState('fantasy');
   const [worldTitle, setWorldTitle] = useState('');
@@ -168,37 +168,31 @@ export function App() {
   return (
     <div style={{
       height: '100vh',
-      background: 'var(--leather)',
+      background: 'var(--ui-bg)',
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
-      padding: '0.75rem',
     }}>
-      {/* Parchment journal — the main frame */}
-      <div style={{
+      {/* Dark game frame */}
+      <div data-tick={currentTick} style={{
         width: 'min(1180px, 100%)',
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
-        border: '1px solid var(--leather-border)',
-        background: "url('/textures/teastain%20102.png') center/cover no-repeat var(--parchment)",
+        border: '1px solid var(--ui-gold-border)',
+        background: 'var(--ui-bg)',
         overflow: 'hidden',
-        fontFamily: 'var(--font-journal)',
-        boxShadow: '0 0 40px rgba(0,0,0,0.6), inset 0 0 60px rgba(0,0,0,0.08)',
+        boxShadow: '0 0 60px rgba(0,0,0,0.8)',
       }}>
-        <StatusHeader devMode={devMode} />
+        <TopChrome />
 
-        {/* Body: narrative column + sidebar rail */}
-        <div style={{ flex: 1, display: 'flex', minHeight: 0 }}>
-          <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column' }}>
-            <Terminal />
-            <InputManager onCommand={submitCommand} />
-            {devMode && <TimelineDebugPanel />}
-          </div>
-          <CharacterPanel />
-        </div>
+        {/* Body: routed by activeScreen */}
+        {activeScreen === 'explore'   && <ExploreScreen />}
+        {activeScreen === 'combat'    && <CombatScreen />}
+        {activeScreen === 'inventory' && <InventoryScreen />}
+        {activeScreen === 'character' && <CharacterScreen />}
 
-        <FooterHints />
+        <NavBar />
       </div>
 
       <SaveLoadModal />

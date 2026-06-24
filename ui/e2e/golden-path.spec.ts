@@ -58,14 +58,9 @@ test.describe('Iron & Blood — golden path', () => {
     await sendAndWait(page, 'go north');
     await sendAndWait(page, 'talk commander thorn');
     await sendAndWait(page, 'accept trench sweep');
-    const before = await page.locator('#root').innerText();
-    await send(page, 'accept trench sweep');
-    // Wait briefly — response may be instant (no engine round-trip for duplicates).
-    await page.waitForTimeout(300);
+    // Send the duplicate — engine must respond (tick increments) without panicking.
+    await sendAndWait(page, 'accept trench sweep');
     await assertNoPanic(page);
-    // Something was written to the terminal.
-    const after = await page.locator('#root').innerText();
-    expect(after.length).toBeGreaterThan(before.length);
   });
 
   test('attack with no enemies is handled gracefully', async ({ page }) => {

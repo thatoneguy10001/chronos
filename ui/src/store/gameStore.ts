@@ -1,5 +1,7 @@
 import { create } from 'zustand';
 import type { CharacterStateDTO, ContextAction, EnemyStateDTO, InputMode } from '@/types/contracts';
+
+export type ActiveScreen = 'explore' | 'combat' | 'inventory' | 'character';
 import * as engine from '@/bridge/engine';
 import {
   DIR_VECTORS,
@@ -130,6 +132,9 @@ interface GameStore {
   isGameOver: boolean;
   deathCause: string;
 
+  // Screen navigation
+  activeScreen: ActiveScreen;
+
   // Save slots
   saves: (SaveSlot | null)[];
   saveModalMode: 'save' | 'load' | null;
@@ -150,6 +155,7 @@ interface GameStore {
   loadFromSlot: (slot: number) => void;
   openJournal: () => void;
   closeJournal: () => void;
+  setScreen: (screen: ActiveScreen) => void;
 }
 
 let lineCounter = 0;
@@ -191,6 +197,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
   isRewound: false,
   isGameOver: false,
   deathCause: '',
+  activeScreen: 'explore' as ActiveScreen,
   saves: [],
   saveModalMode: null,
   journalOpen: false,
@@ -309,6 +316,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
       const oldRoomId  = get().currentRoomId;
       const oldX       = get().mapCurrentX;
       const oldY       = get().mapCurrentY;
+      const curScreen  = get().activeScreen;
 
       const result = await engine.processCommand(raw);
       const snap   = await engine.getSnapshot();
@@ -347,6 +355,18 @@ export const useGameStore = create<GameStore>((set, get) => ({
       }
 
       const isInternalCmd = cmd.startsWith('become ');
+
+      // Auto-switch between explore and combat based on live enemies in the new room.
+      const visibleEnemies = snap.enemies.filter(
+        (e: EnemyStateDTO) => e.hp > 0 && e.room_id === newRoomId
+      );
+      const nextScreen: ActiveScreen =
+        visibleEnemies.length > 0 && (curScreen === 'explore' || curScreen === 'combat')
+          ? 'combat'
+          : visibleEnemies.length === 0 && curScreen === 'combat'
+          ? 'explore'
+          : curScreen;
+
       set(state => ({
         lines: [...state.lines, ...(isInternalCmd ? [] : [mkLine('input', `> ${raw}`)]), responseLine],
         currentTick:     result.tick,
@@ -365,6 +385,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
         mapCurrentY:     newY,
         isGameOver:      result.game_over ?? false,
         deathCause:      result.game_over ? narrative : state.deathCause,
+        activeScreen:    nextScreen,
       }));
     })();
   },
@@ -390,6 +411,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
         roomActions:     result.room_actions,
         inventoryIds:    result.inventory_ids,
         isRewound:       tick < result.max_tick,
+        activeScreen:    'explore' as ActiveScreen,
       }));
     })();
   },
@@ -412,11 +434,13 @@ export const useGameStore = create<GameStore>((set, get) => ({
         roomActions:     result.room_actions,
         inventoryIds:    result.inventory_ids,
         isRewound:       false,
+        activeScreen:    'explore' as ActiveScreen,
       }));
     })();
   },
 
   setInputMode: (mode: InputMode) => set({ inputMode: mode }),
+  setScreen: (screen: ActiveScreen) => set({ activeScreen: screen }),
 
   openSaveModal: () => set({ saveModalMode: 'save' }),
   openLoadModal: () => set({ saveModalMode: 'load' }),
@@ -481,6 +505,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
           mapCurrentX: 0,
           mapCurrentY: 0,
           isRewound:       false,
+          activeScreen:    'explore' as ActiveScreen,
         }));
       } catch (e) {
         set(state => ({
