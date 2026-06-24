@@ -40,8 +40,11 @@
   ],
   "passives": [],
   "starting_equipment": [
+    "discarded_blade",
     "terran_helmet",
-    "iron_field_boots"
+    "iron_field_boots",
+    "scamp_capacitor",
+    "smoke_canister"
   ],
   "xp_reward": 0,
   "gold_reward": 0,
