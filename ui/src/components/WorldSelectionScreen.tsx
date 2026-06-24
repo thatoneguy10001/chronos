@@ -3,7 +3,7 @@ import { listWorlds } from '@/bridge/engine';
 import type { WorldMeta } from '@/bridge/engine';
 import { readWorldSlots } from '@/store/gameStore';
 import type { SaveSlot } from '@/store/gameStore';
-import { formatGameTime } from '@/components/StatusHeader';
+import { formatGameTime } from '@/utils/time';
 
 const TONE_COLORS: Record<string, { accent: string; dim: string }> = {
   fantasy:    { accent: '#1a4a1a', dim: 'rgba(26,74,26,0.55)' },

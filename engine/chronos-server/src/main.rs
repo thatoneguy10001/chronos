@@ -301,6 +301,9 @@ async fn items_handler(Path(world_id): Path<String>) -> Json<Vec<Value>> {
                 "id":          v.get("id")?,
                 "name":        v.get("name").cloned().unwrap_or(Value::Null),
                 "description": v.get("description").cloned().unwrap_or(Value::Null),
+                "tags":        v.get("tags").cloned().unwrap_or(Value::Array(vec![])),
+                "consumable":  v.get("consumable").cloned().unwrap_or(Value::Bool(true)),
+                "attributes":  v.get("attributes").cloned().unwrap_or(Value::Object(serde_json::Map::new())),
             }))
         })
         .collect();
@@ -417,7 +420,10 @@ mod tests {
 
 #[tokio::main]
 async fn main() {
-    let port: u16 = std::env::var("PORT")
+    // Use CHRONOS_PORT (not PORT) so the preview tool's PORT injection for Vite
+    // doesn't accidentally redirect this server away from its default of 3000.
+    let port: u16 = std::env::var("CHRONOS_PORT")
+        .or_else(|_| std::env::var("PORT"))
         .ok()
         .and_then(|p| p.parse().ok())
         .unwrap_or(3000);
@@ -430,8 +436,8 @@ async fn main() {
     let app = Router::new()
         .route("/ws", get(ws_upgrade))
         .route("/api/worlds", get(worlds_handler))
-        .route("/api/worlds/:world_id/classes", get(classes_handler))
-        .route("/api/worlds/:world_id/items", get(items_handler))
+        .route("/api/worlds/{world_id}/classes", get(classes_handler))
+        .route("/api/worlds/{world_id}/items", get(items_handler))
         .layer(cors);
 
     let addr = SocketAddr::from(([127, 0, 0, 1], port));

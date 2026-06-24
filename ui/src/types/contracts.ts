@@ -50,7 +50,13 @@ export interface CharacterStateDTO {
   level: number;
   gold: number;
   shards: number;
-  equipped_weapon: string | null;
+  equipped_weapon:      string | null;
+  equipped_head:        string | null;
+  equipped_body:        string | null;
+  equipped_hands:       string | null;
+  equipped_feet:        string | null;
+  equipped_accessory_1: string | null;
+  equipped_accessory_2: string | null;
   payload_slots: string[];
   payload_capacity: number;
   active_effects: string[];

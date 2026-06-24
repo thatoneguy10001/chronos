@@ -376,9 +376,12 @@ pub fn parse(raw: &str) -> EngineEvent {
             }
         }
 
-        // Equip / unequip weapon
+        // Equip / unequip — slot is determined from item tags at runtime
         "equip" | "wield" | "wear" if tokens.len() >= 2 => EngineEvent::Equip {
             item_id: tokens[1..].join(" "),
+        },
+        "unequip" | "remove" | "unwield" if tokens.len() >= 2 => EngineEvent::UnequipSlot {
+            slot: tokens[1..].join(" "),
         },
         "unequip" | "remove" | "unwield" => EngineEvent::Unequip,
 

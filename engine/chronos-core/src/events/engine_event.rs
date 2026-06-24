@@ -80,12 +80,16 @@ pub enum EngineEvent {
     },
     /// Rest at an inn: pay 5 gold, restore HP to max. Requires an innkeeper in the room.
     Rest,
-    /// Equip a weapon from inventory into the weapon slot.
+    /// Equip an item from inventory into the appropriate body slot (routed by item tags).
     Equip {
         item_id: String,
     },
-    /// Remove the weapon from the weapon slot (returns to inventory conceptually).
+    /// Remove whatever is in a named slot ("weapon", "head", "body", "hands", "feet", "accessory").
+    /// Omitting the slot name defaults to clearing the weapon slot for backward compat.
     Unequip,
+    UnequipSlot {
+        slot: String,
+    },
     /// Assemble a weapon from 3 parts (frame + mechanism + enhancement).
     Assemble {
         frame_id: String,

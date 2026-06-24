@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useGameStore } from '@/store/gameStore';
 import type { SaveSlot } from '@/store/gameStore';
 import { NUM_SLOTS } from '@/store/gameStore';
-import { formatGameTime } from '@/components/StatusHeader';
+import { formatGameTime } from '@/utils/time';
 
 function formatSlotTime(tick: number): string {
   const { timeStr, dayStr } = formatGameTime(tick);

@@ -1917,3 +1917,106 @@ fn rest_at_inn_restores_hp_and_deducts_gold_and_replays() {
     assert_eq!(rewound.hp, hp_after_fight, "rewind restores HP");
     assert_eq!(e2.max_tick(), 3, "history unchanged");
 }
+
+#[test]
+fn equip_routes_to_correct_body_slot() {
+    // A helmet (tags: armor, helm) should go to the head slot, not weapon.
+    // An accessory (tags: accessory) should fill accessory_1 then accessory_2.
+    let rooms = vec![(
+        "forge.json",
+        r#"{ "id": "forge", "name": "Forge", "description": ".", "exits": {} }"#,
+    )];
+    let items = vec![
+        (
+            "iron_helm.json",
+            r#"{
+                "id": "iron_helm", "name": "Iron Helm",
+                "description": "A helmet.", "takeable": true, "consumable": false,
+                "tags": ["armor", "helm"],
+                "attributes": { "equip_stat": "defense", "equip_bonus": 2 }
+            }"#,
+        ),
+        (
+            "lucky_ring.json",
+            r#"{
+                "id": "lucky_ring", "name": "Lucky Ring",
+                "description": "A ring.", "takeable": true, "consumable": false,
+                "tags": ["accessory"],
+                "attributes": { "equip_stat": "luck", "equip_bonus": 1 }
+            }"#,
+        ),
+        (
+            "cursed_ring.json",
+            r#"{
+                "id": "cursed_ring", "name": "Cursed Ring",
+                "description": "A ring.", "takeable": true, "consumable": false,
+                "tags": ["accessory"],
+                "attributes": {}
+            }"#,
+        ),
+    ];
+    let classes = vec![(
+        "fighter.json",
+        r#"{
+            "id": "fighter", "name": "Fighter", "description": "t",
+            "base_stats": { "hp": 100, "attack": 9, "defense": 5, "intelligence": 2 }
+        }"#,
+    )];
+    let manifest = r#"{ "start_room_id": "forge" }"#;
+    let repo = StaticRepository::from_json_pairs(&rooms, &items, &classes, Some(manifest)).unwrap();
+
+    let mut engine = ChronosEngine::new(repo);
+    engine.process_command("become fighter Hero");
+
+    // Pick up items first
+    engine.process_command("take iron_helm");
+    engine.process_command("take lucky_ring");
+    engine.process_command("take cursed_ring");
+
+    // Equip helmet — should go to head slot
+    let result = engine.process_command("equip iron_helm");
+    assert!(result.success, "equip helm failed: {}", result.narrative);
+    assert!(
+        result.narrative.contains("head slot"),
+        "should mention head slot, got: {}",
+        result.narrative
+    );
+    let snap = engine.snapshot();
+    let ch = snap.player_character.as_ref().unwrap();
+    assert_eq!(
+        ch.equipped_head.as_deref(),
+        Some("Iron Helm"),
+        "head slot should have Iron Helm"
+    );
+    assert!(ch.equipped_weapon.is_none(), "weapon slot should be empty");
+
+    // Equip first accessory — fills accessory_1
+    engine.process_command("equip lucky_ring");
+    let snap = engine.snapshot();
+    let ch = snap.player_character.as_ref().unwrap();
+    assert_eq!(
+        ch.equipped_accessory_1.as_deref(),
+        Some("Lucky Ring"),
+        "acc_1 should be Lucky Ring"
+    );
+    assert!(ch.equipped_accessory_2.is_none(), "acc_2 should be empty");
+
+    // Equip second accessory — fills accessory_2
+    engine.process_command("equip cursed_ring");
+    let snap = engine.snapshot();
+    let ch = snap.player_character.as_ref().unwrap();
+    assert_eq!(
+        ch.equipped_accessory_2.as_deref(),
+        Some("Cursed Ring"),
+        "acc_2 should be Cursed Ring"
+    );
+
+    // Unequip head slot by name
+    let result = engine.process_command("unequip head");
+    assert!(result.success, "unequip head failed: {}", result.narrative);
+    let snap = engine.snapshot();
+    assert!(
+        snap.player_character.unwrap().equipped_head.is_none(),
+        "head should be empty after unequip"
+    );
+}
