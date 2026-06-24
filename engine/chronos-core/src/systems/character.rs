@@ -131,10 +131,43 @@ pub fn process_spawn_character(
     }
 
     // Read back live stats after gear bonuses have been applied.
-    let (final_atk, final_def, final_int, final_hit, final_tech, final_eva, final_end, final_lck, final_agi) =
-        world.entity(player).get::<Stats>().map(|s| {
-            (s.attack, s.defense, s.intelligence, s.hit, s.tech_attack, s.evasion, s.endurance, s.luck, s.agility)
-        }).unwrap_or((bs.attack, bs.defense, bs.intelligence, bs.hit, bs.tech_attack, bs.evasion, bs.endurance, bs.luck, bs.agility));
+    let (
+        final_atk,
+        final_def,
+        final_int,
+        final_hit,
+        final_tech,
+        final_eva,
+        final_end,
+        final_lck,
+        final_agi,
+    ) = world
+        .entity(player)
+        .get::<Stats>()
+        .map(|s| {
+            (
+                s.attack,
+                s.defense,
+                s.intelligence,
+                s.hit,
+                s.tech_attack,
+                s.evasion,
+                s.endurance,
+                s.luck,
+                s.agility,
+            )
+        })
+        .unwrap_or((
+            bs.attack,
+            bs.defense,
+            bs.intelligence,
+            bs.hit,
+            bs.tech_attack,
+            bs.evasion,
+            bs.endurance,
+            bs.luck,
+            bs.agility,
+        ));
 
     let secondary: Vec<String> = [
         ("HIT", final_hit),
