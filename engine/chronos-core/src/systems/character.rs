@@ -88,29 +88,6 @@ pub fn process_spawn_character(
         AbilityCooldowns::new(),
     ));
 
-    let secondary: Vec<String> = [
-        ("HIT", bs.hit),
-        ("TECH ATK", bs.tech_attack),
-        ("EVA", bs.evasion),
-        ("TECH DEF", bs.endurance),
-        ("LCK", bs.luck),
-        ("AGI", bs.agility),
-    ]
-    .iter()
-    .filter(|(_, v)| *v != 0)
-    .map(|(l, v)| format!("{} {}", l, v))
-    .collect();
-    let secondary_line = if secondary.is_empty() {
-        String::new()
-    } else {
-        format!("\n{}", secondary.join("  \u{2022}  "))
-    };
-    let narrative = format!(
-        "**{name}** the {} stands ready.\n\nHP {}/{}  \u{2022}  ATK {}  \u{2022}  DEF {}  \u{2022}  INT {}  \u{2022}  LVL 1{}",
-        class.name, bs.hp, bs.hp, bs.attack, bs.defense, bs.intelligence,
-        secondary_line
-    );
-
     // Auto-equip starting items that have no starting_room_id (they're personal kit,
     // not loot placed in the world). Items with a starting_room_id stay in that room.
     let mut gear_notes: Vec<String> = Vec::new();
@@ -152,6 +129,68 @@ pub fn process_spawn_character(
             }
         }
     }
+
+    // Read back live stats after gear bonuses have been applied.
+    let (
+        final_atk,
+        final_def,
+        final_int,
+        final_hit,
+        final_tech,
+        final_eva,
+        final_end,
+        final_lck,
+        final_agi,
+    ) = world
+        .entity(player)
+        .get::<Stats>()
+        .map(|s| {
+            (
+                s.attack,
+                s.defense,
+                s.intelligence,
+                s.hit,
+                s.tech_attack,
+                s.evasion,
+                s.endurance,
+                s.luck,
+                s.agility,
+            )
+        })
+        .unwrap_or((
+            bs.attack,
+            bs.defense,
+            bs.intelligence,
+            bs.hit,
+            bs.tech_attack,
+            bs.evasion,
+            bs.endurance,
+            bs.luck,
+            bs.agility,
+        ));
+
+    let secondary: Vec<String> = [
+        ("HIT", final_hit),
+        ("TECH ATK", final_tech),
+        ("EVA", final_eva),
+        ("TECH DEF", final_end),
+        ("LCK", final_lck),
+        ("AGI", final_agi),
+    ]
+    .iter()
+    .filter(|(_, v)| *v != 0)
+    .map(|(l, v)| format!("{} {}", l, v))
+    .collect();
+    let secondary_line = if secondary.is_empty() {
+        String::new()
+    } else {
+        format!("\n{}", secondary.join("  \u{2022}  "))
+    };
+    let narrative = format!(
+        "**{name}** the {} stands ready.\n\nHP {}/{}  \u{2022}  ATK {}  \u{2022}  DEF {}  \u{2022}  INT {}  \u{2022}  LVL 1{}",
+        class.name, bs.hp, bs.hp, final_atk, final_def, final_int,
+        secondary_line
+    );
 
     let mut full_narrative = narrative;
     if !gear_notes.is_empty() {
