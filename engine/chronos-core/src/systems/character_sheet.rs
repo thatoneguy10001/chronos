@@ -5,7 +5,7 @@
 //! items. Does not advance the tick or modify any state.
 
 use crate::components::{
-    AssembledWeapon, Controllable, EquipmentSlots, Experience, Health, Identity, Stats,
+    stat_abbrev, AssembledWeapon, Controllable, EquipmentSlots, Experience, Health, Identity, Stats,
 };
 use crate::data::StaticRepository;
 use crate::events::ContextAction;
@@ -185,21 +185,5 @@ fn describe_equipped(
             }
         }
         Err(_) => item_id.to_string(),
-    }
-}
-
-/// Short uppercase abbreviation for a stat key, for equip annotations.
-fn stat_abbrev(key: &str) -> String {
-    match key {
-        "attack" => "ATK".to_string(),
-        "defense" => "DEF".to_string(),
-        "intelligence" => "INT".to_string(),
-        "tech_attack" => "TECH ATK".to_string(),
-        "evasion" => "EVA".to_string(),
-        "endurance" => "TECH DEF".to_string(),
-        "agility" => "AGI".to_string(),
-        "luck" => "LCK".to_string(),
-        "hit" => "HIT".to_string(),
-        other => other.to_uppercase(),
     }
 }

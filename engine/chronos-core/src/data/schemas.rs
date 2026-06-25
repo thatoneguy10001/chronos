@@ -287,6 +287,12 @@ pub struct ClassTemplate {
     /// against the seeded RNG, so drops replay identically under rewind.
     #[serde(default)]
     pub loot_table: Vec<LootDrop>,
+    /// Per-level stat gains for this class. `None` falls back to the engine
+    /// default (ATK+1, DEF+1, HP+5), so a class that doesn't declare gains
+    /// levels exactly as before — but a tank can declare more HP/DEF, a striker
+    /// more ATK, a caster more INT, and so on.
+    #[serde(default)]
+    pub level_up_gains: Option<LevelUpGains>,
     /// Combat AI rules evaluated top-to-bottom each round. First matching condition wins.
     /// Falls back to a plain basic attack if no rule matches.
     #[serde(default)]
@@ -299,6 +305,18 @@ pub struct ClassTemplate {
 pub struct LootDrop {
     pub item_id: String,
     pub chance: f32,
+}
+
+/// Stat gains a class earns each level. `hp` is pulled out (it seeds Health);
+/// every other key is a stat-map gain, flattened so a class declares gains as one
+/// flat object — `{ "hp": 8, "attack": 2, "defense": 1 }` — exactly like
+/// `base_stats`. World-defined stats level up for free.
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct LevelUpGains {
+    #[serde(default)]
+    pub hp: i32,
+    #[serde(flatten)]
+    pub stats: std::collections::HashMap<String, i32>,
 }
 
 // --- Passive system ---

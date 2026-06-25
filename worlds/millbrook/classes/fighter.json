@@ -34,5 +34,6 @@
   ],
   "passives": ["shield_mastery"],
   "starting_equipment": ["worn_helm", "padded_vest", "sturdy_boots"],
-  "xp_reward": 0
+  "xp_reward": 0,
+  "level_up_gains": { "hp": 7, "attack": 2, "defense": 1 }
 }

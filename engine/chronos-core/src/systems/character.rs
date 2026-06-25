@@ -8,7 +8,8 @@
 //! components in place, keeping inventory and position unchanged.
 
 use crate::components::{
-    AbilityCooldowns, Controllable, Experience, Health, Identity, InInventory, ItemBlueprint, Stats,
+    stat_abbrev, AbilityCooldowns, Controllable, Experience, Health, Identity, InInventory,
+    ItemBlueprint, Stats,
 };
 use crate::data::schemas::PassiveEffect;
 use crate::data::StaticRepository;
@@ -119,7 +120,7 @@ pub fn process_spawn_character(
                             // Any stat key works now, not just the three hardcoded ones.
                             stats.add(stat_key, bonus);
                         }
-                        let label = stat_label(stat_key);
+                        let label = stat_abbrev(stat_key);
                         gear_notes.push(format!("{} (+{} {})", template.name, bonus, label));
                     }
                 }
@@ -209,22 +210,5 @@ pub fn process_spawn_character(
         success: true,
         narrative: full_narrative,
         context_actions: vec![],
-    }
-}
-
-/// Short display abbreviation for a stat key (e.g. "attack" -> "ATK"). Falls back
-/// to the uppercased key so world-defined stats still get a readable label.
-fn stat_label(key: &str) -> String {
-    match key {
-        "attack" => "ATK".to_string(),
-        "defense" => "DEF".to_string(),
-        "intelligence" => "INT".to_string(),
-        "hit" => "HIT".to_string(),
-        "tech_attack" => "TECH ATK".to_string(),
-        "evasion" => "EVA".to_string(),
-        "endurance" => "TECH DEF".to_string(),
-        "luck" => "LCK".to_string(),
-        "agility" => "AGI".to_string(),
-        other => other.to_uppercase(),
     }
 }

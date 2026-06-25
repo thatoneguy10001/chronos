@@ -304,17 +304,21 @@ pub fn process_attack(
             ));
         }
         if let Some(new_level) = level_up {
-            if let Some(mut st) = world.entity_mut(player_e).get_mut::<Stats>() {
-                st["attack"] += 1;
-                st["defense"] += 1;
-            }
-            if let Some(mut hp) = world.entity_mut(player_e).get_mut::<Health>() {
-                hp.max += 5;
-                hp.current = (hp.current + 5).min(hp.max);
-            }
-            narrative.push_str(&format!(
-                "\n\nYou reached level {new_level}! ATK+1, DEF+1, HP+5."
-            ));
+            // The player's class drives the gains — its id is on the body, not the
+            // slain enemy's class (e_class_id).
+            let player_class = world
+                .entity(player_e)
+                .get::<Identity>()
+                .map(|id| id.class_id.clone())
+                .unwrap_or_default();
+            let gains = crate::systems::progression::apply_level_up(
+                world,
+                player_e,
+                repo,
+                &player_class,
+                new_level,
+            );
+            narrative.push_str(&gains);
         }
 
         let quest_updates = quest::on_enemy_killed(world, repo, player_e, &e_class_id);

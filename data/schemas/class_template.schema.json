@@ -76,6 +76,14 @@
         }
       }
     },
+    "level_up_gains": {
+      "type": "object",
+      "description": "Per-level stat gains. `hp` raises max HP; any other integer key raises that stat. Omit to use the engine default (ATK+1, DEF+1, HP+5).",
+      "additionalProperties": { "type": "integer" },
+      "properties": {
+        "hp": { "type": "integer", "minimum": 0 }
+      }
+    },
     "tactics": {
       "type": "array",
       "items": {

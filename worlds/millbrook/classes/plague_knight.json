@@ -33,5 +33,6 @@
   ],
   "passives": ["poison_mastery"],
   "starting_equipment": ["leather_armor", "poison_dagger", "tattered_cloak"],
-  "xp_reward": 0
+  "xp_reward": 0,
+  "level_up_gains": { "hp": 6, "attack": 2, "tech_attack": 1 }
 }

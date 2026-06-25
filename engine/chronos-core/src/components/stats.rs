@@ -22,6 +22,25 @@ pub mod stat_keys {
     pub const AGILITY: &str = "agility";
 }
 
+/// Short uppercase display abbreviation for a stat key (e.g. "attack" → "ATK").
+/// Single source of truth for the abbreviations used in narratives, equip
+/// annotations, and level-up messages. World-defined stats fall back to their
+/// uppercased key so they still read sensibly.
+pub fn stat_abbrev(key: &str) -> String {
+    match key {
+        stat_keys::ATTACK => "ATK".to_string(),
+        stat_keys::DEFENSE => "DEF".to_string(),
+        stat_keys::INTELLIGENCE => "INT".to_string(),
+        stat_keys::TECH_ATTACK => "TECH ATK".to_string(),
+        stat_keys::EVASION => "EVA".to_string(),
+        stat_keys::ENDURANCE => "TECH DEF".to_string(),
+        stat_keys::AGILITY => "AGI".to_string(),
+        stat_keys::LUCK => "LCK".to_string(),
+        stat_keys::HIT => "HIT".to_string(),
+        other => other.to_uppercase(),
+    }
+}
+
 /// Combat stats shared by every fighting entity — players and enemies alike.
 ///
 /// Backed by a `name -> value` map rather than a fixed struct, so a world can
