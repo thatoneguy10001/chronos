@@ -67,22 +67,14 @@ pub fn process_spawn_character(
     let bs = &class.base_stats;
     // `insert` overwrites Health/Stats/Experience (and any prior values from a re-cast).
     // Experience resets on re-cast so you can't carry XP across classes by swapping.
+    // Stats come straight from the class's flattened stat map, so a world-defined
+    // stat the engine has never heard of is carried onto the body unchanged.
     world.entity_mut(player).insert((
         Identity {
             name: name.to_string(),
             class_id: class.id.clone(),
         },
-        Stats {
-            attack: bs.attack,
-            defense: bs.defense,
-            intelligence: bs.intelligence,
-            hit: bs.hit,
-            tech_attack: bs.tech_attack,
-            evasion: bs.evasion,
-            endurance: bs.endurance,
-            luck: bs.luck,
-            agility: bs.agility,
-        },
+        Stats::from_map(bs.stats.clone()),
         Health::full(bs.hp),
         Experience::new(),
         AbilityCooldowns::new(),
@@ -110,21 +102,14 @@ pub fn process_spawn_character(
                     .and_then(|v| v.as_i64())
                     .unwrap_or(0) as i32;
                 if bonus != 0 {
-                    if let Some(mut stats) = world.entity_mut(player).get_mut::<Stats>() {
-                        match stat {
-                            Some("attack") => stats.attack += bonus,
-                            Some("defense") => stats.defense += bonus,
-                            Some("intelligence") => stats.intelligence += bonus,
-                            _ => {}
+                    if let Some(stat_key) = stat {
+                        if let Some(mut stats) = world.entity_mut(player).get_mut::<Stats>() {
+                            // Any stat key works now, not just the three hardcoded ones.
+                            stats.add(stat_key, bonus);
                         }
+                        let label = stat_label(stat_key);
+                        gear_notes.push(format!("{} (+{} {})", template.name, bonus, label));
                     }
-                    let label = match stat {
-                        Some("attack") => "ATK",
-                        Some("defense") => "DEF",
-                        Some("intelligence") => "INT",
-                        _ => "",
-                    };
-                    gear_notes.push(format!("{} (+{} {})", template.name, bonus, label));
                 }
             }
         }
@@ -146,27 +131,27 @@ pub fn process_spawn_character(
         .get::<Stats>()
         .map(|s| {
             (
-                s.attack,
-                s.defense,
-                s.intelligence,
-                s.hit,
-                s.tech_attack,
-                s.evasion,
-                s.endurance,
-                s.luck,
-                s.agility,
+                s.attack(),
+                s.defense(),
+                s.intelligence(),
+                s.hit(),
+                s.tech_attack(),
+                s.evasion(),
+                s.endurance(),
+                s.luck(),
+                s.agility(),
             )
         })
         .unwrap_or((
-            bs.attack,
-            bs.defense,
-            bs.intelligence,
-            bs.hit,
-            bs.tech_attack,
-            bs.evasion,
-            bs.endurance,
-            bs.luck,
-            bs.agility,
+            bs.get("attack"),
+            bs.get("defense"),
+            bs.get("intelligence"),
+            bs.get("hit"),
+            bs.get("tech_attack"),
+            bs.get("evasion"),
+            bs.get("endurance"),
+            bs.get("luck"),
+            bs.get("agility"),
         ));
 
     let secondary: Vec<String> = [
@@ -201,5 +186,22 @@ pub fn process_spawn_character(
         success: true,
         narrative: full_narrative,
         context_actions: vec![],
+    }
+}
+
+/// Short display abbreviation for a stat key (e.g. "attack" -> "ATK"). Falls back
+/// to the uppercased key so world-defined stats still get a readable label.
+fn stat_label(key: &str) -> String {
+    match key {
+        "attack" => "ATK".to_string(),
+        "defense" => "DEF".to_string(),
+        "intelligence" => "INT".to_string(),
+        "hit" => "HIT".to_string(),
+        "tech_attack" => "TECH ATK".to_string(),
+        "evasion" => "EVA".to_string(),
+        "endurance" => "TECH DEF".to_string(),
+        "luck" => "LCK".to_string(),
+        "agility" => "AGI".to_string(),
+        other => other.to_uppercase(),
     }
 }

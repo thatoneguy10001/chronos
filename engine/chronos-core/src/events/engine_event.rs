@@ -1,4 +1,5 @@
 use serde::{Deserialize, Serialize};
+use std::collections::HashMap;
 
 /// All discrete actions the engine can process. This is the canonical command contract —
 /// whether input came from a typed string or a button click, it arrives here as an enum.
@@ -123,10 +124,37 @@ pub enum EngineEvent {
     /// Advance game time to the next dusk (20:00) or dawn (06:00), whichever comes first.
     /// Passing the day into night unlocks Armistice-gated rooms and quests.
     Wait,
+    /// Extensible passthrough for verbs the core binary doesn't hardcode.
+    ///
+    /// This is the seam that lets a world define its own commands ("brew",
+    /// "move_unit", "cast") without adding a variant to this enum and rebuilding
+    /// the engine. The owning layer (matched by `verb`) interprets `args`; if no
+    /// layer claims the verb, the engine reports it as unknown rather than
+    /// crashing.
+    ///
+    /// `args` is a free-form bag so each verb defines its own parameters. Like
+    /// every other event it is logged and replayed, so world commands are
+    /// time-travel-safe by construction.
+    WorldCommand {
+        verb: String,
+        #[serde(default)]
+        args: HashMap<String, serde_json::Value>,
+    },
     /// Passes through to the UI as an error string; never appended to the event log.
     Unknown {
         raw: String,
     },
+}
+
+impl EngineEvent {
+    /// Read a string argument from a `WorldCommand`'s arg bag. Returns `None`
+    /// for any other variant, a missing key, or a non-string value.
+    pub fn world_arg_str(&self, key: &str) -> Option<&str> {
+        match self {
+            EngineEvent::WorldCommand { args, .. } => args.get(key).and_then(|v| v.as_str()),
+            _ => None,
+        }
+    }
 }
 
 /// One segment of an NPC response, split by the dialogue system.
@@ -168,4 +196,51 @@ pub struct ContextAction {
     pub label: String,
     /// Raw command string dispatched when this button is clicked.
     pub command: String,
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn world_command_round_trips_through_json() {
+        let json = r#"{ "type": "world_command", "verb": "brew",
+            "args": { "recipe": "antitoxin", "doses": 2 } }"#;
+        let event: EngineEvent = serde_json::from_str(json).unwrap();
+        match &event {
+            EngineEvent::WorldCommand { verb, args } => {
+                assert_eq!(verb, "brew");
+                assert_eq!(
+                    args.get("recipe").and_then(|v| v.as_str()),
+                    Some("antitoxin")
+                );
+                assert_eq!(args.get("doses").and_then(|v| v.as_i64()), Some(2));
+            }
+            other => panic!("expected WorldCommand, got {other:?}"),
+        }
+        // Re-serializing and re-parsing yields an identical event (replay-safe).
+        let reser = serde_json::to_string(&event).unwrap();
+        let again: EngineEvent = serde_json::from_str(&reser).unwrap();
+        assert_eq!(event, again);
+    }
+
+    #[test]
+    fn world_command_args_default_to_empty() {
+        let json = r#"{ "type": "world_command", "verb": "end_turn" }"#;
+        let event: EngineEvent = serde_json::from_str(json).unwrap();
+        assert!(matches!(&event, EngineEvent::WorldCommand { verb, args }
+            if verb == "end_turn" && args.is_empty()));
+    }
+
+    #[test]
+    fn world_arg_str_reads_string_args_only() {
+        let json = r#"{ "type": "world_command", "verb": "cast",
+            "args": { "spell": "ignite", "power": 7 } }"#;
+        let event: EngineEvent = serde_json::from_str(json).unwrap();
+        assert_eq!(event.world_arg_str("spell"), Some("ignite"));
+        assert_eq!(event.world_arg_str("power"), None); // not a string
+        assert_eq!(event.world_arg_str("missing"), None);
+        // Non-WorldCommand variants always return None.
+        assert_eq!(EngineEvent::Look.world_arg_str("spell"), None);
+    }
 }

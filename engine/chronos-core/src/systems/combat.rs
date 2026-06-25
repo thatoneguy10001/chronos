@@ -67,11 +67,11 @@ pub fn process_attack(
             (
                 e,
                 pos.room_id.clone(),
-                st.attack,
-                st.defense,
-                st.hit,
-                st.luck,
-                st.evasion,
+                st.attack(),
+                st.defense(),
+                st.hit(),
+                st.luck(),
+                st.evasion(),
                 hp.current,
                 hp.max,
                 id.name.clone(),
@@ -92,10 +92,10 @@ pub fn process_attack(
             .map(|(e, _, st, hp, id)| {
                 (
                     e,
-                    st.attack,
-                    st.defense,
-                    st.hit,
-                    st.evasion,
+                    st.attack(),
+                    st.defense(),
+                    st.hit(),
+                    st.evasion(),
                     hp.current,
                     hp.max,
                     id.name.clone(),
@@ -211,8 +211,8 @@ pub fn process_attack(
         narrative.push('.');
         if let Some(new_level) = level_up {
             if let Some(mut st) = world.entity_mut(player_e).get_mut::<Stats>() {
-                st.attack += 1;
-                st.defense += 1;
+                st["attack"] += 1;
+                st["defense"] += 1;
             }
             if let Some(mut hp) = world.entity_mut(player_e).get_mut::<Health>() {
                 hp.max += 5;

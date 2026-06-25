@@ -7,6 +7,11 @@
   "required": ["start_room_id"],
   "additionalProperties": false,
   "properties": {
+    "schema_version": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Format version of this world file. The engine refuses worlds newer than it supports. Defaults to 1 when omitted."
+    },
     "start_room_id": {
       "type": "string",
       "pattern": "^[a-z][a-z0-9_]*$",
@@ -15,6 +20,26 @@
     "title": {
       "type": "string",
       "description": "Display title for the world. Not yet wired to the UI."
+    },
+    "layers": {
+      "type": "array",
+      "description": "The layer stack that defines this world's genre. Each entry activates and configures one engine subsystem; the combination is the genre. Omit or leave empty to use built-in engine defaults.",
+      "items": {
+        "type": "object",
+        "required": ["id"],
+        "additionalProperties": true,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*$",
+            "description": "Which engine subsystem this layer activates (space, combat, dialogue, ...)."
+          },
+          "mode": {
+            "type": "string",
+            "description": "The variant of that subsystem, when it has more than one (e.g. combat single_exchange vs turn_order)."
+          }
+        }
+      }
     },
     "encounters": {
       "type": "array",

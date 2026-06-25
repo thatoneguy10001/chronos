@@ -344,8 +344,8 @@ pub fn process_turn_in(world: &mut World, repo: &StaticRepository, quest_id: &st
     };
     if level_up.is_some() {
         if let Some(mut st) = world.entity_mut(player_e).get_mut::<Stats>() {
-            st.attack += 1;
-            st.defense += 1;
+            st["attack"] += 1;
+            st["defense"] += 1;
         }
     }
 

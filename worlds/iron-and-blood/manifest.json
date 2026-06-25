@@ -1,6 +1,18 @@
 {
+  "schema_version": 1,
   "start_room_id": "fort_iron_gate",
   "title": "Iron & Blood",
+  "layers": [
+    { "id": "space", "mode": "room_graph" },
+    { "id": "entity", "stats": ["attack", "defense", "hit", "tech_attack", "agility", "luck"] },
+    { "id": "combat", "mode": "single_exchange" },
+    { "id": "effects" },
+    { "id": "economy", "currencies": ["scraps", "shards"] },
+    { "id": "progression", "mode": "xp_levels" },
+    { "id": "dialogue", "disposition": true },
+    { "id": "quests" },
+    { "id": "time", "mode": "day_night" }
+  ],
   "encounters": [
     {
       "class_id": "rock_shell_crab",

@@ -103,6 +103,9 @@ export type EngineEvent =
   | { type: 'drop'; item_id: string }
   | { type: 'look' }
   | { type: 'inventory' }
+  // Extensible passthrough: verbs a world defines that the core engine doesn't
+  // hardcode. `args` is a free-form bag interpreted by the owning layer.
+  | { type: 'world_command'; verb: string; args?: Record<string, unknown> }
   | { type: 'unknown'; raw: string };
 
 export type InputMode = 'PARSER' | 'BUTTONS';

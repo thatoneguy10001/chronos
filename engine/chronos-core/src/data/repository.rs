@@ -1,6 +1,6 @@
 use crate::data::schemas::{
-    ClassTemplate, EncounterDef, ItemTemplate, NpcTemplate, QuestTemplate, RoomTemplate,
-    WorldManifest,
+    ClassTemplate, EncounterDef, ItemTemplate, LayerConfig, NpcTemplate, QuestTemplate,
+    RoomTemplate, WorldManifest, CURRENT_SCHEMA_VERSION,
 };
 use std::collections::HashMap;
 use thiserror::Error;
@@ -16,6 +16,11 @@ pub enum RepositoryError {
     NoStartRoom,
     #[error("Manifest start_room_id '{0}' does not match any room")]
     StartRoomNotFound(String),
+    #[error(
+        "World schema_version {found} is newer than this engine supports (max {supported}). \
+         Update the engine to run this world."
+    )]
+    UnsupportedSchemaVersion { found: u32, supported: u32 },
     #[error("Item template '{0}' not found")]
     ItemNotFound(String),
     #[error("Room template '{0}' not found")]
@@ -41,6 +46,10 @@ pub struct StaticRepository {
     /// Maps npc_id → room_id (reverse index for fast "where is this NPC" lookup).
     npc_id_to_room: HashMap<String, String>,
     start_room_id: String,
+    /// Schema version declared by the manifest (validated ≤ CURRENT_SCHEMA_VERSION).
+    schema_version: u32,
+    /// The world's layer stack — defines its genre. Empty for default-engine worlds.
+    layers: Vec<LayerConfig>,
 }
 
 impl StaticRepository {
@@ -135,32 +144,45 @@ impl StaticRepository {
             quests.insert(template.id.clone(), template);
         }
 
-        let (start_room_id, encounters, raw_placements) = match manifest_json {
-            Some(json) => {
-                let manifest: WorldManifest =
-                    serde_json::from_str(json).map_err(|e| RepositoryError::ParseError {
-                        file: "manifest.json".to_string(),
-                        source: e,
-                    })?;
-                if !rooms.contains_key(&manifest.start_room_id) {
-                    return Err(RepositoryError::StartRoomNotFound(manifest.start_room_id));
+        let (start_room_id, encounters, raw_placements, schema_version, layers) =
+            match manifest_json {
+                Some(json) => {
+                    let manifest: WorldManifest =
+                        serde_json::from_str(json).map_err(|e| RepositoryError::ParseError {
+                            file: "manifest.json".to_string(),
+                            source: e,
+                        })?;
+                    // Version gate: an engine can migrate older worlds forward, but it
+                    // cannot run a world authored against a *newer* schema than it knows.
+                    if manifest.schema_version > CURRENT_SCHEMA_VERSION {
+                        return Err(RepositoryError::UnsupportedSchemaVersion {
+                            found: manifest.schema_version,
+                            supported: CURRENT_SCHEMA_VERSION,
+                        });
+                    }
+                    if !rooms.contains_key(&manifest.start_room_id) {
+                        return Err(RepositoryError::StartRoomNotFound(manifest.start_room_id));
+                    }
+                    (
+                        manifest.start_room_id,
+                        manifest.encounters,
+                        manifest.npc_placements,
+                        manifest.schema_version,
+                        manifest.layers,
+                    )
                 }
-                (
-                    manifest.start_room_id,
-                    manifest.encounters,
-                    manifest.npc_placements,
-                )
-            }
-            None => (
-                rooms
-                    .keys()
-                    .min()
-                    .ok_or(RepositoryError::NoStartRoom)?
-                    .clone(),
-                Vec::new(),
-                Vec::new(),
-            ),
-        };
+                None => (
+                    rooms
+                        .keys()
+                        .min()
+                        .ok_or(RepositoryError::NoStartRoom)?
+                        .clone(),
+                    Vec::new(),
+                    Vec::new(),
+                    CURRENT_SCHEMA_VERSION,
+                    Vec::new(),
+                ),
+            };
 
         // Build room → [npc_ids] and npc_id → room indexes.
         let mut npc_placements: HashMap<String, Vec<String>> = HashMap::new();
@@ -183,11 +205,30 @@ impl StaticRepository {
             npc_placements,
             npc_id_to_room,
             start_room_id,
+            schema_version,
+            layers,
         })
     }
 
     pub fn start_room_id(&self) -> &str {
         &self.start_room_id
+    }
+
+    /// The schema version the loaded world declared (always ≤ CURRENT_SCHEMA_VERSION).
+    pub fn schema_version(&self) -> u32 {
+        self.schema_version
+    }
+
+    /// The world's full layer stack, in declared order. Empty for worlds that
+    /// rely on the engine's built-in defaults (everything authored pre-layers).
+    pub fn layers(&self) -> &[LayerConfig] {
+        &self.layers
+    }
+
+    /// Look up a single layer's config by id (`"combat"`, `"space"`, …), if the
+    /// world declared it. Returns `None` when the layer isn't in the stack.
+    pub fn layer(&self, id: &str) -> Option<&LayerConfig> {
+        self.layers.iter().find(|l| l.id == id)
     }
 
     pub fn room(&self, id: &str) -> Result<&RoomTemplate, RepositoryError> {

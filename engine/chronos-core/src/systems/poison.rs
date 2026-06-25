@@ -160,15 +160,9 @@ pub fn tick_all_effects(world: &mut World, current_tick: u64) {
 }
 
 /// Helper: apply a raw delta to a specific stat field on an entity's Stats component.
+/// Clamped at 0 so a debuff can never push a stat negative.
 fn apply_stat_delta(world: &mut World, entity: Entity, field: &StatField, delta: i32) {
     if let Some(mut stats) = world.entity_mut(entity).get_mut::<Stats>() {
-        match field {
-            StatField::Attack => stats.attack = (stats.attack + delta).max(0),
-            StatField::Defense => stats.defense = (stats.defense + delta).max(0),
-            StatField::Hit => stats.hit = (stats.hit + delta).max(0),
-            StatField::TechAttack => stats.tech_attack = (stats.tech_attack + delta).max(0),
-            StatField::Agility => stats.agility = (stats.agility + delta).max(0),
-            StatField::Luck => stats.luck = (stats.luck + delta).max(0),
-        }
+        stats.add_clamped(field.key(), delta);
     }
 }

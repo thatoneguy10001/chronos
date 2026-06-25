@@ -1,6 +1,18 @@
 {
+  "schema_version": 1,
   "start_room_id": "town_square",
   "title": "Millbrook",
+  "layers": [
+    { "id": "space", "mode": "room_graph" },
+    { "id": "entity", "stats": ["attack", "defense", "hit", "tech_attack", "agility", "luck"] },
+    { "id": "combat", "mode": "single_exchange" },
+    { "id": "effects" },
+    { "id": "economy", "currencies": ["gold"] },
+    { "id": "progression", "mode": "xp_levels" },
+    { "id": "dialogue", "disposition": true },
+    { "id": "quests" },
+    { "id": "time", "mode": "day_night" }
+  ],
   "encounters": [
     { "class_id": "goblin", "room_id": "forest" },
     { "class_id": "goblin", "room_id": "forest" },

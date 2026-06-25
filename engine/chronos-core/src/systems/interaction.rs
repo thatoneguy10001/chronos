@@ -416,42 +416,9 @@ pub fn process_use_item(
                 format!("You use the {item_name}.")
             }
         }
-        "boost_atk" => {
-            let mut stats_q = world.query_filtered::<&mut Stats, With<Controllable>>();
-            if let Some(mut stats) = stats_q.iter_mut(world).next() {
-                stats.attack += boost_amount;
-                format!(
-                    "You use the {item_name}. ATK increased by {boost_amount} (now {}).",
-                    stats.attack
-                )
-            } else {
-                format!("You use the {item_name}.")
-            }
-        }
-        "boost_def" => {
-            let mut stats_q = world.query_filtered::<&mut Stats, With<Controllable>>();
-            if let Some(mut stats) = stats_q.iter_mut(world).next() {
-                stats.defense += boost_amount;
-                format!(
-                    "You use the {item_name}. DEF increased by {boost_amount} (now {}).",
-                    stats.defense
-                )
-            } else {
-                format!("You use the {item_name}.")
-            }
-        }
-        "boost_int" => {
-            let mut stats_q = world.query_filtered::<&mut Stats, With<Controllable>>();
-            if let Some(mut stats) = stats_q.iter_mut(world).next() {
-                stats.intelligence += boost_amount;
-                format!(
-                    "You use the {item_name}. INT increased by {boost_amount} (now {}).",
-                    stats.intelligence
-                )
-            } else {
-                format!("You use the {item_name}.")
-            }
-        }
+        "boost_atk" => boost_stat(world, "attack", "ATK", boost_amount, &item_name),
+        "boost_def" => boost_stat(world, "defense", "DEF", boost_amount, &item_name),
+        "boost_int" => boost_stat(world, "intelligence", "INT", boost_amount, &item_name),
         other => format!("You use the {item_name}. (Effect: {other})"),
     };
 
@@ -525,35 +492,46 @@ fn apply_equip_bonus(
     let delta = sign * bonus;
     let mut stats_q = world.query_filtered::<&mut Stats, With<Controllable>>();
     if let Some(mut stats) = stats_q.iter_mut(world).next() {
-        match stat.as_str() {
-            "attack" => {
-                stats.attack += delta;
-                if sign > 0 {
-                    format!(" (+{bonus} ATK while carried)")
-                } else {
-                    format!(" (-{bonus} ATK removed)")
-                }
-            }
-            "defense" => {
-                stats.defense += delta;
-                if sign > 0 {
-                    format!(" (+{bonus} DEF while carried)")
-                } else {
-                    format!(" (-{bonus} DEF removed)")
-                }
-            }
-            "intelligence" => {
-                stats.intelligence += delta;
-                if sign > 0 {
-                    format!(" (+{bonus} INT while carried)")
-                } else {
-                    format!(" (-{bonus} INT removed)")
-                }
-            }
-            _ => String::new(),
+        // Any stat key works — world-defined stats get equip bonuses for free.
+        stats.add(&stat, delta);
+        let label = stat_abbrev(&stat);
+        if sign > 0 {
+            format!(" (+{bonus} {label} while carried)")
+        } else {
+            format!(" (-{bonus} {label} removed)")
         }
     } else {
         String::new()
+    }
+}
+
+/// Apply a consumable's stat boost to the player and return the use narrative.
+fn boost_stat(world: &mut World, key: &str, label: &str, amount: i32, item_name: &str) -> String {
+    let mut stats_q = world.query_filtered::<&mut Stats, With<Controllable>>();
+    if let Some(mut stats) = stats_q.iter_mut(world).next() {
+        stats.add(key, amount);
+        format!(
+            "You use the {item_name}. {label} increased by {amount} (now {}).",
+            stats.get(key)
+        )
+    } else {
+        format!("You use the {item_name}.")
+    }
+}
+
+/// Short uppercase abbreviation for a stat key, used in equip annotations.
+fn stat_abbrev(key: &str) -> String {
+    match key {
+        "attack" => "ATK".to_string(),
+        "defense" => "DEF".to_string(),
+        "intelligence" => "INT".to_string(),
+        "tech_attack" => "TECH ATK".to_string(),
+        "evasion" => "EVA".to_string(),
+        "endurance" => "TECH DEF".to_string(),
+        "agility" => "AGI".to_string(),
+        "luck" => "LCK".to_string(),
+        "hit" => "HIT".to_string(),
+        other => other.to_uppercase(),
     }
 }
 

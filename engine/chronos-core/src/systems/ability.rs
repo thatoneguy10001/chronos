@@ -107,7 +107,7 @@ pub fn process_use_ability(
         q.iter(world).next().map(|(e, st, id, exp)| {
             (
                 e,
-                st.attack,
+                st.attack(),
                 id.class_id.clone(),
                 id.name.clone(),
                 exp.level,
@@ -333,7 +333,7 @@ fn use_ability_single(
                     hp.max,
                     id.name.clone(),
                     id.class_id.clone(),
-                    st.defense,
+                    st.defense(),
                 )
             })
             .collect();
@@ -399,7 +399,7 @@ fn use_ability_aoe(
                     hp.max,
                     id.name.clone(),
                     id.class_id.clone(),
-                    st.defense,
+                    st.defense(),
                 )
             })
             .collect()
