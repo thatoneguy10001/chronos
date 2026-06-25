@@ -27,6 +27,10 @@ pub enum EngineEvent {
     /// Resolve one combat exchange against the enemy in the player's room.
     /// Draws from the seeded RNG, so the same fight replays identically on rewind.
     Attack,
+    /// Break off from combat and escape through a passable exit. Requires a living
+    /// enemy in the room and at least one currently-open exit. Logged (it moves the
+    /// player), so it replays deterministically.
+    Flee,
     /// Apply a status effect (poison/burn/bleed) to a target. Damage ticks on turns
     /// [applied_tick+1, applied_tick+duration], then the effect expires.
     ApplyEffect {

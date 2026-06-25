@@ -93,6 +93,7 @@ pub fn parse(raw: &str) -> EngineEvent {
 
         // Combat
         "attack" | "fight" | "hit" | "kill" | "strike" => EngineEvent::Attack,
+        "flee" | "run" | "escape" | "retreat" => EngineEvent::Flee,
 
         // --- Abilities ---
         // Generic: "use ability <name> [target]" / "ability <name> [target]"
