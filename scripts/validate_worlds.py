@@ -36,6 +36,7 @@ SCHEMA_FILES = {
     "classes":  SCHEMAS_DIR / "class_template.schema.json",
     "npcs":     SCHEMAS_DIR / "npc_template.schema.json",
     "quests":   SCHEMAS_DIR / "quest_template.schema.json",
+    "passives": SCHEMAS_DIR / "passive_template.schema.json",
 }
 
 
@@ -103,7 +104,8 @@ def phase1_schema(world_dir: Path, schemas: dict, validator_cls) -> tuple[int, i
             print(f"  ok    manifest.json")
 
     for subdir, schema_key in [("rooms","rooms"),("items","items"),
-                                ("classes","classes"),("npcs","npcs"),("quests","quests")]:
+                                ("classes","classes"),("npcs","npcs"),("quests","quests"),
+                                ("passives","passives")]:
         d = world_dir / subdir
         if not d.is_dir() or schema_key not in schemas:
             continue
@@ -138,11 +140,12 @@ def phase2_static(world_dir: Path) -> int:
     except (json.JSONDecodeError, UnicodeDecodeError):
         return 0  # already reported in phase 1
 
-    rooms   = load_dir(world_dir, "rooms")
-    items   = load_dir(world_dir, "items")
-    classes = load_dir(world_dir, "classes")
-    npcs    = load_dir(world_dir, "npcs")
-    quests  = load_dir(world_dir, "quests")
+    rooms    = load_dir(world_dir, "rooms")
+    items    = load_dir(world_dir, "items")
+    classes  = load_dir(world_dir, "classes")
+    npcs     = load_dir(world_dir, "npcs")
+    quests   = load_dir(world_dir, "quests")
+    passives = load_dir(world_dir, "passives")
 
     errors: list[str] = []
 
@@ -164,6 +167,12 @@ def phase2_static(world_dir: Path) -> int:
             errors.append(f"[manifest] npc_placement npc_id '{placement['npc_id']}' not found in npcs/")
         if placement.get("room_id") and placement["room_id"] not in rooms:
             errors.append(f"[manifest] npc_placement room_id '{placement['room_id']}' not found in rooms/")
+
+    # classes → passives (every referenced passive id must have a definition)
+    for class_id, klass in classes.items():
+        for passive_id in klass.get("passives", []):
+            if passive_id not in passives:
+                errors.append(f"[classes/{class_id}] passive '{passive_id}' not found in passives/")
 
     # rooms → rooms (exits)
     for room_id, room in rooms.items():

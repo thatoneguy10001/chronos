@@ -1,0 +1,8 @@
+{
+  "id": "long_range_mastery",
+  "name": "Long-Range Mastery",
+  "description": "A rifleman's eye picks the gap in any guard. Distance is just another variable to solve.",
+  "type": "stat_bonus",
+  "stat": "hit",
+  "amount": 5
+}

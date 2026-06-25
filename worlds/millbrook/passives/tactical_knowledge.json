@@ -1,0 +1,8 @@
+{
+  "id": "tactical_knowledge",
+  "name": "Tactical Knowledge",
+  "description": "A hunter reads the fight before it starts. Few of their strikes go wide.",
+  "type": "stat_bonus",
+  "stat": "hit",
+  "amount": 5
+}

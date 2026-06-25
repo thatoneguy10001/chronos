@@ -1,0 +1,8 @@
+{
+  "id": "undead_endurance",
+  "name": "Undead Endurance",
+  "description": "Pain is a memory it no longer answers to. It keeps coming long past when it should fall.",
+  "type": "stat_bonus",
+  "stat": "endurance",
+  "amount": 5
+}

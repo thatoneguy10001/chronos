@@ -27,3 +27,15 @@ ui/.env.local
 
 # Compiled JS artifacts emitted alongside .ts sources (tsc side-effects)
 ui/src/**/*.js
+
+# Ad-hoc dev screenshots (manual + verification captures, not assets)
+ui/screenshot-*.png
+ui/ss-*.png
+
+# Playwright E2E run output — regenerated each run
+ui/test-results/
+ui/playwright-report/
+
+# Local editor/agent config that shouldn't be shared
+ui/.claude/
+.claude/launch.json

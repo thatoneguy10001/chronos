@@ -1,0 +1,8 @@
+{
+  "id": "chemical_genius",
+  "name": "Chemical Genius",
+  "description": "An instinct for reagents and reactions sharpens every concoction.",
+  "type": "stat_bonus",
+  "stat": "tech_attack",
+  "amount": 4
+}

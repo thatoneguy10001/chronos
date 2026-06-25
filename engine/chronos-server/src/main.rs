@@ -79,6 +79,7 @@ fn build_repo(world_id: &str) -> Result<StaticRepository, String> {
     let classes = load_dir(&base.join("classes"));
     let npcs = load_dir(&base.join("npcs"));
     let quests = load_dir(&base.join("quests"));
+    let passives = load_dir(&base.join("passives"));
     let manifest = load_file_opt(&base.join("manifest.json"));
 
     // StaticRepository wants &[(&str, &str)] — borrow from our owned Vecs.
@@ -99,13 +100,18 @@ fn build_repo(world_id: &str) -> Result<StaticRepository, String> {
         .iter()
         .map(|(k, v)| (k.as_str(), v.as_str()))
         .collect();
+    let passive_pairs: Vec<(&str, &str)> = passives
+        .iter()
+        .map(|(k, v)| (k.as_str(), v.as_str()))
+        .collect();
 
-    StaticRepository::from_json_pairs_full(
+    StaticRepository::from_json_pairs_complete(
         &room_pairs,
         &item_pairs,
         &class_pairs,
         &npc_pairs,
         &quest_pairs,
+        &passive_pairs,
         manifest.as_deref(),
     )
     .map_err(|e| e.to_string())

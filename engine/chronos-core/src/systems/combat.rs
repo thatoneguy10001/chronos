@@ -75,13 +75,25 @@ pub fn process_attack(
                 hp.current,
                 hp.max,
                 id.name.clone(),
+                id.class_id.clone(),
             )
         })
     };
-    let (player_e, room, p_atk, p_def, p_hit, p_luck, p_eva, p_hp, p_max, p_name) = match player {
-        Some(t) => t,
-        None => return err("You have no character to fight with. Try: become fighter"),
-    };
+    let (player_e, room, p_atk, p_def, p_hit, p_luck, p_eva, p_hp, p_max, p_name, p_class) =
+        match player {
+            Some(t) => t,
+            None => return err("You have no character to fight with. Try: become fighter"),
+        };
+
+    // Sum any DamageOnHit passives this class grants — added to every landed hit.
+    let passive_dmg: i32 = repo
+        .class_passive_effects(&p_class)
+        .into_iter()
+        .filter_map(|e| match e {
+            crate::data::schemas::PassiveEffect::DamageOnHit { amount } => Some(*amount),
+            _ => None,
+        })
+        .sum();
 
     // --- Enemy ---
     let enemy = {
@@ -170,7 +182,7 @@ pub fn process_attack(
     let p_spread = world
         .resource_mut::<DeterministicRng>()
         .range_inclusive(-2, 2);
-    let base_dmg = (p_atk - e_def + p_spread).max(1);
+    let base_dmg = (p_atk - e_def + p_spread + passive_dmg).max(1);
     let p_dmg = if is_crit {
         base_dmg * 3 / 2 + 1
     } else {
