@@ -15,8 +15,8 @@
 //! makes time-travel rewinding work correctly.
 
 use crate::components::{
-    ActiveEffects, Controllable, EffectKind, Enemy, Experience, Health, Identity, PayloadSlots,
-    Position, Stats, Wallet,
+    ActiveEffects, Controllable, EffectKind, Enemy, Experience, Health, Identity, ItemBlueprint,
+    PayloadSlots, Position, Stats, Wallet,
 };
 use crate::data::{
     schemas::{TacticAction, TacticCondition},
@@ -261,6 +261,35 @@ pub fn process_attack(
             }
         }
 
+        // Roll the class's loot table. Each entry is an independent RNG check, so
+        // drops are deterministic and replay identically under rewind. Dropped
+        // items land on the room floor (spawned with Position), where the existing
+        // pick-up machinery surfaces them — no special handling needed.
+        let mut dropped_names: Vec<String> = Vec::new();
+        if let Some(class) = class_data.as_ref() {
+            for drop in &class.loot_table {
+                let roll = world
+                    .resource_mut::<DeterministicRng>()
+                    .range_inclusive(1, 100);
+                let threshold = (drop.chance * 100.0).round() as i32;
+                if roll <= threshold {
+                    world.spawn((
+                        Position {
+                            room_id: room.clone(),
+                        },
+                        ItemBlueprint {
+                            id: drop.item_id.clone(),
+                        },
+                    ));
+                    let name = repo
+                        .item(&drop.item_id)
+                        .map(|t| t.name.clone())
+                        .unwrap_or_else(|_| drop.item_id.clone());
+                    dropped_names.push(name);
+                }
+            }
+        }
+
         let mut narrative = format!(
             "You strike the {e_name} for {p_dmg}{crit_tag}{payload_text}. The {e_name} collapses, slain!\n+{xp_reward} XP"
         );
@@ -268,6 +297,12 @@ pub fn process_attack(
             narrative.push_str(&format!(", +{gold_reward} scraps"));
         }
         narrative.push('.');
+        if !dropped_names.is_empty() {
+            narrative.push_str(&format!(
+                "\nThe {e_name} drops: {}.",
+                dropped_names.join(", ")
+            ));
+        }
         if let Some(new_level) = level_up {
             if let Some(mut st) = world.entity_mut(player_e).get_mut::<Stats>() {
                 st["attack"] += 1;

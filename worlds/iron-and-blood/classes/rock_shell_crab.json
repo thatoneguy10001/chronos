@@ -13,6 +13,10 @@
   "starting_equipment": [],
   "xp_reward": 50,
   "gold_reward": 12,
+  "loot_table": [
+    { "item_id": "salvaged_gauze", "chance": 0.5 },
+    { "item_id": "antitoxin_vial", "chance": 0.2 }
+  ],
   "tactics": [
     {
       "condition": { "type": "always" },

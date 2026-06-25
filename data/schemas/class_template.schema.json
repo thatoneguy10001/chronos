@@ -63,6 +63,19 @@
     },
     "xp_reward":   { "type": "integer", "minimum": 0 },
     "gold_reward": { "type": "integer", "minimum": 0 },
+    "loot_table": {
+      "type": "array",
+      "description": "Items this class may drop when slain. Each entry is rolled independently.",
+      "items": {
+        "type": "object",
+        "required": ["item_id", "chance"],
+        "additionalProperties": false,
+        "properties": {
+          "item_id": { "type": "string" },
+          "chance":  { "type": "number", "minimum": 0, "maximum": 1 }
+        }
+      }
+    },
     "tactics": {
       "type": "array",
       "items": {

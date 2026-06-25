@@ -13,6 +13,9 @@
   "starting_equipment": [],
   "xp_reward": 40,
   "gold_reward": 10,
+  "loot_table": [
+    { "item_id": "bleed_vial", "chance": 0.25 }
+  ],
   "tactics": [
     {
       "condition": { "type": "hp_below", "threshold": 0.3 },

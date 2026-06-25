@@ -13,6 +13,9 @@
   "starting_equipment": [],
   "xp_reward": 20,
   "gold_reward": 5,
+  "loot_table": [
+    { "item_id": "healing_herbs", "chance": 0.4 }
+  ],
   "tactics": [
     {
       "condition": { "type": "hp_below", "threshold": 0.4 },
