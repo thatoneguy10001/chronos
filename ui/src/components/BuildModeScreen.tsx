@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { LayerStackEditor } from '@/components/build/LayerStackEditor';
+import { RoomEditor } from '@/components/build/RoomEditor';
 
 /**
  * Build Mode — the in-app world editor shell.
@@ -40,7 +41,7 @@ export function BuildModeScreen({ onExit }: { onExit: () => void }) {
   const [section, setSection] = useState<string>('home');
 
   // Sections that have a working editor. The rest render as "coming soon".
-  const ACTIVE_SECTIONS = new Set(['layers']);
+  const ACTIVE_SECTIONS = new Set(['layers', 'rooms']);
 
   return (
     <div
@@ -88,6 +89,8 @@ export function BuildModeScreen({ onExit }: { onExit: () => void }) {
 
       {section === 'layers' ? (
         <LayerStackEditor onBack={() => setSection('home')} />
+      ) : section === 'rooms' ? (
+        <RoomEditor onBack={() => setSection('home')} />
       ) : (
         <>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem', width: 'min(560px, 100%)' }}>
