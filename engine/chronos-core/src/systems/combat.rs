@@ -15,8 +15,8 @@
 //! makes time-travel rewinding work correctly.
 
 use crate::components::{
-    ActiveEffects, Controllable, Enemy, Experience, Health, Identity, PayloadSlots, Position,
-    Stats, Wallet,
+    ActiveEffects, Controllable, EffectKind, Enemy, Experience, Health, Identity, PayloadSlots,
+    Position, Stats, Wallet,
 };
 use crate::data::{
     schemas::{TacticAction, TacticCondition},
@@ -128,24 +128,28 @@ pub fn process_attack(
         .resource_mut::<DeterministicRng>()
         .range_inclusive(1, 100);
     if p_hit_roll > p_hit_chance {
-        // Miss — enemy still retaliates.
+        // Miss — enemy still retaliates (unless stunned).
         let miss_narrative = format!("You swing at the {e_name} but miss!");
         // On a miss the enemy HP didn't change, so use full fraction.
         let e_frac_miss = e_hp as f32 / e_max.max(1) as f32;
-        let (e_dmg, retal_text) = enemy_retaliate(
-            world,
-            repo,
-            &e_class_id,
-            e_atk,
-            e_hit,
-            p_def,
-            p_eva,
-            &e_name,
-            player_e,
-            p_hp,
-            p_max,
-            e_frac_miss,
-        );
+        let (e_dmg, retal_text) = if enemy_is_stunned(world, enemy_e, current_tick) {
+            (0, format!("The {e_name} is stunned and cannot retaliate!"))
+        } else {
+            enemy_retaliate(
+                world,
+                repo,
+                &e_class_id,
+                e_atk,
+                e_hit,
+                p_def,
+                p_eva,
+                &e_name,
+                player_e,
+                p_hp,
+                p_max,
+                e_frac_miss,
+            )
+        };
         let player_hp_after = (p_hp - e_dmg).max(0);
         if e_dmg > 0 {
             if let Some(mut hp) = world.entity_mut(player_e).get_mut::<Health>() {
@@ -195,7 +199,50 @@ pub fn process_attack(
     if enemy_hp_after <= 0 {
         // Payloads are not consumed on the killing blow — enemy is already dead.
         let payload_text = String::new();
+
+        // Plague spreads when its host dies: capture the active plague (if any)
+        // before despawn so it can leap to the other enemies in the room.
+        let plague_to_spread = world.entity(enemy_e).get::<ActiveEffects>().and_then(|ae| {
+            ae.effects
+                .iter()
+                .find(|e| e.kind == EffectKind::Plague && e.is_active_on(current_tick))
+                .map(|e| (e.magnitude, e.duration_turns))
+        });
+
         world.despawn(enemy_e);
+
+        // Apply the captured plague to every other living enemy in the room. This
+        // is a pure function of world state (no RNG), so it replays identically.
+        let plague_text = if let Some((magnitude, duration)) = plague_to_spread {
+            let targets: Vec<Entity> = {
+                let mut q = world.query_filtered::<(Entity, &Position, &Health), With<Enemy>>();
+                q.iter(world)
+                    .filter(|(_, pos, hp)| pos.room_id == room && hp.current > 0)
+                    .map(|(e, _, _)| e)
+                    .collect()
+            };
+            let spread_count = targets.len();
+            for target in targets {
+                poison::apply_effect_to_entity(
+                    world,
+                    target,
+                    EffectKind::Plague,
+                    current_tick,
+                    magnitude,
+                    duration,
+                );
+            }
+            if spread_count > 0 {
+                format!(
+                    "\nThe plague leaps from the dying body to {spread_count} other{} nearby!",
+                    if spread_count == 1 { "" } else { "s" }
+                )
+            } else {
+                String::new()
+            }
+        } else {
+            String::new()
+        };
         let class_data = repo.class(&e_class_id).ok();
         let xp_reward = class_data.as_ref().map(|c| c.xp_reward).unwrap_or(0);
         let gold_reward = class_data.as_ref().map(|c| c.gold_reward).unwrap_or(0);
@@ -244,6 +291,7 @@ pub fn process_attack(
                 "\n[Warning: class data missing for '{e_class_id}' — no XP/gold awarded]"
             ));
         }
+        narrative.push_str(&plague_text);
 
         let next_enemy = {
             let mut q = world.query_filtered::<(&Position, &Health, &Identity), With<Enemy>>();
@@ -277,22 +325,26 @@ pub fn process_attack(
         hp.current = enemy_hp_after;
     }
 
-    // --- Enemy retaliates ---
+    // --- Enemy retaliates (unless stunned) ---
     let e_hp_frac = enemy_hp_after as f32 / e_max.max(1) as f32;
-    let (e_dmg, retaliation_text) = enemy_retaliate(
-        world,
-        repo,
-        &e_class_id,
-        e_atk,
-        e_hit,
-        p_def,
-        p_eva,
-        &e_name,
-        player_e,
-        p_hp,
-        p_max,
-        e_hp_frac,
-    );
+    let (e_dmg, retaliation_text) = if enemy_is_stunned(world, enemy_e, current_tick) {
+        (0, format!("The {e_name} is stunned and cannot retaliate!"))
+    } else {
+        enemy_retaliate(
+            world,
+            repo,
+            &e_class_id,
+            e_atk,
+            e_hit,
+            p_def,
+            p_eva,
+            &e_name,
+            player_e,
+            p_hp,
+            p_max,
+            e_hp_frac,
+        )
+    };
 
     let player_hp_after = (p_hp - e_dmg).max(0);
     if e_dmg > 0 {
@@ -324,6 +376,18 @@ pub fn process_attack(
         context_actions,
         game_over: died,
     }
+}
+
+/// Whether the given enemy has an active Stun effect this tick. A stunned enemy
+/// skips its retaliation entirely — and, crucially, draws no RNG, so it doesn't
+/// just "miss" but genuinely loses the turn. Stun is duration-based, so a 1-turn
+/// stun applied this turn lapses after the enemy's next (skipped) turn.
+fn enemy_is_stunned(world: &World, enemy_e: Entity, tick: u64) -> bool {
+    world
+        .entity(enemy_e)
+        .get::<ActiveEffects>()
+        .map(|ae| ae.has_active(&EffectKind::Stun, tick))
+        .unwrap_or(false)
 }
 
 /// Enemy retaliation: applies tactic, returns (damage dealt, narrative text).
