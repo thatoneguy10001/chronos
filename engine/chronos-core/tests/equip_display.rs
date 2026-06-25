@@ -52,3 +52,26 @@ fn character_sheet_shows_equipped_item_with_bonus() {
         sheet.narrative
     );
 }
+
+#[test]
+fn equip_matches_by_fuzzy_name_like_pickup() {
+    // `take iron sword` (fuzzy name) works; `equip iron sword` must too, even
+    // though the item's id is "iron_sword" (underscore, not a space).
+    let mut engine = ChronosEngine::new(repo());
+    engine.process_command("become fighter");
+    engine.process_command("take iron sword");
+
+    let equip = engine.process_command("equip iron sword");
+    assert!(
+        equip.success,
+        "fuzzy `equip iron sword` should succeed: {}",
+        equip.narrative
+    );
+
+    let sheet = engine.process_command("sheet");
+    assert!(
+        sheet.narrative.contains("Weapon: Iron Sword (+3 ATK)"),
+        "the fuzzily-equipped sword should appear on the sheet: {}",
+        sheet.narrative
+    );
+}

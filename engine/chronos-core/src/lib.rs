@@ -1589,9 +1589,12 @@ impl ChronosEngine {
                         )
                     }
                 } else {
-                    // Check item exists in the template repository.
-                    let item = self.repository.item(item_id);
-                    if let Ok(tmpl) = item {
+                    // Resolve the item: exact id first (the UI's buttons send exact
+                    // ids like "iron_sword"), then a fuzzy match against the player's
+                    // inventory by id or name fragment — the same way pickup matches —
+                    // so "equip iron sword" works just like "take iron sword".
+                    let resolved = self.resolve_equip_item(player_e, item_id);
+                    if let Some(tmpl) = resolved {
                         let slot = EquipSlot::from_tags(&tmpl.tags);
                         let Some(slot) = slot else {
                             return CommandResult {
@@ -2233,6 +2236,37 @@ impl ChronosEngine {
         };
         ids.extend(assembled);
         ids
+    }
+
+    /// Resolve an `equip` target to an item template. Tries the fragment as an
+    /// exact id first (the form the UI's context-action buttons send), then falls
+    /// back to a fuzzy match against the items the player is actually carrying —
+    /// by id or lowercased name fragment, the same matching `process_pick_up`
+    /// uses — so a typed `equip iron sword` resolves like `take iron sword`.
+    fn resolve_equip_item(
+        &mut self,
+        player_e: Entity,
+        fragment: &str,
+    ) -> Option<crate::data::schemas::ItemTemplate> {
+        if let Ok(template) = self.repository.item(fragment) {
+            return Some(template.clone());
+        }
+        let frag = fragment.to_lowercase();
+        // Collect the player's inventory item ids first so the world borrow is
+        // released before we query the repository.
+        let inventory_ids: Vec<String> = {
+            let mut q = self.world.query::<(&InInventory, &ItemBlueprint)>();
+            q.iter(&self.world)
+                .filter(|(inv, _)| inv.owner == player_e)
+                .map(|(_, bp)| bp.id.clone())
+                .collect()
+        };
+        inventory_ids.into_iter().find_map(|id| {
+            let template = self.repository.item(&id).ok()?;
+            let matches =
+                template.id.contains(&frag) || template.name.to_lowercase().contains(&frag);
+            matches.then(|| template.clone())
+        })
     }
 }
 
