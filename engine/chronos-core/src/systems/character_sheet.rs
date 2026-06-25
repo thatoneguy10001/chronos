@@ -50,6 +50,28 @@ pub fn process_character_sheet(world: &mut World, repo: &StaticRepository) -> Sh
         None => format!("XP {} (max level)", xp),
     };
 
+    // Morale, shown only once it has moved off the baseline (so worlds that don't
+    // use the hope mechanic never display it).
+    let hope = crate::systems::morale::current_hope(world);
+    let morale_line = if hope != 0 {
+        let tier = crate::systems::morale::MoraleTier::from_hope(hope);
+        let modifier = tier.attack_modifier();
+        let mod_text = match modifier {
+            m if m > 0 => format!(" (+{m} ATK)"),
+            m if m < 0 => format!(" ({m} ATK)"),
+            _ => String::new(),
+        };
+        format!(
+            "\n\nMorale: {} (Hope {}){}  \u{2022}  {}",
+            tier.label(),
+            hope,
+            mod_text,
+            tier.flavour()
+        )
+    } else {
+        String::new()
+    };
+
     // Collect the player's equipped items and any assembled-weapon display data,
     // so the sheet can show not just *what* is equipped but what each piece does.
     let equipment = {
@@ -130,11 +152,12 @@ pub fn process_character_sheet(world: &mut World, repo: &StaticRepository) -> Sh
         format!("\n{}", secondary.join("  \u{2022}  "))
     };
     let narrative = format!(
-        "=== {} the {} (Level {}) ===\n\nHP {}/{}  \u{2022}  ATK {}  \u{2022}  DEF {}  \u{2022}  INT {}{}\n{}{}{}",
+        "=== {} the {} (Level {}) ===\n\nHP {}/{}  \u{2022}  ATK {}  \u{2022}  DEF {}  \u{2022}  INT {}{}\n{}{}{}{}",
         name, class_display_name, level,
         hp_cur, hp_max, atk, def, int,
         secondary_line,
         xp_line,
+        morale_line,
         equipped_section,
         abilities_section,
     );
