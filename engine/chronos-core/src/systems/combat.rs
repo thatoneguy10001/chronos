@@ -180,15 +180,14 @@ pub fn process_attack(
 
     let crit_tag = if is_crit { " **CRIT!**" } else { "" };
 
-    // Apply payload effects from loaded vials on successful hit (before kill check).
-    let payload_text = apply_payloads_on_hit(world, repo, player_e, enemy_e, current_tick);
-
     if enemy_hp_after <= 0 {
+        // Payloads are not consumed on the killing blow — enemy is already dead.
+        let payload_text = String::new();
         world.despawn(enemy_e);
-        let (xp_reward, gold_reward) = repo
-            .class(&e_class_id)
-            .map(|c| (c.xp_reward, c.gold_reward))
-            .unwrap_or((0, 0));
+        let class_data = repo.class(&e_class_id).ok();
+        let xp_reward = class_data.as_ref().map(|c| c.xp_reward).unwrap_or(0);
+        let gold_reward = class_data.as_ref().map(|c| c.gold_reward).unwrap_or(0);
+        let class_missing = class_data.is_none();
         let level_up = if xp_reward > 0 {
             world
                 .entity_mut(player_e)
@@ -228,6 +227,11 @@ pub fn process_attack(
         for update in quest_updates {
             narrative.push_str(&update);
         }
+        if class_missing {
+            narrative.push_str(&format!(
+                "\n[Warning: class data missing for '{e_class_id}' — no XP/gold awarded]"
+            ));
+        }
 
         let next_enemy = {
             let mut q = world.query_filtered::<(&Position, &Health, &Identity), With<Enemy>>();
@@ -253,6 +257,9 @@ pub fn process_attack(
             game_over: false,
         };
     }
+
+    // Enemy survived — apply payload effects now that we know the hit landed on a living target.
+    let payload_text = apply_payloads_on_hit(world, repo, player_e, enemy_e, current_tick);
 
     if let Some(mut hp) = world.entity_mut(enemy_e).get_mut::<Health>() {
         hp.current = enemy_hp_after;

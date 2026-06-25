@@ -5,6 +5,9 @@ use bevy_ecs::prelude::Component;
 /// by a static ItemTemplate — all its data is stored here.
 #[derive(Component, Debug, Clone)]
 pub struct AssembledWeapon {
+    /// Unique ID derived from the assembly tick (e.g. "aw_42"). Deterministic
+    /// so it round-trips correctly through event-log replay.
+    pub weapon_id: String,
     /// Human-readable name shown in inventory and equipment slot.
     pub display_name: String,
     /// Attack bonus applied when equipped (via EquipmentSlots).

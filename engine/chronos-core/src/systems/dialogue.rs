@@ -379,7 +379,7 @@ pub fn process_talk(world: &mut World, repo: &StaticRepository, npc_id: &str) ->
     }
     if npc.rest_provider {
         context_actions.push(ContextAction {
-            label: "Rest here (5 gold, full HP)".to_string(),
+            label: format!("Rest here ({} gold, full HP)", crate::REST_COST),
             command: "rest".to_string(),
         });
     }

@@ -52,6 +52,10 @@ use systems::{
 /// (A per-new-game seed can be threaded through later; fixed is fine for now.)
 const WORLD_SEED: u64 = 0xC0FF_EE15_600D_5EED;
 
+/// Gold cost of resting at an inn. Duplicated in dialogue strings is intentional;
+/// keep this in sync with the NPC `rest_cost` field if that's ever added to the schema.
+pub const REST_COST: i32 = 5;
+
 /// The top-level engine handle. One instance per game session.
 ///
 /// Architecture invariant: the ECS World is mutable runtime state.
@@ -336,6 +340,14 @@ impl ChronosEngine {
                 })
                 .unwrap_or_default()
         };
+        // Pre-collect assembled weapon display names so the closure below can look them up
+        // without holding a borrow on self.world.
+        let assembled_names: Vec<(String, String)> = {
+            let mut q = self.world.query::<&AssembledWeapon>();
+            q.iter(&self.world)
+                .map(|aw| (aw.weapon_id.clone(), aw.display_name.clone()))
+                .collect()
+        };
         let player_character: Option<CharacterStateDTO> = {
             let mut q = self.world.query_filtered::<(
                 &Identity,
@@ -368,8 +380,12 @@ impl ChronosEngine {
                     shards: player_shards,
                     equipped_weapon: eq.and_then(|e| {
                         e.weapon.as_deref().map(|id| {
-                            if let Some(rest) = id.strip_prefix("assembled:") {
-                                rest.to_string()
+                            if let Some(wid) = id.strip_prefix("assembled:") {
+                                assembled_names
+                                    .iter()
+                                    .find(|(k, _)| k == wid)
+                                    .map(|(_, name)| name.clone())
+                                    .unwrap_or_else(|| wid.to_string())
                             } else {
                                 self.repository
                                     .item(id)
@@ -1003,7 +1019,6 @@ impl ChronosEngine {
             }
 
             EngineEvent::Rest => {
-                const REST_COST: i32 = 5;
                 let room_id = {
                     let mut q = self.world.query_filtered::<&Position, With<Controllable>>();
                     q.iter(&self.world)
@@ -1269,7 +1284,10 @@ impl ChronosEngine {
                     row("  buy <npc> <item>    — purchase an item"),
                     row("  accept <quest_id>        — accept a quest"),
                     row("  turn in <quest_id>   — turn in a completed quest"),
-                    row("  rest               — sleep at an inn (5 gold, full HP)"),
+                    row(&format!(
+                        "  rest               — sleep at an inn ({} gold, full HP)",
+                        REST_COST
+                    )),
                     hr.clone(),
                     row("CLASSES  (type to start playing)"),
                 ];
@@ -1425,10 +1443,13 @@ impl ChronosEngine {
                 let display_name =
                     format!("{} + {} + {}", part_names[0], part_names[1], part_names[2]);
 
+                // Tick-derived ID is deterministic, so it survives event-log replay unchanged.
+                let weapon_id = format!("aw_{}", self.tick);
                 // Spawn the assembled weapon entity.
                 self.world.spawn((
                     InInventory { owner: player_e },
                     AssembledWeapon {
+                        weapon_id: weapon_id.clone(),
                         display_name: display_name.clone(),
                         attack_bonus: total_atk,
                         on_hit_effect: on_hit,
@@ -1445,7 +1466,7 @@ impl ChronosEngine {
                     narrative: format!("You assemble: {}. (+{} ATK)", display_name, total_atk),
                     context_actions: vec![ContextAction {
                         label: format!("Equip {display_name}"),
-                        command: format!("equip assembled:{}", display_name),
+                        command: format!("equip assembled:{}", weapon_id),
                     }],
                     inventory_ids: self.player_inventory_ids(),
                     tick: self.tick,
@@ -1473,30 +1494,32 @@ impl ChronosEngine {
                         game_over: false,
                     };
                 };
-                // Handle assembled weapons (assembled:<display_name>).
-                let (narrative, success) = if let Some(name_part) =
-                    item_id.strip_prefix("assembled:")
+                // Handle assembled weapons (assembled:<weapon_id>).
+                let (narrative, success) = if let Some(id_part) = item_id.strip_prefix("assembled:")
                 {
-                    // Find assembled weapon in inventory by display_name.
+                    // Find assembled weapon in inventory by weapon_id.
                     let found = {
-                        let name_lower = name_part.to_lowercase();
                         let mut q = self
                             .world
                             .query::<(Entity, &InInventory, &AssembledWeapon)>();
                         q.iter(&self.world).find_map(|(e, inv, aw)| {
-                            if inv.owner == player_e && aw.display_name.to_lowercase() == name_lower
-                            {
-                                Some((e, aw.display_name.clone(), aw.attack_bonus))
+                            if inv.owner == player_e && aw.weapon_id == id_part {
+                                Some((
+                                    e,
+                                    aw.weapon_id.clone(),
+                                    aw.display_name.clone(),
+                                    aw.attack_bonus,
+                                ))
                             } else {
                                 None
                             }
                         })
                     };
-                    if let Some((_e, dname, atk)) = found {
+                    if let Some((_e, wid, dname, atk)) = found {
                         if let Some(mut eq) =
                             self.world.entity_mut(player_e).get_mut::<EquipmentSlots>()
                         {
-                            let slot_id = format!("assembled:{}", dname);
+                            let slot_id = format!("assembled:{}", wid);
                             let prev = eq.weapon.replace(slot_id);
                             if let Some(old) = prev {
                                 (
@@ -1514,7 +1537,7 @@ impl ChronosEngine {
                         }
                     } else {
                         (
-                            format!("No assembled weapon '{}' in inventory.", name_part),
+                            format!("No assembled weapon '{}' in inventory.", id_part),
                             false,
                         )
                     }
@@ -2158,7 +2181,7 @@ impl ChronosEngine {
             let mut q = self.world.query::<(&InInventory, &AssembledWeapon)>();
             q.iter(&self.world)
                 .filter(|(inv, _)| inv.owner == player)
-                .map(|(_, aw)| format!("assembled:{}", aw.display_name))
+                .map(|(_, aw)| format!("assembled:{}", aw.weapon_id))
                 .collect()
         };
         ids.extend(assembled);

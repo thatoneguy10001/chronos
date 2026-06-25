@@ -9,7 +9,8 @@
 //! and the system matches against both the template ID and the display name.
 
 use crate::components::{
-    ActiveEffects, Controllable, EffectKind, Health, InInventory, ItemBlueprint, Position, Stats,
+    ActiveEffects, AssembledWeapon, Controllable, EffectKind, Health, InInventory, ItemBlueprint,
+    Position, Stats,
 };
 use crate::data::StaticRepository;
 use crate::events::ContextAction;
@@ -557,12 +558,22 @@ fn apply_equip_bonus(
 }
 
 fn get_inventory(world: &mut World, player: Entity, _repo: &StaticRepository) -> Vec<String> {
-    let mut query = world.query::<(&InInventory, &ItemBlueprint)>();
-    query
-        .iter(world)
-        .filter(|(inv, _)| inv.owner == player)
-        .map(|(_, bp)| bp.id.clone())
-        .collect()
+    let mut regular: Vec<String> = {
+        let mut q = world.query::<(&InInventory, &ItemBlueprint)>();
+        q.iter(world)
+            .filter(|(inv, _)| inv.owner == player)
+            .map(|(_, bp)| bp.id.clone())
+            .collect()
+    };
+    let assembled: Vec<String> = {
+        let mut q = world.query::<(&InInventory, &AssembledWeapon)>();
+        q.iter(world)
+            .filter(|(inv, _)| inv.owner == player)
+            .map(|(_, aw)| format!("assembled:{}", aw.weapon_id))
+            .collect()
+    };
+    regular.extend(assembled);
+    regular
 }
 
 fn pick_up_actions_in_room(
