@@ -44,8 +44,8 @@ use events::{CommandResult, ContextAction, EngineEvent};
 use journal::EventLog;
 use rng::DeterministicRng;
 use systems::{
-    ability, character, character_sheet, combat, dialogue, input_parsing, interaction, movement,
-    poison, quest, shop,
+    ability, character, character_sheet, combat, dialogue, input_parsing, interaction, morale,
+    movement, poison, quest, shop,
 };
 
 /// Fixed RNG seed for the session. Re-applied at every bootstrap so combat dice
@@ -789,6 +789,8 @@ impl ChronosEngine {
                             narrative.push_str(&n);
                         }
                     }
+                    // Turning your back on a fight costs morale.
+                    morale::adjust_hope(&mut self.world, -morale::FLEE_HOPE_COST);
                 }
                 CommandResult {
                     success: r.success,

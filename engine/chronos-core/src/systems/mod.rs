@@ -14,6 +14,7 @@ pub mod combat;
 pub mod dialogue;
 pub mod input_parsing;
 pub mod interaction;
+pub mod morale;
 pub mod movement;
 pub mod poison;
 pub mod progression;
