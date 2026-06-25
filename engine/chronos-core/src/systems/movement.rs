@@ -110,6 +110,119 @@ pub fn process_move(world: &mut World, repo: &StaticRepository, direction: &str)
                 command: "attack".to_string(),
             },
         );
+        context_actions.insert(
+            1,
+            ContextAction {
+                label: "Flee".to_string(),
+                command: "flee".to_string(),
+            },
+        );
+    }
+    context_actions.extend(takeable_item_actions(world, &target_room_id, repo));
+    context_actions.extend(talk_npc_actions(&target_room_id, repo));
+
+    MoveResult {
+        success: true,
+        narrative,
+        context_actions,
+    }
+}
+
+/// Attempt to flee the current fight: escape through the first passable exit.
+///
+/// Fails (without moving) if there is no living enemy to flee from, or if every
+/// exit is blocked (locked behind an item you lack, or night-gated during the
+/// day) — you're cornered. On success the player relocates; the enemy stays in
+/// its room, so fleeing buys distance but doesn't make the fight disappear.
+///
+/// Deterministic — picks exits in sorted order, draws no RNG — so it replays
+/// identically under rewind.
+pub fn process_flee(world: &mut World, repo: &StaticRepository) -> MoveResult {
+    let mut player_query = world.query_filtered::<(Entity, &Position), With<Controllable>>();
+    let (player_entity, current_room_id) = match player_query.iter(world).next() {
+        Some((e, pos)) => (e, pos.room_id.clone()),
+        None => return error_result("No player entity found."),
+    };
+
+    // Nothing to flee from?
+    if enemies_in_room(world, &current_room_id).is_empty() {
+        return MoveResult {
+            success: false,
+            narrative: "There's nothing here to flee from.".to_string(),
+            context_actions: process_look(world, repo).context_actions,
+        };
+    }
+
+    let room = match repo.room(&current_room_id) {
+        Ok(r) => r,
+        Err(_) => return error_result(&format!("Unknown room: {current_room_id}")),
+    };
+
+    let is_night = world
+        .get_resource::<GameTime>()
+        .map(|gt| gt.is_night())
+        .unwrap_or(false);
+
+    // Pick the first passable exit in sorted (stable, deterministic) order.
+    let mut dirs: Vec<&String> = room.exits.keys().collect();
+    dirs.sort();
+    let escape = dirs.into_iter().find_map(|dir| {
+        let exit = &room.exits[dir];
+        if let Some(req) = &exit.requirement {
+            if !player_has_item(world, player_entity, req) {
+                return None;
+            }
+        }
+        if exit.requires_night && !is_night {
+            return None;
+        }
+        Some((dir.clone(), exit.target_room_id.clone()))
+    });
+
+    let (dir, target_room_id) = match escape {
+        Some(e) => e,
+        None => {
+            return MoveResult {
+                success: false,
+                narrative: "There's nowhere to run — you're cornered! You'll have to fight."
+                    .to_string(),
+                context_actions: process_look(world, repo).context_actions,
+            }
+        }
+    };
+
+    // Escape: relocate the player. The enemy remains where it was.
+    world.entity_mut(player_entity).insert(Position {
+        room_id: target_room_id.clone(),
+    });
+
+    let target_room = match repo.room(&target_room_id) {
+        Ok(r) => r,
+        Err(_) => return error_result(&format!("Target room not found: {target_room_id}")),
+    };
+    let items_here = items_in_room(world, &target_room_id, repo);
+    let enemies_here = enemies_in_room(world, &target_room_id);
+    let npcs_here = npc_ids_in_room(&target_room_id, repo);
+    let room_desc =
+        format_room_description(target_room, &items_here, &enemies_here, &npcs_here, repo);
+    let narrative = format!("You break off and flee {dir}!\n\n{room_desc}");
+
+    let mut context_actions = build_exit_actions(target_room);
+    if !enemies_here.is_empty() {
+        context_actions.insert(
+            0,
+            ContextAction {
+                label: "Attack".to_string(),
+                command: "attack".to_string(),
+            },
+        );
+        context_actions.insert(
+            1,
+            ContextAction {
+                label: "Flee".to_string(),
+                command: "flee".to_string(),
+            },
+        );
     }
     context_actions.extend(takeable_item_actions(world, &target_room_id, repo));
     context_actions.extend(talk_npc_actions(&target_room_id, repo));
@@ -145,6 +258,13 @@ pub fn process_look(world: &mut World, repo: &StaticRepository) -> MoveResult {
             ContextAction {
                 label: "Attack".to_string(),
                 command: "attack".to_string(),
+            },
+        );
+        context_actions.insert(
+            1,
+            ContextAction {
+                label: "Flee".to_string(),
+                command: "flee".to_string(),
             },
         );
     }

@@ -539,6 +539,7 @@ impl ChronosEngine {
     fn time_cost(event: &EngineEvent) -> u32 {
         match event {
             EngineEvent::Move { .. } => 15,
+            EngineEvent::Flee => 15, // fleeing is a panicked move to an adjacent room
             EngineEvent::Attack => 1,
             EngineEvent::UseAbility { .. } => 1,
             EngineEvent::ApplyEffect { .. } => 1,
@@ -715,6 +716,44 @@ impl ChronosEngine {
             EngineEvent::Move { direction } => {
                 let r = movement::process_move(&mut self.world, &self.repository, direction);
                 let mut narrative = r.narrative;
+                if r.success {
+                    let player_e = {
+                        let mut q = self.world.query_filtered::<Entity, With<Controllable>>();
+                        q.iter(&self.world).next()
+                    };
+                    let new_room = {
+                        let mut q = self.world.query_filtered::<&Position, With<Controllable>>();
+                        q.iter(&self.world).next().map(|p| p.room_id.clone())
+                    };
+                    if let (Some(pe), Some(room_id)) = (player_e, new_room) {
+                        let notices = quest::on_player_entered_room(
+                            &mut self.world,
+                            &self.repository,
+                            pe,
+                            &room_id,
+                        );
+                        for n in notices {
+                            narrative.push_str(&n);
+                        }
+                    }
+                }
+                CommandResult {
+                    success: r.success,
+                    narrative,
+                    context_actions: r.context_actions,
+                    inventory_ids: self.player_inventory_ids(),
+                    tick: self.tick,
+                    game_time: self.current_game_time(),
+                    npc_sections: vec![],
+                    game_over: false,
+                }
+            }
+
+            EngineEvent::Flee => {
+                let r = movement::process_flee(&mut self.world, &self.repository);
+                let mut narrative = r.narrative;
+                // A successful flee relocates the player, so honour ReachRoom quest
+                // objectives just like a normal Move does.
                 if r.success {
                     let player_e = {
                         let mut q = self.world.query_filtered::<Entity, With<Controllable>>();
@@ -1265,6 +1304,7 @@ impl ChronosEngine {
                     hr.clone(),
                     row("COMBAT"),
                     row("  attack        — fight the enemy in this room"),
+                    row("  flee          — escape the fight through an open exit"),
                     row("  <ability name> — use a class ability (see 'stats' for list)"),
                     hr.clone(),
                     row("NPCS & SHOPS"),
