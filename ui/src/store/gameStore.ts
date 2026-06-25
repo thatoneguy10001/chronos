@@ -80,12 +80,18 @@ migrateGlobalSlots();
 function readSaveSlot(worldId: string, n: number): SaveSlot | null {
   try {
     const raw = localStorage.getItem(SLOT_KEY(worldId, n));
-    return raw ? (JSON.parse(raw) as SaveSlot) : null;
+    if (!raw) return null;
+    const slot = JSON.parse(raw) as SaveSlot;
+    if (!slot.snapshot) return null;
+    JSON.parse(slot.snapshot); // validate snapshot is itself parseable before we accept the slot
+    return slot;
   } catch { return null; }
 }
 
 function writeSaveSlot(worldId: string, n: number, slot: SaveSlot): void {
-  localStorage.setItem(SLOT_KEY(worldId, n), JSON.stringify(slot));
+  try {
+    localStorage.setItem(SLOT_KEY(worldId, n), JSON.stringify(slot));
+  } catch { /* localStorage unavailable (private browsing, quota exceeded) */ }
 }
 
 export function readWorldSlots(worldId: string): (SaveSlot | null)[] {
@@ -171,6 +177,10 @@ const mkLine = (type: TerminalLine['type'], text: string, tick?: number, label?:
   label,
 });
 
+// Commands are processed one at a time. Each submitCommand call is chained
+// onto this promise so rapid input never causes out-of-order store updates.
+let commandQueue: Promise<void> = Promise.resolve();
+
 
 
 export const useGameStore = create<GameStore>((set, get) => ({
@@ -207,6 +217,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
   journalOpen: false,
 
   init: async (worldId: string, loadSlot?: number) => {
+    lineCounter = 0;
+    commandQueue = Promise.resolve();
     const { worldMeta } = await engine.initEngine(worldId);
     const worldBase = {
       worldId,
@@ -316,7 +328,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
     if (get().isRewound) set({ isRewound: false });
 
-    void (async () => {
+    commandQueue = commandQueue.then(async () => {
       const oldRoomId  = get().currentRoomId;
       const oldX       = get().mapCurrentX;
       const oldY       = get().mapCurrentY;
@@ -391,20 +403,21 @@ export const useGameStore = create<GameStore>((set, get) => ({
         deathCause:      result.game_over ? narrative : state.deathCause,
         activeScreen:    nextScreen,
       }));
-    })();
+    }).catch(() => { /* engine errors are surfaced in the narrative; don't propagate */ });
   },
 
   rewindToTick: (tick: number) => {
-    void (async () => {
-      const result = await engine.rewindToTick(tick);
+    const safeTick = Math.max(0, Math.min(tick, get().maxTick));
+    commandQueue = commandQueue.then(async () => {
+      const result = await engine.rewindToTick(safeTick);
       const snap   = await engine.getSnapshot();
       set(state => ({
         lines: addLines(
           state.lines,
-          mkLine('system', `⏪ Rewound to tick ${tick}`),
-          mkLine('output', result.narrative, tick),
+          mkLine('system', `⏪ Rewound to tick ${safeTick}`),
+          mkLine('output', result.narrative, safeTick),
         ),
-        currentTick:     tick,
+        currentTick:     safeTick,
         maxTick:         result.max_tick,
         gameTime:        result.game_time ?? 360,
         playerCharacter: snap.player_character,
@@ -414,14 +427,14 @@ export const useGameStore = create<GameStore>((set, get) => ({
         contextActions:  result.context_actions,
         roomActions:     result.room_actions,
         inventoryIds:    result.inventory_ids,
-        isRewound:       tick < result.max_tick,
+        isRewound:       safeTick < result.max_tick,
         activeScreen:    'explore' as ActiveScreen,
       }));
-    })();
+    }).catch(() => {});
   },
 
   resumeFromRewind: () => {
-    void (async () => {
+    commandQueue = commandQueue.then(async () => {
       const max    = await engine.getMaxTick();
       const result = await engine.rewindToTick(max);
       const snap   = await engine.getSnapshot();
@@ -440,7 +453,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
         isRewound:       false,
         activeScreen:    'explore' as ActiveScreen,
       }));
-    })();
+    }).catch(() => {});
   },
 
   setInputMode: (mode: InputMode) => set({ inputMode: mode }),
