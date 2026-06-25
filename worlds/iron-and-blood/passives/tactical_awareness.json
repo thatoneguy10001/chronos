@@ -1,0 +1,8 @@
+{
+  "id": "tactical_awareness",
+  "name": "Tactical Awareness",
+  "description": "Something in it still remembers how to fight — when to give ground, when to slip a blow.",
+  "type": "stat_bonus",
+  "stat": "evasion",
+  "amount": 3
+}

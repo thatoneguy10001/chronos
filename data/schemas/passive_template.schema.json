@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "chronos/passive-template",
+  "title": "PassiveTemplate",
+  "description": "A passive trait a class always has — no activation. Referenced by id from a class's `passives` list.",
+  "type": "object",
+  "required": ["id", "name", "description", "type", "amount"],
+  "additionalProperties": false,
+  "properties": {
+    "id":          { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+    "name":        { "type": "string" },
+    "description": { "type": "string" },
+    "type":        { "type": "string", "enum": ["stat_bonus", "damage_on_hit"] },
+    "stat":        { "type": "string", "description": "Stat key to modify. Required when type is stat_bonus." },
+    "amount":      { "type": "integer" }
+  },
+  "allOf": [
+    {
+      "if":   { "properties": { "type": { "const": "stat_bonus" } } },
+      "then": { "required": ["stat"] }
+    }
+  ]
+}

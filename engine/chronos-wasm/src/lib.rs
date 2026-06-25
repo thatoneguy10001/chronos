@@ -34,6 +34,10 @@ pub struct WorldPayload {
     /// Quest blueprints (data/quests/*.json). Optional.
     #[serde(default)]
     pub quests: Vec<FileEntry>,
+    /// Passive trait blueprints (data/passives/*.json). Optional so older
+    /// payloads still load (they just have no passives).
+    #[serde(default)]
+    pub passives: Vec<FileEntry>,
     /// Raw contents of manifest.json. Optional so older payloads still load
     /// (they fall back to the alphabetical start-room rule).
     #[serde(default)]
@@ -93,12 +97,19 @@ impl WasmEngine {
             .map(|e| (e.filename.as_str(), e.content.as_str()))
             .collect();
 
-        let repo = StaticRepository::from_json_pairs_full(
+        let passive_pairs: Vec<(&str, &str)> = payload
+            .passives
+            .iter()
+            .map(|e| (e.filename.as_str(), e.content.as_str()))
+            .collect();
+
+        let repo = StaticRepository::from_json_pairs_complete(
             &room_pairs,
             &item_pairs,
             &class_pairs,
             &npc_pairs,
             &quest_pairs,
+            &passive_pairs,
             payload.manifest.as_deref(),
         )
         .map_err(|e| JsValue::from_str(&e.to_string()))?;

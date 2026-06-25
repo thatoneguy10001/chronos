@@ -1,0 +1,8 @@
+{
+  "id": "iron_skin",
+  "name": "Iron Skin",
+  "description": "Scar tissue over scar tissue, hammered hard as the name suggests. The vanguard holds the line because the line cannot break them.",
+  "type": "stat_bonus",
+  "stat": "defense",
+  "amount": 4
+}

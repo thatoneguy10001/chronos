@@ -1,0 +1,8 @@
+{
+  "id": "shield_mastery",
+  "name": "Shield Mastery",
+  "description": "Years behind a shield wall. Blows that would fell others glance away.",
+  "type": "stat_bonus",
+  "stat": "defense",
+  "amount": 3
+}

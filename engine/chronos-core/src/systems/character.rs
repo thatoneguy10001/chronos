@@ -10,6 +10,7 @@
 use crate::components::{
     AbilityCooldowns, Controllable, Experience, Health, Identity, InInventory, ItemBlueprint, Stats,
 };
+use crate::data::schemas::PassiveEffect;
 use crate::data::StaticRepository;
 use crate::events::ContextAction;
 use bevy_ecs::prelude::*;
@@ -79,6 +80,17 @@ pub fn process_spawn_character(
         Experience::new(),
         AbilityCooldowns::new(),
     ));
+
+    // Apply this class's OnSpawn passives: flat stat bonuses baked onto the body.
+    // Done before gear so the final stat readback below reflects them. Other
+    // passive kinds (e.g. DamageOnHit) are read live during combat, not here.
+    for effect in repo.class_passive_effects(&class.id) {
+        if let PassiveEffect::StatBonus { stat, amount } = effect {
+            if let Some(mut stats) = world.entity_mut(player).get_mut::<Stats>() {
+                stats.add(stat, *amount);
+            }
+        }
+    }
 
     // Auto-equip starting items that have no starting_room_id (they're personal kit,
     // not loot placed in the world). Items with a starting_room_id stay in that room.
@@ -180,6 +192,17 @@ pub fn process_spawn_character(
     let mut full_narrative = narrative;
     if !gear_notes.is_empty() {
         full_narrative.push_str(&format!("\n\nStarting kit: {}.", gear_notes.join(", ")));
+    }
+
+    // List the class's passives by name so the player knows what traits they have.
+    let passive_names: Vec<&str> = class
+        .passives
+        .iter()
+        .filter_map(|pid| repo.passive(pid))
+        .map(|p| p.name.as_str())
+        .collect();
+    if !passive_names.is_empty() {
+        full_narrative.push_str(&format!("\n\nPassives: {}.", passive_names.join(", ")));
     }
 
     SpawnResult {

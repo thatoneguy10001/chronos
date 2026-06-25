@@ -289,6 +289,40 @@ pub struct ClassTemplate {
     pub tactics: Vec<TacticRule>,
 }
 
+// --- Passive system ---
+
+/// A passive trait a class always has — no activation, no cooldown, no command.
+/// Loaded as world data (a `passives/` dir) and referenced by id from
+/// [`ClassTemplate::passives`], exactly like classes/items/quests are referenced.
+///
+/// The `effect` is flattened, so a passive's JSON reads as one flat object:
+/// ```json
+/// { "id": "shield_mastery", "name": "Shield Mastery",
+///   "description": "Trained to turn blows.", "type": "stat_bonus",
+///   "stat": "defense", "amount": 3 }
+/// ```
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct PassiveTemplate {
+    pub id: String,
+    pub name: String,
+    pub description: String,
+    #[serde(flatten)]
+    pub effect: PassiveEffect,
+}
+
+/// What a passive does. Kept deliberately small — two high-impact mechanics that
+/// make classes feel distinct — with room to grow (conditional bonuses, effect
+/// potency, on-kill triggers) as worlds need them.
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[serde(tag = "type", rename_all = "snake_case")]
+pub enum PassiveEffect {
+    /// Flat stat bonus applied once when the class is imprinted onto the body.
+    /// `stat` is any stat key (canonical or world-defined).
+    StatBonus { stat: String, amount: i32 },
+    /// Extra flat damage added to every landed player hit.
+    DamageOnHit { amount: i32 },
+}
+
 // --- Tactic system ---
 
 /// One combat AI rule: if `condition` is true, execute `action`.

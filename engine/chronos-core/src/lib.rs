@@ -26,6 +26,7 @@ pub mod components;
 pub mod data;
 pub mod events;
 pub mod journal;
+pub mod layers;
 pub mod rng;
 pub mod systems;
 
@@ -660,6 +661,17 @@ impl ChronosEngine {
         for enc in repo.encounters() {
             if let Ok(class) = repo.class(&enc.class_id) {
                 let bs = &class.base_stats;
+                // Fold this class's OnSpawn StatBonus passives into the enemy's
+                // stats (e.g. heavy_plate → +DEF), so enemy passives are as real
+                // as the player's. DamageOnHit passives don't apply to enemies —
+                // they attack via tactics, not the player attack path.
+                let mut stats = Stats::from_map(bs.stats.clone());
+                for effect in repo.class_passive_effects(&class.id) {
+                    if let crate::data::schemas::PassiveEffect::StatBonus { stat, amount } = effect
+                    {
+                        stats.add(stat, *amount);
+                    }
+                }
                 world.spawn((
                     Position {
                         room_id: enc.room_id.clone(),
@@ -669,7 +681,7 @@ impl ChronosEngine {
                         name: class.name.clone(),
                         class_id: class.id.clone(),
                     },
-                    Stats::from_map(bs.stats.clone()),
+                    stats,
                     Health::full(bs.hp),
                     ActiveEffects::default(),
                 ));
@@ -685,9 +697,12 @@ impl ChronosEngine {
     /// When the layer registry lands, this consults it: a verb owned by a layer
     /// in the world's stack returns `true` and flows through the normal
     /// tick/apply/log path, making world commands replay-safe by construction.
-    fn world_command_is_handled(&self, _verb: &str) -> bool {
-        // No layer currently registers verbs. See task: formalize layer modules.
-        false
+    fn world_command_is_handled(&self, verb: &str) -> bool {
+        // Consult the world's validated layer stack: a verb is handled only if an
+        // active layer claims it. No built-in layer registers verbs yet, so this
+        // is currently always false for the shipped worlds — but a new layer that
+        // owns verbs is picked up here automatically with no engine plumbing.
+        self.repository.layer_stack().handles_verb(verb)
     }
 
     /// Route a `WorldCommand` to its owning layer. Mirror of `world_command_is_handled`:

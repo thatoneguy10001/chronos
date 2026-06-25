@@ -1,0 +1,7 @@
+{
+  "id": "poison_mastery",
+  "name": "Poison Mastery",
+  "description": "Every blade is laced. Each strike carries a little more death than it should.",
+  "type": "damage_on_hit",
+  "amount": 2
+}
