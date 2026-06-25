@@ -95,6 +95,9 @@ pub fn process_attack(
         })
         .sum();
 
+    // Morale: high hope nudges damage up, a breaking line nudges it down.
+    let morale_mod = crate::systems::morale::current_tier(world).attack_modifier();
+
     // --- Enemy ---
     let enemy = {
         let mut q =
@@ -186,7 +189,7 @@ pub fn process_attack(
     let p_spread = world
         .resource_mut::<DeterministicRng>()
         .range_inclusive(-2, 2);
-    let base_dmg = (p_atk - e_def + p_spread + passive_dmg).max(1);
+    let base_dmg = (p_atk - e_def + p_spread + passive_dmg + morale_mod).max(1);
     let p_dmg = if is_crit {
         base_dmg * 3 / 2 + 1
     } else {
