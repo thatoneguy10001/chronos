@@ -192,13 +192,14 @@ fn manifest_layer_stack_parses_with_freeform_params() {
         "start_room_id": "dim_corridor",
         "layers": [
             { "id": "space", "mode": "room_graph" },
+            { "id": "entity" },
             { "id": "economy", "currencies": ["scraps", "shards"] },
             { "id": "combat", "mode": "turn_order", "party_size": 4 }
         ]
     }"#;
     let repo = StaticRepository::from_json_pairs(&rooms, &items, &[], Some(manifest)).unwrap();
 
-    assert_eq!(repo.layers().len(), 3);
+    assert_eq!(repo.layers().len(), 4);
 
     // mode is pulled out as a first-class field.
     let combat = repo.layer("combat").expect("combat layer present");
@@ -210,6 +211,26 @@ fn manifest_layer_stack_parses_with_freeform_params() {
     let economy = repo.layer("economy").expect("economy layer present");
     assert_eq!(economy.mode, None);
     assert!(repo.layer("nonexistent").is_none());
+
+    // The validated stack is exposed and reflects the declared order.
+    assert!(repo.layer_stack().contains("combat"));
+    assert_eq!(
+        repo.layer_stack().ids().first().map(|s| s.as_str()),
+        Some("space")
+    );
+}
+
+#[test]
+fn manifest_with_invalid_layer_stack_fails_to_load() {
+    let (rooms, items) = world_data();
+    // combat requires space + entity; declaring it alone is an invalid stack and
+    // must fail at load rather than silently running a broken world.
+    let manifest = r#"{
+        "start_room_id": "dim_corridor",
+        "layers": [ { "id": "combat" } ]
+    }"#;
+    let err = StaticRepository::from_json_pairs(&rooms, &items, &[], Some(manifest)).unwrap_err();
+    assert!(matches!(err, RepositoryError::InvalidLayerStack(_)));
 }
 
 #[test]
