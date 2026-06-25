@@ -186,9 +186,10 @@ function WorldCard({
 interface WorldSelectionScreenProps {
   onSelect: (worldId: string, tone: string, title: string) => void;
   onContinue: (slotIndex: number, worldId: string, tone: string, title: string) => void;
+  onEnterBuildMode: () => void;
 }
 
-export function WorldSelectionScreen({ onSelect, onContinue }: WorldSelectionScreenProps) {
+export function WorldSelectionScreen({ onSelect, onContinue, onEnterBuildMode }: WorldSelectionScreenProps) {
   const [worlds, setWorlds] = useState<WorldMeta[]>([]);
 
   useEffect(() => {
@@ -232,6 +233,31 @@ export function WorldSelectionScreen({ onSelect, onContinue }: WorldSelectionScr
           No worlds found. Check that the worlds/ directory is correctly bundled.
         </div>
       )}
+
+      {/* Build Mode entry — the master switch from playing worlds to making them. */}
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '2.5rem', gap: '0.5rem' }}>
+        <div style={{ color: 'var(--ink-faint)', fontSize: '0.7em', letterSpacing: '0.15em', fontFamily: 'var(--font-dossier)' }}>
+          ── OR ──
+        </div>
+        <button
+          onClick={onEnterBuildMode}
+          style={{
+            background: 'transparent',
+            border: '1px solid var(--ink-narrative)',
+            color: 'var(--ink-narrative)',
+            fontFamily: 'var(--font-dossier)',
+            fontSize: '0.85em',
+            padding: '0.6rem 2rem',
+            cursor: 'pointer',
+            letterSpacing: '0.12em',
+          }}
+        >
+          ⚒ BUILD YOUR OWN WORLD ▸
+        </button>
+        <div style={{ color: 'var(--ink-movement)', fontSize: '0.75em', fontFamily: 'var(--font-dossier)' }}>
+          Make a world the same engine can play.
+        </div>
+      </div>
     </div>
   );
 }

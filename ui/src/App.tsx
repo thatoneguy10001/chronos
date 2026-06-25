@@ -1,5 +1,6 @@
 import { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import { WorldSelectionScreen } from '@/components/WorldSelectionScreen';
+import { BuildModeScreen } from '@/components/BuildModeScreen';
 import { CharacterCreationScreen } from '@/components/CharacterCreationScreen';
 import { SaveLoadModal } from '@/components/SaveLoadModal';
 import { JournalModal } from '@/components/JournalModal';
@@ -66,6 +67,9 @@ export function App() {
   const [worldTone,  setWorldTone]  = useState('fantasy');
   const [worldTitle, setWorldTitle] = useState('');
   const [initError,  setInitError]  = useState<string | null>(null);
+  // Top-level app mode: 'play' runs a world, 'build' edits one. The master switch
+  // for the platform vision — the same engine eventually runs both.
+  const [appMode, setAppMode] = useState<'play' | 'build'>('play');
 
   const pendingSlotRef = useRef<number | undefined>(undefined);
 
@@ -97,6 +101,11 @@ export function App() {
     return () => window.removeEventListener('keydown', onKey);
   }, [closeJournal, openJournal, journalOpen]);
 
+  // Build Mode takes over the whole screen, before any world is loaded for play.
+  if (appMode === 'build') {
+    return <BuildModeScreen onExit={() => setAppMode('play')} />;
+  }
+
   if (!selectedWorldId) {
     return (
       <WorldSelectionScreen
@@ -111,6 +120,7 @@ export function App() {
           setWorldTone(tone);
           setWorldTitle(title);
         }}
+        onEnterBuildMode={() => setAppMode('build')}
       />
     );
   }
