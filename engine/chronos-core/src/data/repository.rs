@@ -2,6 +2,7 @@ use crate::data::schemas::{
     ClassTemplate, EncounterDef, ItemTemplate, LayerConfig, NpcTemplate, QuestTemplate,
     RoomTemplate, WorldManifest, CURRENT_SCHEMA_VERSION,
 };
+use crate::layers::{LayerError, LayerStack};
 use std::collections::HashMap;
 use thiserror::Error;
 
@@ -21,6 +22,8 @@ pub enum RepositoryError {
          Update the engine to run this world."
     )]
     UnsupportedSchemaVersion { found: u32, supported: u32 },
+    #[error("Invalid layer stack: {0}")]
+    InvalidLayerStack(#[from] LayerError),
     #[error("Item template '{0}' not found")]
     ItemNotFound(String),
     #[error("Room template '{0}' not found")]
@@ -50,6 +53,8 @@ pub struct StaticRepository {
     schema_version: u32,
     /// The world's layer stack — defines its genre. Empty for default-engine worlds.
     layers: Vec<LayerConfig>,
+    /// Validated view of `layers`: dependency-checked, used for verb routing.
+    layer_stack: LayerStack,
 }
 
 impl StaticRepository {
@@ -184,6 +189,12 @@ impl StaticRepository {
                 ),
             };
 
+        // Build and validate the layer stack. An invalid stack (unknown layer,
+        // missing/out-of-order dependency) is a load error, caught here rather
+        // than surfacing as mysterious runtime behaviour. An empty stack is valid.
+        let layer_stack = LayerStack::from_configs(&layers);
+        layer_stack.validate()?;
+
         // Build room → [npc_ids] and npc_id → room indexes.
         let mut npc_placements: HashMap<String, Vec<String>> = HashMap::new();
         let mut npc_id_to_room: HashMap<String, String> = HashMap::new();
@@ -207,6 +218,7 @@ impl StaticRepository {
             start_room_id,
             schema_version,
             layers,
+            layer_stack,
         })
     }
 
@@ -229,6 +241,12 @@ impl StaticRepository {
     /// world declared it. Returns `None` when the layer isn't in the stack.
     pub fn layer(&self, id: &str) -> Option<&LayerConfig> {
         self.layers.iter().find(|l| l.id == id)
+    }
+
+    /// The world's validated layer stack — dependency-checked and used for
+    /// `WorldCommand` verb routing.
+    pub fn layer_stack(&self) -> &LayerStack {
+        &self.layer_stack
     }
 
     pub fn room(&self, id: &str) -> Result<&RoomTemplate, RepositoryError> {

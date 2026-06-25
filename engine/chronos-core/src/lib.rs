@@ -26,6 +26,7 @@ pub mod components;
 pub mod data;
 pub mod events;
 pub mod journal;
+pub mod layers;
 pub mod rng;
 pub mod systems;
 
@@ -684,9 +685,12 @@ impl ChronosEngine {
     /// When the layer registry lands, this consults it: a verb owned by a layer
     /// in the world's stack returns `true` and flows through the normal
     /// tick/apply/log path, making world commands replay-safe by construction.
-    fn world_command_is_handled(&self, _verb: &str) -> bool {
-        // No layer currently registers verbs. See task: formalize layer modules.
-        false
+    fn world_command_is_handled(&self, verb: &str) -> bool {
+        // Consult the world's validated layer stack: a verb is handled only if an
+        // active layer claims it. No built-in layer registers verbs yet, so this
+        // is currently always false for the shipped worlds — but a new layer that
+        // owns verbs is picked up here automatically with no engine plumbing.
+        self.repository.layer_stack().handles_verb(verb)
     }
 
     /// Route a `WorldCommand` to its owning layer. Mirror of `world_command_is_handled`:
