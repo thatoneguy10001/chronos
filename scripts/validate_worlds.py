@@ -173,6 +173,11 @@ def phase2_static(world_dir: Path) -> int:
         for passive_id in klass.get("passives", []):
             if passive_id not in passives:
                 errors.append(f"[classes/{class_id}] passive '{passive_id}' not found in passives/")
+        # classes → items (every loot drop must reference a real item)
+        for drop in klass.get("loot_table", []):
+            item_id = drop.get("item_id")
+            if item_id and item_id not in items:
+                errors.append(f"[classes/{class_id}] loot item '{item_id}' not found in items/")
 
     # rooms → rooms (exits)
     for room_id, room in rooms.items():

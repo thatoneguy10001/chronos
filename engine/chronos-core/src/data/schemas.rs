@@ -283,10 +283,22 @@ pub struct ClassTemplate {
     /// Gold dropped by an enemy of this class on death.
     #[serde(default)]
     pub gold_reward: i32,
+    /// Items this class may drop when slain. Each entry is rolled independently
+    /// against the seeded RNG, so drops replay identically under rewind.
+    #[serde(default)]
+    pub loot_table: Vec<LootDrop>,
     /// Combat AI rules evaluated top-to-bottom each round. First matching condition wins.
     /// Falls back to a plain basic attack if no rule matches.
     #[serde(default)]
     pub tactics: Vec<TacticRule>,
+}
+
+/// One possible loot drop: item `item_id` drops with probability `chance` (0.0–1.0).
+/// A `chance` of 1.0 always drops; 0.25 drops roughly one kill in four.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct LootDrop {
+    pub item_id: String,
+    pub chance: f32,
 }
 
 // --- Passive system ---
