@@ -41,6 +41,24 @@ export interface BuildDraft {
   rooms: DraftRoom[];
   /** Which room the player spawns in. Must reference an existing room. */
   startRoomId: string | null;
+  /** The world's NPCs. */
+  npcs: DraftNpc[];
+}
+
+/** One conversation topic: the player types `keyword`, the NPC says `response`. */
+export interface DraftDialogue {
+  keyword: string;
+  response: string;
+}
+
+/** An NPC being authored: stands in a room, greets, and can be asked topics. */
+export interface DraftNpc {
+  id: string;
+  name: string;
+  greeting: string;
+  /** Room the NPC stands in (references draft.rooms), or null if unplaced. */
+  roomId: string | null;
+  dialogue: DraftDialogue[];
 }
 
 /** The compass directions a room exit can use, in display order. */
@@ -74,6 +92,21 @@ interface BuildStore {
   removeExit: (roomId: string, index: number) => void;
   /** Validate rooms (start set, exit targets exist); empty means valid. */
   validateRooms: () => string[];
+  // --- NPCs ---
+  /** Add a fresh NPC and return its generated id. */
+  addNpc: () => string;
+  /** Patch an NPC's name/greeting/placement. */
+  updateNpc: (id: string, patch: Partial<Pick<DraftNpc, 'name' | 'greeting' | 'roomId'>>) => void;
+  /** Delete an NPC. */
+  removeNpc: (id: string) => void;
+  /** Add a dialogue topic to an NPC. */
+  addDialogue: (npcId: string, line: DraftDialogue) => void;
+  /** Patch a dialogue topic by index. */
+  updateDialogue: (npcId: string, index: number, patch: Partial<DraftDialogue>) => void;
+  /** Remove a dialogue topic by index. */
+  removeDialogue: (npcId: string, index: number) => void;
+  /** Validate NPCs (names, placements, dialogue completeness); empty means valid. */
+  validateNpcs: () => string[];
 }
 
 // Next stable room id. Scans existing `room_N` ids so deletes don't cause reuse
@@ -85,6 +118,16 @@ function nextRoomId(rooms: DraftRoom[]): string {
     if (m) max = Math.max(max, parseInt(m[1], 10));
   }
   return `room_${max + 1}`;
+}
+
+// Next stable NPC id (`npc_N`), same scheme as rooms.
+function nextNpcId(npcs: DraftNpc[]): string {
+  let max = 0;
+  for (const n of npcs) {
+    const m = /^npc_(\d+)$/.exec(n.id);
+    if (m) max = Math.max(max, parseInt(m[1], 10));
+  }
+  return `npc_${max + 1}`;
 }
 
 // Add `id` plus everything it (transitively) requires.
@@ -119,7 +162,7 @@ function withoutDependents(active: string[], id: string): string[] {
 }
 
 export const useBuildStore = create<BuildStore>((set, get) => ({
-  draft: { layers: [], rooms: [], startRoomId: null },
+  draft: { layers: [], rooms: [], startRoomId: null, npcs: [] },
 
   toggleLayer: (id: string) =>
     set(state => {
@@ -246,6 +289,88 @@ export const useBuildStore = create<BuildStore>((set, get) => ({
       for (const exit of room.exits) {
         if (!exit.target || !ids.has(exit.target)) {
           errors.push(`"${room.name || room.id}" has an exit going nowhere.`);
+        }
+      }
+    }
+    return errors;
+  },
+
+  addNpc: () => {
+    const id = nextNpcId(get().draft.npcs);
+    set(state => {
+      const n = state.draft.npcs.length + 1;
+      const npc: DraftNpc = {
+        id,
+        name: `Person ${n}`,
+        greeting: '',
+        // Default placement to the start room if there is one — most NPCs live somewhere.
+        roomId: state.draft.startRoomId ?? state.draft.rooms[0]?.id ?? null,
+        dialogue: [],
+      };
+      return { draft: { ...state.draft, npcs: [...state.draft.npcs, npc] } };
+    });
+    return id;
+  },
+
+  updateNpc: (id, patch) =>
+    set(state => ({
+      draft: {
+        ...state.draft,
+        npcs: state.draft.npcs.map(n => (n.id === id ? { ...n, ...patch } : n)),
+      },
+    })),
+
+  removeNpc: id =>
+    set(state => ({
+      draft: { ...state.draft, npcs: state.draft.npcs.filter(n => n.id !== id) },
+    })),
+
+  addDialogue: (npcId, line) =>
+    set(state => ({
+      draft: {
+        ...state.draft,
+        npcs: state.draft.npcs.map(n =>
+          n.id === npcId ? { ...n, dialogue: [...n.dialogue, line] } : n,
+        ),
+      },
+    })),
+
+  updateDialogue: (npcId, index, patch) =>
+    set(state => ({
+      draft: {
+        ...state.draft,
+        npcs: state.draft.npcs.map(n =>
+          n.id === npcId
+            ? { ...n, dialogue: n.dialogue.map((d, i) => (i === index ? { ...d, ...patch } : d)) }
+            : n,
+        ),
+      },
+    })),
+
+  removeDialogue: (npcId, index) =>
+    set(state => ({
+      draft: {
+        ...state.draft,
+        npcs: state.draft.npcs.map(n =>
+          n.id === npcId ? { ...n, dialogue: n.dialogue.filter((_, i) => i !== index) } : n,
+        ),
+      },
+    })),
+
+  validateNpcs: () => {
+    const { npcs, rooms } = get().draft;
+    const errors: string[] = [];
+    const roomIds = new Set(rooms.map(r => r.id));
+    for (const npc of npcs) {
+      const who = npc.name || npc.id;
+      if (!npc.name.trim()) errors.push('An NPC is missing a name.');
+      if (!npc.greeting.trim()) errors.push(`"${who}" has no greeting.`);
+      if (npc.roomId && !roomIds.has(npc.roomId)) {
+        errors.push(`"${who}" is placed in a room that no longer exists.`);
+      }
+      for (const d of npc.dialogue) {
+        if (!d.keyword.trim() || !d.response.trim()) {
+          errors.push(`"${who}" has an incomplete topic.`);
         }
       }
     }

@@ -3,7 +3,7 @@ import { useBuildStore } from './buildStore';
 
 // Reset the whole draft before each test so they don't bleed into each other.
 beforeEach(() => {
-  useBuildStore.setState({ draft: { layers: [], rooms: [], startRoomId: null } });
+  useBuildStore.setState({ draft: { layers: [], rooms: [], startRoomId: null, npcs: [] } });
 });
 
 describe('buildStore layer stack', () => {
@@ -98,5 +98,44 @@ describe('buildStore rooms', () => {
     // Pointing it at a real room clears the error.
     s().updateExit(a, 0, { target: b });
     expect(s().validateRooms()).toEqual([]);
+  });
+});
+
+describe('buildStore npcs', () => {
+  const s = () => useBuildStore.getState();
+
+  it('a new NPC defaults to standing in the start room', () => {
+    const room = s().addRoom(); // becomes start
+    const npc = s().addNpc();
+    expect(s().draft.npcs.find(n => n.id === npc)!.roomId).toBe(room);
+  });
+
+  it('generates stable npc ids even after deletes', () => {
+    s().addRoom();
+    const a = s().addNpc(); // npc_1
+    const b = s().addNpc(); // npc_2
+    s().removeNpc(a);
+    const c = s().addNpc(); // npc_3
+    expect([a, b, c]).toEqual(['npc_1', 'npc_2', 'npc_3']);
+  });
+
+  it('validates: greeting required, placement must exist, topics complete', () => {
+    const room = s().addRoom();
+    const npc = s().addNpc();
+    // No greeting yet → invalid.
+    expect(s().validateNpcs().some(e => e.includes('no greeting'))).toBe(true);
+
+    s().updateNpc(npc, { greeting: 'Hello, soldier.' });
+    expect(s().validateNpcs()).toEqual([]);
+
+    // An incomplete topic is flagged.
+    s().addDialogue(npc, { keyword: '', response: '' });
+    expect(s().validateNpcs().some(e => e.includes('incomplete topic'))).toBe(true);
+    s().updateDialogue(npc, 0, { keyword: 'war', response: 'It never ends.' });
+    expect(s().validateNpcs()).toEqual([]);
+
+    // Deleting the room the NPC stands in is caught.
+    s().removeRoom(room);
+    expect(s().validateNpcs().some(e => e.includes('no longer exists'))).toBe(true);
   });
 });
