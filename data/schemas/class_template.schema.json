@@ -116,6 +116,22 @@
         },
         "additionalProperties": false
       }
+    },
+    "phases": {
+      "type": "array",
+      "description": "One-time boss phase transitions, fired as HP falls below each threshold.",
+      "items": {
+        "type": "object",
+        "required": ["hp_threshold", "announce"],
+        "additionalProperties": false,
+        "properties": {
+          "hp_threshold":  { "type": "number", "minimum": 0, "maximum": 1 },
+          "announce":      { "type": "string" },
+          "attack_bonus":  { "type": "integer" },
+          "defense_bonus": { "type": "integer" },
+          "heal":          { "type": "integer", "minimum": 0 }
+        }
+      }
     }
   }
 }

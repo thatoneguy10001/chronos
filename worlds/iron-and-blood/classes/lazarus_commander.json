@@ -31,5 +31,19 @@
       "condition": { "type": "always" },
       "action": { "type": "basic_attack" }
     }
+  ],
+  "phases": [
+    {
+      "hp_threshold": 0.5,
+      "announce": "The crystals in its skull flare white. It stops fighting like a soldier and starts fighting like something that has decided you will not leave.",
+      "attack_bonus": 4
+    },
+    {
+      "hp_threshold": 0.2,
+      "announce": "Aetherium floods the dying tissue — a final, borrowed surge. The Commander straightens, wounds knitting, and comes on again.",
+      "attack_bonus": 3,
+      "defense_bonus": 2,
+      "heal": 25
+    }
   ]
 }

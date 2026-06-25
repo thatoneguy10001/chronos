@@ -16,7 +16,7 @@
 
 use crate::components::{
     ActiveEffects, Controllable, EffectKind, Enemy, Experience, Health, Identity, ItemBlueprint,
-    PayloadSlots, Position, Stats, Wallet,
+    PayloadSlots, PhaseProgress, Position, Stats, Wallet,
 };
 use crate::data::{
     schemas::{TacticAction, TacticCondition},
@@ -367,6 +367,11 @@ pub fn process_attack(
         hp.current = enemy_hp_after;
     }
 
+    // Boss phase transitions: did this hit push the enemy past a threshold it
+    // hasn't crossed before? Buffs apply now (affecting future turns) and the
+    // transition is announced.
+    let phase_text = check_enemy_phases(world, repo, enemy_e, &e_class_id, enemy_hp_after, e_max);
+
     // --- Enemy retaliates (unless stunned) ---
     let e_hp_frac = enemy_hp_after as f32 / e_max.max(1) as f32;
     let (e_dmg, retaliation_text) = if enemy_is_stunned(world, enemy_e, current_tick) {
@@ -400,6 +405,7 @@ pub fn process_attack(
          {retaliation_text} ({p_name}: {}/{p_max} HP).",
         player_hp_after.max(0)
     );
+    narrative.push_str(&phase_text);
 
     let died = player_hp_after <= 0;
     let context_actions = if died {
@@ -418,6 +424,66 @@ pub fn process_attack(
         context_actions,
         game_over: died,
     }
+}
+
+/// Check whether the just-damaged enemy crossed any boss phase threshold it
+/// hasn't entered before. Each newly-entered phase applies its buffs/heal and
+/// contributes its announce line. Phases are sorted by descending threshold and
+/// tracked via [`PhaseProgress`] so each fires exactly once; the whole thing is a
+/// deterministic function of HP, so it replays identically under rewind.
+fn check_enemy_phases(
+    world: &mut World,
+    repo: &StaticRepository,
+    enemy_e: Entity,
+    class_id: &str,
+    hp_after: i32,
+    hp_max: i32,
+) -> String {
+    let mut phases = match repo.class(class_id) {
+        Ok(c) if !c.phases.is_empty() => c.phases.clone(),
+        _ => return String::new(),
+    };
+    // Highest threshold first, so phases enter in order as HP falls.
+    phases.sort_by(|a, b| {
+        b.hp_threshold
+            .partial_cmp(&a.hp_threshold)
+            .unwrap_or(std::cmp::Ordering::Equal)
+    });
+
+    let already = world
+        .entity(enemy_e)
+        .get::<PhaseProgress>()
+        .map(|p| p.entered)
+        .unwrap_or(0);
+    let frac = hp_after as f32 / hp_max.max(1) as f32;
+
+    let mut entered = already;
+    let mut text = String::new();
+    while entered < phases.len() && frac < phases[entered].hp_threshold {
+        let phase = &phases[entered];
+        if phase.attack_bonus != 0 || phase.defense_bonus != 0 {
+            if let Some(mut stats) = world.entity_mut(enemy_e).get_mut::<Stats>() {
+                if phase.attack_bonus != 0 {
+                    stats.add("attack", phase.attack_bonus);
+                }
+                if phase.defense_bonus != 0 {
+                    stats.add("defense", phase.defense_bonus);
+                }
+            }
+        }
+        if phase.heal != 0 {
+            if let Some(mut hp) = world.entity_mut(enemy_e).get_mut::<Health>() {
+                hp.current = (hp.current + phase.heal).min(hp.max);
+            }
+        }
+        text.push('\n');
+        text.push_str(&phase.announce);
+        entered += 1;
+    }
+    if entered != already {
+        world.entity_mut(enemy_e).insert(PhaseProgress { entered });
+    }
+    text
 }
 
 /// Whether the given enemy has an active Stun effect this tick. A stunned enemy
