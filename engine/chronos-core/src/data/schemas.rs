@@ -297,6 +297,33 @@ pub struct ClassTemplate {
     /// Falls back to a plain basic attack if no rule matches.
     #[serde(default)]
     pub tactics: Vec<TacticRule>,
+    /// One-time phase transitions a boss undergoes as its HP falls. Distinct from
+    /// `tactics` (which pick a per-turn *action*): a phase fires once when the
+    /// enemy first drops below its threshold, announcing the change and optionally
+    /// buffing/healing the enemy. Order by descending threshold (the engine sorts
+    /// to be safe).
+    #[serde(default)]
+    pub phases: Vec<EnemyPhase>,
+}
+
+/// One boss phase transition. Fires once, the first time the enemy's HP drops
+/// below `hp_threshold` (a fraction of max). Enrage mechanics, second winds, and
+/// "the real fight begins" moments are all expressed here.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct EnemyPhase {
+    /// Trigger when the enemy's HP fraction drops below this (0.0–1.0).
+    pub hp_threshold: f32,
+    /// Narrative shown when the enemy enters this phase.
+    pub announce: String,
+    /// Permanent attack gained on entering the phase.
+    #[serde(default)]
+    pub attack_bonus: i32,
+    /// Permanent defense gained on entering the phase.
+    #[serde(default)]
+    pub defense_bonus: i32,
+    /// HP restored on entering the phase (a "second wind"). Capped at max HP.
+    #[serde(default)]
+    pub heal: i32,
 }
 
 /// One possible loot drop: item `item_id` drops with probability `chance` (0.0–1.0).
