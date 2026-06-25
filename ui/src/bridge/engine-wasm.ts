@@ -62,6 +62,7 @@ const allItemModules     = import.meta.glob<{ default: unknown }>('../../../worl
 const allClassModules    = import.meta.glob<{ default: unknown }>('../../../worlds/*/classes/*.json');
 const allNpcModules      = import.meta.glob<{ default: unknown }>('../../../worlds/*/npcs/*.json');
 const allQuestModules    = import.meta.glob<{ default: unknown }>('../../../worlds/*/quests/*.json');
+const allPassiveModules  = import.meta.glob<{ default: unknown }>('../../../worlds/*/passives/*.json');
 const allManifestModules = import.meta.glob<{ default: unknown }>('../../../worlds/*/manifest.json');
 
 async function filterByWorld(modules: Record<string, LazyMod>, worldId: string) {
@@ -117,12 +118,13 @@ export async function initEngine(worldId: string): Promise<{ worldMeta: WorldMet
     await wasmModule.default?.();
   }
 
-  const [rooms, items, classes, npcs, quests] = await Promise.all([
-    filterByWorld(allRoomModules,  worldId),
-    filterByWorld(allItemModules,  worldId),
-    filterByWorld(allClassModules, worldId),
-    filterByWorld(allNpcModules,   worldId),
-    filterByWorld(allQuestModules, worldId),
+  const [rooms, items, classes, npcs, quests, passives] = await Promise.all([
+    filterByWorld(allRoomModules,    worldId),
+    filterByWorld(allItemModules,    worldId),
+    filterByWorld(allClassModules,   worldId),
+    filterByWorld(allNpcModules,     worldId),
+    filterByWorld(allQuestModules,   worldId),
+    filterByWorld(allPassiveModules, worldId),
   ]);
 
   const manifestEntries = Object.entries(allManifestModules)
@@ -139,7 +141,7 @@ export async function initEngine(worldId: string): Promise<{ worldMeta: WorldMet
   currentItemDescriptions = Object.fromEntries(parsedItems.map(i => [i.id, i.description ?? '']));
   currentItemMeta         = Object.fromEntries(parsedItems.map(i => [i.id, buildItemMeta(i)]));
 
-  const payload = JSON.stringify({ rooms, items, classes, npcs, quests, manifest });
+  const payload = JSON.stringify({ rooms, items, classes, npcs, quests, passives, manifest });
   engineInstance = new wasmModule.WasmEngine(payload);
   return { worldMeta: currentWorldMeta };
 }

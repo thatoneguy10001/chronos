@@ -1,6 +1,6 @@
 use crate::data::schemas::{
-    ClassTemplate, EncounterDef, ItemTemplate, LayerConfig, NpcTemplate, QuestTemplate,
-    RoomTemplate, WorldManifest, CURRENT_SCHEMA_VERSION,
+    ClassTemplate, EncounterDef, ItemTemplate, LayerConfig, NpcTemplate, PassiveTemplate,
+    QuestTemplate, RoomTemplate, WorldManifest, CURRENT_SCHEMA_VERSION,
 };
 use std::collections::HashMap;
 use thiserror::Error;
@@ -40,6 +40,7 @@ pub struct StaticRepository {
     classes: HashMap<String, ClassTemplate>,
     npcs: HashMap<String, NpcTemplate>,
     quests: HashMap<String, QuestTemplate>,
+    passives: HashMap<String, PassiveTemplate>,
     encounters: Vec<EncounterDef>,
     /// Maps room_id → list of npc_ids present in that room.
     npc_placements: HashMap<String, Vec<String>>,
@@ -94,6 +95,30 @@ impl StaticRepository {
         quest_jsons: &[(&str, &str)],
         manifest_json: Option<&str>,
     ) -> Result<Self, RepositoryError> {
+        // Passives are optional world data; callers that don't supply them
+        // (tests, partial worlds) get an empty registry.
+        Self::from_json_pairs_complete(
+            room_jsons,
+            item_jsons,
+            class_jsons,
+            npc_jsons,
+            quest_jsons,
+            &[],
+            manifest_json,
+        )
+    }
+
+    /// Fullest constructor: every world data category, including passives.
+    #[allow(clippy::too_many_arguments)]
+    pub fn from_json_pairs_complete(
+        room_jsons: &[(&str, &str)],
+        item_jsons: &[(&str, &str)],
+        class_jsons: &[(&str, &str)],
+        npc_jsons: &[(&str, &str)],
+        quest_jsons: &[(&str, &str)],
+        passive_jsons: &[(&str, &str)],
+        manifest_json: Option<&str>,
+    ) -> Result<Self, RepositoryError> {
         let mut rooms = HashMap::new();
         for (file, json) in room_jsons {
             let template: RoomTemplate =
@@ -142,6 +167,16 @@ impl StaticRepository {
                     source: e,
                 })?;
             quests.insert(template.id.clone(), template);
+        }
+
+        let mut passives = HashMap::new();
+        for (file, json) in passive_jsons {
+            let template: PassiveTemplate =
+                serde_json::from_str(json).map_err(|e| RepositoryError::ParseError {
+                    file: file.to_string(),
+                    source: e,
+                })?;
+            passives.insert(template.id.clone(), template);
         }
 
         let (start_room_id, encounters, raw_placements, schema_version, layers) =
@@ -201,6 +236,7 @@ impl StaticRepository {
             classes,
             npcs,
             quests,
+            passives,
             encounters,
             npc_placements,
             npc_id_to_room,
@@ -298,6 +334,30 @@ impl StaticRepository {
 
     pub fn all_quests(&self) -> impl Iterator<Item = &QuestTemplate> {
         self.quests.values()
+    }
+
+    /// Look up a single passive definition by id, if it exists.
+    pub fn passive(&self, id: &str) -> Option<&PassiveTemplate> {
+        self.passives.get(id)
+    }
+
+    /// Resolve the passive *effects* a class grants. Unknown passive ids (e.g. a
+    /// class references a passive whose file is missing) are silently skipped, so
+    /// a half-authored world still runs — the validator is where dangling
+    /// references get flagged.
+    pub fn class_passive_effects(
+        &self,
+        class_id: &str,
+    ) -> Vec<&crate::data::schemas::PassiveEffect> {
+        let Ok(class) = self.class(class_id) else {
+            return Vec::new();
+        };
+        class
+            .passives
+            .iter()
+            .filter_map(|pid| self.passives.get(pid))
+            .map(|p| &p.effect)
+            .collect()
     }
 
     /// NPCs present in the given room (by npc_id).

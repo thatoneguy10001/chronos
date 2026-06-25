@@ -659,6 +659,17 @@ impl ChronosEngine {
         for enc in repo.encounters() {
             if let Ok(class) = repo.class(&enc.class_id) {
                 let bs = &class.base_stats;
+                // Fold this class's OnSpawn StatBonus passives into the enemy's
+                // stats (e.g. heavy_plate → +DEF), so enemy passives are as real
+                // as the player's. DamageOnHit passives don't apply to enemies —
+                // they attack via tactics, not the player attack path.
+                let mut stats = Stats::from_map(bs.stats.clone());
+                for effect in repo.class_passive_effects(&class.id) {
+                    if let crate::data::schemas::PassiveEffect::StatBonus { stat, amount } = effect
+                    {
+                        stats.add(stat, *amount);
+                    }
+                }
                 world.spawn((
                     Position {
                         room_id: enc.room_id.clone(),
@@ -668,7 +679,7 @@ impl ChronosEngine {
                         name: class.name.clone(),
                         class_id: class.id.clone(),
                     },
-                    Stats::from_map(bs.stats.clone()),
+                    stats,
                     Health::full(bs.hp),
                     ActiveEffects::default(),
                 ));

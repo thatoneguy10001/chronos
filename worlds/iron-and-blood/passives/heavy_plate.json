@@ -1,0 +1,8 @@
+{
+  "id": "heavy_plate",
+  "name": "Heavy Plate",
+  "description": "Crystalline armor plate, layered and humming. It turns aside what lesser steel cannot.",
+  "type": "stat_bonus",
+  "stat": "defense",
+  "amount": 4
+}
