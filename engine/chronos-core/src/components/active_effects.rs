@@ -245,6 +245,9 @@ pub struct StatMutation {
     pub sign: i32,
 }
 
+/// A typed handle for one of the canonical stats an effect can mutate. Kept as an
+/// enum (rather than a bare string) so effect definitions are compile-checked;
+/// [`StatField::key`] maps it to the string key used by the map-backed `Stats`.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum StatField {
     Attack,
@@ -253,4 +256,19 @@ pub enum StatField {
     TechAttack,
     Agility,
     Luck,
+}
+
+impl StatField {
+    /// The `Stats` map key this field mutates.
+    pub fn key(&self) -> &'static str {
+        use crate::components::stats::stat_keys;
+        match self {
+            StatField::Attack => stat_keys::ATTACK,
+            StatField::Defense => stat_keys::DEFENSE,
+            StatField::Hit => stat_keys::HIT,
+            StatField::TechAttack => stat_keys::TECH_ATTACK,
+            StatField::Agility => stat_keys::AGILITY,
+            StatField::Luck => stat_keys::LUCK,
+        }
+    }
 }

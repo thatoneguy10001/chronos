@@ -33,15 +33,15 @@ pub fn process_character_sheet(world: &mut World, repo: &StaticRepository) -> Sh
     let xp = exp.xp;
     let hp_cur = hp.current;
     let hp_max = hp.max;
-    let atk = stats.attack;
-    let def = stats.defense;
-    let int = stats.intelligence;
-    let hit = stats.hit;
-    let tech = stats.tech_attack;
-    let eva = stats.evasion;
-    let end = stats.endurance;
-    let lck = stats.luck;
-    let agi = stats.agility;
+    let atk = stats.attack();
+    let def = stats.defense();
+    let int = stats.intelligence();
+    let hit = stats.hit();
+    let tech = stats.tech_attack();
+    let eva = stats.evasion();
+    let end = stats.endurance();
+    let lck = stats.luck();
+    let agi = stats.agility();
 
     let xp_line = match exp.xp_to_next() {
         Some(remaining) => format!("XP {}/{} ({} to next level)", xp, xp + remaining, remaining),

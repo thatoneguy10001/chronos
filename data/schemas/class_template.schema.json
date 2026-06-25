@@ -15,13 +15,20 @@
     "description": { "type": "string" },
     "base_stats": {
       "type": "object",
-      "required": ["hp", "attack", "defense", "intelligence"],
-      "additionalProperties": false,
+      "description": "Starting numbers. `hp` seeds Health; every other key seeds the stat map. The canonical stats are documented below, but any additional integer key is allowed so a world can define its own stats (e.g. magic_power, movement_range).",
+      "required": ["hp"],
+      "additionalProperties": { "type": "integer" },
       "properties": {
         "hp":           { "type": "integer", "minimum": 1 },
         "attack":       { "type": "integer", "minimum": 0 },
         "defense":      { "type": "integer", "minimum": 0 },
-        "intelligence": { "type": "integer", "minimum": 0 }
+        "intelligence": { "type": "integer", "minimum": 0 },
+        "hit":          { "type": "integer", "minimum": 0 },
+        "tech_attack":  { "type": "integer", "minimum": 0 },
+        "evasion":      { "type": "integer", "minimum": 0 },
+        "endurance":    { "type": "integer", "minimum": 0 },
+        "luck":         { "type": "integer", "minimum": 0 },
+        "agility":      { "type": "integer", "minimum": 0 }
       }
     },
     "abilities": {

@@ -328,25 +328,26 @@ pub enum TacticAction {
     },
 }
 
-/// The numeric starting block of a class. `hp` seeds `Health`; the rest seed `Stats`.
+/// The numeric starting block of a class. `hp` seeds `Health`; every other key
+/// seeds `Stats`.
+///
+/// `hp` is pulled out as a typed field; all remaining keys are flattened into the
+/// `stats` map. That keeps existing class JSON (`{"hp":100,"attack":9,...}`)
+/// working untouched while letting a world declare any stat name it wants
+/// (`"magic_power"`, `"movement_range"`, …) with no schema change — those simply
+/// land in `stats` and flow straight into the map-backed `Stats` component.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct BaseStats {
     pub hp: i32,
-    pub attack: i32,
-    pub defense: i32,
-    pub intelligence: i32,
-    #[serde(default)]
-    pub hit: i32,
-    #[serde(default)]
-    pub tech_attack: i32,
-    #[serde(default)]
-    pub evasion: i32,
-    #[serde(default)]
-    pub endurance: i32,
-    #[serde(default)]
-    pub luck: i32,
-    #[serde(default)]
-    pub agility: i32,
+    #[serde(flatten)]
+    pub stats: std::collections::HashMap<String, i32>,
+}
+
+impl BaseStats {
+    /// Read one starting stat by name (0 if the class didn't define it).
+    pub fn get(&self, key: &str) -> i32 {
+        self.stats.get(key).copied().unwrap_or(0)
+    }
 }
 
 /// A quest the player can accept and complete.
