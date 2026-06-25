@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { LayerStackEditor } from '@/components/build/LayerStackEditor';
 
 /**
  * Build Mode — the in-app world editor shell.
@@ -34,6 +35,12 @@ const SECTIONS: BuildSection[] = [
 
 export function BuildModeScreen({ onExit }: { onExit: () => void }) {
   const [hovered, setHovered] = useState<string | null>(null);
+  // Which build section is open. 'home' shows the section list; a section key
+  // opens that editor. Only 'layers' is implemented so far.
+  const [section, setSection] = useState<string>('home');
+
+  // Sections that have a working editor. The rest render as "coming soon".
+  const ACTIVE_SECTIONS = new Set(['layers']);
 
   return (
     <div
@@ -79,59 +86,69 @@ export function BuildModeScreen({ onExit }: { onExit: () => void }) {
         whatever you make here is a world the game can play.
       </div>
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem', width: 'min(560px, 100%)' }}>
-        {SECTIONS.map(section => (
-          <div
-            key={section.key}
-            onMouseEnter={() => setHovered(section.key)}
-            onMouseLeave={() => setHovered(null)}
+      {section === 'layers' ? (
+        <LayerStackEditor onBack={() => setSection('home')} />
+      ) : (
+        <>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem', width: 'min(560px, 100%)' }}>
+            {SECTIONS.map(sec => {
+              const isActive = ACTIVE_SECTIONS.has(sec.key);
+              return (
+                <div
+                  key={sec.key}
+                  onMouseEnter={() => setHovered(sec.key)}
+                  onMouseLeave={() => setHovered(null)}
+                  onClick={isActive ? () => setSection(sec.key) : undefined}
+                  style={{
+                    border: '1px solid var(--ink-faint)',
+                    borderRadius: 2,
+                    padding: '0.85rem 1rem',
+                    background: hovered === sec.key ? 'rgba(0,0,0,0.04)' : 'transparent',
+                    opacity: isActive ? 1 : 0.6,
+                    cursor: isActive ? 'pointer' : 'default',
+                  }}
+                >
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
+                    <span style={{ color: 'var(--ink-narrative)', fontWeight: 600, fontSize: '1em' }}>
+                      {sec.label}
+                    </span>
+                    <span
+                      style={{
+                        color: isActive ? 'var(--ink-narrative)' : 'var(--ink-faint)',
+                        fontSize: '0.65em',
+                        letterSpacing: '0.12em',
+                        fontFamily: 'var(--font-dossier)',
+                      }}
+                    >
+                      {isActive ? 'EDIT ▸' : 'COMING SOON'}
+                    </span>
+                  </div>
+                  <div style={{ color: 'var(--ink-movement)', fontSize: '0.8em', marginTop: '0.25rem', fontFamily: 'var(--font-dossier)' }}>
+                    {sec.blurb}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          <button
+            onClick={onExit}
             style={{
+              marginTop: '2rem',
+              background: 'transparent',
               border: '1px solid var(--ink-faint)',
-              borderRadius: 2,
-              padding: '0.85rem 1rem',
-              background: hovered === section.key ? 'rgba(0,0,0,0.04)' : 'transparent',
-              opacity: 0.6,
-              cursor: 'default',
+              color: 'var(--ink-narrative)',
+              fontFamily: 'var(--font-dossier)',
+              fontSize: '0.8em',
+              padding: '0.5rem 1.75rem',
+              cursor: 'pointer',
+              letterSpacing: '0.12em',
             }}
           >
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
-              <span style={{ color: 'var(--ink-narrative)', fontWeight: 600, fontSize: '1em' }}>
-                {section.label}
-              </span>
-              <span
-                style={{
-                  color: 'var(--ink-faint)',
-                  fontSize: '0.65em',
-                  letterSpacing: '0.12em',
-                  fontFamily: 'var(--font-dossier)',
-                }}
-              >
-                COMING SOON
-              </span>
-            </div>
-            <div style={{ color: 'var(--ink-movement)', fontSize: '0.8em', marginTop: '0.25rem', fontFamily: 'var(--font-dossier)' }}>
-              {section.blurb}
-            </div>
-          </div>
-        ))}
-      </div>
-
-      <button
-        onClick={onExit}
-        style={{
-          marginTop: '2rem',
-          background: 'transparent',
-          border: '1px solid var(--ink-faint)',
-          color: 'var(--ink-narrative)',
-          fontFamily: 'var(--font-dossier)',
-          fontSize: '0.8em',
-          padding: '0.5rem 1.75rem',
-          cursor: 'pointer',
-          letterSpacing: '0.12em',
-        }}
-      >
-        ← BACK TO MENU
-      </button>
+            ← BACK TO MENU
+          </button>
+        </>
+      )}
     </div>
   );
 }
