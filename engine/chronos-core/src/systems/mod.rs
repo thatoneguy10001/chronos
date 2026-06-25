@@ -16,5 +16,6 @@ pub mod input_parsing;
 pub mod interaction;
 pub mod movement;
 pub mod poison;
+pub mod progression;
 pub mod quest;
 pub mod shop;

@@ -53,5 +53,6 @@
   ],
   "xp_reward": 0,
   "gold_reward": 0,
+  "level_up_gains": { "hp": 4, "attack": 3, "hit": 1 },
   "tactics": []
 }

@@ -18,7 +18,8 @@
 //! Dialogue topic gating also reads them via `requires_quest_complete`.
 
 use crate::components::{
-    Controllable, Experience, GameTime, Position, QuestEntry, QuestLog, Stats, Wallet, WorldFlags,
+    Controllable, Experience, GameTime, Identity, Position, QuestEntry, QuestLog, Wallet,
+    WorldFlags,
 };
 use crate::data::{schemas::QuestObjective, StaticRepository};
 use crate::events::ContextAction;
@@ -342,13 +343,6 @@ pub fn process_turn_in(world: &mut World, repo: &StaticRepository, quest_id: &st
     } else {
         None
     };
-    if level_up.is_some() {
-        if let Some(mut st) = world.entity_mut(player_e).get_mut::<Stats>() {
-            st["attack"] += 1;
-            st["defense"] += 1;
-        }
-    }
-
     // Set the world flag so NPCs and rooms can react
     if let Some(mut flags) = world.get_resource_mut::<WorldFlags>() {
         flags.set(&format!("{quest_id}_turned_in"));
@@ -375,10 +369,22 @@ pub fn process_turn_in(world: &mut World, repo: &StaticRepository, quest_id: &st
         complete_text, template.gold_reward, template.xp_reward
     );
     if let Some(new_level) = level_up {
-        narrative.push_str(&format!(
-            "\nLevel up! Reached level {}! (+1 ATK, +1 DEF)",
-            new_level
-        ));
+        // Same consolidated level-up path as combat, so a quest turn-in grants
+        // exactly the class's gains (including HP, which the old quest path
+        // silently skipped).
+        let player_class = world
+            .entity(player_e)
+            .get::<Identity>()
+            .map(|id| id.class_id.clone())
+            .unwrap_or_default();
+        let gains = crate::systems::progression::apply_level_up(
+            world,
+            player_e,
+            repo,
+            &player_class,
+            new_level,
+        );
+        narrative.push_str(&gains);
     }
 
     QuestResult {

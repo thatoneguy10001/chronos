@@ -32,5 +32,6 @@
   ],
   "passives": [],
   "starting_equipment": [],
-  "xp_reward": 0
+  "xp_reward": 0,
+  "level_up_gains": { "hp": 5, "intelligence": 2, "tech_attack": 2 }
 }

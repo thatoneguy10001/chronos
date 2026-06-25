@@ -9,8 +9,8 @@
 //! and the system matches against both the template ID and the display name.
 
 use crate::components::{
-    ActiveEffects, AssembledWeapon, Controllable, EffectKind, Health, InInventory, ItemBlueprint,
-    Position, Stats,
+    stat_abbrev, ActiveEffects, AssembledWeapon, Controllable, EffectKind, Health, InInventory,
+    ItemBlueprint, Position, Stats,
 };
 use crate::data::StaticRepository;
 use crate::events::ContextAction;
@@ -516,22 +516,6 @@ fn boost_stat(world: &mut World, key: &str, label: &str, amount: i32, item_name:
         )
     } else {
         format!("You use the {item_name}.")
-    }
-}
-
-/// Short uppercase abbreviation for a stat key, used in equip annotations.
-fn stat_abbrev(key: &str) -> String {
-    match key {
-        "attack" => "ATK".to_string(),
-        "defense" => "DEF".to_string(),
-        "intelligence" => "INT".to_string(),
-        "tech_attack" => "TECH ATK".to_string(),
-        "evasion" => "EVA".to_string(),
-        "endurance" => "TECH DEF".to_string(),
-        "agility" => "AGI".to_string(),
-        "luck" => "LCK".to_string(),
-        "hit" => "HIT".to_string(),
-        other => other.to_uppercase(),
     }
 }
 

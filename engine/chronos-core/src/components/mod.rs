@@ -35,7 +35,7 @@ pub use npc_dispositions::NpcDispositions;
 pub use payload_slots::PayloadSlots;
 pub use position::Position;
 pub use quest_log::{QuestEntry, QuestLog};
-pub use stats::{stat_keys, Stats};
+pub use stats::{stat_abbrev, stat_keys, Stats};
 pub use victory::Victory;
 pub use wallet::Wallet;
 pub use world_flags::WorldFlags;
