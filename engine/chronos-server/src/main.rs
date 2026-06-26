@@ -19,13 +19,67 @@ use tower_http::cors::{Any, CorsLayer};
 #[derive(Deserialize)]
 #[serde(tag = "type", rename_all = "snake_case")]
 enum ClientMsg {
-    WorldList { seq: u64 },
-    Init { seq: u64, world_id: String },
-    Command { seq: u64, input: String },
-    Rewind { seq: u64, tick: u32 },
-    Snapshot { seq: u64 },
-    RoomActions { seq: u64 },
-    LoadSnapshot { seq: u64, snapshot_json: String },
+    WorldList {
+        seq: u64,
+    },
+    Init {
+        seq: u64,
+        world_id: String,
+    },
+    /// Initialize from an in-memory world payload instead of one on disk. This is
+    /// Build Mode's Test Play over the WebSocket bridge: the browser serializes a
+    /// draft and sends the world inline, so a not-yet-saved world is playable here
+    /// exactly as it is in the bundled WASM engine.
+    InitInline {
+        seq: u64,
+        world: InlineWorld,
+    },
+    Command {
+        seq: u64,
+        input: String,
+    },
+    Rewind {
+        seq: u64,
+        tick: u32,
+    },
+    Snapshot {
+        seq: u64,
+    },
+    RoomActions {
+        seq: u64,
+    },
+    LoadSnapshot {
+        seq: u64,
+        snapshot_json: String,
+    },
+}
+
+/// One serialized world file as the browser sends it: a name and its JSON text.
+#[derive(Deserialize)]
+struct InlineFile {
+    filename: String,
+    content: String,
+}
+
+/// A complete world sent inline — the same shape `build_repo` assembles from disk,
+/// just delivered in the message. Every collection defaults to empty so a minimal
+/// world (a room and a class) serializes to a valid payload.
+#[derive(Deserialize)]
+struct InlineWorld {
+    #[serde(default)]
+    rooms: Vec<InlineFile>,
+    #[serde(default)]
+    items: Vec<InlineFile>,
+    #[serde(default)]
+    classes: Vec<InlineFile>,
+    #[serde(default)]
+    npcs: Vec<InlineFile>,
+    #[serde(default)]
+    quests: Vec<InlineFile>,
+    #[serde(default)]
+    passives: Vec<InlineFile>,
+    #[serde(default)]
+    manifest: Option<String>,
 }
 
 fn ok_msg(seq: u64) -> String {
@@ -117,6 +171,29 @@ fn build_repo(world_id: &str) -> Result<StaticRepository, String> {
     .map_err(|e| e.to_string())
 }
 
+/// Build a repository from an inline world payload (Build Mode Test Play). Mirrors
+/// `build_repo` but borrows the (filename, content) pairs straight from the message
+/// instead of reading them off disk.
+fn build_repo_inline(world: &InlineWorld) -> Result<StaticRepository, String> {
+    fn pairs(files: &[InlineFile]) -> Vec<(&str, &str)> {
+        files
+            .iter()
+            .map(|f| (f.filename.as_str(), f.content.as_str()))
+            .collect()
+    }
+
+    StaticRepository::from_json_pairs_complete(
+        &pairs(&world.rooms),
+        &pairs(&world.items),
+        &pairs(&world.classes),
+        &pairs(&world.npcs),
+        &pairs(&world.quests),
+        &pairs(&world.passives),
+        world.manifest.as_deref(),
+    )
+    .map_err(|e| e.to_string())
+}
+
 /// List all available worlds by scanning for world.json files.
 fn list_worlds() -> Vec<Value> {
     let base = worlds_dir();
@@ -169,6 +246,14 @@ fn dispatch(engine: &mut Option<ChronosEngine>, msg: ClientMsg) -> String {
         }
 
         ClientMsg::Init { seq, world_id } => match build_repo(&world_id) {
+            Err(e) => err_msg(seq, e),
+            Ok(repo) => {
+                *engine = Some(ChronosEngine::new(repo));
+                ok_msg(seq)
+            }
+        },
+
+        ClientMsg::InitInline { seq, world } => match build_repo_inline(&world) {
             Err(e) => err_msg(seq, e),
             Ok(repo) => {
                 *engine = Some(ChronosEngine::new(repo));
@@ -392,6 +477,72 @@ mod tests {
             },
         );
         assert_error(&r, 5);
+    }
+
+    // ── init_inline: an in-memory world boots and is playable ─────────────────
+
+    /// A minimal but complete inline world: one room, one playable class.
+    fn minimal_inline_world() -> ClientMsg {
+        let world: InlineWorld = serde_json::from_value(serde_json::json!({
+            "rooms": [{ "filename": "room_1.json", "content":
+                r#"{ "id": "room_1", "name": "Trench", "description": "Mud.", "exits": {} }"# }],
+            "items": [],
+            "classes": [{ "filename": "class_1.json", "content":
+                r#"{ "id": "class_1", "name": "Scout", "description": "t",
+                    "base_stats": { "hp": 80, "attack": 12, "defense": 3 } }"# }],
+            "npcs": [], "quests": [], "passives": [],
+            "manifest": r#"{ "start_room_id": "room_1" }"#,
+        }))
+        .unwrap();
+        ClientMsg::InitInline { seq: 10, world }
+    }
+
+    #[test]
+    fn dispatch_init_inline_boots_and_plays() {
+        let mut engine = None;
+        let r = dispatch(&mut engine, minimal_inline_world());
+        let v: serde_json::Value = serde_json::from_str(&r).unwrap();
+        assert_eq!(v["type"], "ok", "init_inline should succeed: {r}");
+        assert_eq!(v["seq"], 10);
+        assert!(
+            engine.is_some(),
+            "engine should be initialized after init_inline"
+        );
+
+        // The inline world is actually playable: become the class, then look.
+        dispatch(
+            &mut engine,
+            ClientMsg::Command {
+                seq: 11,
+                input: "become class_1".into(),
+            },
+        );
+        let look = dispatch(
+            &mut engine,
+            ClientMsg::Command {
+                seq: 12,
+                input: "look".into(),
+            },
+        );
+        let v: serde_json::Value = serde_json::from_str(&look).unwrap();
+        assert_eq!(v["type"], "result");
+        assert!(
+            v["narrative"].as_str().unwrap_or("").contains("Trench"),
+            "should be standing in the authored room: {look}"
+        );
+    }
+
+    #[test]
+    fn dispatch_init_inline_reports_bad_world() {
+        // A class referencing a start room that doesn't exist must error, not panic.
+        let world: InlineWorld = serde_json::from_value(serde_json::json!({
+            "rooms": [],
+            "manifest": r#"{ "start_room_id": "missing_room" }"#,
+        }))
+        .unwrap();
+        let mut engine = None;
+        let r = dispatch(&mut engine, ClientMsg::InitInline { seq: 13, world });
+        assert_error(&r, 13);
     }
 
     #[test]
