@@ -742,6 +742,9 @@ impl ChronosEngine {
                     stats,
                     Health::full(bs.hp),
                     ActiveEffects::default(),
+                    // Companions track their own ability cooldowns, so a healer
+                    // can't spam its heal every round.
+                    AbilityCooldowns::new(),
                 ));
             }
         }

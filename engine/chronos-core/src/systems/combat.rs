@@ -515,18 +515,40 @@ fn party_assist(
     };
 
     // Living companions in the room, in stable roster order.
-    let mut members: Vec<(i32, String, u32)> = {
-        let mut q =
-            world.query_filtered::<(&PartyMember, &Stats, &Health, &Identity, &Position), ()>();
+    let mut members: Vec<(Entity, i32, String, String, u32)> = {
+        let mut q = world
+            .query_filtered::<(Entity, &PartyMember, &Stats, &Identity, &Health, &Position), ()>();
         q.iter(world)
-            .filter(|(_, _, hp, _, pos)| pos.room_id == room && hp.current > 0)
-            .map(|(pm, st, _, id, _)| (st.attack(), id.name.clone(), pm.order))
+            .filter(|(_, _, _, _, hp, pos)| pos.room_id == room && hp.current > 0)
+            .map(|(e, pm, st, id, _, _)| {
+                (
+                    e,
+                    st.attack(),
+                    id.name.clone(),
+                    id.class_id.clone(),
+                    pm.order,
+                )
+            })
             .collect()
     };
-    members.sort_by_key(|(_, _, order)| *order);
+    members.sort_by_key(|(_, _, _, _, order)| *order);
 
     let mut out = String::new();
-    for (atk, m_name, _) in members {
+    for (m_e, atk, m_name, m_class, _) in members {
+        // Support first: a companion with a ready heal mends the most-wounded ally
+        // instead of attacking this turn. Falls through to a basic attack otherwise.
+        if let Some(text) = crate::systems::ability::companion_support_turn(
+            world,
+            repo,
+            m_e,
+            &m_name,
+            &m_class,
+            current_tick,
+        ) {
+            out.push_str(&text);
+            continue;
+        }
+
         // Target the first living enemy still in the room.
         let target = {
             let mut q = world
