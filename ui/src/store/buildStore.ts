@@ -43,6 +43,70 @@ export interface BuildDraft {
   startRoomId: string | null;
   /** The world's NPCs. */
   npcs: DraftNpc[];
+  /** The world's items — gear, consumables, plain objects. */
+  items: DraftItem[];
+  /** The world's character classes — playable heroes and enemies alike. */
+  classes: DraftClass[];
+}
+
+/**
+ * What kind of item this is. The engine reads different `attributes` for each:
+ * equipment carries `equip_stat`/`equip_bonus`; a consumable carries
+ * `use_effect`/`heal_amount`; a plain item carries neither. Picking the kind here
+ * is just a friendlier way to author that attribute bag.
+ */
+export type ItemKind = 'plain' | 'equipment' | 'consumable';
+
+/** An item being authored. `kind` drives which of the kind-specific fields matter. */
+export interface DraftItem {
+  id: string;
+  name: string;
+  description: string;
+  kind: ItemKind;
+  /** Equipment: the stat the gear boosts (e.g. "attack", "defense"). */
+  equipStat: string;
+  /** Equipment: how much it boosts that stat. */
+  equipBonus: number;
+  /** Consumable: HP restored when used. */
+  healAmount: number;
+  /** Free-form tags (e.g. "weapon", "medical"). */
+  tags: string[];
+}
+
+/** Whether a class is something the player can *become* or an *enemy* they fight. */
+export type ClassRole = 'playable' | 'enemy';
+
+/** One loot possibility: item `itemId` drops with probability `chance` (0..1). */
+export interface DraftLoot {
+  itemId: string;
+  chance: number;
+}
+
+/**
+ * A character class being authored — a playable hero or an enemy.
+ *
+ * Both serialize to the engine's single `ClassTemplate`; `role` only changes how
+ * the world *references* the class (a playable class is chosen with `become`, an
+ * enemy is dropped into a room as an encounter). Keeping them in one list (and one
+ * id namespace) mirrors the engine, where class ids must be unique across both.
+ */
+export interface DraftClass {
+  id: string;
+  name: string;
+  description: string;
+  role: ClassRole;
+  /** Core stats. World-defined/flex stats are a later pass. */
+  hp: number;
+  attack: number;
+  defense: number;
+  /** Playable only: item ids the hero spawns holding. */
+  startingEquipment: string[];
+  /** Enemy only: XP granted to whoever lands the killing blow. */
+  xpReward: number;
+  /** Enemy only: gold dropped on death. */
+  goldReward: number;
+  /** Enemy only: items that may drop on death, each rolled independently. */
+  loot: DraftLoot[];
 }
 
 /** One conversation topic: the player types `keyword`, the NPC says `response`. */
@@ -107,6 +171,33 @@ interface BuildStore {
   removeDialogue: (npcId: string, index: number) => void;
   /** Validate NPCs (names, placements, dialogue completeness); empty means valid. */
   validateNpcs: () => string[];
+  // --- Items ---
+  /** Add a fresh item and return its generated id. */
+  addItem: () => string;
+  /** Patch an item's fields. */
+  updateItem: (id: string, patch: Partial<Omit<DraftItem, 'id'>>) => void;
+  /** Delete an item, scrubbing references to it from class equipment and loot. */
+  removeItem: (id: string) => void;
+  // --- Classes (playable + enemies) ---
+  /** Add a fresh class of the given role and return its generated id. */
+  addClass: (role: ClassRole) => string;
+  /** Patch a class's scalar fields. */
+  updateClass: (
+    id: string,
+    patch: Partial<Omit<DraftClass, 'id' | 'startingEquipment' | 'loot'>>,
+  ) => void;
+  /** Delete a class. */
+  removeClass: (id: string) => void;
+  /** Toggle an item in a playable class's starting equipment. */
+  toggleStartingEquipment: (classId: string, itemId: string) => void;
+  /** Add a loot row to an enemy class. */
+  addLoot: (classId: string, loot: DraftLoot) => void;
+  /** Patch a loot row by index. */
+  updateLoot: (classId: string, index: number, patch: Partial<DraftLoot>) => void;
+  /** Remove a loot row by index. */
+  removeLoot: (classId: string, index: number) => void;
+  /** Validate items + classes (names, stats, references); empty means valid. */
+  validateContent: () => string[];
 }
 
 // Next stable room id. Scans existing `room_N` ids so deletes don't cause reuse
@@ -128,6 +219,18 @@ function nextNpcId(npcs: DraftNpc[]): string {
     if (m) max = Math.max(max, parseInt(m[1], 10));
   }
   return `npc_${max + 1}`;
+}
+
+// Next stable id of the form `<prefix>_N`, scanning existing ids so deletes never
+// cause reuse. Shared by items and classes (same scheme as rooms/npcs).
+function nextSeqId<T extends { id: string }>(items: T[], prefix: string): string {
+  const re = new RegExp(`^${prefix}_(\\d+)$`);
+  let max = 0;
+  for (const it of items) {
+    const m = re.exec(it.id);
+    if (m) max = Math.max(max, parseInt(m[1], 10));
+  }
+  return `${prefix}_${max + 1}`;
 }
 
 // Add `id` plus everything it (transitively) requires.
@@ -162,7 +265,7 @@ function withoutDependents(active: string[], id: string): string[] {
 }
 
 export const useBuildStore = create<BuildStore>((set, get) => ({
-  draft: { layers: [], rooms: [], startRoomId: null, npcs: [] },
+  draft: { layers: [], rooms: [], startRoomId: null, npcs: [], items: [], classes: [] },
 
   toggleLayer: (id: string) =>
     set(state => {
@@ -371,6 +474,169 @@ export const useBuildStore = create<BuildStore>((set, get) => ({
       for (const d of npc.dialogue) {
         if (!d.keyword.trim() || !d.response.trim()) {
           errors.push(`"${who}" has an incomplete topic.`);
+        }
+      }
+    }
+    return errors;
+  },
+
+  addItem: () => {
+    const id = nextSeqId(get().draft.items, 'item');
+    set(state => {
+      const n = state.draft.items.length + 1;
+      const item: DraftItem = {
+        id,
+        name: `Item ${n}`,
+        description: '',
+        kind: 'plain',
+        equipStat: 'attack',
+        equipBonus: 1,
+        healAmount: 10,
+        tags: [],
+      };
+      return { draft: { ...state.draft, items: [...state.draft.items, item] } };
+    });
+    return id;
+  },
+
+  updateItem: (id, patch) =>
+    set(state => ({
+      draft: {
+        ...state.draft,
+        items: state.draft.items.map(it => (it.id === id ? { ...it, ...patch } : it)),
+      },
+    })),
+
+  removeItem: id =>
+    set(state => ({
+      draft: {
+        ...state.draft,
+        items: state.draft.items.filter(it => it.id !== id),
+        // Scrub the deleted item from anything that referenced it, so no class
+        // points at gear/loot that no longer exists.
+        classes: state.draft.classes.map(c => ({
+          ...c,
+          startingEquipment: c.startingEquipment.filter(eq => eq !== id),
+          loot: c.loot.filter(l => l.itemId !== id),
+        })),
+      },
+    })),
+
+  addClass: role => {
+    const id = nextSeqId(get().draft.classes, 'class');
+    set(state => {
+      // Number the default name within its role, so the first enemy is "Enemy 1"
+      // even when playable classes already exist (ids stay globally unique).
+      const n = state.draft.classes.filter(c => c.role === role).length + 1;
+      const cls: DraftClass = {
+        id,
+        name: role === 'enemy' ? `Enemy ${n}` : `Class ${n}`,
+        description: '',
+        role,
+        hp: role === 'enemy' ? 20 : 100,
+        attack: 10,
+        defense: 5,
+        startingEquipment: [],
+        xpReward: 10,
+        goldReward: 0,
+        loot: [],
+      };
+      return { draft: { ...state.draft, classes: [...state.draft.classes, cls] } };
+    });
+    return id;
+  },
+
+  updateClass: (id, patch) =>
+    set(state => ({
+      draft: {
+        ...state.draft,
+        classes: state.draft.classes.map(c => (c.id === id ? { ...c, ...patch } : c)),
+      },
+    })),
+
+  removeClass: id =>
+    set(state => ({
+      draft: { ...state.draft, classes: state.draft.classes.filter(c => c.id !== id) },
+    })),
+
+  toggleStartingEquipment: (classId, itemId) =>
+    set(state => ({
+      draft: {
+        ...state.draft,
+        classes: state.draft.classes.map(c =>
+          c.id === classId
+            ? {
+                ...c,
+                startingEquipment: c.startingEquipment.includes(itemId)
+                  ? c.startingEquipment.filter(eq => eq !== itemId)
+                  : [...c.startingEquipment, itemId],
+              }
+            : c,
+        ),
+      },
+    })),
+
+  addLoot: (classId, loot) =>
+    set(state => ({
+      draft: {
+        ...state.draft,
+        classes: state.draft.classes.map(c =>
+          c.id === classId ? { ...c, loot: [...c.loot, loot] } : c,
+        ),
+      },
+    })),
+
+  updateLoot: (classId, index, patch) =>
+    set(state => ({
+      draft: {
+        ...state.draft,
+        classes: state.draft.classes.map(c =>
+          c.id === classId
+            ? { ...c, loot: c.loot.map((l, i) => (i === index ? { ...l, ...patch } : l)) }
+            : c,
+        ),
+      },
+    })),
+
+  removeLoot: (classId, index) =>
+    set(state => ({
+      draft: {
+        ...state.draft,
+        classes: state.draft.classes.map(c =>
+          c.id === classId ? { ...c, loot: c.loot.filter((_, i) => i !== index) } : c,
+        ),
+      },
+    })),
+
+  validateContent: () => {
+    const { items, classes } = get().draft;
+    const errors: string[] = [];
+    const itemIds = new Set(items.map(i => i.id));
+
+    for (const item of items) {
+      const who = item.name || item.id;
+      if (!item.name.trim()) errors.push('An item is missing a name.');
+      if (item.kind === 'equipment' && !item.equipStat.trim()) {
+        errors.push(`"${who}" is equipment but boosts no stat.`);
+      }
+      if (item.kind === 'consumable' && item.healAmount <= 0) {
+        errors.push(`"${who}" is a consumable that heals nothing.`);
+      }
+    }
+
+    for (const cls of classes) {
+      const who = cls.name || cls.id;
+      if (!cls.name.trim()) errors.push('A class is missing a name.');
+      if (cls.hp <= 0) errors.push(`"${who}" needs at least 1 HP.`);
+      for (const eq of cls.startingEquipment) {
+        if (!itemIds.has(eq)) errors.push(`"${who}" starts with an item that no longer exists.`);
+      }
+      for (const l of cls.loot) {
+        if (!l.itemId || !itemIds.has(l.itemId)) {
+          errors.push(`"${who}" drops an item that no longer exists.`);
+        }
+        if (l.chance < 0 || l.chance > 1) {
+          errors.push(`"${who}" has a drop chance outside 0–100%.`);
         }
       }
     }

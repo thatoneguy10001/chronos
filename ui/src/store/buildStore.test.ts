@@ -3,7 +3,9 @@ import { useBuildStore } from './buildStore';
 
 // Reset the whole draft before each test so they don't bleed into each other.
 beforeEach(() => {
-  useBuildStore.setState({ draft: { layers: [], rooms: [], startRoomId: null, npcs: [] } });
+  useBuildStore.setState({
+    draft: { layers: [], rooms: [], startRoomId: null, npcs: [], items: [], classes: [] },
+  });
 });
 
 describe('buildStore layer stack', () => {
@@ -137,5 +139,74 @@ describe('buildStore npcs', () => {
     // Deleting the room the NPC stands in is caught.
     s().removeRoom(room);
     expect(s().validateNpcs().some(e => e.includes('no longer exists'))).toBe(true);
+  });
+});
+
+describe('buildStore content (items + classes)', () => {
+  const s = () => useBuildStore.getState();
+
+  it('generates stable item and class ids even after deletes', () => {
+    const a = s().addItem(); // item_1
+    const b = s().addItem(); // item_2
+    s().removeItem(a);
+    const c = s().addItem(); // must be item_3, not reuse item_1
+    expect([a, b, c]).toEqual(['item_1', 'item_2', 'item_3']);
+
+    // Classes and enemies share one id namespace (they're one engine type).
+    const hero = s().addClass('playable'); // class_1
+    const foe = s().addClass('enemy'); // class_2
+    expect([hero, foe]).toEqual(['class_1', 'class_2']);
+  });
+
+  it('deleting an item scrubs it from equipment and loot', () => {
+    const sword = s().addItem();
+    const hero = s().addClass('playable');
+    const foe = s().addClass('enemy');
+    s().toggleStartingEquipment(hero, sword);
+    s().addLoot(foe, { itemId: sword, chance: 1 });
+    expect(s().draft.classes.find(c => c.id === hero)!.startingEquipment).toEqual([sword]);
+    expect(s().draft.classes.find(c => c.id === foe)!.loot).toHaveLength(1);
+
+    s().removeItem(sword);
+    // No dangling references survive the delete.
+    expect(s().draft.classes.find(c => c.id === hero)!.startingEquipment).toEqual([]);
+    expect(s().draft.classes.find(c => c.id === foe)!.loot).toEqual([]);
+  });
+
+  it('toggling starting equipment adds then removes it', () => {
+    const item = s().addItem();
+    const hero = s().addClass('playable');
+    s().toggleStartingEquipment(hero, item);
+    expect(s().draft.classes.find(c => c.id === hero)!.startingEquipment).toEqual([item]);
+    s().toggleStartingEquipment(hero, item);
+    expect(s().draft.classes.find(c => c.id === hero)!.startingEquipment).toEqual([]);
+  });
+
+  it('validates: names, positive HP, equipment kind, and references', () => {
+    expect(s().validateContent()).toEqual([]); // empty is fine
+
+    const item = s().addItem();
+    s().updateItem(item, { name: '', kind: 'equipment', equipStat: '' });
+    let errs = s().validateContent();
+    expect(errs.some(e => e.includes('missing a name'))).toBe(true);
+    expect(errs.some(e => e.includes('boosts no stat'))).toBe(true);
+
+    // A consumable that heals nothing is flagged.
+    s().updateItem(item, { name: 'Potion', kind: 'consumable', healAmount: 0 });
+    expect(s().validateContent().some(e => e.includes('heals nothing'))).toBe(true);
+    s().updateItem(item, { healAmount: 25 });
+    expect(s().validateContent()).toEqual([]);
+
+    // A class needs at least 1 HP.
+    const foe = s().addClass('enemy');
+    s().updateClass(foe, { hp: 0 });
+    expect(s().validateContent().some(e => e.includes('at least 1 HP'))).toBe(true);
+    s().updateClass(foe, { hp: 10 });
+
+    // A loot row with no item chosen is caught.
+    s().addLoot(foe, { itemId: '', chance: 1 });
+    expect(s().validateContent().some(e => e.includes('no longer exists'))).toBe(true);
+    s().updateLoot(foe, 0, { itemId: item });
+    expect(s().validateContent()).toEqual([]);
   });
 });
