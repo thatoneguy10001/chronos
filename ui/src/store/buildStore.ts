@@ -49,6 +49,8 @@ export interface BuildDraft {
   classes: DraftClass[];
   /** The world's quests — the objectives that chain into a story. */
   quests: DraftQuest[];
+  /** Class ids of starting companions who travel with the lead (party combat). */
+  party: string[];
 }
 
 /**
@@ -239,6 +241,8 @@ interface BuildStore {
   updateLoot: (classId: string, index: number, patch: Partial<DraftLoot>) => void;
   /** Remove a loot row by index. */
   removeLoot: (classId: string, index: number) => void;
+  /** Toggle a playable class in/out of the starting party (companions). */
+  togglePartyMember: (classId: string) => void;
   /** Validate items + classes (names, stats, references); empty means valid. */
   validateContent: () => string[];
   // --- Quests ---
@@ -327,7 +331,7 @@ function withoutDependents(active: string[], id: string): string[] {
 }
 
 export const useBuildStore = create<BuildStore>((set, get) => ({
-  draft: { layers: [], rooms: [], startRoomId: null, npcs: [], items: [], classes: [], quests: [] },
+  draft: { layers: [], rooms: [], startRoomId: null, npcs: [], items: [], classes: [], quests: [], party: [] },
 
   toggleLayer: (id: string) =>
     set(state => {
@@ -618,7 +622,22 @@ export const useBuildStore = create<BuildStore>((set, get) => ({
 
   removeClass: id =>
     set(state => ({
-      draft: { ...state.draft, classes: state.draft.classes.filter(c => c.id !== id) },
+      draft: {
+        ...state.draft,
+        classes: state.draft.classes.filter(c => c.id !== id),
+        // Drop the deleted class from the starting party so it can't dangle.
+        party: state.draft.party.filter(pid => pid !== id),
+      },
+    })),
+
+  togglePartyMember: (classId: string) =>
+    set(state => ({
+      draft: {
+        ...state.draft,
+        party: state.draft.party.includes(classId)
+          ? state.draft.party.filter(id => id !== classId)
+          : [...state.draft.party, classId],
+      },
     })),
 
   toggleStartingEquipment: (classId, itemId) =>

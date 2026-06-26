@@ -4,7 +4,7 @@ import { useBuildStore } from './buildStore';
 // Reset the whole draft before each test so they don't bleed into each other.
 beforeEach(() => {
   useBuildStore.setState({
-    draft: { layers: [], rooms: [], startRoomId: null, npcs: [], items: [], classes: [], quests: [] },
+    draft: { layers: [], rooms: [], startRoomId: null, npcs: [], items: [], classes: [], quests: [], party: [] },
   });
 });
 
@@ -208,6 +208,21 @@ describe('buildStore content (items + classes)', () => {
     expect(s().validateContent().some(e => e.includes('no longer exists'))).toBe(true);
     s().updateLoot(foe, 0, { itemId: item });
     expect(s().validateContent()).toEqual([]);
+  });
+
+  it('toggles a class in/out of the starting party and scrubs it on delete', () => {
+    const hero = s().addClass('playable');
+    const medic = s().addClass('playable');
+    s().togglePartyMember(medic);
+    expect(s().draft.party).toEqual([medic]);
+    s().togglePartyMember(medic);
+    expect(s().draft.party).toEqual([]);
+
+    // A class in the party that gets deleted is dropped from the roster too.
+    s().togglePartyMember(hero);
+    expect(s().draft.party).toEqual([hero]);
+    s().removeClass(hero);
+    expect(s().draft.party).toEqual([]);
   });
 });
 

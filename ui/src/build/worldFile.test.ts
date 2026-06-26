@@ -6,7 +6,7 @@ const s = () => useBuildStore.getState();
 
 beforeEach(() => {
   useBuildStore.setState({
-    draft: { layers: [], rooms: [], startRoomId: null, npcs: [], items: [], classes: [], quests: [] },
+    draft: { layers: [], rooms: [], startRoomId: null, npcs: [], items: [], classes: [], quests: [], party: [] },
   });
 });
 
@@ -15,7 +15,9 @@ describe('worldFile', () => {
     // Author a small world through the real store.
     const room = s().addRoom();
     s().addNpc();
+    const hero = s().addClass('playable');
     const foe = s().addClass('enemy');
+    s().togglePartyMember(hero); // a starting companion — must survive the round trip
     const quest = s().addQuest();
     s().updateQuest(quest, { objectiveType: 'kill_count', targetId: foe, killCount: 2 });
     const before = s().draft;
@@ -27,6 +29,7 @@ describe('worldFile', () => {
       expect(result.title).toBe('Trench Wars');
       expect(result.draft).toEqual(before);
       expect(result.draft.startRoomId).toBe(room);
+      expect(result.draft.party).toEqual([hero]);
     }
   });
 
@@ -73,7 +76,7 @@ describe('worldFile', () => {
   it('loadDraft replaces the draft and isDraftEmpty reflects it', () => {
     expect(s().isDraftEmpty()).toBe(true);
     const text = serializeWorldFile(
-      { layers: ['space'], rooms: [{ id: 'room_1', name: 'A', description: '', exits: [] }], startRoomId: 'room_1', npcs: [], items: [], classes: [], quests: [] },
+      { layers: ['space'], rooms: [{ id: 'room_1', name: 'A', description: '', exits: [] }], startRoomId: 'room_1', npcs: [], items: [], classes: [], quests: [], party: [] },
       'X',
     );
     const r = parseWorldFile(text);
