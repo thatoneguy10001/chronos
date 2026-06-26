@@ -21,8 +21,8 @@
 //! component directly — same logic as the combat system.
 
 use crate::components::{
-    AbilityCooldowns, Controllable, EffectKind, Enemy, Experience, Health, Identity, Position,
-    Stats,
+    AbilityCooldowns, Controllable, EffectKind, Enemy, Experience, Health, Identity, PartyMember,
+    Position, Stats,
 };
 use crate::data::{schemas::TargetingType, AbilityTemplate, StaticRepository};
 use crate::events::ContextAction;
@@ -67,6 +67,75 @@ pub struct AbilityResult {
     pub success: bool,
     pub narrative: String,
     pub context_actions: Vec<ContextAction>,
+}
+
+/// A companion's support turn in party combat.
+///
+/// If the companion's class has a ready heal ability and a friendly (the lead or
+/// any companion) is wounded, it heals the most-hurt ally and returns the
+/// narrative. Returns `None` when there's no ready heal or nobody needs one — the
+/// caller then falls back to a basic attack, so a medic with full-health allies
+/// still pulls its weight by swinging.
+///
+/// Reuses [`heal_caster`], which heals whatever entity it's handed. Offense via
+/// abilities isn't here yet — companions support, then basic-attack. Deterministic:
+/// it draws no RNG and picks its target by HP fraction, so it replays identically.
+pub(crate) fn companion_support_turn(
+    world: &mut World,
+    repo: &StaticRepository,
+    caster_e: Entity,
+    caster_name: &str,
+    class_id: &str,
+    current_tick: u64,
+) -> Option<String> {
+    // Heal when the most-wounded friendly is below this fraction of max HP.
+    const WOUNDED_BELOW: f32 = 0.6;
+
+    let class = repo.class(class_id).ok()?;
+    // The first ready heal ability the companion can use. unlock_level is gated at
+    // 1 because companions don't gain levels yet — higher-level skills are skipped.
+    let heal = class
+        .abilities
+        .iter()
+        .find(|a| {
+            a.heal_amount > 0
+                && a.unlock_level <= 1
+                && (a.cooldown == 0
+                    || world
+                        .entity(caster_e)
+                        .get::<AbilityCooldowns>()
+                        .map(|cd| cd.is_ready(&a.id, a.cooldown, current_tick))
+                        .unwrap_or(true))
+        })
+        .cloned()?;
+
+    // Most-wounded living friendly (lead or companion), by HP fraction.
+    let mut best: Option<(Entity, f32)> = None;
+    {
+        let mut q = world
+            .query_filtered::<(Entity, &Health), Or<(With<Controllable>, With<PartyMember>)>>();
+        for (e, hp) in q.iter(world) {
+            if hp.current <= 0 {
+                continue;
+            }
+            let frac = hp.current as f32 / hp.max.max(1) as f32;
+            if best.map(|(_, f)| frac < f).unwrap_or(true) {
+                best = Some((e, frac));
+            }
+        }
+    }
+    let (target_e, frac) = best?;
+    if frac >= WOUNDED_BELOW {
+        return None; // nobody hurt enough to spend a turn healing
+    }
+
+    if heal.cooldown > 0 {
+        if let Some(mut cd) = world.entity_mut(caster_e).get_mut::<AbilityCooldowns>() {
+            cd.mark_used(&heal.id, current_tick);
+        }
+    }
+    let result = heal_caster(world, target_e, caster_name, &heal.name, heal.heal_amount);
+    Some(format!("\n{}", result.narrative))
 }
 
 fn err(msg: &str) -> AbilityResult {
