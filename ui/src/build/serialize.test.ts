@@ -9,7 +9,7 @@ const parse = (file: { content: string }) => JSON.parse(file.content);
 
 beforeEach(() => {
   useBuildStore.setState({
-    draft: { layers: [], rooms: [], startRoomId: null, npcs: [], items: [], classes: [], quests: [] },
+    draft: { layers: [], rooms: [], startRoomId: null, npcs: [], items: [], classes: [], quests: [], party: [] },
   });
 });
 
@@ -101,6 +101,17 @@ describe('serializeWorld', () => {
     const dto = parse(world.quests.find(f => f.filename === `${quest}.json`)!);
     expect(dto.objective).toEqual({ type: 'kill_count', class_id: foe, count: 3 });
     expect(dto.giver_npc_id).toBe(npc);
+  });
+
+  it('emits the starting party, dropping ids that are not playable classes', () => {
+    const hero = s().addClass('playable');
+    const foe = s().addClass('enemy');
+    s().togglePartyMember(hero);
+    // Force a stale id into the party to prove serialize filters it out.
+    useBuildStore.setState({ draft: { ...s().draft, party: [hero, foe, 'ghost'] } });
+
+    const manifest = JSON.parse(serializeWorld(s().draft).manifest);
+    expect(manifest.party).toEqual([hero]);
   });
 
   it('orders the manifest layers canonically', () => {

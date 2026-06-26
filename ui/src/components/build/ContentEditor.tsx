@@ -68,6 +68,8 @@ export function ContentEditor({ onBack }: { onBack: () => void }) {
   const classes = useBuildStore(s => s.draft.classes);
   const addItem = useBuildStore(s => s.addItem);
   const addClass = useBuildStore(s => s.addClass);
+  const party = useBuildStore(s => s.draft.party);
+  const togglePartyMember = useBuildStore(s => s.togglePartyMember);
   const validateContent = useBuildStore(s => s.validateContent);
   const errors = validateContent();
 
@@ -106,6 +108,29 @@ export function ContentEditor({ onBack }: { onBack: () => void }) {
         {heroes.map(cls => (
           <ClassCard key={cls.id} cls={cls} items={items} />
         ))}
+
+        {/* Starting party — companions who travel with the lead into combat. */}
+        {heroes.length > 0 && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', paddingTop: '0.25rem' }}>
+            <span style={labelStyle}>STARTING PARTY (COMPANIONS)</span>
+            <span style={{ color: 'var(--ink-faint)', fontSize: '0.74em', fontStyle: 'italic' }}>
+              Playable classes that join the lead as AI companions in combat.
+            </span>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
+              {heroes.map(cls => (
+                <label key={cls.id} style={{ display: 'flex', alignItems: 'center', gap: '0.3rem', color: 'var(--ink-movement)', fontSize: '0.8em', cursor: 'pointer' }}>
+                  <input
+                    type="checkbox"
+                    checked={party.includes(cls.id)}
+                    onChange={() => togglePartyMember(cls.id)}
+                    style={{ accentColor: 'var(--ink-narrative)' }}
+                  />
+                  {cls.name || cls.id}
+                </label>
+              ))}
+            </div>
+          </div>
+        )}
       </section>
 
       {/* Enemies */}

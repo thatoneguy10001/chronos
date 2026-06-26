@@ -162,6 +162,11 @@ export function serializeWorld(draft: BuildDraft, opts: { title?: string } = {})
     .filter(n => n.roomId)
     .map(n => ({ npc_id: n.id, room_id: n.roomId }));
 
+  // Starting party: only ids that still point at a real playable class survive, so
+  // a deleted class can't leave a dangling companion.
+  const playableIds = new Set(draft.classes.filter(c => c.role === 'playable').map(c => c.id));
+  const party = draft.party.filter(id => playableIds.has(id));
+
   // Layers in canonical pipeline order, as `{ id }` configs.
   const layers = [...draft.layers]
     .sort((a, b) => LAYER_ORDER.indexOf(a) - LAYER_ORDER.indexOf(b))
@@ -174,6 +179,7 @@ export function serializeWorld(draft: BuildDraft, opts: { title?: string } = {})
     layers,
     encounters: enemyEncounters,
     npc_placements: npcPlacements,
+    party,
   };
 
   const meta: WorldMeta = {

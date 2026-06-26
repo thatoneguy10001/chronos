@@ -92,6 +92,7 @@ export function parseWorldFile(text: string): ParseResult {
     items: arr<BuildDraft['items'][number]>(d.items),
     classes: arr<BuildDraft['classes'][number]>(d.classes),
     quests: arr<BuildDraft['quests'][number]>(d.quests),
+    party: arr<string>(d.party),
   };
 
   const title = typeof obj.title === 'string' && obj.title.trim() ? obj.title : 'Imported World';
