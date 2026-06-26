@@ -4,7 +4,7 @@ import { useBuildStore } from './buildStore';
 // Reset the whole draft before each test so they don't bleed into each other.
 beforeEach(() => {
   useBuildStore.setState({
-    draft: { layers: [], rooms: [], startRoomId: null, npcs: [], items: [], classes: [] },
+    draft: { layers: [], rooms: [], startRoomId: null, npcs: [], items: [], classes: [], quests: [] },
   });
 });
 
@@ -208,5 +208,59 @@ describe('buildStore content (items + classes)', () => {
     expect(s().validateContent().some(e => e.includes('no longer exists'))).toBe(true);
     s().updateLoot(foe, 0, { itemId: item });
     expect(s().validateContent()).toEqual([]);
+  });
+});
+
+describe('buildStore quests', () => {
+  const s = () => useBuildStore.getState();
+
+  it('a new quest defaults its giver to the first NPC', () => {
+    s().addRoom();
+    const npc = s().addNpc();
+    const quest = s().addQuest();
+    expect(s().draft.quests.find(q => q.id === quest)!.giverNpcId).toBe(npc);
+  });
+
+  it('switching objective type clears the stale target', () => {
+    s().addRoom();
+    s().addNpc();
+    const foe = s().addClass('enemy');
+    const quest = s().addQuest();
+    s().updateQuest(quest, { objectiveType: 'kill_count', targetId: foe });
+    expect(s().draft.quests.find(q => q.id === quest)!.targetId).toBe(foe);
+    // An enemy id is meaningless once the objective becomes "reach a room".
+    s().updateQuest(quest, { objectiveType: 'reach_room' });
+    expect(s().draft.quests.find(q => q.id === quest)!.targetId).toBe('');
+  });
+
+  it('deleting a quest scrubs it from other quests prerequisites', () => {
+    s().addRoom();
+    s().addNpc();
+    const a = s().addQuest();
+    const b = s().addQuest();
+    s().toggleQuestPrereq(b, a);
+    expect(s().draft.quests.find(q => q.id === b)!.prereqQuestIds).toEqual([a]);
+    s().removeQuest(a);
+    expect(s().draft.quests.find(q => q.id === b)!.prereqQuestIds).toEqual([]);
+  });
+
+  it('validates: name, giver, a real objective target of the right kind', () => {
+    s().addRoom();
+    const npc = s().addNpc();
+    const foe = s().addClass('enemy');
+    const quest = s().addQuest();
+
+    // Fresh quest has a giver but no target yet → invalid.
+    expect(s().validateQuests().some(e => e.includes('no objective target'))).toBe(true);
+
+    // A kill objective must point at an enemy; an NPC id is the wrong kind.
+    s().updateQuest(quest, { objectiveType: 'kill_count', targetId: npc });
+    expect(s().validateQuests().some(e => e.includes('enemy that no longer exists'))).toBe(true);
+    s().updateQuest(quest, { targetId: foe });
+    expect(s().validateQuests()).toEqual([]);
+
+    // Deleting the enemy the quest targets is caught.
+    s().removeClass(foe);
+    expect(s().validateQuests().some(e => e.includes('no longer exists'))).toBe(true);
   });
 });

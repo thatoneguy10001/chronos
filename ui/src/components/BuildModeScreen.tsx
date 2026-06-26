@@ -3,6 +3,7 @@ import { LayerStackEditor } from '@/components/build/LayerStackEditor';
 import { RoomEditor } from '@/components/build/RoomEditor';
 import { NpcEditor } from '@/components/build/NpcEditor';
 import { ContentEditor } from '@/components/build/ContentEditor';
+import { QuestEditor } from '@/components/build/QuestEditor';
 
 /**
  * Build Mode — the in-app world editor shell.
@@ -43,7 +44,7 @@ export function BuildModeScreen({ onExit }: { onExit: () => void }) {
   const [section, setSection] = useState<string>('home');
 
   // Sections that have a working editor. The rest render as "coming soon".
-  const ACTIVE_SECTIONS = new Set(['layers', 'rooms', 'npcs', 'items']);
+  const ACTIVE_SECTIONS = new Set(['layers', 'rooms', 'npcs', 'items', 'quests']);
 
   return (
     <div
@@ -97,6 +98,8 @@ export function BuildModeScreen({ onExit }: { onExit: () => void }) {
         <NpcEditor onBack={() => setSection('home')} />
       ) : section === 'items' ? (
         <ContentEditor onBack={() => setSection('home')} />
+      ) : section === 'quests' ? (
+        <QuestEditor onBack={() => setSection('home')} />
       ) : (
         <>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem', width: 'min(560px, 100%)' }}>
