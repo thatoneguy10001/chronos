@@ -34,10 +34,12 @@ use bevy_ecs::prelude::*;
 use components::{
     AbilityCooldowns, ActiveEffects, AssembledWeapon, Controllable, Enemy, EquipSlot,
     EquipmentSlots, Experience, GameTime, Health, Identity, InInventory, ItemBlueprint,
-    NpcDispositions, PayloadSlots, Position, QuestLog, Stats, Victory, Wallet, WorldFlags,
+    NpcDispositions, PartyMember, PayloadSlots, Position, QuestLog, Stats, Victory, Wallet,
+    WorldFlags,
 };
 use data::game_state_dto::{
-    CharacterStateDTO, EnemyStateDTO, EntityStateDTO, GameStateDTO, QuestProgressDTO,
+    CharacterStateDTO, EnemyStateDTO, EntityStateDTO, GameStateDTO, PartyMemberDTO,
+    QuestProgressDTO,
 };
 use data::StaticRepository;
 use events::{CommandResult, ContextAction, EngineEvent};
@@ -475,6 +477,28 @@ impl ChronosEngine {
                 .collect()
         };
 
+        let party: Vec<PartyMemberDTO> = {
+            let mut q = self
+                .world
+                .query::<(&PartyMember, &Identity, &Stats, &Health, &Position)>();
+            let mut members: Vec<PartyMemberDTO> = q
+                .iter(&self.world)
+                .map(|(pm, id, stats, hp, pos)| PartyMemberDTO {
+                    name: id.name.clone(),
+                    class_id: id.class_id.clone(),
+                    order: pm.order,
+                    hp: hp.current,
+                    max_hp: hp.max,
+                    attack: stats.attack(),
+                    defense: stats.defense(),
+                    room_id: pos.room_id.clone(),
+                })
+                .collect();
+            // Stable roster order so the UI and replays see members the same way.
+            members.sort_by_key(|m| m.order);
+            members
+        };
+
         let current_room_name = self
             .repository
             .room(&player_room_id)
@@ -490,6 +514,7 @@ impl ChronosEngine {
             entity_states,
             player_character,
             enemies,
+            party,
             event_log: self.event_log.entries().to_vec(),
         }
     }
@@ -677,6 +702,39 @@ impl ChronosEngine {
                         room_id: enc.room_id.clone(),
                     },
                     Enemy,
+                    Identity {
+                        name: class.name.clone(),
+                        class_id: class.id.clone(),
+                    },
+                    stats,
+                    Health::full(bs.hp),
+                    ActiveEffects::default(),
+                ));
+            }
+        }
+
+        // Roster the starting party: each declared class spawns as a companion in
+        // the start room alongside the lead. Like encounters, this runs on every
+        // bootstrap, so a rewind re-rosters the party deterministically. Members
+        // carry the same OnSpawn StatBonus passives as the lead and enemies, but
+        // not Controllable — the world still resolves from the one lead.
+        for (order, class_id) in repo.party().iter().enumerate() {
+            if let Ok(class) = repo.class(class_id) {
+                let bs = &class.base_stats;
+                let mut stats = Stats::from_map(bs.stats.clone());
+                for effect in repo.class_passive_effects(&class.id) {
+                    if let crate::data::schemas::PassiveEffect::StatBonus { stat, amount } = effect
+                    {
+                        stats.add(stat, *amount);
+                    }
+                }
+                world.spawn((
+                    Position {
+                        room_id: repo.start_room_id().to_string(),
+                    },
+                    PartyMember {
+                        order: order as u32,
+                    },
                     Identity {
                         name: class.name.clone(),
                         class_id: class.id.clone(),
