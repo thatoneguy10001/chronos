@@ -16,7 +16,7 @@
 
 use crate::components::{
     ActiveEffects, Controllable, EffectKind, Enemy, Experience, Health, Identity, ItemBlueprint,
-    PayloadSlots, PhaseProgress, Position, Stats, Wallet,
+    PartyMember, PayloadSlots, PhaseProgress, Position, Stats, Wallet,
 };
 use crate::data::{
     schemas::{TacticAction, TacticCondition},
@@ -53,11 +53,49 @@ fn err(msg: &str) -> CombatResult {
 /// All randomness is drawn from the seeded RNG, so the fight replays identically
 /// on rewind. Tactics are deterministic given the current HP state, which is itself
 /// a deterministic function of the prior event log.
+/// One `attack` command: the lead strikes, then every living companion piles on.
+/// The lead's exchange (`lead_attack`) is unchanged from solo play; `party_assist`
+/// is a no-op when there are no companions, so solo worlds behave exactly as before.
 pub fn process_attack(
     world: &mut World,
     repo: &StaticRepository,
     current_tick: u64,
 ) -> CombatResult {
+    let mut result = lead_attack(world, repo, current_tick);
+
+    // Only assist a real, ongoing fight: skip when there was nothing to fight
+    // (success == false) or the lead just died.
+    if !result.success || result.game_over {
+        return result;
+    }
+
+    let room = {
+        let mut q = world.query_filtered::<&Position, With<Controllable>>();
+        q.iter(world).next().map(|p| p.room_id.clone())
+    };
+    let Some(room) = room else { return result };
+
+    let assist = party_assist(world, repo, &room, current_tick);
+    if !assist.is_empty() {
+        result.narrative.push_str(&assist);
+        // If the party cleared the room, point the player at exploring, not attacking.
+        let enemies_remain = {
+            let mut q = world.query_filtered::<(&Position, &Health), With<Enemy>>();
+            q.iter(world)
+                .any(|(pos, hp)| pos.room_id == room && hp.current > 0)
+        };
+        if !enemies_remain {
+            result.context_actions = vec![ContextAction {
+                label: "Look around".to_string(),
+                command: "look".to_string(),
+            }];
+        }
+    }
+    result
+}
+
+/// The lead's single-exchange strike — the original solo combat round.
+fn lead_attack(world: &mut World, repo: &StaticRepository, current_tick: u64) -> CombatResult {
     // --- Player ---
     let player = {
         let mut q = world
@@ -201,139 +239,21 @@ pub fn process_attack(
 
     if enemy_hp_after <= 0 {
         // Payloads are not consumed on the killing blow — enemy is already dead.
-        let payload_text = String::new();
-
-        // Plague spreads when its host dies: capture the active plague (if any)
-        // before despawn so it can leap to the other enemies in the room.
-        let plague_to_spread = world.entity(enemy_e).get::<ActiveEffects>().and_then(|ae| {
-            ae.effects
-                .iter()
-                .find(|e| e.kind == EffectKind::Plague && e.is_active_on(current_tick))
-                .map(|e| (e.magnitude, e.duration_turns))
-        });
-
-        world.despawn(enemy_e);
-
-        // Apply the captured plague to every other living enemy in the room. This
-        // is a pure function of world state (no RNG), so it replays identically.
-        let plague_text = if let Some((magnitude, duration)) = plague_to_spread {
-            let targets: Vec<Entity> = {
-                let mut q = world.query_filtered::<(Entity, &Position, &Health), With<Enemy>>();
-                q.iter(world)
-                    .filter(|(_, pos, hp)| pos.room_id == room && hp.current > 0)
-                    .map(|(e, _, _)| e)
-                    .collect()
-            };
-            let spread_count = targets.len();
-            for target in targets {
-                poison::apply_effect_to_entity(
-                    world,
-                    target,
-                    EffectKind::Plague,
-                    current_tick,
-                    magnitude,
-                    duration,
-                );
-            }
-            if spread_count > 0 {
-                format!(
-                    "\nThe plague leaps from the dying body to {spread_count} other{} nearby!",
-                    if spread_count == 1 { "" } else { "s" }
-                )
-            } else {
-                String::new()
-            }
-        } else {
-            String::new()
-        };
-        let class_data = repo.class(&e_class_id).ok();
-        let xp_reward = class_data.as_ref().map(|c| c.xp_reward).unwrap_or(0);
-        let gold_reward = class_data.as_ref().map(|c| c.gold_reward).unwrap_or(0);
-        let class_missing = class_data.is_none();
-        let level_up = if xp_reward > 0 {
-            world
-                .entity_mut(player_e)
-                .get_mut::<Experience>()
-                .and_then(|mut exp| exp.add_xp(xp_reward))
-        } else {
-            None
-        };
-        if gold_reward > 0 {
-            if let Some(mut wallet) = world.entity_mut(player_e).get_mut::<Wallet>() {
-                wallet.gold += gold_reward;
-            }
-        }
-
-        // Roll the class's loot table. Each entry is an independent RNG check, so
-        // drops are deterministic and replay identically under rewind. Dropped
-        // items land on the room floor (spawned with Position), where the existing
-        // pick-up machinery surfaces them — no special handling needed.
-        let mut dropped_names: Vec<String> = Vec::new();
-        if let Some(class) = class_data.as_ref() {
-            for drop in &class.loot_table {
-                let roll = world
-                    .resource_mut::<DeterministicRng>()
-                    .range_inclusive(1, 100);
-                let threshold = (drop.chance * 100.0).round() as i32;
-                if roll <= threshold {
-                    world.spawn((
-                        Position {
-                            room_id: room.clone(),
-                        },
-                        ItemBlueprint {
-                            id: drop.item_id.clone(),
-                        },
-                    ));
-                    let name = repo
-                        .item(&drop.item_id)
-                        .map(|t| t.name.clone())
-                        .unwrap_or_else(|_| drop.item_id.clone());
-                    dropped_names.push(name);
-                }
-            }
-        }
-
-        let mut narrative = format!(
-            "You strike the {e_name} for {p_dmg}{crit_tag}{payload_text}. The {e_name} collapses, slain!\n+{xp_reward} XP"
+        // The kill's consequences (despawn, plague spread, XP/gold/loot/level/quest)
+        // are resolved by award_kill, shared with the party's assist strikes.
+        let reward = award_kill(
+            world,
+            repo,
+            player_e,
+            enemy_e,
+            &e_name,
+            &e_class_id,
+            &room,
+            current_tick,
         );
-        if gold_reward > 0 {
-            narrative.push_str(&format!(", +{gold_reward} scraps"));
-        }
-        narrative.push('.');
-        if !dropped_names.is_empty() {
-            narrative.push_str(&format!(
-                "\nThe {e_name} drops: {}.",
-                dropped_names.join(", ")
-            ));
-        }
-        if let Some(new_level) = level_up {
-            // The player's class drives the gains — its id is on the body, not the
-            // slain enemy's class (e_class_id).
-            let player_class = world
-                .entity(player_e)
-                .get::<Identity>()
-                .map(|id| id.class_id.clone())
-                .unwrap_or_default();
-            let gains = crate::systems::progression::apply_level_up(
-                world,
-                player_e,
-                repo,
-                &player_class,
-                new_level,
-            );
-            narrative.push_str(&gains);
-        }
-
-        let quest_updates = quest::on_enemy_killed(world, repo, player_e, &e_class_id);
-        for update in quest_updates {
-            narrative.push_str(&update);
-        }
-        if class_missing {
-            narrative.push_str(&format!(
-                "\n[Warning: class data missing for '{e_class_id}' — no XP/gold awarded]"
-            ));
-        }
-        narrative.push_str(&plague_text);
+        let narrative = format!(
+            "You strike the {e_name} for {p_dmg}{crit_tag}. The {e_name} collapses, slain!{reward}"
+        );
 
         let next_enemy = {
             let mut q = world.query_filtered::<(&Position, &Health, &Identity), With<Enemy>>();
@@ -424,6 +344,235 @@ pub fn process_attack(
         context_actions,
         game_over: died,
     }
+}
+
+/// Resolve a slain enemy: spread any active plague, despawn it, and pay the kill
+/// out to `lead_e` — XP, gold, loot rolls, level-up, and quest progress. Shared by
+/// the lead's killing blow and the party's assist strikes, so an ally's kill
+/// rewards the lead exactly as the lead's own kill would (one source of truth for
+/// "what a death is worth"). Returns the reward narrative — everything after
+/// "… slain!". Deterministic, so it replays identically under rewind.
+#[allow(clippy::too_many_arguments)]
+fn award_kill(
+    world: &mut World,
+    repo: &StaticRepository,
+    lead_e: Entity,
+    enemy_e: Entity,
+    e_name: &str,
+    e_class_id: &str,
+    room: &str,
+    current_tick: u64,
+) -> String {
+    // Plague spreads when its host dies: capture the active plague before despawn.
+    let plague_to_spread = world.entity(enemy_e).get::<ActiveEffects>().and_then(|ae| {
+        ae.effects
+            .iter()
+            .find(|e| e.kind == EffectKind::Plague && e.is_active_on(current_tick))
+            .map(|e| (e.magnitude, e.duration_turns))
+    });
+
+    world.despawn(enemy_e);
+
+    // Apply the captured plague to every other living enemy in the room. Pure
+    // function of world state (no RNG), so it replays identically.
+    let plague_text = if let Some((magnitude, duration)) = plague_to_spread {
+        let targets: Vec<Entity> = {
+            let mut q = world.query_filtered::<(Entity, &Position, &Health), With<Enemy>>();
+            q.iter(world)
+                .filter(|(_, pos, hp)| pos.room_id == room && hp.current > 0)
+                .map(|(e, _, _)| e)
+                .collect()
+        };
+        let spread_count = targets.len();
+        for target in targets {
+            poison::apply_effect_to_entity(
+                world,
+                target,
+                EffectKind::Plague,
+                current_tick,
+                magnitude,
+                duration,
+            );
+        }
+        if spread_count > 0 {
+            format!(
+                "\nThe plague leaps from the dying body to {spread_count} other{} nearby!",
+                if spread_count == 1 { "" } else { "s" }
+            )
+        } else {
+            String::new()
+        }
+    } else {
+        String::new()
+    };
+
+    let class_data = repo.class(e_class_id).ok();
+    let xp_reward = class_data.as_ref().map(|c| c.xp_reward).unwrap_or(0);
+    let gold_reward = class_data.as_ref().map(|c| c.gold_reward).unwrap_or(0);
+    let class_missing = class_data.is_none();
+    let level_up = if xp_reward > 0 {
+        world
+            .entity_mut(lead_e)
+            .get_mut::<Experience>()
+            .and_then(|mut exp| exp.add_xp(xp_reward))
+    } else {
+        None
+    };
+    if gold_reward > 0 {
+        if let Some(mut wallet) = world.entity_mut(lead_e).get_mut::<Wallet>() {
+            wallet.gold += gold_reward;
+        }
+    }
+
+    // Roll the class's loot table — each entry an independent, deterministic RNG
+    // check. Drops land on the room floor for the existing pick-up machinery.
+    let mut dropped_names: Vec<String> = Vec::new();
+    if let Some(class) = class_data.as_ref() {
+        for drop in &class.loot_table {
+            let roll = world
+                .resource_mut::<DeterministicRng>()
+                .range_inclusive(1, 100);
+            let threshold = (drop.chance * 100.0).round() as i32;
+            if roll <= threshold {
+                world.spawn((
+                    Position {
+                        room_id: room.to_string(),
+                    },
+                    ItemBlueprint {
+                        id: drop.item_id.clone(),
+                    },
+                ));
+                let name = repo
+                    .item(&drop.item_id)
+                    .map(|t| t.name.clone())
+                    .unwrap_or_else(|_| drop.item_id.clone());
+                dropped_names.push(name);
+            }
+        }
+    }
+
+    let mut out = format!("\n+{xp_reward} XP");
+    if gold_reward > 0 {
+        out.push_str(&format!(", +{gold_reward} scraps"));
+    }
+    out.push('.');
+    if !dropped_names.is_empty() {
+        out.push_str(&format!(
+            "\nThe {e_name} drops: {}.",
+            dropped_names.join(", ")
+        ));
+    }
+    if let Some(new_level) = level_up {
+        // The lead's own class drives the gains, not the slain enemy's.
+        let lead_class = world
+            .entity(lead_e)
+            .get::<Identity>()
+            .map(|id| id.class_id.clone())
+            .unwrap_or_default();
+        let gains = crate::systems::progression::apply_level_up(
+            world,
+            lead_e,
+            repo,
+            &lead_class,
+            new_level,
+        );
+        out.push_str(&gains);
+    }
+    let quest_updates = quest::on_enemy_killed(world, repo, lead_e, e_class_id);
+    for update in quest_updates {
+        out.push_str(&update);
+    }
+    if class_missing {
+        out.push_str(&format!(
+            "\n[Warning: class data missing for '{e_class_id}' — no XP/gold awarded]"
+        ));
+    }
+    out.push_str(&plague_text);
+    out
+}
+
+/// The party's assist phase: after the lead's strike, every living companion in
+/// the room makes a basic attack against a living enemy, in roster order. A
+/// companion that lands the killing blow pays the kill out to the lead via
+/// [`award_kill`]. Returns the appended narrative (empty for a solo party).
+///
+/// Companions are pure offense for now — enemies still focus the lead, so allies
+/// take no damage here. Targeting allies (true party-vs-party) is the next slice.
+/// Each strike draws one `DeterministicRng` value, so the whole pass replays
+/// identically under rewind.
+fn party_assist(
+    world: &mut World,
+    repo: &StaticRepository,
+    room: &str,
+    current_tick: u64,
+) -> String {
+    let lead_e = {
+        let mut q = world.query_filtered::<Entity, With<Controllable>>();
+        q.iter(world).next()
+    };
+    let Some(lead_e) = lead_e else {
+        return String::new();
+    };
+
+    // Living companions in the room, in stable roster order.
+    let mut members: Vec<(i32, String, u32)> = {
+        let mut q =
+            world.query_filtered::<(&PartyMember, &Stats, &Health, &Identity, &Position), ()>();
+        q.iter(world)
+            .filter(|(_, _, hp, _, pos)| pos.room_id == room && hp.current > 0)
+            .map(|(pm, st, _, id, _)| (st.attack(), id.name.clone(), pm.order))
+            .collect()
+    };
+    members.sort_by_key(|(_, _, order)| *order);
+
+    let mut out = String::new();
+    for (atk, m_name, _) in members {
+        // Target the first living enemy still in the room.
+        let target = {
+            let mut q = world
+                .query_filtered::<(Entity, &Stats, &Health, &Identity, &Position), With<Enemy>>();
+            q.iter(world)
+                .filter(|(_, _, hp, _, pos)| pos.room_id == room && hp.current > 0)
+                .map(|(e, st, hp, id, _)| (e, st.defense(), hp.current, hp.max, id.name.clone()))
+                .next()
+        };
+        let Some((enemy_e, e_def, e_hp, e_max, e_name)) = target else {
+            break; // room cleared — remaining companions have nothing to hit.
+        };
+        let e_class_id = world
+            .entity(enemy_e)
+            .get::<Identity>()
+            .map(|id| id.class_id.clone())
+            .unwrap_or_default();
+
+        let spread = world
+            .resource_mut::<DeterministicRng>()
+            .range_inclusive(-2, 2);
+        let dmg = (atk - e_def + spread).max(1);
+        let hp_after = e_hp - dmg;
+
+        if hp_after <= 0 {
+            let reward = award_kill(
+                world,
+                repo,
+                lead_e,
+                enemy_e,
+                &e_name,
+                &e_class_id,
+                room,
+                current_tick,
+            );
+            out.push_str(&format!("\n{m_name} strikes the {e_name} down!{reward}"));
+        } else {
+            if let Some(mut hp) = world.entity_mut(enemy_e).get_mut::<Health>() {
+                hp.current = hp_after;
+            }
+            out.push_str(&format!(
+                "\n{m_name} hits the {e_name} for {dmg} ({e_name}: {hp_after}/{e_max} HP)."
+            ));
+        }
+    }
+    out
 }
 
 /// Check whether the just-damaged enemy crossed any boss phase threshold it
