@@ -117,7 +117,9 @@ fn lead_attack(world: &mut World, repo: &StaticRepository, current_tick: u64) ->
             )
         })
     };
-    let (player_e, room, p_atk, p_def, p_hit, p_luck, p_eva, p_hp, p_max, p_name, p_class) =
+    // The lead's defensive stats (def/eva/hp/max) are no longer read here — enemy
+    // retaliation now reads them from whichever friendly it targets (see enemy_turn).
+    let (player_e, room, p_atk, _p_def, p_hit, p_luck, _p_eva, _p_hp, _p_max, p_name, p_class) =
         match player {
             Some(t) => t,
             None => return err("You have no character to fight with. Try: become fighter"),
@@ -169,39 +171,25 @@ fn lead_attack(world: &mut World, repo: &StaticRepository, current_tick: u64) ->
         .resource_mut::<DeterministicRng>()
         .range_inclusive(1, 100);
     if p_hit_roll > p_hit_chance {
-        // Miss — enemy still retaliates (unless stunned).
-        let miss_narrative = format!("You swing at the {e_name} but miss!");
-        // On a miss the enemy HP didn't change, so use full fraction.
+        // Miss — the enemy still gets its turn against the party (unless stunned).
+        // On a miss the enemy HP didn't change, so use its full fraction.
         let e_frac_miss = e_hp as f32 / e_max.max(1) as f32;
-        let (e_dmg, retal_text) = if enemy_is_stunned(world, enemy_e, current_tick) {
-            (0, format!("The {e_name} is stunned and cannot retaliate!"))
-        } else {
-            enemy_retaliate(
-                world,
-                repo,
-                &e_class_id,
-                e_atk,
-                e_hit,
-                p_def,
-                p_eva,
-                &e_name,
-                player_e,
-                p_hp,
-                p_max,
-                e_frac_miss,
-            )
-        };
-        let player_hp_after = (p_hp - e_dmg).max(0);
-        if e_dmg > 0 {
-            if let Some(mut hp) = world.entity_mut(player_e).get_mut::<Health>() {
-                hp.current = player_hp_after;
-            }
-        }
-        let narrative = format!(
-            "{miss_narrative} {retal_text} ({p_name}: {}/{p_max} HP).",
-            player_hp_after.max(0)
+        let turn = enemy_turn(
+            world,
+            repo,
+            enemy_e,
+            &e_class_id,
+            e_atk,
+            e_hit,
+            &e_name,
+            player_e,
+            &p_name,
+            &room,
+            e_frac_miss,
+            current_tick,
         );
-        let context_actions = if player_hp_after <= 0 {
+        let narrative = format!("You swing at the {e_name} but miss! {}", turn.text);
+        let context_actions = if turn.lead_died {
             vec![]
         } else {
             vec![ContextAction {
@@ -213,7 +201,7 @@ fn lead_attack(world: &mut World, repo: &StaticRepository, current_tick: u64) ->
             success: true,
             narrative,
             context_actions,
-            game_over: player_hp_after <= 0,
+            game_over: turn.lead_died,
         };
     }
 
@@ -292,42 +280,30 @@ fn lead_attack(world: &mut World, repo: &StaticRepository, current_tick: u64) ->
     // transition is announced.
     let phase_text = check_enemy_phases(world, repo, enemy_e, &e_class_id, enemy_hp_after, e_max);
 
-    // --- Enemy retaliates (unless stunned) ---
+    // --- Enemy retaliates against the party (unless stunned) ---
     let e_hp_frac = enemy_hp_after as f32 / e_max.max(1) as f32;
-    let (e_dmg, retaliation_text) = if enemy_is_stunned(world, enemy_e, current_tick) {
-        (0, format!("The {e_name} is stunned and cannot retaliate!"))
-    } else {
-        enemy_retaliate(
-            world,
-            repo,
-            &e_class_id,
-            e_atk,
-            e_hit,
-            p_def,
-            p_eva,
-            &e_name,
-            player_e,
-            p_hp,
-            p_max,
-            e_hp_frac,
-        )
-    };
-
-    let player_hp_after = (p_hp - e_dmg).max(0);
-    if e_dmg > 0 {
-        if let Some(mut hp) = world.entity_mut(player_e).get_mut::<Health>() {
-            hp.current = player_hp_after;
-        }
-    }
+    let turn = enemy_turn(
+        world,
+        repo,
+        enemy_e,
+        &e_class_id,
+        e_atk,
+        e_hit,
+        &e_name,
+        player_e,
+        &p_name,
+        &room,
+        e_hp_frac,
+        current_tick,
+    );
 
     let mut narrative = format!(
-        "You strike the {e_name} for {p_dmg}{crit_tag}{payload_text} ({e_name}: {enemy_hp_after}/{e_max} HP). \
-         {retaliation_text} ({p_name}: {}/{p_max} HP).",
-        player_hp_after.max(0)
+        "You strike the {e_name} for {p_dmg}{crit_tag}{payload_text} ({e_name}: {enemy_hp_after}/{e_max} HP). {}",
+        turn.text
     );
     narrative.push_str(&phase_text);
 
-    let died = player_hp_after <= 0;
+    let died = turn.lead_died;
     let context_actions = if died {
         narrative.push_str(&format!("\n\nThe {e_name} has slain you."));
         vec![]
@@ -669,8 +645,141 @@ fn enemy_is_stunned(world: &World, enemy_e: Entity, tick: u64) -> bool {
         .unwrap_or(false)
 }
 
-/// Enemy retaliation: applies tactic, returns (damage dealt, narrative text).
-/// Handles hit/evasion check for BasicAttack and HeavyAttack.
+/// One enemy's retaliation against the party.
+struct EnemyTurn {
+    /// Full retaliation narrative, including the defender's resulting HP — and a
+    /// note if a companion fell. Empty only if there are no living friendlies.
+    text: String,
+    /// True only when the *lead* was brought to 0 (that's game over). A companion
+    /// falling does not end the run.
+    lead_died: bool,
+}
+
+/// Resolve an enemy's turn against the party: pick a defender among the living
+/// friendlies in the room (the lead plus any companions present), run the enemy's
+/// tactic against them, apply the damage, and despawn a companion that falls. A
+/// stunned enemy does nothing.
+///
+/// Determinism: when the lead is the *only* living friendly — every solo world,
+/// always — no target-selection die is rolled, so solo combat draws the exact same
+/// RNG sequence it did before the party layer existed.
+#[allow(clippy::too_many_arguments)]
+fn enemy_turn(
+    world: &mut World,
+    repo: &StaticRepository,
+    enemy_e: Entity,
+    e_class_id: &str,
+    e_atk: i32,
+    e_hit: i32,
+    e_name: &str,
+    lead_e: Entity,
+    lead_name: &str,
+    room: &str,
+    enemy_hp_fraction: f32,
+    current_tick: u64,
+) -> EnemyTurn {
+    if enemy_is_stunned(world, enemy_e, current_tick) {
+        return EnemyTurn {
+            text: format!("The {e_name} is stunned and cannot retaliate!"),
+            lead_died: false,
+        };
+    }
+
+    // Living friendlies in the room — the lead first, then companions.
+    let mut friendlies: Vec<(Entity, bool)> = Vec::new();
+    if world
+        .entity(lead_e)
+        .get::<Health>()
+        .map(|h| h.current > 0)
+        .unwrap_or(false)
+    {
+        friendlies.push((lead_e, true));
+    }
+    {
+        let mut q = world.query_filtered::<(Entity, &Position, &Health), With<PartyMember>>();
+        for (e, pos, hp) in q.iter(world) {
+            if pos.room_id == room && hp.current > 0 {
+                friendlies.push((e, false));
+            }
+        }
+    }
+    if friendlies.is_empty() {
+        return EnemyTurn {
+            text: String::new(),
+            lead_died: false,
+        };
+    }
+
+    // Pick the defender. Only roll when there's an actual choice, so solo worlds
+    // keep their exact RNG stream.
+    let (defender_e, is_lead) = if friendlies.len() == 1 {
+        friendlies[0]
+    } else {
+        let idx = world
+            .resource_mut::<DeterministicRng>()
+            .range_inclusive(0, friendlies.len() as i32 - 1) as usize;
+        friendlies[idx]
+    };
+
+    let (d_def, d_eva, d_hp, d_max, d_name) = {
+        let st = world.entity(defender_e).get::<Stats>();
+        let hp = world.entity(defender_e).get::<Health>();
+        let name = world
+            .entity(defender_e)
+            .get::<Identity>()
+            .map(|i| i.name.clone())
+            .unwrap_or_else(|| lead_name.to_string());
+        (
+            st.map(|s| s.defense()).unwrap_or(0),
+            st.map(|s| s.evasion()).unwrap_or(0),
+            hp.map(|h| h.current).unwrap_or(0),
+            hp.map(|h| h.max).unwrap_or(1),
+            name,
+        )
+    };
+
+    let (dmg, retal_text) = enemy_retaliate(
+        world,
+        repo,
+        e_class_id,
+        e_atk,
+        e_hit,
+        d_def,
+        d_eva,
+        e_name,
+        defender_e,
+        &d_name,
+        is_lead,
+        d_hp,
+        d_max,
+        enemy_hp_fraction,
+    );
+
+    let hp_after = (d_hp - dmg).max(0);
+    if dmg > 0 {
+        if let Some(mut hp) = world.entity_mut(defender_e).get_mut::<Health>() {
+            hp.current = hp_after;
+        }
+    }
+
+    let mut text = format!("{retal_text} ({d_name}: {}/{d_max} HP).", hp_after.max(0));
+    let mut lead_died = false;
+    if hp_after <= 0 {
+        if is_lead {
+            // Game over — phrased by the caller, preserving the original message.
+            lead_died = true;
+        } else {
+            world.despawn(defender_e);
+            text.push_str(&format!("\n{d_name} has fallen!"));
+        }
+    }
+    EnemyTurn { text, lead_died }
+}
+
+/// Enemy retaliation against a chosen defender (the lead or a companion): applies
+/// the matching tactic and returns (damage dealt, narrative text). Handles the
+/// hit/evasion check for BasicAttack and HeavyAttack. The narrative is
+/// defender-aware — "you" for the lead, "the <name>" for a companion.
 #[allow(clippy::too_many_arguments)]
 fn enemy_retaliate(
     world: &mut World,
@@ -678,19 +787,21 @@ fn enemy_retaliate(
     e_class_id: &str,
     e_atk: i32,
     e_hit: i32,
-    p_def: i32,
-    p_eva: i32,
+    d_def: i32,
+    d_eva: i32,
     e_name: &str,
-    player_e: Entity,
-    p_hp: i32,
-    p_max: i32,
+    defender_e: Entity,
+    defender_name: &str,
+    defender_is_lead: bool,
+    d_hp: i32,
+    d_max: i32,
     enemy_hp_fraction: f32,
 ) -> (i32, String) {
     let tactics = repo
         .class(e_class_id)
         .map(|c| c.tactics.clone())
         .unwrap_or_default();
-    let player_hp_fraction = p_hp as f32 / p_max.max(1) as f32;
+    let defender_hp_fraction = d_hp as f32 / d_max.max(1) as f32;
 
     let chosen = tactics
         .iter()
@@ -698,46 +809,60 @@ fn enemy_retaliate(
             eval_condition(
                 &rule.condition,
                 enemy_hp_fraction,
-                player_hp_fraction,
-                player_e,
+                defender_hp_fraction,
+                defender_e,
                 world,
             )
         })
         .map(|rule| rule.action.clone())
         .unwrap_or(TacticAction::BasicAttack);
 
+    // The word for a miss line: "you" for the lead, "the Medic" for a companion.
+    let target = if defender_is_lead {
+        "you".to_string()
+    } else {
+        format!("the {defender_name}")
+    };
+
     match chosen {
         TacticAction::BasicAttack => {
-            let e_hit_chance = (85 + e_hit - p_eva).clamp(5, 99);
+            let e_hit_chance = (85 + e_hit - d_eva).clamp(5, 99);
             let roll = world
                 .resource_mut::<DeterministicRng>()
                 .range_inclusive(1, 100);
             if roll > e_hit_chance {
-                return (0, format!("The {e_name} swings but misses you!"));
+                return (0, format!("The {e_name} swings but misses {target}!"));
             }
             let spread = world
                 .resource_mut::<DeterministicRng>()
                 .range_inclusive(-2, 2);
-            let dmg = (e_atk - p_def + spread).max(1);
-            (dmg, format!("The {e_name} hits back for {dmg}"))
+            let dmg = (e_atk - d_def + spread).max(1);
+            let hit = if defender_is_lead {
+                format!("The {e_name} hits back for {dmg}")
+            } else {
+                format!("The {e_name} hits the {defender_name} for {dmg}")
+            };
+            (dmg, hit)
         }
         TacticAction::HeavyAttack { multiplier } => {
-            let e_hit_chance = (85 + e_hit - p_eva).clamp(5, 99);
+            let e_hit_chance = (85 + e_hit - d_eva).clamp(5, 99);
             let roll = world
                 .resource_mut::<DeterministicRng>()
                 .range_inclusive(1, 100);
             if roll > e_hit_chance {
-                return (0, format!("The {e_name} lunges but misses you!"));
+                return (0, format!("The {e_name} lunges but misses {target}!"));
             }
             let spread = world
                 .resource_mut::<DeterministicRng>()
                 .range_inclusive(-1, 1);
             let base = (e_atk as f32 * multiplier) as i32;
-            let dmg = (base - p_def + spread).max(1);
-            (
-                dmg,
-                format!("The {e_name} **strikes desperately** for {dmg}"),
-            )
+            let dmg = (base - d_def + spread).max(1);
+            let hit = if defender_is_lead {
+                format!("The {e_name} **strikes desperately** for {dmg}")
+            } else {
+                format!("The {e_name} **strikes desperately** at the {defender_name} for {dmg}")
+            };
+            (dmg, hit)
         }
         TacticAction::ApplyEffect {
             kind,
@@ -746,14 +871,24 @@ fn enemy_retaliate(
         } => {
             if let Some(effect_kind) = crate::components::EffectKind::from_str(&kind) {
                 let label = effect_kind.label().to_lowercase();
-                poison::apply_effect_to_entity(world, player_e, effect_kind, 0, damage, duration);
-                (0, format!("The {e_name} afflicts you with {label}!"))
+                poison::apply_effect_to_entity(world, defender_e, effect_kind, 0, damage, duration);
+                let txt = if defender_is_lead {
+                    format!("The {e_name} afflicts you with {label}!")
+                } else {
+                    format!("The {e_name} afflicts the {defender_name} with {label}!")
+                };
+                (0, txt)
             } else {
                 let spread = world
                     .resource_mut::<DeterministicRng>()
                     .range_inclusive(-2, 2);
-                let dmg = (e_atk - p_def + spread).max(1);
-                (dmg, format!("The {e_name} hits back for {dmg}"))
+                let dmg = (e_atk - d_def + spread).max(1);
+                let hit = if defender_is_lead {
+                    format!("The {e_name} hits back for {dmg}")
+                } else {
+                    format!("The {e_name} hits the {defender_name} for {dmg}")
+                };
+                (dmg, hit)
             }
         }
     }
