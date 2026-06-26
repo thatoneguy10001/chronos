@@ -28,8 +28,28 @@ pub struct GameStateDTO {
     pub player_character: Option<CharacterStateDTO>,
     /// Living enemies currently in the world (despawned when slain).
     pub enemies: Vec<EnemyStateDTO>,
+    /// The lead's companions, in roster order. Empty for solo worlds. `player_character`
+    /// remains the lead; this is everyone travelling with them.
+    #[serde(default)]
+    pub party: Vec<PartyMemberDTO>,
     /// Full event history — enables complete replay from scratch.
     pub event_log: Vec<LogEntryDTO>,
+}
+
+/// Snapshot of one party companion — enough to show them in a roster and, later,
+/// to drive party combat. A lean view of the member's body (no equipment/quests,
+/// which belong to the lead's sheet).
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct PartyMemberDTO {
+    pub name: String,
+    pub class_id: String,
+    /// Roster slot (0 = first companion).
+    pub order: u32,
+    pub hp: i32,
+    pub max_hp: i32,
+    pub attack: i32,
+    pub defense: i32,
+    pub room_id: String,
 }
 
 /// Snapshot of a living enemy — name, where it is, health, and active status effects.

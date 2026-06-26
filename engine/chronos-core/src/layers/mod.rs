@@ -60,6 +60,13 @@ pub const KNOWN_LAYERS: &[LayerSpec] = &[
         verbs: &[],
     },
     LayerSpec {
+        // A roster of companions who travel with the lead. Needs entities to make
+        // members out of; JRPG/SRPG combat layers build on it for turn order.
+        id: "party",
+        requires: &["entity"],
+        verbs: &[],
+    },
+    LayerSpec {
         id: "combat",
         requires: &["space", "entity"],
         verbs: &[],

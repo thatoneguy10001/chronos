@@ -45,6 +45,12 @@ pub struct WorldManifest {
     /// don't change state so these are never re-bootstrapped — just referenced.
     #[serde(default)]
     pub npc_placements: Vec<NpcPlacement>,
+    /// Starting party: class ids of companions who travel with the lead from world
+    /// start. Each is spawned (like an encounter) into the start room as a
+    /// [`PartyMember`](crate::components::PartyMember), so a rewind re-rosters them.
+    /// Empty for solo worlds — every world authored before the party layer.
+    #[serde(default)]
+    pub party: Vec<String>,
 }
 
 /// One layer in a world's stack.

@@ -45,6 +45,7 @@ pub struct StaticRepository {
     quests: HashMap<String, QuestTemplate>,
     passives: HashMap<String, PassiveTemplate>,
     encounters: Vec<EncounterDef>,
+    party: Vec<String>,
     /// Maps room_id → list of npc_ids present in that room.
     npc_placements: HashMap<String, Vec<String>>,
     /// Maps npc_id → room_id (reverse index for fast "where is this NPC" lookup).
@@ -184,7 +185,7 @@ impl StaticRepository {
             passives.insert(template.id.clone(), template);
         }
 
-        let (start_room_id, encounters, raw_placements, schema_version, layers) =
+        let (start_room_id, encounters, raw_placements, schema_version, layers, party) =
             match manifest_json {
                 Some(json) => {
                     let manifest: WorldManifest =
@@ -209,6 +210,7 @@ impl StaticRepository {
                         manifest.npc_placements,
                         manifest.schema_version,
                         manifest.layers,
+                        manifest.party,
                     )
                 }
                 None => (
@@ -220,6 +222,7 @@ impl StaticRepository {
                     Vec::new(),
                     Vec::new(),
                     CURRENT_SCHEMA_VERSION,
+                    Vec::new(),
                     Vec::new(),
                 ),
             };
@@ -249,6 +252,7 @@ impl StaticRepository {
             quests,
             passives,
             encounters,
+            party,
             npc_placements,
             npc_id_to_room,
             start_room_id,
@@ -309,6 +313,11 @@ impl StaticRepository {
 
     pub fn encounters(&self) -> &[EncounterDef] {
         &self.encounters
+    }
+
+    /// Class ids of the starting party — companions spawned alongside the lead.
+    pub fn party(&self) -> &[String] {
+        &self.party
     }
 
     pub fn all_rooms(&self) -> impl Iterator<Item = &RoomTemplate> {
