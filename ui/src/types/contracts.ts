@@ -73,6 +73,18 @@ export interface EnemyStateDTO {
   active_effects: string[];
 }
 
+/** Mirror of Rust PartyMemberDTO — one companion travelling with the lead. */
+export interface PartyMemberDTO {
+  name: string;
+  class_id: string;
+  order: number;
+  hp: number;
+  max_hp: number;
+  attack: number;
+  defense: number;
+  room_id: string;
+}
+
 /** Mirror of Rust GameStateDTO */
 export interface GameStateDTO {
   tick: number;
@@ -84,6 +96,7 @@ export interface GameStateDTO {
   event_log: LogEntryDTO[];
   player_character: CharacterStateDTO | null;
   enemies: EnemyStateDTO[];
+  party: PartyMemberDTO[];
 }
 
 export interface EntityStateDTO {

@@ -1,5 +1,5 @@
 import { useGameStore } from '@/store/gameStore';
-import type { CharacterStateDTO, EnemyStateDTO } from '@/types/contracts';
+import type { CharacterStateDTO, EnemyStateDTO, PartyMemberDTO } from '@/types/contracts';
 
 // ── Shared bar ───────────────────────────────────────────────────────────────
 
@@ -107,6 +107,39 @@ function EnemyCard({ enemy }: { enemy: EnemyStateDTO }) {
   );
 }
 
+function PartyMemberCard({ m }: { m: PartyMemberDTO }) {
+  const hpLow = m.hp <= m.max_hp * 0.3;
+  return (
+    <div style={{
+      flex: '1 1 150px', minWidth: 140, padding: '9px 11px',
+      background: 'var(--ui-card)',
+      border: '1px solid var(--ui-gold-border)',
+      borderTop: '2px solid rgba(120,170,120,0.55)',
+      borderRadius: 2,
+      fontFamily: 'var(--font-dossier)',
+    }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 5 }}>
+        <span style={{ fontSize: 12.5, color: 'var(--ui-cream)', fontFamily: 'Georgia, serif' }}>{m.name}</span>
+        <span style={{ fontSize: 7.5, letterSpacing: '0.1em', color: 'var(--ui-gold-dim)' }}>{m.class_id.toUpperCase()}</span>
+      </div>
+      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 9.5, marginBottom: 3 }}>
+        <span style={{ color: 'var(--ui-dim)' }}>HP</span>
+        <span style={{ color: hpLow ? 'var(--ui-red-hi)' : 'var(--ui-cream)', fontWeight: 'bold' }}>{m.hp}/{m.max_hp}</span>
+      </div>
+      <HpBar value={m.hp} max={m.max_hp} color={hpLow ? 'var(--ui-bar-hp-low)' : 'var(--ui-bar-hp)'} />
+      <div style={{ display: 'flex', gap: 4, marginTop: 5 }}>
+        {[['ATK', m.attack], ['DEF', m.defense]].map(([l, v]) => (
+          <span key={l} style={{
+            fontSize: 8.5, padding: '1px 5px',
+            border: '1px solid var(--ui-gold-border)', borderRadius: 2,
+            color: 'var(--ui-dim)',
+          }}>{l} {v}</span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 // ── Action card ───────────────────────────────────────────────────────────────
 
 function ActionCard({
@@ -147,6 +180,7 @@ function ActionCard({
 export function CombatScreen() {
   const playerCharacter = useGameStore(s => s.playerCharacter);
   const enemies         = useGameStore(s => s.enemies);
+  const party           = useGameStore(s => s.party);
   const currentRoomId   = useGameStore(s => s.currentRoomId);
   const contextActions  = useGameStore(s => s.contextActions);
   const lines           = useGameStore(s => s.lines);
@@ -156,6 +190,8 @@ export function CombatScreen() {
   if (!playerCharacter) return null;
 
   const visibleEnemies = enemies.filter(e => e.hp > 0 && e.room_id === currentRoomId);
+  // Companions standing with the lead — the party fighting this encounter.
+  const partyInRoom    = party.filter(m => m.hp > 0 && m.room_id === currentRoomId);
   const recentLines    = lines.filter(l => l.type !== 'input').slice(-3);
 
   const attackAction   = contextActions.find(a => a.command.startsWith('attack') || a.command.startsWith('fight'));
@@ -197,6 +233,22 @@ export function CombatScreen() {
           )
         }
       </div>
+
+      {/* ── Party ── */}
+      {partyInRoom.length > 0 && (
+        <div style={{
+          padding: '10px 16px',
+          borderBottom: '1px solid var(--ui-gold-border)',
+          flexShrink: 0,
+        }}>
+          <div style={{ fontSize: 9, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--ui-gold-dim)', fontFamily: 'var(--font-dossier)', marginBottom: 7 }}>
+            Your party
+          </div>
+          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+            {partyInRoom.map((m, i) => <PartyMemberCard key={i} m={m} />)}
+          </div>
+        </div>
+      )}
 
       {/* ── Combat log ── */}
       <div style={{
