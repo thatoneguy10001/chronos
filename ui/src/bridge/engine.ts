@@ -28,6 +28,7 @@ export const getItemDescription  = (itemId: string)    => b.getItemDescription(i
 export const getItemMeta         = (itemId: string)    => b.getItemMeta(itemId);
 export const getAllItems         = ()                  => b.getAllItems();
 export const initEngine          = (worldId: string)   => b.initEngine(worldId);
+export const initEngineFromWorld = (world: Parameters<typeof wasm.initEngineFromWorld>[0]) => b.initEngineFromWorld(world);
 export const processCommand      = (raw: string)       => b.processCommand(raw);
 export const rewindToTick        = (tick: number)      => b.rewindToTick(tick);
 export const getSnapshot         = ()                  => b.getSnapshot();
