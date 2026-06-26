@@ -8,7 +8,7 @@
  */
 
 import type { CommandResult, GameStateDTO } from '@/types/contracts';
-import type { WorldMeta, ClassMeta } from './engine-wasm';
+import type { WorldMeta, ClassMeta, AbilityMeta } from './engine-wasm';
 import { buildItemMeta } from '@/bridge/item-meta';
 import type { ItemMeta } from '@/bridge/item-meta';
 
@@ -30,6 +30,12 @@ let currentWorldMeta: WorldMeta | null = null;
 let currentItemNames: Record<string, string> = {};
 let currentItemDescriptions: Record<string, string> = {};
 let currentItemMeta: Record<string, ItemMeta> = {};
+// Build Mode Test Play sends its world inline, so its playable classes can't be
+// fetched from /api/worlds/:id/classes (nothing is on disk). initEngineFromWorld
+// stashes them here, keyed by the draft's world id, so listPlayableClasses can
+// serve character creation from memory — mirrors the WASM bridge.
+let draftWorldId: string | null = null;
+let draftPlayableClasses: ClassMeta[] = [];
 
 function getSocket(): Promise<WebSocket> {
   if (socket && socket.readyState === WebSocket.OPEN) return Promise.resolve(socket);
@@ -78,6 +84,8 @@ export function getCurrentWorld(): WorldMeta | null {
 }
 
 export async function listPlayableClasses(worldId: string): Promise<ClassMeta[]> {
+  // A draft world (Test Play) has nothing on disk — serve its classes from memory.
+  if (worldId === draftWorldId) return draftPlayableClasses;
   const res = await fetch(`${API_URL}/api/worlds/${worldId}/classes`);
   return res.json() as Promise<ClassMeta[]>;
 }
@@ -118,15 +126,46 @@ export async function initEngine(worldId: string): Promise<{ worldMeta: WorldMet
 }
 
 /**
- * Test Play runs a not-yet-saved world in the bundled in-browser engine, which the
- * dev WebSocket server (it loads worlds off disk by id) can't do. Surfaced as a
- * clear error rather than a silent no-op. The default dev and prod paths use the
- * WASM bridge, where this is fully implemented.
+ * Initialize from an in-memory world (Build Mode Test Play) by shipping it to the
+ * server's `init_inline` handler, instead of asking it to load files by id. The
+ * payload is the same shape the WASM bridge uses, so a draft plays identically over
+ * either bridge. Item metadata and playable classes are stashed locally (as in the
+ * WASM bridge) so the item helpers and character creation work with nothing on disk.
  */
-export async function initEngineFromWorld(): Promise<{ worldMeta: WorldMeta | null }> {
-  throw new Error(
-    'Test Play is not available over the dev WebSocket server — it runs in the bundled engine. Restart the UI without VITE_USE_WS_SERVER.',
-  );
+export async function initEngineFromWorld(world: {
+  meta: WorldMeta;
+  rooms: { filename: string; content: string }[];
+  items: { filename: string; content: string }[];
+  classes: { filename: string; content: string }[];
+  npcs: { filename: string; content: string }[];
+  quests: { filename: string; content: string }[];
+  passives: { filename: string; content: string }[];
+  manifest: string;
+}): Promise<{ worldMeta: WorldMeta | null }> {
+  currentWorldMeta = world.meta;
+
+  const parsedItems = world.items.map(({ content }) => JSON.parse(content) as { id: string; name: string; description: string; tags?: string[]; consumable?: boolean; attributes?: Record<string, unknown> });
+  currentItemNames        = Object.fromEntries(parsedItems.map(i => [i.id, i.name]));
+  currentItemDescriptions = Object.fromEntries(parsedItems.map(i => [i.id, i.description ?? '']));
+  currentItemMeta         = Object.fromEntries(parsedItems.map(i => [i.id, buildItemMeta(i)]));
+
+  // Stash playable classes (those without enemy rewards), keyed by the draft id.
+  draftWorldId = world.meta.id;
+  draftPlayableClasses = world.classes
+    .map(({ content }) => JSON.parse(content) as Record<string, unknown>)
+    .filter(c => !c.xp_reward && !c.gold_reward)
+    .map(c => ({
+      id: c.id as string,
+      name: c.name as string,
+      description: c.description as string,
+      base_stats: { ...(c.base_stats as Record<string, number>), intelligence: 0 } as ClassMeta['base_stats'],
+      abilities: (c.abilities as AbilityMeta[] | undefined) ?? [],
+    }))
+    .sort((a, b) => a.name.localeCompare(b.name));
+
+  const { rooms, items, classes, npcs, quests, passives, manifest } = world;
+  await send({ type: 'init_inline', world: { rooms, items, classes, npcs, quests, passives, manifest } });
+  return { worldMeta: currentWorldMeta };
 }
 
 export async function processCommand(raw: string): Promise<CommandResult & { room_actions: import('@/types/contracts').ContextAction[]; max_tick: number }> {
