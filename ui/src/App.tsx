@@ -104,6 +104,8 @@ export function App() {
     (window as any).__gameCmd = submitCommand;
     (window as any).__rewindToTick = rewindToTick;
     (window as any).__getState = getSnapshot;
+    // The store itself, for debugging — read/patch state from the console.
+    (window as any).__store = useGameStore;
   }, [submitCommand]);
 
   useEffect(() => {

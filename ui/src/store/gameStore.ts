@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import type { CharacterStateDTO, ContextAction, EnemyStateDTO, InputMode } from '@/types/contracts';
+import type { CharacterStateDTO, ContextAction, EnemyStateDTO, PartyMemberDTO, InputMode } from '@/types/contracts';
 
 const MAX_LINES = 500;
 const addLines = (existing: TerminalLine[], ...add: TerminalLine[]): TerminalLine[] =>
@@ -119,6 +119,8 @@ interface GameStore {
   currentRoomId: string;
   currentRoomName: string;
   enemies: EnemyStateDTO[];
+  /** The lead's companions (party combat). Empty for solo worlds. */
+  party: PartyMemberDTO[];
 
   // UI state
   inputMode: InputMode;
@@ -225,6 +227,7 @@ async function bootIntoPlay(
         currentRoomId:   startRoomId,
         currentRoomName: startRoomName,
         enemies:         snap.enemies,
+        party:           snap.party ?? [],
         contextActions:  result.context_actions,
         roomActions:     result.room_actions,
         inventoryIds:    result.inventory_ids,
@@ -260,6 +263,7 @@ async function bootIntoPlay(
     currentRoomId:    startRoomId,
     currentRoomName:  startRoomName,
     enemies:          snap.enemies,
+    party:            snap.party ?? [],
     contextActions:   result.context_actions,
     roomActions:      result.room_actions,
     inventoryIds:     result.inventory_ids,
@@ -293,6 +297,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
   currentRoomId: '',
   currentRoomName: '',
   enemies: [],
+  party: [],
   inputMode: 'PARSER',
   contextActions: [],
   roomActions: [],
@@ -414,6 +419,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
         currentRoomId:   newRoomId,
         currentRoomName: newRoomName,
         enemies:         snap.enemies,
+        party:           snap.party ?? [],
         contextActions:  result.context_actions,
         roomActions:     result.room_actions,
         inventoryIds:    result.inventory_ids,
@@ -446,6 +452,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
         currentRoomId:   snap.player_room_id,
         currentRoomName: snap.current_room_name ?? '',
         enemies:         snap.enemies,
+        party:           snap.party ?? [],
         contextActions:  result.context_actions,
         roomActions:     result.room_actions,
         inventoryIds:    result.inventory_ids,
@@ -469,6 +476,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
         currentRoomId:   snap.player_room_id,
         currentRoomName: snap.current_room_name ?? '',
         enemies:         snap.enemies,
+        party:           snap.party ?? [],
         contextActions:  result.context_actions,
         roomActions:     result.room_actions,
         inventoryIds:    result.inventory_ids,
@@ -536,6 +544,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
           currentRoomId:   loadedRoomId,
           currentRoomName: loadedRoomName,
           enemies:         snap.enemies,
+          party:           snap.party ?? [],
           contextActions:  result.context_actions,
           roomActions:     result.room_actions,
           inventoryIds:    result.inventory_ids,
