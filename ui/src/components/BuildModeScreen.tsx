@@ -5,6 +5,7 @@ import { NpcEditor } from '@/components/build/NpcEditor';
 import { ContentEditor } from '@/components/build/ContentEditor';
 import { QuestEditor } from '@/components/build/QuestEditor';
 import { TestPlayScreen } from '@/components/build/TestPlayScreen';
+import { ExportScreen } from '@/components/build/ExportScreen';
 import type { SerializedWorld } from '@/build/serialize';
 
 /**
@@ -52,7 +53,7 @@ export function BuildModeScreen({
   const [section, setSection] = useState<string>('home');
 
   // Sections that have a working editor. The rest render as "coming soon".
-  const ACTIVE_SECTIONS = new Set(['layers', 'rooms', 'npcs', 'items', 'quests', 'test']);
+  const ACTIVE_SECTIONS = new Set(['layers', 'rooms', 'npcs', 'items', 'quests', 'test', 'export']);
 
   return (
     <div
@@ -110,6 +111,8 @@ export function BuildModeScreen({
         <QuestEditor onBack={() => setSection('home')} />
       ) : section === 'test' ? (
         <TestPlayScreen onBack={() => setSection('home')} onTestPlay={onTestPlay} />
+      ) : section === 'export' ? (
+        <ExportScreen onBack={() => setSection('home')} />
       ) : (
         <>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem', width: 'min(560px, 100%)' }}>

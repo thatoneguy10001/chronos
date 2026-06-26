@@ -255,6 +255,11 @@ interface BuildStore {
   toggleQuestPrereq: (questId: string, prereqId: string) => void;
   /** Validate quests (names, giver, objective target, references); empty means valid. */
   validateQuests: () => string[];
+  // --- Whole-draft ---
+  /** Replace the entire draft (used by world-file import). */
+  loadDraft: (draft: BuildDraft) => void;
+  /** True when nothing has been authored yet — used to guard import overwrites. */
+  isDraftEmpty: () => boolean;
 }
 
 // Next stable room id. Scans existing `room_N` ids so deletes don't cause reuse
@@ -698,6 +703,20 @@ export const useBuildStore = create<BuildStore>((set, get) => ({
       }
     }
     return errors;
+  },
+
+  loadDraft: (draft: BuildDraft) => set({ draft }),
+
+  isDraftEmpty: () => {
+    const d = get().draft;
+    return (
+      d.rooms.length === 0 &&
+      d.npcs.length === 0 &&
+      d.items.length === 0 &&
+      d.classes.length === 0 &&
+      d.quests.length === 0 &&
+      d.layers.length === 0
+    );
   },
 
   addQuest: () => {
