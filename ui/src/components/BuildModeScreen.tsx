@@ -4,6 +4,8 @@ import { RoomEditor } from '@/components/build/RoomEditor';
 import { NpcEditor } from '@/components/build/NpcEditor';
 import { ContentEditor } from '@/components/build/ContentEditor';
 import { QuestEditor } from '@/components/build/QuestEditor';
+import { TestPlayScreen } from '@/components/build/TestPlayScreen';
+import type { SerializedWorld } from '@/build/serialize';
 
 /**
  * Build Mode — the in-app world editor shell.
@@ -37,14 +39,20 @@ const SECTIONS: BuildSection[] = [
   { key: 'export', label: 'Export & Share', blurb: 'Save the world to a file others can play.' },
 ];
 
-export function BuildModeScreen({ onExit }: { onExit: () => void }) {
+export function BuildModeScreen({
+  onExit,
+  onTestPlay,
+}: {
+  onExit: () => void;
+  onTestPlay: (world: SerializedWorld) => void;
+}) {
   const [hovered, setHovered] = useState<string | null>(null);
   // Which build section is open. 'home' shows the section list; a section key
   // opens that editor. Only 'layers' is implemented so far.
   const [section, setSection] = useState<string>('home');
 
   // Sections that have a working editor. The rest render as "coming soon".
-  const ACTIVE_SECTIONS = new Set(['layers', 'rooms', 'npcs', 'items', 'quests']);
+  const ACTIVE_SECTIONS = new Set(['layers', 'rooms', 'npcs', 'items', 'quests', 'test']);
 
   return (
     <div
@@ -100,6 +108,8 @@ export function BuildModeScreen({ onExit }: { onExit: () => void }) {
         <ContentEditor onBack={() => setSection('home')} />
       ) : section === 'quests' ? (
         <QuestEditor onBack={() => setSection('home')} />
+      ) : section === 'test' ? (
+        <TestPlayScreen onBack={() => setSection('home')} onTestPlay={onTestPlay} />
       ) : (
         <>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem', width: 'min(560px, 100%)' }}>

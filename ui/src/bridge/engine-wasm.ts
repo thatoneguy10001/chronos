@@ -46,6 +46,11 @@ export interface ClassMeta {
 
 let engineInstance: WasmEngineInstance | null = null;
 let currentWorldMeta: WorldMeta | null = null;
+// Build Mode Test Play has no files on disk, so the playable classes can't be
+// globbed by id. initEngineFromWorld stashes them here, keyed by the draft's
+// world id, so listPlayableClasses can serve character creation from memory.
+let draftWorldId: string | null = null;
+let draftPlayableClasses: ClassMeta[] = [];
 let currentItemNames: Record<string, string> = {};
 let currentItemDescriptions: Record<string, string> = {};
 let currentItemMeta: Record<string, ItemMeta> = {};
@@ -87,6 +92,8 @@ export function getCurrentWorld(): WorldMeta | null {
 
 /** Returns playable (non-enemy) classes for a world, sorted by name. */
 export async function listPlayableClasses(worldId: string): Promise<ClassMeta[]> {
+  // A draft world (Test Play) has no files to glob — serve its classes from memory.
+  if (worldId === draftWorldId) return draftPlayableClasses;
   return (await filterByWorld(allClassModules, worldId))
     .map(({ content }) => JSON.parse(content) as Record<string, unknown>)
     .filter(c => !c.xp_reward && !c.gold_reward)
@@ -141,6 +148,62 @@ export async function initEngine(worldId: string): Promise<{ worldMeta: WorldMet
   currentItemDescriptions = Object.fromEntries(parsedItems.map(i => [i.id, i.description ?? '']));
   currentItemMeta         = Object.fromEntries(parsedItems.map(i => [i.id, buildItemMeta(i)]));
 
+  const payload = JSON.stringify({ rooms, items, classes, npcs, quests, passives, manifest });
+  engineInstance = new wasmModule.WasmEngine(payload);
+  return { worldMeta: currentWorldMeta };
+}
+
+/**
+ * Initialize the engine from an already-serialized world (Build Mode's Test Play),
+ * instead of globbing files off disk by id. The payload is the same shape
+ * `initEngine` builds — `{ rooms, items, … , manifest }` — so the engine can't tell
+ * a hand-authored world from a bundled one. That's the whole point: whatever Build
+ * Mode serializes, the engine runs.
+ */
+export async function initEngineFromWorld(world: {
+  meta: WorldMeta;
+  rooms: { filename: string; content: string }[];
+  items: { filename: string; content: string }[];
+  classes: { filename: string; content: string }[];
+  npcs: { filename: string; content: string }[];
+  quests: { filename: string; content: string }[];
+  passives: { filename: string; content: string }[];
+  manifest: string;
+}): Promise<{ worldMeta: WorldMeta | null }> {
+  let wasmModule: WasmMod;
+  if (import.meta.env.DEV) {
+    wasmModule = await import(/* @vite-ignore */ `/src/wasm/chronos_wasm.js?t=${Date.now()}`) as unknown as WasmMod;
+    const wasmUrl = new URL('/src/wasm/chronos_wasm_bg.wasm', location.origin);
+    wasmUrl.searchParams.set('t', String(Date.now()));
+    await wasmModule.default?.(wasmUrl);
+  } else {
+    wasmModule = await import('../wasm/chronos_wasm.js') as unknown as WasmMod;
+    await wasmModule.default?.();
+  }
+
+  currentWorldMeta = world.meta;
+
+  // Stash playable classes (those without enemy rewards) so character creation can
+  // list them by id without any files on disk. Mirrors listPlayableClasses' filter.
+  draftWorldId = world.meta.id;
+  draftPlayableClasses = world.classes
+    .map(({ content }) => JSON.parse(content) as Record<string, unknown>)
+    .filter(c => !c.xp_reward && !c.gold_reward)
+    .map(c => ({
+      id: c.id as string,
+      name: c.name as string,
+      description: c.description as string,
+      base_stats: { ...(c.base_stats as Record<string, number>), intelligence: 0 } as ClassMeta['base_stats'],
+      abilities: (c.abilities as AbilityMeta[] | undefined) ?? [],
+    }))
+    .sort((a, b) => a.name.localeCompare(b.name));
+
+  const parsedItems = world.items.map(({ content }) => JSON.parse(content) as { id: string; name: string; description: string; tags?: string[]; consumable?: boolean; attributes?: Record<string, unknown> });
+  currentItemNames        = Object.fromEntries(parsedItems.map(i => [i.id, i.name]));
+  currentItemDescriptions = Object.fromEntries(parsedItems.map(i => [i.id, i.description ?? '']));
+  currentItemMeta         = Object.fromEntries(parsedItems.map(i => [i.id, buildItemMeta(i)]));
+
+  const { rooms, items, classes, npcs, quests, passives, manifest } = world;
   const payload = JSON.stringify({ rooms, items, classes, npcs, quests, passives, manifest });
   engineInstance = new wasmModule.WasmEngine(payload);
   return { worldMeta: currentWorldMeta };

@@ -8,6 +8,7 @@ import { TopChrome } from '@/components/TopChrome';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { NavBar } from '@/components/NavBar';
 import { useGameStore } from '@/store/gameStore';
+import type { SerializedWorld } from '@/build/serialize';
 
 const ExploreScreen   = lazy(() => import('@/components/ExploreScreen').then(m => ({ default: m.ExploreScreen })));
 const CombatScreen    = lazy(() => import('@/components/CombatScreen').then(m => ({ default: m.CombatScreen })));
@@ -54,6 +55,7 @@ function GameOverScreen({ worldTitle, onRestart }: { worldTitle: string; onResta
 
 export function App() {
   const init            = useGameStore(s => s.init);
+  const initDraft       = useGameStore(s => s.initDraft);
   const initialized     = useGameStore(s => s.initialized);
   const submitCommand   = useGameStore(s => s.submitCommand);
   const playerCharacter = useGameStore(s => s.playerCharacter);
@@ -70,15 +72,31 @@ export function App() {
   // Top-level app mode: 'play' runs a world, 'build' edits one. The master switch
   // for the platform vision — the same engine eventually runs both.
   const [appMode, setAppMode] = useState<'play' | 'build'>('play');
+  // A serialized draft being test-played from Build Mode. When set, the play flow
+  // boots from it instead of a bundled world id — same engine, same screens.
+  const [draftWorld, setDraftWorld] = useState<SerializedWorld | null>(null);
 
   const pendingSlotRef = useRef<number | undefined>(undefined);
 
   useEffect(() => {
+    // Test Play: boot the in-memory draft world rather than a world loaded by id.
+    if (draftWorld) {
+      initDraft(draftWorld).catch(err => setInitError(String(err)));
+      return;
+    }
     if (!selectedWorldId) return;
     const slot = pendingSlotRef.current;
     pendingSlotRef.current = undefined;
     init(selectedWorldId, slot).catch(err => setInitError(String(err)));
-  }, [selectedWorldId, init]);
+  }, [selectedWorldId, draftWorld, init, initDraft]);
+
+  // Leave Test Play and return to the builder, with the draft untouched.
+  const exitTestPlay = () => {
+    setDraftWorld(null);
+    setSelectedWorldId(null);
+    setInitError(null);
+    setAppMode('build');
+  };
 
   useEffect(() => {
     const rewindToTick = useGameStore.getState().rewindToTick;
@@ -103,10 +121,20 @@ export function App() {
 
   // Build Mode takes over the whole screen, before any world is loaded for play.
   if (appMode === 'build') {
-    return <BuildModeScreen onExit={() => setAppMode('play')} />;
+    return (
+      <BuildModeScreen
+        onExit={() => setAppMode('play')}
+        onTestPlay={world => {
+          setWorldTitle(world.meta.title);
+          setWorldTone(world.meta.tone);
+          setDraftWorld(world);
+          setAppMode('play');
+        }}
+      />
+    );
   }
 
-  if (!selectedWorldId) {
+  if (!selectedWorldId && !draftWorld) {
     return (
       <WorldSelectionScreen
         onSelect={(id, tone, title) => {
@@ -125,20 +153,51 @@ export function App() {
     );
   }
 
+  // The world currently in play — a bundled id, or the draft's synthetic id.
+  const activeWorldId = selectedWorldId ?? draftWorld?.meta.id ?? '';
+
+  // A small "leave Test Play" affordance, shown only while test-playing a draft so
+  // the author can always get back to the builder.
+  const testPlayExit = draftWorld ? (
+    <button
+      onClick={exitTestPlay}
+      style={{
+        position: 'fixed',
+        top: 12,
+        right: 12,
+        zIndex: 1000,
+        background: 'var(--ui-bg, #1a1a1a)',
+        border: '1px solid var(--ui-gold-border, #6b5a2e)',
+        color: 'var(--ui-gold-hi, #d8c690)',
+        fontFamily: 'var(--font-dossier, monospace)',
+        fontSize: '0.72em',
+        letterSpacing: '0.12em',
+        padding: '0.4rem 0.9rem',
+        cursor: 'pointer',
+        opacity: 0.85,
+      }}
+    >
+      ⚒ EXIT TEST PLAY
+    </button>
+  ) : null;
+
   if (initError) {
     return (
-      <div style={{
-        height: '100vh',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        color: 'var(--error)',
-        fontFamily: 'monospace',
-        padding: '2rem',
-        whiteSpace: 'pre-wrap',
-      }}>
-        {`Engine failed to load:\n\n${initError}`}
-      </div>
+      <>
+        {testPlayExit}
+        <div style={{
+          height: '100vh',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          color: 'var(--error)',
+          fontFamily: 'monospace',
+          padding: '2rem',
+          whiteSpace: 'pre-wrap',
+        }}>
+          {`Engine failed to load:\n\n${initError}`}
+        </div>
+      </>
     );
   }
 
@@ -159,21 +218,29 @@ export function App() {
 
   if (!playerCharacter) {
     return (
-      <CharacterCreationScreen
-        worldId={selectedWorldId}
-        tone={worldTone}
-        worldTitle={worldTitle}
-        onSelect={classId => submitCommand(`become ${classId}`)}
-      />
+      <>
+        {testPlayExit}
+        <CharacterCreationScreen
+          worldId={activeWorldId}
+          tone={worldTone}
+          worldTitle={worldTitle}
+          onSelect={classId => submitCommand(`become ${classId}`)}
+        />
+      </>
     );
   }
 
   if (playerCharacter.hp <= 0) {
     return (
-      <GameOverScreen
-        worldTitle={worldTitle}
-        onRestart={() => init(selectedWorldId).catch(err => setInitError(String(err)))}
-      />
+      <>
+        {testPlayExit}
+        <GameOverScreen
+          worldTitle={worldTitle}
+          onRestart={() =>
+            (draftWorld ? initDraft(draftWorld) : init(activeWorldId)).catch(err => setInitError(String(err)))
+          }
+        />
+      </>
     );
   }
 
@@ -185,6 +252,7 @@ export function App() {
       justifyContent: 'center',
       alignItems: 'center',
     }}>
+      {testPlayExit}
       {/* Dark game frame */}
       <div data-tick={currentTick} style={{
         width: 'min(1180px, 100%)',

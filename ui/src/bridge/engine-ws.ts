@@ -117,6 +117,18 @@ export async function initEngine(worldId: string): Promise<{ worldMeta: WorldMet
   return { worldMeta: currentWorldMeta };
 }
 
+/**
+ * Test Play runs a not-yet-saved world in the bundled in-browser engine, which the
+ * dev WebSocket server (it loads worlds off disk by id) can't do. Surfaced as a
+ * clear error rather than a silent no-op. The default dev and prod paths use the
+ * WASM bridge, where this is fully implemented.
+ */
+export async function initEngineFromWorld(): Promise<{ worldMeta: WorldMeta | null }> {
+  throw new Error(
+    'Test Play is not available over the dev WebSocket server — it runs in the bundled engine. Restart the UI without VITE_USE_WS_SERVER.',
+  );
+}
+
 export async function processCommand(raw: string): Promise<CommandResult & { room_actions: import('@/types/contracts').ContextAction[]; max_tick: number }> {
   return send({ type: 'command', input: raw });
 }

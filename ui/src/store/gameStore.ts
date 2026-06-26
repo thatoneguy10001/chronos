@@ -7,6 +7,7 @@ const addLines = (existing: TerminalLine[], ...add: TerminalLine[]): TerminalLin
 
 export type ActiveScreen = 'explore' | 'combat' | 'inventory' | 'character';
 import * as engine from '@/bridge/engine';
+import type { SerializedWorld } from '@/build/serialize';
 import {
   DIR_VECTORS,
   extractDirection,
@@ -154,6 +155,8 @@ interface GameStore {
 
   // Actions
   init: (worldId: string, loadSlot?: number) => Promise<void>;
+  /** Boot a Build Mode draft world (Test Play) straight from its serialized form. */
+  initDraft: (world: SerializedWorld) => Promise<void>;
   submitCommand: (raw: string) => void;
   rewindToTick: (tick: number) => void;
   resumeFromRewind: () => void;
@@ -181,7 +184,99 @@ const mkLine = (type: TerminalLine['type'], text: string, tick?: number, label?:
 // onto this promise so rapid input never causes out-of-order store updates.
 let commandQueue: Promise<void> = Promise.resolve();
 
+/**
+ * Shared boot path for both `init` (bundled world by id) and `initDraft` (a Build
+ * Mode draft). The only thing that differs upstream is *how* the engine got
+ * constructed and where save slots come from; everything past that — world chrome,
+ * optional save-slot restore, the opening `look` — is identical, so it lives here
+ * once. `set` is passed in from the store closure.
+ */
+async function bootIntoPlay(
+  set: (partial: Partial<GameStore>) => void,
+  args: { worldId: string; worldMeta: engine.WorldMeta | null; loadSlot?: number; saves: (SaveSlot | null)[] },
+) {
+  const { worldId, worldMeta, loadSlot, saves } = args;
+  lineCounter = 0;
+  commandQueue = Promise.resolve();
+  const worldBase = {
+    worldId,
+    worldTitle: worldMeta?.title ?? '',
+    currencyName: worldMeta?.currency ?? 'gold',
+    currencySymbol: worldMeta?.currency_symbol ?? '⬡',
+    secondaryCurrencyName: worldMeta?.secondary_currency ?? '',
+    secondaryCurrencySymbol: worldMeta?.secondary_currency_symbol ?? '',
+  };
 
+  if (loadSlot !== undefined) {
+    const saved = readSaveSlot(worldId, loadSlot);
+    if (saved) {
+      const result = await engine.loadFromSnapshot(saved.snapshot);
+      const snap   = await engine.getSnapshot();
+      const startRoomId   = snap.player_room_id;
+      const startRoomName = snap.current_room_name ?? '';
+      set({
+        ...worldBase,
+        initialized: true,
+        saves,
+        currentTick:    result.tick,
+        maxTick:        result.max_tick,
+        gameTime:       result.game_time ?? 360,
+        playerCharacter: snap.player_character,
+        currentRoomId:   startRoomId,
+        currentRoomName: startRoomName,
+        enemies:         snap.enemies,
+        contextActions:  result.context_actions,
+        roomActions:     result.room_actions,
+        inventoryIds:    result.inventory_ids,
+        mapNodes: startRoomId ? { [startRoomId]: { id: startRoomId, name: startRoomName, x: 0, y: 0 } } : {},
+        mapEdges: [],
+        mapCurrentX: 0,
+        mapCurrentY: 0,
+        isRewound:       false,
+        isGameOver:      false,
+        deathCause:      '',
+        lines: [
+          mkLine('system', `=== ${worldMeta?.title?.toUpperCase() ?? 'PROJECT CHRONOS'} ===`),
+          mkLine('system', 'Save loaded.'),
+          mkLine('output', result.narrative, result.tick, startRoomName),
+        ],
+      });
+      return;
+    }
+  }
+
+  const result = await engine.processCommand('look');
+  const snap   = await engine.getSnapshot();
+  const startRoomId = snap.player_room_id;
+  const startRoomName = snap.current_room_name ?? '';
+  set({
+    ...worldBase,
+    initialized: true,
+    saves,
+    currentTick: result.tick,
+    maxTick: result.max_tick,
+    gameTime: result.game_time ?? 360,
+    playerCharacter:  snap.player_character,
+    currentRoomId:    startRoomId,
+    currentRoomName:  startRoomName,
+    enemies:          snap.enemies,
+    contextActions:   result.context_actions,
+    roomActions:      result.room_actions,
+    inventoryIds:     result.inventory_ids,
+    mapNodes: startRoomId ? { [startRoomId]: { id: startRoomId, name: startRoomName, x: 0, y: 0 } } : {},
+    mapEdges: [],
+    mapCurrentX: 0,
+    mapCurrentY: 0,
+    isRewound: false,
+    isGameOver: false,
+    deathCause: '',
+    lines: [
+      mkLine('system', `=== ${worldMeta?.title?.toUpperCase() ?? 'PROJECT CHRONOS'} ===`),
+      mkLine('system', "Type 'help' for commands. Type 'save' to save, 'load' to load."),
+      mkLine('output', result.narrative, result.tick, startRoomName),
+    ],
+  });
+}
 
 export const useGameStore = create<GameStore>((set, get) => ({
   initialized: false,
@@ -217,87 +312,14 @@ export const useGameStore = create<GameStore>((set, get) => ({
   journalOpen: false,
 
   init: async (worldId: string, loadSlot?: number) => {
-    lineCounter = 0;
-    commandQueue = Promise.resolve();
     const { worldMeta } = await engine.initEngine(worldId);
-    const worldBase = {
-      worldId,
-      worldTitle: worldMeta?.title ?? '',
-      currencyName: worldMeta?.currency ?? 'gold',
-      currencySymbol: worldMeta?.currency_symbol ?? '⬡',
-      secondaryCurrencyName: worldMeta?.secondary_currency ?? '',
-      secondaryCurrencySymbol: worldMeta?.secondary_currency_symbol ?? '',
-    };
+    await bootIntoPlay(set, { worldId, worldMeta, loadSlot, saves: readWorldSlots(worldId) });
+  },
 
-    if (loadSlot !== undefined) {
-      const saved = readSaveSlot(worldId, loadSlot);
-      if (saved) {
-        const result = await engine.loadFromSnapshot(saved.snapshot);
-        const snap   = await engine.getSnapshot();
-        const startRoomId   = snap.player_room_id;
-        const startRoomName = snap.current_room_name ?? '';
-        set({
-          ...worldBase,
-          initialized: true,
-          saves:          readWorldSlots(worldId),
-          currentTick:    result.tick,
-          maxTick:        result.max_tick,
-          gameTime:       result.game_time ?? 360,
-          playerCharacter: snap.player_character,
-          currentRoomId:   startRoomId,
-          currentRoomName: startRoomName,
-          enemies:         snap.enemies,
-          contextActions:  result.context_actions,
-          roomActions:     result.room_actions,
-          inventoryIds:    result.inventory_ids,
-          mapNodes: startRoomId ? { [startRoomId]: { id: startRoomId, name: startRoomName, x: 0, y: 0 } } : {},
-          mapEdges: [],
-          mapCurrentX: 0,
-          mapCurrentY: 0,
-          isRewound:       false,
-          isGameOver:      false,
-          deathCause:      '',
-          lines: [
-            mkLine('system', `=== ${worldMeta?.title?.toUpperCase() ?? 'PROJECT CHRONOS'} ===`),
-            mkLine('system', 'Save loaded.'),
-            mkLine('output', result.narrative, result.tick, startRoomName),
-          ],
-        });
-        return;
-      }
-    }
-
-    const result = await engine.processCommand('look');
-    const snap   = await engine.getSnapshot();
-    const startRoomId = snap.player_room_id;
-    const startRoomName = snap.current_room_name ?? '';
-    set({
-      ...worldBase,
-      initialized: true,
-      saves:          readWorldSlots(worldId),
-      currentTick: result.tick,
-      maxTick: result.max_tick,
-      gameTime: result.game_time ?? 360,
-      playerCharacter:  snap.player_character,
-      currentRoomId:    startRoomId,
-      currentRoomName:  startRoomName,
-      enemies:          snap.enemies,
-      contextActions:   result.context_actions,
-      roomActions:      result.room_actions,
-      inventoryIds:     result.inventory_ids,
-      mapNodes: startRoomId ? { [startRoomId]: { id: startRoomId, name: startRoomName, x: 0, y: 0 } } : {},
-      mapEdges: [],
-      mapCurrentX: 0,
-      mapCurrentY: 0,
-      isRewound: false,
-      isGameOver: false,
-      deathCause: '',
-      lines: [
-        mkLine('system', `=== ${worldMeta?.title?.toUpperCase() ?? 'PROJECT CHRONOS'} ===`),
-        mkLine('system', "Type 'help' for commands. Type 'save' to save, 'load' to load."),
-        mkLine('output', result.narrative, result.tick, startRoomName),
-      ],
-    });
+  initDraft: async (world: SerializedWorld) => {
+    const { worldMeta } = await engine.initEngineFromWorld(world);
+    // Draft worlds aren't persisted, so there are no save slots to read.
+    await bootIntoPlay(set, { worldId: world.meta.id, worldMeta, saves: [] });
   },
 
   submitCommand: (raw: string) => {
