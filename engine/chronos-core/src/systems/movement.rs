@@ -11,7 +11,8 @@
 //! Neither function touches the tick or event log.
 
 use crate::components::{
-    Controllable, Enemy, GameTime, Health, Identity, InInventory, ItemBlueprint, Position,
+    Controllable, Enemy, GameTime, Health, Identity, InInventory, ItemBlueprint, PartyMember,
+    Position,
 };
 use crate::data::{RoomTemplate, StaticRepository};
 use crate::events::ContextAction;
@@ -84,11 +85,12 @@ pub fn process_move(world: &mut World, repo: &StaticRepository, direction: &str)
         }
     }
 
-    // --- Move player ---
+    // --- Move player (and the party with them) ---
     let target_room_id = exit.target_room_id.clone();
     world.entity_mut(player_entity).insert(Position {
         room_id: target_room_id.clone(),
     });
+    move_party_to(world, &target_room_id);
 
     // --- Build arrival narrative ---
     let target_room = match repo.room(&target_room_id) {
@@ -191,10 +193,11 @@ pub fn process_flee(world: &mut World, repo: &StaticRepository) -> MoveResult {
         }
     };
 
-    // Escape: relocate the player. The enemy remains where it was.
+    // Escape: relocate the player and the party. The enemy remains where it was.
     world.entity_mut(player_entity).insert(Position {
         room_id: target_room_id.clone(),
     });
+    move_party_to(world, &target_room_id);
 
     let target_room = match repo.room(&target_room_id) {
         Ok(r) => r,
@@ -275,6 +278,22 @@ pub fn process_look(world: &mut World, repo: &StaticRepository) -> MoveResult {
         success: true,
         narrative,
         context_actions,
+    }
+}
+
+/// Relocate every party companion to `room_id`. Companions follow the lead through
+/// the world, so the party stays together for whatever the next room holds. A
+/// no-op for solo worlds (no `PartyMember` entities), and deterministic — it draws
+/// no RNG, so movement still replays identically under rewind.
+fn move_party_to(world: &mut World, room_id: &str) {
+    let members: Vec<Entity> = {
+        let mut q = world.query_filtered::<Entity, With<PartyMember>>();
+        q.iter(world).collect()
+    };
+    for member in members {
+        world.entity_mut(member).insert(Position {
+            room_id: room_id.to_string(),
+        });
     }
 }
 
