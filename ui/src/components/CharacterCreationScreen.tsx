@@ -99,7 +99,7 @@ export function CharacterCreationScreen({ worldId, tone, worldTitle, onSelect }:
       alignItems: 'center',
       justifyContent: 'center',
       fontFamily: 'var(--font-journal)',
-      background: "url('/textures/teastain%20102.png') center/cover no-repeat var(--parchment)",
+      background: "url('/textures/teastain.webp') center/cover no-repeat var(--parchment)",
       padding: '2rem',
     }}>
       <div style={{ color: 'var(--ink-faint)', fontSize: '0.75em', letterSpacing: '0.15em', marginBottom: '0.5rem', fontFamily: 'var(--font-dossier)' }}>
