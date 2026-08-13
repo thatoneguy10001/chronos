@@ -41,13 +41,40 @@ export default defineConfig({
   build: {
     rollupOptions: {
       output: {
-        // Separate the React/Zustand vendor bundle so it can be cached
-        // independently from app code. Users only re-download the smaller
-        // app chunk when content changes.
         manualChunks: (id) => {
+          // Separate the React/Zustand vendor bundle so it can be cached
+          // independently from app code. Users only re-download the smaller
+          // app chunk when content changes.
           if (id.includes('node_modules/react') || id.includes('node_modules/react-dom') || id.includes('node_modules/zustand')) {
             return 'vendor';
           }
+
+          // Group world data into one chunk per (world, category).
+          //
+          // `engine-wasm.ts` globs world JSON lazily, which by default emits one
+          // chunk per file — 400+ sub-10KB requests on first load, since Iron &
+          // Blood alone is 154 quests, 72 NPCs and 71 rooms. Grouping matches how
+          // the data is actually consumed: `initEngine` awaits every category for
+          // one world in a single `Promise.all`, so a whole category is always
+          // fetched together or not at all.
+          //
+          // Category rather than whole-world granularity because class data is
+          // needed earlier than the rest — `listPlayableClasses` runs on the
+          // character-creation screen, before `initEngine`. Keeping classes
+          // separate means class select doesn't drag 154 quests down with it.
+          //
+          // Per-world laziness is preserved: picking Iron & Blood still fetches
+          // nothing belonging to Millbrook, and a world added later gets its own
+          // chunks with no change here.
+          //
+          // world.json is deliberately unmatched below — it's globbed eagerly for
+          // the world-select screen, so it belongs in the entry bundle rather than
+          // stranded in a chunk of its own.
+          const worldPath = id.replace(/\\/g, '/');
+          const categoryFile = worldPath.match(/\/worlds\/([^/]+)\/([^/]+)\/[^/]+\.json$/);
+          if (categoryFile) return `world-${categoryFile[1]}-${categoryFile[2]}`;
+          const manifestFile = worldPath.match(/\/worlds\/([^/]+)\/manifest\.json$/);
+          if (manifestFile) return `world-${manifestFile[1]}-manifest`;
         },
       },
     },

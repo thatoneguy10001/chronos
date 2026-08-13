@@ -4,6 +4,38 @@
 
 ---
 
+> ## ⚠ Status reconciled 2026-08-13 — read this before Parts 2 and 3
+>
+> This document was written **2026-06-18**, before the sprint that implemented most of
+> it. Parts 2 and 3 describe an engine that no longer exists and are **superseded** —
+> they are kept only as a record of the original design intent. **Part 4 below has been
+> re-verified against the code and is accurate.**
+>
+> Headline: **9 of 12 engine items and 7 of 7 ungated content items have shipped.**
+> Three engine items remain (E-2, E-3, E-8), plus half of E-10.
+>
+> **The reason this doc read as "nothing done" is that the implementation renamed
+> almost everything.** Searching it for planned identifiers finds nothing, because the
+> code chose different — usually better — names:
+>
+> | Planned | Actually shipped as |
+> |---|---|
+> | `iron_scraps` / `aetherium_shards` | `Wallet { gold, shards }` |
+> | SPD / ACC / CRIT / DODGE | `agility` / `hit` / `crit_chance` / `evasion` |
+> | `ActiveLoadout` / `SwapLoadout` | `PayloadSlots { loaded, capacity }` |
+> | `CraftWeapon` composite item | `AssembledWeapon` + `ItemBlueprint` |
+> | `VisitRoom` objective | `ReachRoom` objective |
+> | Armistice *combat* gate | Armistice *room, exit and quest* gating |
+>
+> Two items were **redesigned rather than built as specified** — see E-3 and E-5.
+>
+> A large amount of shipped work appears nowhere in this document at all, because it
+> was never planned here: the party/companion system, morale, boss phase transitions,
+> ability cooldowns, equipment, world flags, victory conditions, and the entire Build
+> Mode world editor.
+
+---
+
 ## Part 1: Full Lore Summary
 
 ### Setting
@@ -334,39 +366,63 @@ The two tracks can proceed in parallel. Content work that has no engine prerequi
 *All items in this track require code changes. Hand this list to a developer.*
 
 #### E-1 — Dual Currency Wallet `[ENGINE]`
+
+> **✅ SHIPPED** — landed as `Wallet { gold, shards }` (`components/wallet.rs`). Two currencies exist; the lore names `iron_scraps` / `aetherium_shards` were not adopted. `world.json` declares them as `scraps` ⚙ and `shards` ◆.
 Change `Wallet` from `gold: i32` to `iron_scraps: i32` and `aetherium_shards: i32`. Update every system that reads or writes gold (`shop.rs`, `combat.rs` kill rewards, `snapshot` serialization). This is a small change with wide data implications — do it before any content work touches vendor pricing or loot rewards.
 
 #### E-2 — Rarity Field in ItemTemplate `[ENGINE]`
+
+> **❌ NOT STARTED** — zero references to `rarity` anywhere in `engine/`, `worlds/`, or `data/`. Still blocks C-11.
 Add `rarity: u8` (1–10) to the `ItemTemplate` struct and JSON schema. Existing items default to T3. Required before loot tables or tiered vendor pricing can be implemented. Content can begin tagging item files immediately after this ships.
 
 #### E-3 — Faction Standing Component `[ENGINE]`
+
+> **⚠ REDESIGNED — NOT BUILT AS SPECIFIED.** There is no faction system in the engine or in any world JSON (zero `faction` hits in either). What shipped instead is `NpcDispositions { values, topics_seen }` — standing tracked **per NPC**, not per faction. **Decision needed:** is faction-level standing still wanted, or does per-NPC disposition supersede it? C-4 and C-12 both hang on this answer.
 Add `FactionStanding { standings: HashMap<String, i32> }` to the player entity. Expose a `modify_faction_standing(faction_id, delta)` helper. Update `dialogue.rs` and `quest.rs` to read standings when evaluating topic availability and quest rewards. This unblocks all faction-loyalty quests and conditional NPC dialogue.
 
 #### E-4 — Additional Status Effects `[ENGINE]`
+
+> **✅ SHIPPED & EXCEEDED** — `EffectKind` has **16 variants**, not the 4 Part 2 claims: Poison, Burn, Bleed, Corrode, Hemotoxin, Plague, Blind, Chill, Frozen, Weaken, Stun, DefenseUp, AttackUp, TechUp, AgilityUp, LuckUp. Planned-but-absent: Root, Silence, Necrosis, AetherBurn, CrystalShatter. `Freeze`→`Frozen`, `Slow`→`Chill`.
 Extend `EffectKind` with: `Stun` (skip turn), `Freeze` (ATK reduction + slow), `Slow` (SPD reduction), `Root` (no movement), `Blind` (ACC penalty), `Silence` (no abilities), `Necrosis` (Lazarus-specific stacking DoT), `AetherBurn` (Aetherium-specific DoT), `CrystalShatter` (armor penetration). The existing tick/apply/expire architecture in `active_effects.rs` handles all of these — only the enum variants and their behavior branches in `tick_all_effects` need to be added.
 
 #### E-5 — Armistice Ceasefire Combat Gate `[ENGINE]`
+
+> **⚠ REDESIGNED & SHIPPED** — the Armistice became a **world-traversal** gate rather than a combat gate. Night-locked exits and quests are enforced in `systems/movement.rs:71` and `data/schemas.rs:209,471`, with `wait` advancing to dusk/dawn. No ceasefire check exists in `process_attack`. Arguably the better design; noting it so the doc stops describing a mechanic that was deliberately not built.
 Add a check at the top of `process_attack` in `combat.rs` that reads `GameTime` and returns a narrative refusal message if the current in-game time falls within the ceasefire window. The window bounds (e.g. 00:00–06:00) should be a configurable field in the world manifest so content can set it per-world without another code change.
 
 #### E-6 — SPD / ACC / CRIT / DODGE Stats `[ENGINE]`
+
+> **✅ SHIPPED & GENERALIZED** — went further than planned. `Stats` was rewritten from a fixed struct into a **world-definable `HashMap<String, i32>`**, so a world can declare arbitrary stats without an engine change. Canonical keys include `hit` (accuracy), `evasion` (dodge), `agility` (speed), `luck`, `tech_attack`, `endurance`; `crit_chance` is present.
 Extend the `Stats` component with `speed: i32`, `accuracy: i32`, `crit_chance: f32`, `dodge: f32`. Update `process_attack` to: (1) roll accuracy vs. defender's dodge before computing damage, (2) roll crit on hit and apply the class-defined crit multiplier. Enemy and class JSON schemas need corresponding new fields; content can populate them once this ships.
 
 #### E-7 — Targeting Choice in Combat `[ENGINE]`
+
+> **✅ SHIPPED** — `target_name` appears across 5 files / 68 sites.
 Add `target_name: Option<String>` to the `Attack` event. When `None`, preserve current behavior (first live enemy in room). When `Some`, select the named enemy. Surface available targets as context action buttons after a `look` or when multiple enemies are present.
 
 #### E-8 — SCAMP Turret (Player-Owned Persistent Entity) `[ENGINE]`
+
+> **❌ NOT STARTED** — no `Turret`, `PlayerOwnedEntity`, or `deploy_scamp` anywhere. But see C-8: this was **routed around**, not left blocking.
 Add `PlayerOwnedEntity` and `Turret { hp, max_hp, mk_level: u8 }` ECS components. Bootstrap spawns no turrets. The Field Engineer's `deploy_scamp` ability spawns a turret entity in the current room. Combat resolution in `combat.rs` must iterate player-owned entities and fire their attacks each tick. Add `upgrade_scamp` and `command_scamp { mode }` event types for Mk escalation and Fire/Suppressing/Overcharge modes. Turret state persists in snapshots.
 
 #### E-9 — Active Loadout / Canister-Payload System `[ENGINE]`
+
+> **✅ SHIPPED** — landed as `PayloadSlots { loaded, capacity }` (`components/payload_slots.rs`) rather than `ActiveLoadout`/`SwapLoadout`. The `Plague` effect exists.
 Add `ActiveLoadout { slots: Vec<String> }` to the player entity. Add `SwapLoadout { slot_index, item_id }` event. Field Medic and Iron Apothecary ability resolution reads the active loadout slot rather than a fixed ability definition. The `Plague` payload needs a spread-to-adjacent-enemies pass after it applies — this is the only behavior that requires iterating all enemies in the room.
 
 #### E-10 — Additional Quest Objective Types `[ENGINE]`
+
+> **⚠ PARTIAL** — `QuestObjective` now has `KillCount`, `ReachRoom` (the planned `VisitRoom`), and `TalkTo` (unplanned bonus). **`FetchItem` is still missing** — the one genuine gap here.
 Extend `QuestObjective` enum beyond `KillCount` to support `FetchItem { item_id, count }` and `VisitRoom { room_id }`. `FetchItem` resolves when the player has the required items in inventory at turn-in; `VisitRoom` fires when `movement.rs` places the player in the target room. These two types cover the majority of narrative quest needs.
 
 #### E-11 — Loot Generation on Kill `[ENGINE]`
+
+> **✅ SHIPPED** — `loot_table` present across 3 engine files.
 Add a `loot_table: Vec<{ item_id, weight, min_rarity }>` field to the enemy class JSON schema. After a kill in `combat.rs`, roll the loot table and spawn the result into the current room (or directly into inventory, configurable per-world). Replace the fixed gold reward with currency drops drawn from the same table.
 
 #### E-12 — Modular Weapon Crafting `[ENGINE]`
+
+> **✅ SHIPPED** — landed as `AssembledWeapon { weapon_id, display_name, attack_bonus, on_hit_effect, part_ids: [String; 3] }` plus `ItemBlueprint`. Three-part composition confirmed.
 Add `CraftWeapon { frame, mechanism, enhancement }` event type. Engine looks up the three part `ItemTemplate` entries, validates compatibility flags, and spawns a composite item in inventory whose stats are the sum of the parts. A named-synergy lookup table (keyed on the three-part combination) applies bonus effects where defined. Requires E-2 (rarity) to assign the crafted item's tier.
 
 ---
@@ -378,48 +434,78 @@ Add `CraftWeapon { frame, mechanism, enhancement }` event type. Engine looks up 
 Items marked **"Gated: E-N"** cannot be completed until the corresponding engine item ships. Everything else can start immediately.
 
 #### C-1 — Iron & Blood World Manifest `[CONTENT]`
+
+> **✅ SHIPPED** — `worlds/iron-and-blood/manifest.json` (13 KB) and `world.json`. Iron & Blood is the active world; Millbrook is a 1.6 KB leftover stub.
 Create `worlds/iron-and-blood/manifest.json`. Point the engine at it. Define the world name, starting room, ceasefire window, and starting currency amounts. No engine changes needed — the engine already loads whichever manifest it's given.
 
 #### C-2 — Initial Region Rooms `[CONTENT]`
+
+> **✅ SHIPPED & FAR EXCEEDED** — **71 room files** against a planned 8–12.
 Write room JSONs for the first playable region. Suggested starting set: **The Hive** (5–8 rooms: gate district, smog market, armory, command post, maintenance tunnels) and **Gray Wastes passage** (3–4 rooms connecting to the next region). Each room needs: `id`, `name`, `description`, `exits`, `enemy_ids`, `npc_ids`, `item_ids`. Follow the existing room schema.
 
 #### C-3 — Named NPC JSON Files `[CONTENT]`
+
+> **✅ SHIPPED & FAR EXCEEDED** — **72 NPC files** against a planned 5. Korr Vane, Helen Stone, Gideon Moss, Morlak and Abbot Solan all present.
 Write NPC JSONs for the initial cast. Priority order: **Korr Vane** (Terra quest giver), **Helen Stone** (Terra vendor/healer), **Gideon Moss** (Field Engineer trainer, SCAMP lore), **Morlak** (Gray Wastes quest giver), **Abbot Solan** (Monastery neutral contact). Each NPC needs greeting, topic list, and response text. Use existing NPC schema. Faction standing modifiers in dialogue require **E-3**.
 
 #### C-4 — Faction-Tagged Item JSON Files `[CONTENT]`
+
+> **⚠ PARTIAL** — 29 item files exist, but there is no `faction` field in any world JSON. Gated on the **E-3 decision**, not on engine work.
 Write item JSONs for starting-tier Terra and Gray Wastes gear. Tag each with the appropriate faction (`[T]`, `[G]`, etc.) in the item name or a `faction` field once schema supports it. Rarity tagging requires **E-2**; dual currency pricing requires **E-1**. Until those ship, use placeholder `value` fields.
 
 #### C-5 — Terra Class JSONs (Engine-Compatible Subset) `[CONTENT]`
+
+> **✅ SHIPPED & EXCEEDED** — **28 class files**, including all four planned Terra classes (`vanguard`, `heavy_engineer`, `ironclad`, `rifleman`).
 Write class JSONs for the four Terra classes that fit the current engine schema without additional engine work: **Vanguard** (melee, standard abilities), **Heavy Engineer** (grenades as single-target AoE until E-7 lands), **Ironclad** (high HP/DEF, DefenseUp ability as Fortress Stance placeholder), **Rifleman** (ranged, high ATK). Use existing ability schema with `base_damage`, `hit_count`, and `applies_effect`.
 
 #### C-6 — Initial Kill-Count Quest JSONs `[CONTENT]`
+
+> **✅ SHIPPED & FAR EXCEEDED** — **154 quest files**.
 Write quest JSONs using the existing `KillCount` objective type. Suggested: destroy a Lazarus patrol (5 Subjects), clear a Gray Wastes ambush site, investigate a Hive district (kill-count framed as "neutralize threats"). These work with the current engine and establish the narrative arc for Project Lazarus.
 
 #### C-7 — Enemy Class JSONs for Iron & Blood `[CONTENT]`
+
+> **✅ SHIPPED** — every named enemy exists (`lazarus_subject`, `lazarus_armored`, `lazarus_commander`, `rock_shell_crab`, `iron_beak_vulture`) plus ~15 more (void brood, spire abominations, ministry, Aetherian, crystal wraiths).
 Write enemy class JSONs for: **Lazarus Subject** (basic), **Lazarus Armored** (heavy), **Lazarus Commander** (elite), **Rock-Shell Crab**, **Iron-Beak Vulture**. Use existing enemy schema with `tactic` entries. SPD/ACC/CRIT/DODGE fields require **E-6**; Necrosis and AetherBurn effects require **E-4**; loot tables require **E-11**.
 
 #### C-8 — Field Engineer Class JSON with SCAMP `[CONTENT — Gated: E-8]`
+
+> **✅ ROUTED AROUND — playable now.** `field_engineer.json` shipped with conventional abilities (`revolver_shot`, `overcharge`, `field_repairs`, `suppression_fire`) instead of waiting on E-8. SCAMP survives as lore, an item (`scamp_capacitor`), NPCs and a quest (`the_scamp_dismantlement`) — fiction without a turret mechanic. **E-8 is therefore optional polish, not a blocker.**
 Once the SCAMP engine components ship, write the **Field Engineer** class JSON with `deploy_scamp`, `upgrade_scamp`, and `command_scamp` abilities. Define SCAMP base stats (HP, ATK by Mk level), upgrade thresholds, and command mode effects in the class file.
 
 #### C-9 — Field Medic and Iron Apothecary Class JSONs `[CONTENT — Gated: E-9]`
+
+> **✅ UNBLOCKED & SHIPPED** — E-9 landed, and `field_medic.json` and `iron_apothecary.json` both exist.
 Once the loadout system ships, write the **Field Medic** class JSON with Canister definitions (Heal, Buff, Antidote, Stim, Adrenaline payloads) and the **Iron Apothecary** class JSON with Payload definitions (Necrosis, Plague, Venom). The Plague spread behavior requires **E-9** and **E-4**.
 
 #### C-10 — Vendor Pricing in Dual Currency `[CONTENT — Gated: E-1]`
+
+> **✅ UNBLOCKED** — E-1 shipped. Worth verifying vendor JSONs actually price in both `scraps` and `shards`.
 Once dual currency ships, update all vendor NPC JSONs to specify prices in `iron_scraps` or `aetherium_shards` based on the vendor's faction and location. Add a Gray Wastes exchange-rate vendor NPC.
 
 #### C-11 — Item Rarity Assignments `[CONTENT — Gated: E-2]`
+
+> **❌ BLOCKED** — still needs E-2 (rarity), which has not started.
 Once the rarity field ships, pass through all item JSONs and assign T1–T10 values. Use the lore's buy/sell/craft price scaling table as a guide. Starting Iron & Blood gear should cluster T2–T4; Lazarus and Aetherium materials should be T6–T8.
 
 #### C-12 — Faction Standing Modifiers in NPCs and Quests `[CONTENT — Gated: E-3]`
+
+> **❌ BLOCKED** — needs the **E-3 decision** first (faction standing vs. per-NPC disposition).
 Once faction standing ships, add conditional topic responses to NPC JSONs (e.g. Korr Vane's intel topics unlock at Terra standing ≥ 30) and add `faction_reward` fields to quest JSONs (completing Lazarus quests grants +10 Terra standing, +5 Monastery standing, etc.).
 
 #### C-13 — Fetch and Visit Quest JSONs `[CONTENT — Gated: E-10]`
+
+> **⚠ PARTIALLY UNBLOCKED** — `ReachRoom` quests are possible today; `FetchItem` quests still need the missing half of E-10.
 Once the new objective types ship, write narrative quests using `FetchItem` and `VisitRoom`: recover a Lazarus research sample, reach the Lazarus Site observation deck, deliver a package to Abbot Solan. These quests carry the Project Lazarus arc forward.
 
 #### C-14 — Enemy Loot Tables `[CONTENT — Gated: E-11]`
+
+> **✅ UNBLOCKED** — E-11 shipped. Worth verifying `loot_table` arrays are actually populated on enemy class files.
 Once loot generation ships, add `loot_table` arrays to all enemy class JSONs. Lazarus Subjects should drop Lazarus Steel scraps (T5) at low rate; Abominations should drop Aetherium Shards and corrupted crystals; standard enemies drop faction-tagged consumables.
 
 #### C-15 — Weapon Part JSONs for Modular Crafting `[CONTENT — Gated: E-12]`
+
+> **✅ UNBLOCKED** — E-12 shipped (`AssembledWeapon` + `ItemBlueprint`).
 Once crafting ships, write the three-part item JSONs: **Frames** (9 weapon types), **Mechanisms** (attack pattern modifiers), **Enhancements** (special effect additions). Write the named synergy lookup table (Storm Dancer, Grave Walker, and others from the lore) as a separate JSON that the engine references.
 
 ---
