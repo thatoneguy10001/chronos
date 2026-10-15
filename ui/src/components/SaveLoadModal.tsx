@@ -137,7 +137,7 @@ export function SaveLoadModal() {
       <div
         onClick={e => e.stopPropagation()}
         style={{
-          background: "url('/textures/teastain%20102.png') center/cover no-repeat var(--parchment-cream)",
+          background: "url('/textures/teastain.webp') center/cover no-repeat var(--parchment-cream)",
           border: '1px solid rgba(46,26,8,0.35)',
           borderRadius: 3,
           padding: '1.5rem',

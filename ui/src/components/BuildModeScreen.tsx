@@ -64,7 +64,7 @@ export function BuildModeScreen({
         alignItems: 'center',
         justifyContent: 'flex-start',
         fontFamily: 'var(--font-journal)',
-        background: "url('/textures/teastain%20102.png') center/cover no-repeat var(--parchment)",
+        background: "url('/textures/teastain.webp') center/cover no-repeat var(--parchment)",
         padding: '8vh 2rem 2rem',
         overflowY: 'auto',
       }}
